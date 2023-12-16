@@ -35,7 +35,7 @@ package-lock.json
 # /.svelte-kit/types
 
 # Editor files
-.vscode
+# .vscode
 .code-workspace
 
 # hosting providers
@@ -44,3 +44,6 @@ package-lock.json
 # vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# test results
+/test-results
