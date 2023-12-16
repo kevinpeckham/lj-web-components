@@ -1,0 +1,14 @@
+version: "0.2"
+ignorePaths:
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - package.json
+dictionaryDefinitions: []
+dictionaries: []
+enableCompoundWords: enable
+words:
+  - esbenp
+  - slugified
+  - tailwindcss
+import: []
+ignoreWords:
