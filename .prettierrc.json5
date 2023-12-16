@@ -1,3 +1,5 @@
+// prettier config supports json5 natively
+// using it so we can use comments
 {
 	plugins: ["@prettier/plugin-pug", "prettier-plugin-svelte"],
 	overrides: [
@@ -20,6 +22,7 @@
 	tabWidth: 2,
 	trailingComma: "all",
 	useTabs: true,
+	vueIndentScriptAndStyle: true,
 
 	// prettier pug plugin options
 	// https://prettier.github.io/plugin-pug/guide/pug-specific-options.html
