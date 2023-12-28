@@ -67,6 +67,7 @@ export default [
 			"**/src/static/**",
 		],
 	},
+	//- svelte
 	{
 		files: ["**/*.svelte"],
 		plugins: {
