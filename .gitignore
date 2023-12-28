@@ -38,7 +38,7 @@ package-lock.json
 # .vscode
 .code-workspace
 
-# hosting providers
+# hosting
 .vercel
 
 # vite
