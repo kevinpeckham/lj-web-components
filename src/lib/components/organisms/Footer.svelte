@@ -1,34 +1,48 @@
 <!--
 @component
 Web footer component
-* prop authorLink: string -- link to author's website
-* prop orgLink: string -- link to organization's website
-* slot author -- author's name
-* slot org -- organization's name
+* prop author: Link -- link to author's website
+* prop org: Link -- link to organization's website
 -->
 <script lang="ts">
-	export let authorLink = "#";
-	export let orgLink = "#";
+	// types
+	import type { Link } from "$types/types";
+	export let author: Link | null = null;
+	export let org: Link | null = null;
+
+	// items for iteration
+	$: items = [author, org];
 </script>
 
 <template lang="pug">
-	footer.bg-primary.px-4.pb-24.text-xs.text-white
-		.text-center
-			.mb-1.inline-block
-				// author
-				span.opacity-70 Created by&nbsp;
-				a.opacity-80(
-					class="hover:text-accent hover:underline hover:opacity-100",
-					href!="{ authorLink }",
-					rel="me"
-				)
-					slot(name="author")
+	footer(
+		class=`
+			flex
+			justify-center
+			pb-24
+			text-[0.75em]`)
+		+each('items as item, index')
+			//- text
+			span
+				+html(' index === 0 ? "Created by&nbsp;" : "&nbsp;@&nbsp;" ')
+			//- link
+			a(
+				href!="{ item.href ?? null }",
+				rel!="{ item.rel ?? null }",
+				target!="{ item.target ?? null }",
+				title!="{ item.title ?? null }") { item.label }
 
-				// org
-				span.opacity-70 &nbsp;@&nbsp;
-				a.inline-block.underline-offset-4.opacity-80.transition-all(
-					class="hover:text-accent hover:underline hover:opacity-100",
-					href!="{ orgLink }"
-				)
-					slot(name="org")
-</template>
+	|</template>
+
+<style lang="postcss">
+	span,
+	a {
+		@apply opacity-70;
+	}
+	a {
+		@apply underline-offset-4 transition-opacity;
+	}
+	a:hover {
+		@apply text-accent underline opacity-90;
+	}
+</style>
