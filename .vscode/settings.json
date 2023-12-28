@@ -37,15 +37,6 @@
 			"italic": false
 		},
 		{
-			"tag": "//",
-			"color": "#88D1FB",
-			"strikethrough": false,
-			"underline": false,
-			"backgroundColor": "transparent",
-			"bold": false,
-			"italic": false
-		},
-		{
 			"tag": "todo",
 			"color": "#34A8E4",
 			"strikethrough": false,
@@ -124,9 +115,8 @@
 	// editor settings related to Prettier and code formatting
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
-
-	"editor.formatOnType": true,
-	"editor.formatOnPaste": true,
+	"editor.formatOnType": false,
+	"editor.formatOnPaste": false,
 	"prettier.documentSelectors": ["**/*.svelte", "**/*.pug"], // necessary
 
 	// svelte
