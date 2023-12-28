@@ -1,14 +1,12 @@
 version: "0.2"
+language: "en"
 ignorePaths:
   - pnpm-lock.yaml
   - pnpm-workspace.yaml
   - package.json
-dictionaryDefinitions: []
-dictionaries: []
-enableCompoundWords: enable
+dictionaryDefinitions:
+dictionaries:
+enableCompoundWords: true
 words:
-  - esbenp
-  - slugified
-  - tailwindcss
-import: []
+import:
 ignoreWords:
