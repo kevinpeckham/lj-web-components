@@ -1,3 +1,5 @@
+// our team uses vercel by default
+// if you want to use another adapter, you can import it here and change the adapter property in the kit object
 // import adapter from "@sveltejs/adapter-auto";
 import vercel from "@sveltejs/adapter-vercel";
 import preprocess from "svelte-preprocess";
@@ -9,9 +11,12 @@ const config = {
 	preprocess: [preprocess()],
 	kit: {
 		adapter: vercel({
-			// make explicit -- vercel does not yet support later node versions
+			// make explicit -- vercel does not yet support later node versions (yet)
 			runtime: "nodejs18.x",
 		}),
+		// these aliases allow referencing files in the src/lib folder without relative paths
+		// e.g. import { myComponent } from '$components'
+		// see https://kit.svelte.dev/docs/configuration#alias for more info
 		alias: {
 			$atoms: "./src/lib/components/atoms",
 			$assets: "./src/lib/assets",
