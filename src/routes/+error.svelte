@@ -5,20 +5,31 @@
 	// import from svelte
 	import { page } from "$app/stores";
 	import ButtonLink from "$atoms/ButtonLink.svelte";
+
+	const cta = {
+		label: "Go Home",
+		href: "/",
+		rel: "home",
+		target: "_self",
+		title: "Go Home",
+	};
 </script>
 
 <template lang="pug">
-	.grid.h-screen.w-screen.grid-cols-1.place-content-center.place-items-center.bg-primary.text-neutral-100
-		.text-36.mb-2.text-accent
-			span { $page.status }
-			span :&nbsp;
-			span { $page.error.message }
-		.mb-24 Looks like you hit a dead end. Sorry about that.
+	main(
+		class=`
+			gap-y-[.5ch]
+			grid
+			grid-cols-1
+			h-screen
+			leading-snug
+			place-content-center
+			place-items-center
+			`)
+		h1.text-36.text-accent { $page.status }:&nbsp;{ $page.error.message }
+		p.mb-6 Looks like you hit a dead end. Sorry about that.
 
-		div
-			ButtonLink(
-				targetUrl="/",
-				title="Go Home"
-			)
-				| Go Home
-</template>
+		ButtonLink(
+			cta!="{ cta }")
+
+	|</template>
