@@ -1,93 +1,63 @@
-// 2. INTRODUCTION - SERVER HOOKS
-// 'Hooks' are app-wide functions you declare that SvelteKit will call in response to specific events, giving you fine-grained control over the framework's behavior. For our team, most websites we build are server-side rendered, so we use hooks to fetch data from a CMS or database and pass it to the page component via load functions in individual '+page.server.ts' files. This is a good way to keep the data-fetching logic out of the page component, which should be focused on rendering the data.
-
-// 2. CONFIGURE SERVERLESS FUNCTION (Vercel)
-//note: This configuration is specific to Vercel -- you'll need to change this if you are not using vercel
+// serverless Functions
 /** @type {import('@sveltejs/adapter-vercel').Config} */
 export const config = {
 	runtime: "nodejs18.x",
 };
 
-// 3. IMPORT "SEQUENCE"
-// use "sequence" instead of "handle" to run multiple hooks in order (see below)
-// our team uses "sequence" to load Sentry before loading the page data
+// svelte functions
 import { sequence } from "@sveltejs/kit/hooks";
 
-// 4. TYPES
-// import type for handle / sequence functions
+// SENTRY
+//- import sentry
+// import * as Sentry from "@sentry/sveltekit";
+// import { handleErrorWithSentry } from "@sentry/sveltekit";
+
+//- initialize sentry
+// Sentry.init({
+// 	dsn: "https://6cdeab3eee3845af9b0f2619c0b238e6@o4505247956860928.ingest.sentry.io/4506066892816384",
+// 	// Performance Monitoring
+// 	tracesSampleRate: building ? 1 : 0, // Capture 100% of the transactions when building
+// });
+
+//- handle errors with sentry
+// export const handleError = handleErrorWithSentry();
+
+// handle function
 import type { Handle } from "@sveltejs/kit";
 
-// 5. IMPORT ENVIRONMENT
-// this allows you one to add logic that is environment specific
-// e.g. not running Sentry in the dev environment
-import { dev } from "$app/environment";
+// import data stores
+import webComponentsStore from "$wc/webComponentsStore";
 
-// 6. CONTENT STORES
-// using content stores can be a handy pattern whether you are using a CMS or not
-// you can use content stores to import backup data from json files as backup data
-// and then use a CMS to override the backup with fresh data after it is loaded on the server
-// this is a good way to keep the data-fetching logic out of the page component
-// we'll add types for content to app.d.ts so we don't have to re-type this in every file
-
-// 6.1 import content or data stores
-import { homeContentStore } from "$stores/homeContentStore";
-import footerContentStore from "$stores/footerContentStore";
-
-// 6.2 create a content object to pass stores to locals
+// content
 const content = {
-	footerContentStore,
-	homeContentStore,
+	webComponentsStore,
 };
 
-// 7. UTILS
-// helper functions that might be used in multiple places can be added to locals
-// and then accessed in the +page.server.ts file load function
-// this can avoid having to import the same function in multiple places
-// we'll add a type to these functions in app.d.ts
+// utils
+// we'll pass the utils object to locals in the handle function
+// import { parseRichText } from "$utils/utils";
 import { get } from "svelte/store";
 import { redirect } from "@sveltejs/kit";
 import { error } from "@sveltejs/kit";
-import { slugify } from "$utils/utils";
 const utils = {
 	error,
 	get,
 	redirect,
-	slugify,
 };
 
-// 8. SETTINGS
-// settings that might be used in multiple places into locals as well
-// a good example would be redirects that are stored in a single file
-// or a general settings file that holds things like the site name, description, etc.
-// JSON is a good format for this type of data
-import { default as general } from "$settings/general.json";
+// settings
 import { default as redirects } from "$settings/redirects.json";
 
 const settings = {
-	general,
 	redirects,
 };
 
-// S. SENTRY
-// our team uses Sentry for error tracking.
-// learn more about Sentry here: https://sentry.io/welcome/
-
-// S.1 -- Initialize Sentry
-// Sentry.init({
-// 	dsn: "https://4a8d945bea35470285e30b0de3d5580a@o4505247956860928.ingest.sentry.io/4505561997246464",
-// Performance Monitoring
-// 	tracesSampleRate: 0, // Capture 100% of the transactions. Adjust this value in production as necessary.
-// });
-
-// S.2 -- Handle errors with sentry
-// export const handleError = handleErrorWithSentry();
-
 export const handle: Handle = sequence(
-	// Sentry
+	// sentry
 	// Sentry.sentryHandle(),
 
+	// locals
 	async ({ event, resolve }) => {
-		// pass data to the layout.server.ts file
 		event.locals = {
 			content,
 			settings,

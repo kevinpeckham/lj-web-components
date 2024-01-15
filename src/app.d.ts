@@ -8,20 +8,17 @@
 
 // import types
 import type { Readable, Writable } from "svelte/store";
-import { homeContentStore, type HomeContentStore } from "$stores/homeContentStore";
-import { footerContentStore, type FooterContentStore } from "$stores/footerContentStore";
+import type { WebComponentsStore } from "$wc/webComponentsStore";
 
 // import utils
 import { error } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
-import type GeneralSettings from "$settings/general.json";
 import type Redirects from "$settings/redirects.json";
 
 // content
 interface Content {
 	[key: string]: unknown;
-	homeContentStore: HomeContentStore;
-	footerContentStore: FooterContentStore;
+	webComponentsStore: WebComponentsStore;
 }
 
 // utils
@@ -30,13 +27,11 @@ interface Utils {
 	error: typeof error;
 	get: <T>(store: Readable<T>) => T;
 	redirect: typeof redirect;
-	slugify: (str: string) => string;
 }
 
 interface Settings {
 	[ key: string ]: unknown;
 	redirects: Redirects;
-	general: GeneralSettings;
 }
 
 declare global {

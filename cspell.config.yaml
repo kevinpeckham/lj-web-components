@@ -1,12 +1,16 @@
 version: "0.2"
-language: "en"
+language: en
 ignorePaths:
   - pnpm-lock.yaml
   - pnpm-workspace.yaml
   - package.json
-dictionaryDefinitions:
-dictionaries:
+dictionaryDefinitions: null
+dictionaries: null
 enableCompoundWords: true
 words:
-import:
-ignoreWords:
+  - brotli
+  - fnames
+  - gzipped
+  - pako
+import: null
+ignoreWords: null

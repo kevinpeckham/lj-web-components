@@ -9,6 +9,10 @@ const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
 	preprocess: [preprocess()],
+	compilerOptions: {
+		customElement: true,
+		generate: "dom",
+	},
 	kit: {
 		adapter: vercel({
 			// make explicit -- vercel does not yet support later node versions (yet)
@@ -20,7 +24,7 @@ const config = {
 		alias: {
 			$atoms: "./src/lib/components/atoms",
 			$assets: "./src/lib/assets",
-			$components: "./src/lib/components",
+			$components: "./src/lib/svelte-components",
 			$data: "./src/lib/data",
 			$molecules: "./src/lib/components/molecules",
 			$organisms: "./src/lib/components/organisms",
@@ -29,6 +33,7 @@ const config = {
 			$tools: "./src/lib/components/tools",
 			$types: "./src/lib/types",
 			$utils: "./src/lib/utils",
+			$wc: "./src/lib/web-components",
 		},
 	},
 };

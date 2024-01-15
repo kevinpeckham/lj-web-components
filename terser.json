@@ -1,0 +1,21 @@
+{
+	"ecma": 2020,
+	"compress": {
+		"drop_console": true,
+		"ecma": 2020,
+		"keep_classnames": true,
+		"module": false,
+		"passes": 1
+	},
+	"mangle": {
+		"keep_classnames": true,
+		"keep_fnames": true,
+		"module": false
+	},
+	"format": {
+		"comments": false,
+		"ecma": 2020,
+		"indent_level": 2
+	},
+	"keep_classnames": true
+}
