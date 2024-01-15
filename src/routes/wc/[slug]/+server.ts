@@ -41,6 +41,7 @@ export const GET: RequestHandler = async ({ params, locals, request }) => {
 		"Content-Type": "text/javascript",
 		"Access-Control-Allow-Origin": "*",
 		"Access-Control-Allow-Methods": "GET",
+		"Cache-Control": "public, max-age=86400, stale-while-revalidate=604800",
 	};
 
 	// if client accepts brotli, compress file
