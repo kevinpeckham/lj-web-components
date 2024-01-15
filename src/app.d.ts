@@ -14,6 +14,8 @@ import type { WebComponentsStore } from "$wc/webComponentsStore";
 import { error } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
 import type Redirects from "$settings/redirects.json";
+import type { TitleCase } from "$utils/title_case";
+import type { Deslugify } from "$utils/deslugify";
 
 // content
 interface Content {
@@ -27,6 +29,8 @@ interface Utils {
 	error: typeof error;
 	get: <T>(store: Readable<T>) => T;
 	redirect: typeof redirect;
+	title_case: TitleCase;
+	deslugify: Deslugify;
 }
 
 interface Settings {
