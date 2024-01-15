@@ -13,7 +13,7 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 	const metaNoIndex = true;
 
 	// web component script
-	const webComponentScript = `/wc/${slug}.min.js`;
+	const webComponentScript = `/e/wc/${slug}.min.js`;
 
 	// return data
 	return {
