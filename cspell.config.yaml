@@ -9,6 +9,7 @@ dictionaries: null
 enableCompoundWords: true
 words:
   - brotli
+  - deslugify
   - fnames
   - gzipped
   - pako
