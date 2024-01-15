@@ -39,10 +39,14 @@ const content = {
 import { get } from "svelte/store";
 import { redirect } from "@sveltejs/kit";
 import { error } from "@sveltejs/kit";
+import title_case from "$utils/title_case";
+import deslugify from "$utils/deslugify";
 const utils = {
+	deslugify,
 	error,
 	get,
 	redirect,
+	title_case,
 };
 
 // settings
