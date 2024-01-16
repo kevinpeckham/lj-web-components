@@ -130,14 +130,17 @@ class ScrollingStat extends HTMLElement {
 		// decimal places
 		const places = target.split(".")[1]?.length ?? 0;
 
+		// elapsed
+		const elapsed = Date.now() - this.s;
+
 		// calculate the progress
-		const progress = Math.min((Date.now() - this.s) / this.d, 1);
+		const progress = Math.min(elapsed / this.d, 1);
 
 		// advance the number
 		this.n.textContent = (Number(target) * progress).toFixed(places);
 
 		// if the current number is not yet the target number, request another frame
-		if (progress < 1) {
+		if (elapsed < this.d) {
 			window.requestAnimationFrame(() => this.tw());
 			return;
 		}

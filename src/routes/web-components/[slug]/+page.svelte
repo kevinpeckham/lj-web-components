@@ -15,6 +15,7 @@ Here's some documentation for this component.
 <template lang="pug">
 	main.page-x-padding.main-y-padding
 		svelte:element(
+			number!="-42",
 			text="splunges per widget",
 			this!="{ data.slug }",
 			unit="k")
