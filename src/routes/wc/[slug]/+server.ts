@@ -4,17 +4,10 @@ export const config = {
 	runtime: "nodejs18.x",
 };
 
-// import brotli
-import { compress } from "brotli";
-
 import type { RequestHandler } from "./$types";
 
 // handle request
-export const GET: RequestHandler = async ({ params, locals, request }) => {
-	// get headers
-	const requestHeaders = request.headers;
-	const acceptEncoding = requestHeaders.get("accept-encoding");
-
+export const GET: RequestHandler = async ({ params, locals }) => {
 	// get slug
 	const slug = params.slug;
 
@@ -29,13 +22,10 @@ export const GET: RequestHandler = async ({ params, locals, request }) => {
 	const wc = store.find((f) => slug.includes(f.name));
 
 	// get file
-	let file: string | Uint8Array = wc?.file ?? "";
-
-	// check if client accepts gzip or brotli
-	const acceptsBrotli = acceptEncoding?.includes("br");
+	let file: string = wc?.file ?? "";
 
 	// if no slug or no web component, throw error
-	if (!slug || !wc) throw utils.error(404, "No file found");
+	if (!file) throw utils.error(404, "No file found");
 
 	const headers: { [key: string]: string } = {
 		"Content-Type": "text/javascript",
@@ -44,14 +34,6 @@ export const GET: RequestHandler = async ({ params, locals, request }) => {
 		"Cache-Control": "public, max-age=86400, stale-while-revalidate=604800",
 		"Referrer-Policy": "strict-origin-when-cross-origin",
 	};
-
-	// if client accepts brotli, compress file
-	if (acceptsBrotli) {
-		const brotli = compress(Buffer.from(file));
-		headers["Content-Encoding"] = "br";
-		headers["Vary"] = "Accept-Encoding";
-		file = brotli;
-	}
 
 	// return response
 	return new Response(file, {
