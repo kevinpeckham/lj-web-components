@@ -18,6 +18,10 @@ Here's some documentation for this component.
 				name="description")
 		//- web component script
 		+if('$page.data.webComponentScript')
+			link(
+				as="script",
+				href!="{ $page.data.webComponentScript }",
+				rel="preload")
 			script(
 				async="true",
 				src!="{ $page.data.webComponentScript }")
