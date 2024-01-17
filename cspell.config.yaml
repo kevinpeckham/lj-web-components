@@ -13,5 +13,6 @@ words:
   - fnames
   - gzipped
   - pako
+  - splunges
 import: null
 ignoreWords: null
