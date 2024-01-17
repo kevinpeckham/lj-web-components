@@ -9,13 +9,22 @@ Here's some documentation for this component.
 
 	// data
 	export let data: PageData;
-	$: console.log(data);
+
+	interface ScrollingStatProps {
+		duration?: string;
+		number_start?: string;
+		number_end: string;
+		text?: string;
+		unit?: string;
+	}
 </script>
 
 <template lang="pug">
 	main.page-x-padding.main-y-padding
 		svelte:element(
-			number!="-42",
+			duration="800",
+			number_end="-40",
+			number_start=undefined,
 			text="splunges per widget",
 			this!="{ data.slug }",
 			unit="k")
