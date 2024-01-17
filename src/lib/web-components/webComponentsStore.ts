@@ -3,15 +3,7 @@ import { writable, derived, type Readable } from "svelte/store";
 
 // import terser
 // import { minify, type MinifyOptions } from "terser";
-
-// import zlib
-// import { gzip } from "zlib";
-
-// import pako
-// import { gzip } from "pako";
-
-// import brotli
-// import { compress } from "brotli";
+// import { default as terserOptions } from "/terser.json";
 
 // import raw files from web components folder
 const files = import.meta.glob("$wc/*.js", {
@@ -55,12 +47,14 @@ const webComponentsStore = derived(rawFilesStore, ($rawFilesStore) => {
 
 		// get file
 		const file = $rawFilesStore[key]
-
-			//.replaceAll(/;\\n/g, ";")
 			.replaceAll(/\\n(?: )*/g, "")
 			.replaceAll(/(?:\\t)+/gi, " ")
-			// .replaceAll(/(?:shadow)+/gi, "sh")
-			.replaceAll(/(?: ){2}/gi, " ");
+			.replaceAll(/(?: ){2}/gi, " ")
+			.replaceAll(/(?:; )/g, ";")
+			.replaceAll(/(?:;})/g, "}")
+			.replaceAll(/(?:{ )/g, "{")
+			.replaceAll(/(?:} )/g, "}")
+			.replaceAll(/(?:\) {)/g, "){");
 
 		return { name, file };
 	});

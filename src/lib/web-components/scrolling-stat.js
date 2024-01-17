@@ -4,14 +4,13 @@
  * @extends HTMLElement
  */
 class ScrollingStat extends HTMLElement {
-	d = parseInt(this.getAttribute("d") ?? "600"); // duration
 	o = false; // is on screen
 	n = document.createElement("span");
 	s = 0; // start time
 
 	// the observed attributes
 	static get observedAttributes() {
-		return ["d", "number", "unit", "text"];
+		return ["duration", "startValue", "number_end", "unit", "text"];
 	}
 
 	// constructor
@@ -21,46 +20,38 @@ class ScrollingStat extends HTMLElement {
 		// binding the parent context to the methods
 		this.connectedCallback = this.connectedCallback.bind(this);
 		this.tw = this.tw.bind(this);
-
-		// observer callback
 		this.oc = this.oc.bind(this);
 	}
-
-	/**
+	/*
 	 * @returns {void}
 	 * @description
 	 * This is the connected callback
 	 */
 	connectedCallback() {
 		// create a shadow root
-		const shadow = this.attachShadow({ mode: "open" });
-
-		// create dom elements
-		const w = document.createElement("span");
-		const unit = document.createElement("span");
-		const text = document.createElement("span");
-		const style = document.createElement("style");
-
-		// add attributes
-		w.setAttribute("id", "w");
+		const shadowRoot = this.attachShadow({ mode: "open" }),
+			elem = document.createElement("span"),
+			unitElem = document.createElement("span"),
+			textElem = document.createElement("span"),
+			styleElem = document.createElement("style"),
+			attrs = ["text", "unit"].map((attr) => this.getAttribute(attr) || "");
 
 		// add text content
 		this.n.textContent = "0";
-		text.textContent = this.getAttribute("text") ?? "";
-		unit.textContent = this.getAttribute("unit") ?? "";
+		[textElem.textContent, unitElem.textContent] = attrs;
 
 		// add the style rules
-		const style_rules = `
+		styleElem.textContent = `
 		#w {
 			align-items:baseline;
-			background:rgb(255 255 255 / .05);
+			background:rgb(100%100%100%/5%);
 			border-radius:.3em;
 			display:grid;
 			font-weight:800;
 			gap:.3em;
-			grid: auto-flow / auto 1fr;
+			grid:auto-flow/auto 1fr;
 			line-height:1;
-			outline:1px solid currentColor;
+			outline:1px solid;
 			padding:1.5em;
 			max-width:12em;
 		}
@@ -78,23 +69,20 @@ class ScrollingStat extends HTMLElement {
 			line-height:1.3;
 			opacity:.9;
 		}`;
-		style.textContent = style_rules;
 
 		// append to shadow DOM
-		shadow.replaceChildren(style, w);
-		w.replaceChildren(this.n, unit, text);
+		shadowRoot.replaceChildren(styleElem, elem);
+		elem.replaceChildren(this.n, unitElem, textElem);
+		elem.id = "w";
 
-		// observer options
-		const observer_options = {
+		// create the observer
+		const observer = new IntersectionObserver(this.oc, {
 			rootMargin: "0%",
 			threshold: 0.5,
-		};
-
-		// create an observer
-		const observer = new IntersectionObserver(this.oc, observer_options);
+		});
 
 		// start the observer
-		if (w) observer.observe(w);
+		observer.observe(elem);
 	}
 	/**
 	 * @param {IntersectionObserverEntry[]} entries
@@ -104,13 +92,13 @@ class ScrollingStat extends HTMLElement {
 	 */
 	oc(entries) {
 		// get the first entry
-		const result = entries[0].isIntersecting;
+		const isVisible = entries[0].isIntersecting;
 
 		// if on screen and not already on screen, start the animation
-		if (result != this.o) {
+		if (isVisible != this.o) {
 			this.s = 0;
 			this.tw();
-			this.o = result;
+			this.o = isVisible;
 		}
 	}
 	/**
@@ -124,29 +112,40 @@ class ScrollingStat extends HTMLElement {
 		// record the start time
 		if (!this.s) this.s = Date.now();
 
-		// get the target number
-		const target = this.getAttribute("number") ?? "99";
+		// scrub number function
+		/**
+		 * @returns {string}
+		 * @param {string} str
+		 * @description
+		 * Scrubs invalid characters from a number string
+		 * @example
+		 * tw(600, 99)
+		 */
+		// const scrub_number = (str, regex) => str?.replace(regex, "");
 
-		// decimal places
-		const places = target.split(".")[1]?.length ?? 0;
+		// get the duration
+		const duration = Math.abs(parseInt(this.getAttribute("duration") || "800")),
+			// get the end value
+			endValue = parseFloat(this.getAttribute("number_end") || "99"),
+			// get the start value
+			// @ts-expect-error -- parseFloat will coerce the string to a number
+			// prettier-ignore
+			startValue = parseFloat(this.getAttribute("number_start") || (Math.abs(endValue) > 49 ? 0 : endValue > 0 ? 99 : -99)),
+			// get progress
+			progress = Math.min((Date.now() - this.s) / duration, 1),
+			// get the current value
+			currentValue = startValue + (endValue - startValue) * progress,
+			// decimal places -- limit to 2
+			decimalPlaces = Math.min((`${endValue}`.split(".")[1] || "").length, 2);
 
-		// elapsed
-		const elapsed = Date.now() - this.s;
-
-		// calculate the progress
-		const progress = Math.min(elapsed / this.d, 1);
-
-		// advance the number
-		this.n.textContent = (Number(target) * progress).toFixed(places);
+		// advance the displayed number
+		this.n.textContent = currentValue.toFixed(decimalPlaces);
 
 		// if the current number is not yet the target number, request another frame
-		if (elapsed < this.d) {
-			window.requestAnimationFrame(() => this.tw());
-			return;
-		}
-
-		// set the final number
-		this.n.textContent = target;
+		Date.now() - this.s < duration && endValue - Number(this.n.textContent)
+			? window.requestAnimationFrame(() => this.tw())
+			: // set the final number
+				(this.n.textContent = endValue.toFixed(decimalPlaces));
 	}
 }
 customElements.define("scrolling-stat", ScrollingStat);
