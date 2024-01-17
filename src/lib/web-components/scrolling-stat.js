@@ -10,7 +10,7 @@ class ScrollingStat extends HTMLElement {
 
 	// the observed attributes
 	static get observedAttributes() {
-		return ["duration", "startValue", "number_end", "unit", "text"];
+		return ["duration", "number_start", "number_end", "unit", "text"];
 	}
 
 	// constructor
