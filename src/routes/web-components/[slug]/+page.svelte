@@ -20,7 +20,8 @@ Here's some documentation for this component.
 </script>
 
 <template lang="pug">
-	main.page-x-padding.main-y-padding
+	main.page-x-padding.main-y-padding(
+		class="min-h-[200vh]")
 		svelte:element(
 			duration="800",
 			number_end="-40",

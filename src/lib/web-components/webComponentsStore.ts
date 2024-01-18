@@ -39,7 +39,7 @@ const files = import.meta.glob("$wc/*.js", {
 const rawFilesStore = writable(files);
 
 // derived files store
-const webComponentsStore = derived(rawFilesStore, ($rawFilesStore) => {
+export const webComponentsStore = derived(rawFilesStore, ($rawFilesStore) => {
 	const keys = Object.keys($rawFilesStore);
 	return keys.map((key) => {
 		// get name
