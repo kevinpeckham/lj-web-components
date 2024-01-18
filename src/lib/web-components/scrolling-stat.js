@@ -1,12 +1,12 @@
 // @preserve Copyright 2024 Lightning Jar - "Scrolling Stat" web component - License MIT
 /**
- * Class representing a TestComponent.
+ *
  * @extends HTMLElement
  */
 class ScrollingStat extends HTMLElement {
-	o = false; // is on screen
-	n = document.createElement("span");
-	s = 0; // start time
+	isOnScreen = false;
+	start = 0;
+	numberSpan = document.createElement("span");
 
 	// the observed attributes
 	static get observedAttributes() {
@@ -19,8 +19,8 @@ class ScrollingStat extends HTMLElement {
 
 		// binding the parent context to the methods
 		this.connectedCallback = this.connectedCallback.bind(this);
-		this.tw = this.tw.bind(this);
-		this.oc = this.oc.bind(this);
+		this.tween = this.tween.bind(this);
+		this.observerCallback = this.observerCallback.bind(this);
 	}
 	/*
 	 * @returns {void}
@@ -37,7 +37,7 @@ class ScrollingStat extends HTMLElement {
 			attrs = ["text", "unit"].map((attr) => this.getAttribute(attr) || "");
 
 		// add text content
-		this.n.textContent = "0";
+		this.numberSpan.textContent = "0";
 		[textElem.textContent, unitElem.textContent] = attrs;
 
 		// add the style rules
@@ -72,11 +72,11 @@ class ScrollingStat extends HTMLElement {
 
 		// append to shadow DOM
 		shadowRoot.replaceChildren(styleElem, elem);
-		elem.replaceChildren(this.n, unitElem, textElem);
+		elem.replaceChildren(this.numberSpan, unitElem, textElem);
 		elem.id = "w";
 
 		// create the observer
-		const observer = new IntersectionObserver(this.oc, {
+		const observer = new IntersectionObserver(this.observerCallback, {
 			rootMargin: "0%",
 			threshold: 0.5,
 		});
@@ -88,40 +88,29 @@ class ScrollingStat extends HTMLElement {
 	 * @param {IntersectionObserverEntry[]} entries
 	 * @returns {void}
 	 * @description
-	 * This is the observer callback method
+	 * observer callback method
 	 */
-	oc(entries) {
-		// get the first entry
+	observerCallback(entries) {
+		// test if the element is on screen
 		const isVisible = entries[0].isIntersecting;
 
 		// if on screen and not already on screen, start the animation
-		if (isVisible != this.o) {
-			this.s = 0;
-			this.tw();
-			this.o = isVisible;
+		if (isVisible != this.isOnScreen) {
+			this.start = 0;
+			this.tween();
+			this.isOnScreen = isVisible;
 		}
 	}
 	/**
 	 * @returns {void}
 	 * @description
-	 * This is the tween number method
+	 * tween the number
 	 * @example
-	 * tw(600, 99)
+	 * tween(600, 99)
 	 */
-	tw() {
+	tween() {
 		// record the start time
-		if (!this.s) this.s = Date.now();
-
-		// scrub number function
-		/**
-		 * @returns {string}
-		 * @param {string} str
-		 * @description
-		 * Scrubs invalid characters from a number string
-		 * @example
-		 * tw(600, 99)
-		 */
-		// const scrub_number = (str, regex) => str?.replace(regex, "");
+		if (!this.start) this.start = Date.now();
 
 		// get the duration
 		const duration = Math.abs(parseInt(this.getAttribute("duration") || "800")),
@@ -132,20 +121,21 @@ class ScrollingStat extends HTMLElement {
 			// prettier-ignore
 			startValue = parseFloat(this.getAttribute("number_start") || (Math.abs(endValue) > 49 ? 0 : endValue > 0 ? 99 : -99)),
 			// get progress
-			progress = Math.min((Date.now() - this.s) / duration, 1),
+			progress = Math.min((Date.now() - this.start) / duration, 1),
 			// get the current value
 			currentValue = startValue + (endValue - startValue) * progress,
 			// decimal places -- limit to 2
 			decimalPlaces = Math.min((`${endValue}`.split(".")[1] || "").length, 2);
 
 		// advance the displayed number
-		this.n.textContent = currentValue.toFixed(decimalPlaces);
+		this.numberSpan.textContent = currentValue.toFixed(decimalPlaces);
 
 		// if the current number is not yet the target number, request another frame
-		Date.now() - this.s < duration && endValue - Number(this.n.textContent)
-			? window.requestAnimationFrame(() => this.tw())
+		Date.now() - this.start < duration &&
+		endValue - Number(this.numberSpan.textContent)
+			? window.requestAnimationFrame(() => this.tween())
 			: // set the final number
-				(this.n.textContent = endValue.toFixed(decimalPlaces));
+				(this.numberSpan.textContent = endValue.toFixed(decimalPlaces));
 	}
 }
 customElements.define("scrolling-stat", ScrollingStat);
