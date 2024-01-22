@@ -1,8 +1,8 @@
 {
 	"name": "Scrolling Stat",
 	"slug": "scrolling-stat",
-	"tag": "<scrolling-stat />",
 	"example": "<scrolling-stat\n  data-duration=\"800\"\n  data-number-end=\"100\"\n  data-number-start=\"0\"\n  data-text=\"sprockets and stuff\"\n  data-unit=\"%\" />",
+	"published": true,
 	"self_closing": true,
 	"description": "Web component that displays a number that counts up or down to another number when the element is scrolled into view.",
 	"attributes": [

@@ -33,6 +33,7 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 
 	// return data
 	return {
+		dev,
 		documentation,
 		metaTitle,
 		metaDescription,

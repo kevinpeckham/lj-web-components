@@ -48,10 +48,26 @@ fs.readdirSync(folderPath).forEach((folder) => {
 	 * @description array of objects to be written to file
 	 */
 	const componentObj = {};
+	let published = false;
 	// if the folder is not a file
 	if (!folder.includes(".")) {
 		// iterate through files in the folder
 		fs.readdirSync(`${folderPath}${folder}/`).forEach((file) => {
+			// if the file is a json documentation file
+			if (file.includes("documentation.json")) {
+				//import text of json file
+				const documentation = fs.readFileSync(
+					`${folderPath}${folder}/${file}`,
+					"utf8",
+				);
+
+				const parsed = JSON.parse(documentation);
+				published = parsed.published;
+
+				// add json object to array
+				if (published) documentationArray.push(parsed);
+			}
+
 			// if the file is not a json file or a minified js file
 			if (
 				!file.includes(".json") &&
@@ -93,27 +109,18 @@ fs.readdirSync(folderPath).forEach((folder) => {
 				componentObj.min = scrubbedMinText;
 
 				// write a json file local to the folder
-				fs.writeFileSync(
-					`${folderPath}/${folder}/data.json`,
-					JSON.stringify(componentObj),
-				);
-			}
-
-			if (file.includes("documentation.json")) {
-				//import text of json file
-				const documentation = fs.readFileSync(
-					`${folderPath}${folder}/${file}`,
-					"utf8",
-				);
-
-				// add json object to array
-				documentationArray.push(JSON.parse(documentation));
+				if (published) {
+					fs.writeFileSync(
+						`${folderPath}/${folder}/data.json`,
+						JSON.stringify(componentObj),
+					);
+				}
 			}
 		});
 	}
 
 	// push object to data array
-	componentsArray.push(componentObj);
+	if (published) componentsArray.push(componentObj);
 });
 
 fs.writeFileSync(

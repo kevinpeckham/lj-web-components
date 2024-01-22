@@ -18,10 +18,21 @@ Here's some documentation for this component.
 			class="text-[2em]") Web Components
 		p.opacity-85 Documentation for the web components available in this project.
 	main.page-x-padding.main-y-padding.grid.grid-cols-1.gap-8
-		+each('documentation as item')
-			a.block(
-				class="underline underline-offset-4 hover:text-accent",
-				href="/web-components/{item.slug}",
-				title="view documentation and example for {item.name}") { item.name }
+		div.grid.grid-cols-1.gap-4
+			div.text-blue-200 Available Components
+			+each('documentation as item')
+				+if('item.published')
+					a.block(
+						class="underline underline-offset-4 hover:text-accent",
+						href="/web-components/{item.slug}",
+						title="view documentation and example for {item.name}") { item.name }
+		div.grid.grid-cols-1.gap-4
+			div.text-blue-200 { data.dev ? "Under Development" : "" }
+			+each('documentation as item')
+				+if('data.dev && !item.published')
+					a.block(
+						class="underline underline-offset-4 hover:text-accent",
+						href="/web-components/{item.slug}",
+						title="view documentation and example for {item.name}") { item.name }
 
 	|</template>

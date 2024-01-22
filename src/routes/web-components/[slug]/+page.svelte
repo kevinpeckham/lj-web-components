@@ -41,18 +41,22 @@ Here's some documentation for this component.
 
 	let textAreaValue: string = data.documentation?.example ?? "";
 	let sanitizedValue = textAreaValue;
-	$: specialMarks = textAreaValue.replace(/ /g, "•").replace(/[^•\n]/g, " ");
-	$: textAreaHeight = textarea?.scrollHeight ?? 0;
+	// $: specialMarks = textAreaValue.replace(/ /g, "•").replace(/[^•\n]/g, " ");
+	// $: textAreaHeight = textarea?.scrollHeight ?? 0;
+	$: textAreaHeight = (textAreaValue.match(/\n/g)?.length ?? 0) + 1;
+	// $: console.log({ match });
+	// $: textAreaHeight = 4;
+	// $: console.log({ textAreaHeight });
 
 	function scrubString(str: string) {
 		// remove new lines
-		str = str.replace(/\n/g, "");
+		//str = str.replace(/\n/g, "");
 
 		// remove double spaces
-		str = str.replace(/\s{2,}?/g, " ");
+		//str = str.replace(/\s{2,}?/g, " ");
 
 		// remove characters not allowed in plain text plus common text formatting characters
-		str = str.replace(/[^a-zA-Z0-9!@#$%^&*()_+\-[\]{};:\\|,./? ]/g, "");
+		str = str.replace(/[^a-zA-Z0-9!@#$%^&*()_+\-[\]<>{};:\\|,./? "'`]/g, "");
 
 		return str;
 	}
@@ -173,6 +177,7 @@ Here's some documentation for this component.
 					grid-cols-[minmax(0,_1fr)_auto]
 					items-start
 					justify-between
+					overflow-hidden
 					pl-4
 					pr-2
 					py-2
@@ -181,7 +186,7 @@ Here's some documentation for this component.
 					text-[.9em]
 					w-full
 					focus-within:ring-2`)
-				pre.w-full.h-full.flex.items-center
+				pre.w-full.h-full.flex.items-center.overflow-hidden
 					code#script-code(
 						class=`
 							flex-auto
@@ -199,7 +204,7 @@ Here's some documentation for this component.
 		section
 			div(
 				class="flex gap-x-[.5em] items-baseline")
-				h2.mb-2 Code example
+				h2.mb-2 HTML
 				span(
 					class="italic opacity-80 text-[.9em]") ( editable )
 			div(
@@ -222,6 +227,7 @@ Here's some documentation for this component.
 						class=`
 							flex-auto
 							bg-transparent
+							h-full
 							text-blue-200
 							w-full`)
 						//- prettier-ignore
@@ -239,26 +245,11 @@ Here's some documentation for this component.
 							on:keydown!="{ onKeyDown }",
 							on:keyup!="{ onKeyUp }",
 							spellcheck="true",
-							style="height: { textAreaHeight }px")
+							style!="height: { textAreaHeight * 1.5 }em")
 				copy-button.flex-none(
 					data-accent-color="#ebf92f",
 					data-target-selector="#html-code",
 					data-title="copy to clipboard")
-				//- punctuation layer
-				//- textarea#html-code(
-				//- 	class=`
-				//- 		group
-				//- 		bg-transparent
-				//- 		absolute
-				//- 		inset-0
-				//- 		p-3
-				//- 		pointer-events-none
-				//- 		resize-none
-				//- 		text-slate-100/10
-				//- 		w-full`,
-				//- 	bind:value!="{ specialMarks }",
-				//- 	disabled="true")
-				//- copy button
 
 		//- web component
 		section
@@ -266,6 +257,6 @@ Here's some documentation for this component.
 				h2.mb-2 Web Component Preview
 				//-span (add to page header)
 			div.p-3.rounded(
-				class="bg-black/10")
+				class="bg-white/5")
 				+html('sanitizedValue')
 	|</template>

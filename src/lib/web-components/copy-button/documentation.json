@@ -1,8 +1,8 @@
 {
 	"name": "Copy Button",
 	"slug": "copy-button",
-	"tag": "copy-button",
 	"example": "<copy-button\n  data-target-selector=\"p\"\n  data-size=\"16px\"\n  data-title=\"copy\"\n  data-accent-color=\"#ebf92f\">\n</copy-button>",
+	"published": true,
 	"self_closing": true,
 	"description": "Web component that renders a clickable button. When clicked will copy the text content of a target element to the clipboard.",
 	"attributes": [
@@ -11,7 +11,7 @@
 			"description": "",
 			"type": "string",
 			"required": false,
-			"default": "copy",
+			"default": "#ebf92f",
 			"notes": "Accent color is used for the active state of the button after a successful copy. The default value is \"#ebf92f\" if the attribute is not specified."
 		},
 		{

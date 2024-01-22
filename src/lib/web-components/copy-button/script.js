@@ -5,7 +5,7 @@
 /** {@link https://www.lj-cdn.dev/web-components/scrolling-stat} */
 
 /**
- * Scrolling Stat Web Component
+ * Copy Button Web Component
  * @class
  * @extends HTMLElement
  * @classdesc Defines web component that renders a button that copies text to the clipboard.
