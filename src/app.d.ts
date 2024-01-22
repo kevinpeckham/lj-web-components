@@ -8,7 +8,11 @@
 
 // import types
 import type { Readable, Writable } from "svelte/store";
-import type { WebComponentsStore } from "$wc/webComponentsStore";
+import type { WebComponentsStore } from "$stores/webComponentsStore.server";
+import type { DocumentationStore } from "$stores/documentationStore.server";
+import type { WorkingFilesStore } from "$stores/workingFilesStore.server";
+import type { ComponentDocumentation as _ComponentDocumentation } from "$types/ComponentDocumentation";
+import type { ComponentAttribute as _ComponentAttribute } from "$types/ComponentAttribute";
 
 // import utils
 import { error } from "@sveltejs/kit";
@@ -21,6 +25,8 @@ import type { Deslugify } from "$utils/deslugify";
 interface Content {
 	[key: string]: unknown;
 	webComponentsStore: WebComponentsStore;
+	documentationStore: DocumentationStore;
+	workingFilesStore: WorkingFilesStore;
 }
 
 // utils
@@ -39,15 +45,19 @@ interface Settings {
 }
 
 declare global {
-declare namespace App {
-	interface Locals {
-		content: Content;
-		settings: Settings;
-		utils: Utils;
-	}
+	interface ComponentDocumentation extends _ComponentDocumentation {}
+	interface ComponentAttribute extends _ComponentAttribute {}
+	declare namespace App {
+		interface Locals {
+			content: Content;
+			settings: Settings;
+			utils: Utils;
+		}
 
 	// interface PageData {}
 	// interface Error {}
 	// interface Platform {}
 	}
 }
+
+export {}
