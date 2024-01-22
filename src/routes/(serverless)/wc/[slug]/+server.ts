@@ -1,9 +1,10 @@
 // serverless Functions
 /** @type {import('@sveltejs/adapter-vercel').Config} */
 export const config = {
-	runtime: "nodejs18.x",
+	runtime: "edge",
 };
 
+// type
 import type { RequestHandler } from "./$types";
 
 // handle request
@@ -11,22 +12,27 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 	// get slug
 	const slug = params.slug;
 
-	// get locals
+	// unpack locals
 	const { content, utils } = locals;
 
-	// get web components store
-	const { webComponentsStore } = content;
-	const store = utils.get(webComponentsStore);
+	// get error function from utils
+	const error = utils.error;
+
+	// pull in component store
+	const store = utils.get(content.webComponentsStore);
 
 	// get web component
-	const wc = store.find((f) => slug.includes(f.name));
+	const component = store.find((f) => slug.includes(f.name));
 
 	// get file
-	let file: string = wc?.file ?? "";
+	const file: string | undefined = slug.includes(".min")
+		? component?.min
+		: component?.max;
 
-	// if no slug or no web component, throw error
-	if (!file) throw utils.error(404, "No file found");
+	// throw error if no file
+	if (!file) throw error(404, "No file found");
 
+	// set headers
 	const headers: { [key: string]: string } = {
 		"Content-Type": "text/javascript",
 		"Access-Control-Allow-Origin": "*",
