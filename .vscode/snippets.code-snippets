@@ -20,56 +20,56 @@
 		"scope": ["html", "svelte", "pug"],
 		"prefix": "#html!!",
 		"body": "<!-- !! $0 -->",
-		"description": "html style !! comment - for inside <template> in Svelte."
+		"description": "html style !! comment - for inside <template> in Svelte.",
 	},
 	"!!_ts_comment": {
 		"scope": ["typescript", "javascript", "svelte"],
 		"prefix": "#ts!!",
 		"body": "// <!-- !! $0 -->",
-		"description": "!! comment - for inside <script> in Svelte."
+		"description": "!! comment - for inside <script> in Svelte.",
 	},
 	"!!_tsblock_comment": {
 		"scope": ["typescript", "javascript", "svelte", "pug"],
 		"prefix": "#tsblock!!",
 		"body": "/**\n * !! | $0\n */\n",
-		"description": "!! block comment - for use in js, ts."
+		"description": "!! block comment - for use in js, ts.",
 	},
 	// ** comment
 	"**_html_comment": {
 		"scope": ["html", "svelte", "pug"],
 		"prefix": "#html**",
 		"body": "<!-- ** $0 -->",
-		"description": "html style ** comment - for inside <template> in Svelte."
+		"description": "html style ** comment - for inside <template> in Svelte.",
 	},
 	"**_ts_comment": {
 		"scope": ["typescript", "javascript", "svelte"],
 		"prefix": "#ts**",
 		"body": "// <!-- ** $0 -->",
-		"description": "html style ** comment - for inside <template> in Svelte."
+		"description": "html style ** comment - for inside <template> in Svelte.",
 	},
 	"**_tsblock_comment": {
 		"scope": ["typescript", "javascript", "svelte", "pug"],
 		"prefix": "#tsblock**",
 		"body": "/**\n * ** $0\n */\n",
-		"description": "** ts block comment - for use in js, ts."
+		"description": "** ts block comment - for use in js, ts.",
 	},
 	// todo comment
 	"todo_html_comment": {
 		"scope": ["html", "svelte", "pug"],
 		"prefix": "#htmlTodo",
 		"body": "<!-- ** $0 -->",
-		"description": "html todo comment - for inside <template> in Svelte."
+		"description": "html todo comment - for inside <template> in Svelte.",
 	},
 	"todo_ts_comment": {
 		"scope": ["typescript", "javascript", "svelte"],
 		"prefix": "#tsTodo",
 		"body": "// <!-- todo $0 -->",
-		"description": "html style ** comment - for inside <template> in Svelte."
+		"description": "html style ** comment - for inside <template> in Svelte.",
 	},
 	"todo_tsblock_comment": {
 		"scope": ["typescript", "javascript", "svelte", "pug"],
 		"prefix": "#tsblockTodo",
 		"body": "/**\n * TODO :  $0\n */\n",
-		"description": "todo ts block comment - for use in js, ts."
-	}
+		"description": "todo ts block comment - for use in js, ts.",
+	},
 }
