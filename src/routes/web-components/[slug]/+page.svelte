@@ -189,11 +189,7 @@ Here's some documentation for this component.
 							text-blue-200
 							w-full`,
 						contenteditable="false")
-						div &lt;script
-						div &nbsp;async
-						div &nbsp;type="module"
-						div &nbsp;src="https://cdn.lj.dev/e/wc/{ slug }.min.js"&gt;
-						div &lt;/script&gt;
+						div &lt;script async type="module" src="https://cdn.lj.dev/e/wc/{ slug }.min.js"&gt;&lt;/script&gt;
 				copy-button.flex-none(
 					data-accent-color="#ebf92f",
 					data-target-selector="#script-code",
