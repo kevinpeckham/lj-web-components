@@ -6,10 +6,8 @@ export const load: PageServerLoad = async function ({ locals }) {
 	const { content, utils } = locals;
 
 	// get web components store
-	const { webComponentsStore } = content;
-	const web_components = utils.get(webComponentsStore);
-
-	console.log(web_components);
+	const { documentationStore } = content;
+	const documentation = utils.get(documentationStore);
 
 	// set page metadata
 	const metaDescription = "";
@@ -18,6 +16,7 @@ export const load: PageServerLoad = async function ({ locals }) {
 
 	// return data
 	return {
+		documentation,
 		metaTitle,
 		metaDescription,
 		metaNoIndex,

@@ -19,11 +19,16 @@ Here's some documentation for this component.
 		//- web component script
 		+if('$page.data.webComponentScript')
 			link(
-				as="script",
 				href!="{ $page.data.webComponentScript }",
-				rel="preload")
+				rel="modulepreload")
 			script(
 				async="true",
-				src!="{ $page.data.webComponentScript }")
+				src!="{ $page.data.webComponentScript }",
+				type="module")
+			script(
+				async="true",
+				src!="/dev/wc/copy-button",
+				type="module")
+
 	slot
 	|</template>

@@ -19,15 +19,13 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 	const error = utils.error;
 
 	// pull in component store
-	const store = utils.get(content.webComponentsStore);
+	const store = utils.get(content.workingFilesStore);
 
 	// get web component
 	const component = store.find((f) => slug.includes(f.name));
 
 	// get file
-	const file: string | undefined = slug.includes(".min")
-		? component?.min
-		: component?.max;
+	const file: string | undefined = component?.value;
 
 	// throw error if no file
 	if (!file) throw error(404, "No file found");
