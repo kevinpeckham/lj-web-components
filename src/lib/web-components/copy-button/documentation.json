@@ -2,7 +2,7 @@
 	"name": "Copy Button",
 	"slug": "copy-button",
 	"tag": "copy-button",
-	"example": "<copy-button\n  data-target-selector=\"h1\"\n  data-title=\"copy\"\n  data-accent-color=\"#ebf92f\">\n</copy-button>",
+	"example": "<copy-button\n  data-target-selector=\"p\"\n  data-title=\"copy\"\n  data-accent-color=\"#ebf92f\">\n</copy-button>",
 	"self_closing": true,
 	"description": "Web component that renders a clickable button. When clicked will copy the text content of a target element to the clipboard.",
 	"attributes": [
