@@ -1,0 +1,50 @@
+{
+	"name": "Scrolling Stat",
+	"slug": "scrolling-stat",
+	"tag": "<scrolling-stat />",
+	"example": "<scrolling-stat\n  data-duration=\"800\"\n  data-number-end=\"100\"\n  data-number-start=\"0\"\n  data-text=\"sprockets and stuff\"\n  data-unit=\"%\" />",
+	"self_closing": true,
+	"description": "Web component that displays a number that counts up or down to another number when the element is scrolled into view.",
+	"attributes": [
+		{
+			"name": "data-duration",
+			"description": "The duration of the animation in milliseconds.",
+			"type": "string",
+			"required": false,
+			"default": "800",
+			"notes": "The default value is 800 milliseconds if the attribute is not specified."
+		},
+		{
+			"name": "data-number-start",
+			"description": "The number to start counting from.",
+			"type": "string",
+			"required": false,
+			"default": "0",
+			"notes": "The default will be 0 if the attribute is not specified and if they number_end is greater than 49 or less than -49.  If the number_end is between -49 and 49, the default will be either -99 or 99 respectively."
+		},
+		{
+			"name": "data-number-end",
+			"description": "The number to count to.",
+			"type": "string",
+			"required": false,
+			"default": "99",
+			"notes": "The default will be 99 if the attribute is not specified."
+		},
+		{
+			"name": "data-text",
+			"description": "The caption to display after the number. For example, the number might be 100% and the text might be 'year over year increase in revenue'.",
+			"type": "string",
+			"required": false,
+			"default": "",
+			"notes": "The default will be an empty string if the attribute is not specified."
+		},
+		{
+			"name": "data-unit",
+			"description": "The unit to display after the number. For example, if the number is 100 and the unit is '%', the number will be displayed as '100%'.",
+			"type": "string",
+			"required": false,
+			"default": "",
+			"notes": "The default will be an empty string if the attribute is not specified."
+		}
+	]
+}
