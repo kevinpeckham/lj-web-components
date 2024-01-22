@@ -26,11 +26,15 @@ import { sequence } from "@sveltejs/kit/hooks";
 import type { Handle } from "@sveltejs/kit";
 
 // import data stores
-import webComponentsStore from "$wc/webComponentsStore";
+import documentationStore from "$stores/documentationStore.server";
+import webComponentsStore from "$stores/webComponentsStore.server";
+import workingFilesStore from "$stores/workingFilesStore.server";
 
 // content
 const content = {
+	documentationStore,
 	webComponentsStore,
+	workingFilesStore,
 };
 
 // utils
