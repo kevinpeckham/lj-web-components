@@ -2,10 +2,26 @@
 	"name": "Copy Button",
 	"slug": "copy-button",
 	"tag": "copy-button",
-	"example": "<copy-button\n  data-target-selector=\"p\"\n  data-title=\"copy\"\n  data-accent-color=\"#ebf92f\">\n</copy-button>",
+	"example": "<copy-button\n  data-target-selector=\"p\"\n  data-size=\"16px\"\n  data-title=\"copy\"\n  data-accent-color=\"#ebf92f\">\n</copy-button>",
 	"self_closing": true,
 	"description": "Web component that renders a clickable button. When clicked will copy the text content of a target element to the clipboard.",
 	"attributes": [
+		{
+			"name": "data-accent-color",
+			"description": "",
+			"type": "string",
+			"required": false,
+			"default": "copy",
+			"notes": "Accent color is used for the active state of the button after a successful copy. The default value is \"#ebf92f\" if the attribute is not specified."
+		},
+		{
+			"name": "data-size",
+			"description": "Scales the size of the button up and down",
+			"type": "string",
+			"required": true,
+			"default": "16px",
+			"notes": "Takes any valid css size value. The default value is \"16px\" if the attribute is not specified."
+		},
 		{
 			"name": "data-target-selector",
 			"description": "The target element to copy the text content from.",
@@ -21,14 +37,6 @@
 			"required": false,
 			"default": "copy",
 			"notes": "Appears on hover. The default value is \"copy\" if the attribute is not specified."
-		},
-		{
-			"name": "data-accent-color",
-			"description": "",
-			"type": "string",
-			"required": false,
-			"default": "copy",
-			"notes": "Accent color is used for the active state of the button after a successful copy. The default value is \"#ebf92f\" if the attribute is not specified."
 		}
 	]
 }

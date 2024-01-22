@@ -19,7 +19,12 @@ class CopyButton extends HTMLElement {
 	 * @returns {string[]} An array of attribute names to observe.
 	 */
 	static get observedAttributes() {
-		return ["data-target-selector", "data-title", "data-accent-color"];
+		return [
+			"data-size",
+			"data-accent-color",
+			"data-target-selector",
+			"data-title",
+		];
 	}
 
 	// constructor
@@ -34,14 +39,15 @@ class CopyButton extends HTMLElement {
 					* { box-sizing:border-box;margin:0; }
 					button {
 						background-color:rgb(100%100%100%/.05);
-						border:solid.1em color-mix(in srgb,currentColor 50%,transparent);
+						border:solid.075em color-mix(in srgb,currentColor 50%,transparent);
 						color:currentColor;
 						cursor:pointer;
+						font-size:var(--size, 16px);
+						height:1.75em;
 						opacity:.6;
-						padding:.3%.65%0;
+						padding:.3em;
 						position:relative;
-						height:2.5em;
-						width:2.5em;
+						width:1.75em;
 					}
 					button:hover {
 						opacity:1;
@@ -64,8 +70,8 @@ class CopyButton extends HTMLElement {
 						transition:opacity .15s;
 					}
 					svg {
-						aspect-ratio:1;
 						fill:none;
+						height:auto;
 						pointer-events:none;
 						stroke:currentColor;
 						stroke-width:1;
@@ -128,6 +134,10 @@ class CopyButton extends HTMLElement {
 		// get accent color
 		const accent_color = this.getAttribute("data-accent-color");
 		button?.style.setProperty("--accent-color", accent_color ?? "red");
+
+		// get size
+		const size = this.getAttribute("data-size");
+		button?.style.setProperty("--size", size ?? "16px");
 
 		// get title
 		const title = this.getAttribute("data-title");
