@@ -6,7 +6,8 @@ export interface ComponentDocumentation {
 	example: string;
 	name: string;
 	published: boolean;
-	tag: string;
+	tags: string[];
 	self_closing: boolean;
 	slug: string;
+	notes?: string;
 }

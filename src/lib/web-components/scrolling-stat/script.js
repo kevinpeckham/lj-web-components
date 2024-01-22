@@ -68,7 +68,7 @@ class ScrollingStat extends HTMLElement {
 
 		// add the style rules
 		styleElem.textContent = `
-		* { margin:0;font-size;1em;box-sizing:border-box; }
+		host:, * { margin:0;box-sizing:border-box; }
 		#w {
 			align-items:baseline;
 			background:rgb(100%100%100%/5%);

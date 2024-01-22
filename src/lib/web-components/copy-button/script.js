@@ -36,7 +36,7 @@ class CopyButton extends HTMLElement {
 		const template = document.createElement("template");
 		template.innerHTML = `
 				<style>
-					* { box-sizing:border-box;margin:0; }
+					:host, * { box-sizing:border-box;margin:0; }
 					button {
 						background-color:rgb(100%100%100%/.05);
 						border:solid.075em color-mix(in srgb,currentColor 50%,transparent);

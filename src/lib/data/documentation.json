@@ -42,6 +42,24 @@
 		]
 	},
 	{
+		"name": "Copyright Statement",
+		"slug": "copyright-statement",
+		"example": "<copyright-statement\n  data-company-name=\"Acme\">\n</copyright-statement>",
+		"published": true,
+		"self_closing": true,
+		"description": "Web component that renders a typical footer copyright statement",
+		"attributes": [
+			{
+				"name": "data-company-name",
+				"description": "Injects the company name into the statement.",
+				"type": "string",
+				"required": false,
+				"default": "",
+				"notes": ""
+			}
+		]
+	},
+	{
 		"name": "Scrolling Stat",
 		"slug": "scrolling-stat",
 		"example": "<scrolling-stat\n  data-duration=\"800\"\n  data-number-end=\"100\"\n  data-number-start=\"0\"\n  data-text=\"sprockets and stuff\"\n  data-unit=\"%\" />",
