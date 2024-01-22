@@ -14,5 +14,7 @@ words:
   - gzipped
   - pako
   - splunges
+  - srgb
+  - Tweens
 import: null
 ignoreWords: null
