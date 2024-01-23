@@ -16,12 +16,12 @@ const filesStore = readable(
 	}),
 );
 
-export const documentationStore = derived(filesStore, ($filesStore) => {
+export const wcDocumentationStore = derived(filesStore, ($filesStore) => {
 	const json = Object.values($filesStore).map((file) => {
 		return JSON.parse(file) as ComponentDocumentation;
 	});
 	return json;
 });
 
-export default documentationStore;
-export type DocumentationStore = typeof documentationStore;
+export default wcDocumentationStore;
+export type WcDocumentationStore = typeof wcDocumentationStore;
