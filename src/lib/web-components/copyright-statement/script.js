@@ -32,7 +32,7 @@ class CopyrightStatement extends HTMLElement {
 		template.innerHTML = `
 				<style>
 					:host, * { box-sizing:border-box;margin:0;padding:0;}
-					div {font-size:.8em;opacity:.6;white-space:nowrap;}
+					div {font-size:.8em;opacity:.6;white-space:pre;}
 				</style>
 				<div>Copyright &copy; ${new Date().getFullYear().toString()} <span id="company"></span>. All Rights Reserved.</div>
 		`;
