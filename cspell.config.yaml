@@ -12,6 +12,7 @@ words:
   - deslugify
   - fnames
   - gzipped
+  - noopener
   - pako
   - splunges
   - srgb
