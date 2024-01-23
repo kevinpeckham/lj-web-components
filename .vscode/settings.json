@@ -46,7 +46,7 @@
 			"italic": false
 		},
 		{
-			"tag": "**",
+			"tag": "***",
 			"color": "#72C9D6",
 			"strikethrough": false,
 			"underline": false,
