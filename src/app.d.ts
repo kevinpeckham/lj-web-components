@@ -8,9 +8,9 @@
 
 // import types
 import type { Readable, Writable } from "svelte/store";
-import type { WebComponentsStore } from "$stores/webComponentsStore.server";
-import type { DocumentationStore } from "$stores/documentationStore.server";
-import type { WorkingFilesStore } from "$stores/workingFilesStore.server";
+import type { WcDocumentationStore } from "$stores/wcDocumentationStore";
+import type { WcSourceFilesStore } from "$stores/wcSourceFilesStore";
+import type { WcProductionFilesStore } from "$stores/wcProductionFilesStore";
 import type { ComponentDocumentation as _ComponentDocumentation } from "$types/ComponentDocumentation";
 import type { ComponentAttribute as _ComponentAttribute } from "$types/ComponentAttribute";
 
@@ -24,9 +24,9 @@ import type { Deslugify } from "$utils/deslugify";
 // content
 interface Content {
 	[key: string]: unknown;
-	webComponentsStore: WebComponentsStore;
-	documentationStore: DocumentationStore;
-	workingFilesStore: WorkingFilesStore;
+	wcDocumentationStore: WcDocumentationStore;
+	wcSourceFilesStore: WcSourceFilesStore;
+	wcProductionFilesStore: WcProductionFilesStore;
 }
 
 // utils
