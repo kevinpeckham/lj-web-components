@@ -44,8 +44,6 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier . --check . && eslint .",
 		"format": "prettier . --write .",
-		"wc:minify": "node ./src/lib/scripts/minify.js",
-		"wc:jsonify": "node ./src/lib/scripts/jsonify.js",
 		"test:integration": "playwright test",
 		"test:unit": "vitest"
 	},
