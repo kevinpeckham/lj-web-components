@@ -1,7 +1,7 @@
 // serverless Functions
 /** @type {import('@sveltejs/adapter-vercel').Config} */
 export const config = {
-	runtime: "edge",
+	runtime: "nodejs18.x",
 };
 
 // type
@@ -19,7 +19,8 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 	const error = utils.error;
 
 	// pull in component store
-	const store = utils.get(content.webComponentsStore);
+	const store = utils.get(content.wcProductionFilesStore);
+	console.log(store);
 
 	// get web component
 	const component = store.find((f) => slug.includes(f.name));

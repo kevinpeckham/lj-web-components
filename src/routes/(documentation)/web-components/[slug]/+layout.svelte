@@ -28,7 +28,7 @@ Here's some documentation for this component.
 		+if('$page.data.documentation.slug !== "copy-button"')
 			script(
 				async="true",
-				src!="/dev/wc/copy-button",
+				src!="/e/wc/copy-button.min.js",
 				type="module")
 
 	slot

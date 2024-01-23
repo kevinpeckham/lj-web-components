@@ -9,8 +9,8 @@ export const load: PageServerLoad = async function ({ locals }) {
 	const { content, utils } = locals;
 
 	// get web components store
-	const { documentationStore } = content;
-	const documentation = utils.get(documentationStore);
+	const { wcDocumentationStore } = content;
+	const documentation = utils.get(wcDocumentationStore);
 
 	// set page metadata
 	const metaDescription = "";

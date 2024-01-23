@@ -12,8 +12,8 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 	const { content, utils } = locals;
 
 	// get documentation store
-	const documentationStore = utils.get(content.documentationStore);
-	const documentation = documentationStore.find((d) => d.slug === slug);
+	const wcDocumentation = utils.get(content.wcDocumentationStore);
+	const documentation = wcDocumentation.find((d) => d.slug === slug);
 
 	// if no documentation, return 404
 	if (!documentation) utils.error(404, "No file found");
@@ -27,9 +27,8 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 	const metaNoIndex = true;
 
 	// web component script
-	const webComponentScript = dev
-		? `/dev/wc/${slug}.js`
-		: `/e/wc/${slug}.min.js`;
+	// by default load the minified script
+	const webComponentScript = `/e/wc/${slug}.min.js`;
 
 	// return data
 	return {
