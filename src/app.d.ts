@@ -8,9 +8,9 @@
 
 // import types
 import type { Readable, Writable } from "svelte/store";
-import type { WcDocumentationStore } from "$stores/wcDocumentationStore";
-import type { WcSourceFilesStore } from "$stores/wcSourceFilesStore";
-import type { WcProductionFilesStore } from "$stores/wcProductionFilesStore";
+import type { WcDocumentationStore } from "$stores/wcDocumentationStore.server";
+import type { WcSourceFilesStore } from "$stores/wcSourceFilesStore.server";
+import type { WcProductionFilesStore } from "$stores/wcProductionFilesStore.server";
 import type { ComponentDocumentation as _ComponentDocumentation } from "$types/ComponentDocumentation";
 import type { ComponentAttribute as _ComponentAttribute } from "$types/ComponentAttribute";
 

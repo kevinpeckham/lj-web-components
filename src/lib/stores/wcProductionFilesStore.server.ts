@@ -29,7 +29,7 @@ const options: MinifyOptions = {
 };
 
 // import wcSourceFilesStore
-import { wcSourceFilesStore } from "$stores/wcSourceFilesStore";
+import { wcSourceFilesStore } from "$stores/wcSourceFilesStore.server";
 
 // import functions
 import scrubStyles from "$utils/scrubStyles";

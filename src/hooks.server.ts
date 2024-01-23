@@ -26,9 +26,9 @@ import { sequence } from "@sveltejs/kit/hooks";
 import type { Handle } from "@sveltejs/kit";
 
 // import data stores
-import wcDocumentationStore from "$stores/wcDocumentationStore";
-import wcSourceFilesStore from "$stores/wcSourceFilesStore";
-import wcProductionFilesStore from "$stores/wcProductionFilesStore";
+import wcDocumentationStore from "$stores/wcDocumentationStore.server";
+import wcSourceFilesStore from "$stores/wcSourceFilesStore.server";
+import wcProductionFilesStore from "$stores/wcProductionFilesStore.server";
 
 // content
 const content = {
