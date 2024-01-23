@@ -1,6 +1,6 @@
 /**
- * Working Files Store
- * A store of working .js web component files
+ * Web Component Source Files Store
+ * A store of source .js web component files
  * for real time previews during development
  * */
 
@@ -14,17 +14,17 @@ const filesStore = readable(
 	}),
 );
 
-export const workingFilesStore = derived(filesStore, ($filesStore) => {
+export const wcSourceFilesStore = derived(filesStore, ($filesStore) => {
 	const folderPath = `src/lib/web-components/`;
 	const fileEntries = Object.entries($filesStore).map(([path, file]) => {
 		const name = path.replace(folderPath, "").split("/")[1];
 		return {
-			name: path.replace(folderPath, "").split("/")[1],
+			name: name,
 			value: file,
 		};
 	});
 	return fileEntries;
 });
 
-export default workingFilesStore;
-export type WorkingFilesStore = typeof workingFilesStore;
+export default wcSourceFilesStore;
+export type WcSourceFilesStore = typeof wcSourceFilesStore;
