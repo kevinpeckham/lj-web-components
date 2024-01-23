@@ -1,4 +1,4 @@
-/** @copyright 2024 Lightning Jar - "Copyright Statement" web component - License MIT */
+/** @copyright Lightning Jar 2024 - "Copyright Statement" web component */
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.0.1 */
@@ -19,7 +19,7 @@ class CopyrightStatement extends HTMLElement {
 	 * @returns {string[]} An array of attribute names to observe.
 	 */
 	static get observedAttributes() {
-		return ["data-company-name"];
+		return ["legal-name"];
 	}
 
 	// constructor
@@ -27,14 +27,14 @@ class CopyrightStatement extends HTMLElement {
 		super();
 		this.attachShadow({ mode: "open" });
 
-		// Create a template for the button
+		// create a template for the button
+		const year = new Date().getFullYear().toString();
 		const template = document.createElement("template");
 		template.innerHTML = `
 				<style>
-					:host, * { box-sizing:border-box;margin:0;padding:0;white-space:pre;}
-					div {font-size:.8em;opacity:.6;}
+					:host, * { box-sizing:border-box; margin:0; padding:0; }
+					span { font-size:.8em; opacity:.6; white-space:pre; }
 				</style>
-				<div>Copyright &copy;&nbsp;<span>${new Date().getFullYear().toString()}</span>&nbsp;<span id="company"></span>. All Rights Reserved.</div>
 		`;
 
 		// append the template content to the shadow DOM
@@ -47,10 +47,17 @@ class CopyrightStatement extends HTMLElement {
 	 * @summary Creates the shadow DOM, add styles, and starts the observer.
 	 */
 	connectedCallback() {
-		// get company name
-		const companyName = this.getAttribute("data-company-name") ?? "";
-		const companyNameElement = this.shadowRoot?.getElementById("company");
-		if (companyNameElement) companyNameElement.textContent = companyName;
+		// get full year
+		const year = `${new Date().getFullYear()}`;
+
+		// get legal name
+		const legalName = this.getAttribute("legal-name") ?? "";
+		const legalNameFormatted = legalName ? ` ${legalName}` : "";
+
+		// add div to shadow root
+		const span = document.createElement("span");
+		span.textContent = `Copyright © ${year}${legalNameFormatted}. All Rights Reserved.`;
+		this.shadowRoot?.appendChild(span);
 	}
 }
 customElements.define("copyright-statement", CopyrightStatement);

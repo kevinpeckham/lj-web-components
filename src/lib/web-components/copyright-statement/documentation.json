@@ -1,13 +1,13 @@
 {
 	"name": "Copyright Statement",
 	"slug": "copyright-statement",
-	"example": "<copyright-statement\n  data-company-name=\"Acme\">\n</copyright-statement>",
+	"example": "<copyright-statement\n  legal-name=\"Acme Inc\">\n</copyright-statement>",
 	"published": true,
 	"self_closing": true,
 	"description": "Web component that renders a typical footer copyright statement",
 	"attributes": [
 		{
-			"name": "data-company-name",
+			"name": "legal-name",
 			"description": "Injects the company name into the statement.",
 			"type": "string",
 			"required": false,
