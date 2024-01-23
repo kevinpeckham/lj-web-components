@@ -166,7 +166,8 @@ Here's some documentation for this component.
 		//- script
 		section
 			div(
-				class="flex gap-x-[.5em] items-baseline")
+				class="flex gap-x-[.5em] items-baseline",
+				_test="test")
 				h2.mb-2 Script
 				span(
 					class="italic opacity-80 text-[.9em]") (add to page header)
