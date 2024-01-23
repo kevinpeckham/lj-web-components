@@ -31,10 +31,10 @@ class CopyrightStatement extends HTMLElement {
 		const template = document.createElement("template");
 		template.innerHTML = `
 				<style>
-					:host, * { box-sizing:border-box;margin:0;padding:0;}
-					div {font-size:.8em;opacity:.6;white-space:pre;}
+					:host, * { box-sizing:border-box;margin:0;padding:0;white-space:pre;}
+					div {font-size:.8em;opacity:.6;}
 				</style>
-				<div>Copyright &copy; ${new Date().getFullYear().toString()} <span id="company"></span>. All Rights Reserved.</div>
+				<div>Copyright &copy;&nbsp;<span>${new Date().getFullYear().toString()}</span>&nbsp;<span id="company"></span>. All Rights Reserved.</div>
 		`;
 
 		// append the template content to the shadow DOM
