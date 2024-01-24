@@ -28,7 +28,7 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 
 	// web component script
 	// by default load the minified script
-	const webComponentScript = `/e/wc/${slug}.min.js`;
+	const webComponentScript = dev ? `/e/wc/${slug}.js` : `/e/wc/${slug}.min.js`;
 
 	// return data
 	return {

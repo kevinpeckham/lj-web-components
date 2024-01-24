@@ -28,7 +28,6 @@ class CopyrightStatement extends HTMLElement {
 		this.attachShadow({ mode: "open" });
 
 		// create a template for the button
-		const year = new Date().getFullYear().toString();
 		const template = document.createElement("template");
 		template.innerHTML = `
 				<style>

@@ -20,7 +20,6 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 
 	// pull in component store
 	const store = utils.get(content.wcProductionFilesStore);
-	console.log(store);
 
 	// get web component
 	const component = store.find((f) => slug.includes(f.name));
