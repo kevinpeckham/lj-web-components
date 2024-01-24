@@ -1,10 +1,10 @@
 {
-	"name": "Scrolling Stat",
+	"name": "Concept Bubble",
 	"slug": "concept-bubble",
 	"example": "<concept-bubble\n  caption=\"\"\n  concept=\"Marketing Website\"\n  color-accent=\"lightblue\"\n  color-secondary=\"#142239\"\n  info=\"test\" />",
 	"published": true,
 	"self_closing": true,
-	"description": "Web component that displays a number that counts up or down to another number when the element is scrolled into view.",
+	"description": "Web component that displays a heading inside a bubble for use in a concept map or similar. ",
 	"attributes": [
 		{
 			"name": "color-accent",
