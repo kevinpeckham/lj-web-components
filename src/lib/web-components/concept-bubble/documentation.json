@@ -1,0 +1,58 @@
+{
+	"name": "Scrolling Stat",
+	"slug": "concept-bubble",
+	"example": "<concept-bubble\n  caption=\"\"\n  concept=\"Marketing Website\"\n  color-accent=\"lightblue\"\n  color-secondary=\"#142239\"\n  info=\"test\" />",
+	"published": true,
+	"self_closing": true,
+	"description": "Web component that displays a number that counts up or down to another number when the element is scrolled into view.",
+	"attributes": [
+		{
+			"name": "color-accent",
+			"description": "",
+			"type": "string",
+			"required": false,
+			"default": "lightblue",
+			"notes": ""
+		},
+		{
+			"name": "color-primary",
+			"description": "",
+			"type": "string",
+			"required": false,
+			"default": "currentColor",
+			"notes": ""
+		},
+		{
+			"name": "color-secondary",
+			"description": "",
+			"type": "string",
+			"required": false,
+			"default": "#142239",
+			"notes": ""
+		},
+		{
+			"name": "concept",
+			"description": "The caption to display after the number. For example, the number might be 100% and the text might be 'year over year increase in revenue'.",
+			"type": "string",
+			"required": false,
+			"default": "",
+			"notes": "The default will be an empty string if the attribute is not specified."
+		},
+		{
+			"name": "caption",
+			"description": "",
+			"type": "string",
+			"required": false,
+			"default": "",
+			"notes": ""
+		},
+		{
+			"name": "info",
+			"description": "",
+			"type": "string",
+			"required": false,
+			"default": "",
+			"notes": ""
+		}
+	]
+}
