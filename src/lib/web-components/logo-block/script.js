@@ -41,6 +41,8 @@ class LogoBlock extends HTMLElement {
 				:host, *:not(style) { display:block;box-sizing:border-box; margin:0; }
 				#link {
 					display:flex;
+					width:100%;
+					height:100%;
 				}
 				#image {
 					width:100%;
