@@ -36,8 +36,10 @@ class ConceptBubble extends HTMLElement {
 			"concept",
 			"caption",
 			"color-accent",
+			"color-border",
 			"color-secondary",
 			"color-primary",
+			"show-color-swatch",
 			"info",
 		];
 	}
@@ -85,10 +87,23 @@ class ConceptBubble extends HTMLElement {
 					gap: .3em;
 					grid: auto-flow/auto 1fr;
 					line-height: 1;
-					outline: 1px solid;
+					border: 1px solid var(--color-border, currentColor);
 					padding: 1.25em;
 					position:relative;
-					max-width: 8em;
+					max-width: 10em;
+				}
+				[show-color-swatch]:after {
+					background-color:var(--color-border, currentColor);
+					border-bottom-left-radius: .5em;
+					border-bottom-right-radius: .5em;
+					bottom:0;
+					content:" ";
+					display:flex;
+					height:.8em;
+					opacity:1;
+					position:absolute;
+					width:100%;
+					z-index:-10;
 				}
 				#concept{
 					font-size:1.25em;
@@ -103,7 +118,7 @@ class ConceptBubble extends HTMLElement {
 				}
 				#icon-i {
 					align-items:center;
-					bottom: .75em;
+					top: .75em;
 					border-radius: 50%;
 					border: 1px solid;
 					cursor: pointer;
@@ -174,6 +189,15 @@ class ConceptBubble extends HTMLElement {
 		this.refs.container.style.setProperty("--color-accent", value);
 	}
 
+	// border color
+	get colorBorder() {
+		return this.getAttribute("color-border") || "currentColor";
+	}
+	set colorBorder(value) {
+		this.setAttribute("color-border", value);
+		this.refs.container.style.setProperty("--color-border", value);
+	}
+
 	// primary color
 	get colorPrimary() {
 		return this.getAttribute("color-primary") || "currentColor";
@@ -190,6 +214,12 @@ class ConceptBubble extends HTMLElement {
 	set colorSecondary(value) {
 		this.setAttribute("color-secondary", value);
 		this.refs.container.style.setProperty("--color-secondary", value);
+	}
+
+	// show color swatch
+	hasColorSwatch() {
+		const has = this.hasAttribute("show-color-swatch");
+		if (has) this.refs.container.setAttribute("show-color-swatch", "");
 	}
 
 	// info
@@ -248,6 +278,7 @@ class ConceptBubble extends HTMLElement {
 	connectedCallback() {
 		// reset values
 		this.isOnScreen = false;
+		this.hasColorSwatch();
 
 		// set text content
 		this.refs.caption.textContent = this.caption;
@@ -255,6 +286,7 @@ class ConceptBubble extends HTMLElement {
 		this.refs.info.textContent = this.info;
 		this.refs.container.style.setProperty("--color-accent", this.colorAccent);
 		this.refs.container.style.setProperty("--color-primary", this.colorPrimary);
+		this.refs.container.style.setProperty("--color-border", this.colorBorder);
 		this.refs.container.style.setProperty(
 			"--color-secondary",
 			this.colorSecondary,

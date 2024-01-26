@@ -1,7 +1,7 @@
 {
 	"name": "Concept Bubble",
 	"slug": "concept-bubble",
-	"example": "<concept-bubble\n  caption=\"\"\n  concept=\"Marketing Website\"\n  color-accent=\"lightblue\"\n  color-secondary=\"#142239\"\n  info=\"test\" />",
+	"example": "<concept-bubble\n  caption=\"\"\n  concept=\"Marketing Website\"\n  color-accent=\"lightblue\"\n  color-border=\"lightblue\"\n  color-secondary=\"#142239\"\n  info=\"test\"\n  show-color-swatch />",
 	"published": true,
 	"self_closing": true,
 	"description": "Web component that displays a heading inside a bubble for use in a concept map or similar. ",
@@ -12,6 +12,14 @@
 			"type": "string",
 			"required": false,
 			"default": "lightblue",
+			"notes": ""
+		},
+		{
+			"name": "color-border",
+			"description": "",
+			"type": "string",
+			"required": false,
+			"default": "currentColor",
 			"notes": ""
 		},
 		{
@@ -48,6 +56,14 @@
 		},
 		{
 			"name": "info",
+			"description": "",
+			"type": "string",
+			"required": false,
+			"default": "",
+			"notes": ""
+		},
+		{
+			"name": "show-color-swatch",
 			"description": "",
 			"type": "string",
 			"required": false,
