@@ -95,8 +95,8 @@ class ConceptBubble extends HTMLElement {
 				}
 				[show-color-swatch]:after {
 					background-color:var(--color-border, currentColor);
-					border-bottom-left-radius: .5em;
-					border-bottom-right-radius: .5em;
+					border-bottom-left-radius: .4em;
+					border-bottom-right-radius: .4em;
 					bottom:0;
 					content:" ";
 					display:flex;
