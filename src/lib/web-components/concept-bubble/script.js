@@ -36,6 +36,7 @@ class ConceptBubble extends HTMLElement {
 			"concept",
 			"caption",
 			"color-accent",
+			"color-background",
 			"color-border",
 			"color-secondary",
 			"color-primary",
@@ -80,7 +81,7 @@ class ConceptBubble extends HTMLElement {
 				host:, * { margin:0; box-sizing:border-box ;}
 				#container {
 					align-items: baseline;
-					background: rgb(100%100%100%/5%);
+					background-color: var(--color-background, rgb(255, 255, 255 / .5));
 					border-radius: .5em;
 					display: grid;
 					font-weight: 800;
@@ -189,6 +190,15 @@ class ConceptBubble extends HTMLElement {
 		this.refs.container.style.setProperty("--color-accent", value);
 	}
 
+	// background color
+	get colorBackground() {
+		return this.getAttribute("color-background") || "rgb(255, 255, 255 / .5)";
+	}
+	set colorBackground(value) {
+		this.setAttribute("--color-background", value);
+		this.refs.container.style.setProperty("--color-background", value);
+	}
+
 	// border color
 	get colorBorder() {
 		return this.getAttribute("color-border") || "currentColor";
@@ -287,10 +297,10 @@ class ConceptBubble extends HTMLElement {
 		this.refs.container.style.setProperty("--color-accent", this.colorAccent);
 		this.refs.container.style.setProperty("--color-primary", this.colorPrimary);
 		this.refs.container.style.setProperty("--color-border", this.colorBorder);
-		this.refs.container.style.setProperty(
-			"--color-secondary",
-			this.colorSecondary,
-		);
+		// prettier-ignore
+		this.refs.container.style.setProperty("--color-background", this.colorBackground);
+		// prettier-ignore
+		this.refs.container.style.setProperty("--color-secondary",this.colorSecondary);
 	}
 	/**
 	 * @param {IntersectionObserverEntry[]} entries
