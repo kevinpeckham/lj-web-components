@@ -103,6 +103,7 @@ class ConceptBubble extends HTMLElement {
 					opacity:1;
 					position:absolute;
 					width:100%;
+					pointer-events:none;
 				}
 				#concept{
 					font-size:1.25em;
