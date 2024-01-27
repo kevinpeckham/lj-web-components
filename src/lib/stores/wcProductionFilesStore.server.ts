@@ -33,6 +33,7 @@ import { wcSourceFilesStore } from "$stores/wcSourceFilesStore.server";
 
 // import functions
 import scrubStyles from "$utils/scrubStyles";
+import scrubTemplates from "$utils/scrubTemplates";
 
 // derived files store
 export const wcProductionFilesStore = derived(
@@ -45,11 +46,17 @@ export const wcProductionFilesStore = derived(
 			// scrub the styles inside the source text
 			const stylesScrubbed = scrubStyles(sourceText);
 
-			// replace tabs with double spaces
-			const tabsReplaced = stylesScrubbed.replaceAll(/(?:\t|\\t)+?/g, "  ");
+			// scrub the templates inside the source text
+			const templatesScrubbed = scrubTemplates(stylesScrubbed);
+
+			// replace tabs with single spaces
+			const tabsReplaced = templatesScrubbed.replaceAll(/(?:\t|\\t)+?/g, " ");
+
+			// replace multiple spaces with single spaces
+			const spacesReplaced = tabsReplaced.replaceAll(/(?: ){2,}/g, " ");
 
 			// minify the text
-			const minText = minify_sync(tabsReplaced, options);
+			const minText = minify_sync(spacesReplaced, options);
 
 			return { name: name, min: minText?.code ?? "", max: sourceText };
 		});
