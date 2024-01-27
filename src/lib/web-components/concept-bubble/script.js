@@ -13,7 +13,6 @@
  * @param {HTMLDivElement} container The container element.
  * @param {HTMLSpanElement} concept The animation element.
  * @param {HTMLSpanElement} caption The caption element.
- * @param {boolean} isOnScreen The state of the element.
  * @param { { [key:string]: HTMLSpanElement} } refs
  * @attribute {string} [concept=""]
  * @attribute {string} [caption=""]
@@ -29,19 +28,20 @@ class ConceptBubble extends HTMLElement {
 	 */
 
 	static get elementIds() {
-		return ["container", "concept", "caption", "icon-i", "info"];
+		return ["container", "concept", "caption", "icon", "info", "stylesheet"];
 	}
 	static get observedAttributes() {
 		return [
-			"concept",
-			"caption",
 			"color-accent",
 			"color-background",
 			"color-border",
-			"color-secondary",
 			"color-primary",
-			"show-color-swatch",
-			"info",
+			"color-secondary",
+			"color-swatch",
+			"content-caption",
+			"content-concept",
+			"content-info",
+			"content-stylesheet",
 		];
 	}
 	/**
@@ -64,13 +64,23 @@ class ConceptBubble extends HTMLElement {
 		return result;
 	}
 
+	static createTemplate() {
+		// create a template
+		const template = document.createElement("template");
+		template.innerHTML = `
+		${ConceptBubble.styles}
+		${ConceptBubble.template}
+		`;
+		return template;
+	}
+
 	// get template
 	static get template() {
 		return `
 				<span id="container">
 					<span id="concept"></span>
 					<span id="caption"></span>
-					<span id="icon-i">i<span id="info"></span></span>
+					<span id="icon">i<span id="info"></span></span>
 				</span>`;
 	}
 
@@ -81,30 +91,27 @@ class ConceptBubble extends HTMLElement {
 				host:, * { margin:0; box-sizing:border-box ;}
 				#container {
 					align-items: baseline;
-					background-color: var(--color-background, rgb(255, 255, 255 / .5));
+					background-color: var(--color-background, transparent);
+					border: 1px solid var(--color-border, currentColor);
 					border-radius: .5em;
 					display: grid;
 					font-weight: 800;
 					gap: .3em;
 					grid: auto-flow/auto 1fr;
 					line-height: 1;
-					border: 1px solid var(--color-border, currentColor);
 					padding: 1.25em;
 					position:relative;
 					max-width: 10em;
 				}
-				[show-color-swatch]:after {
-					background-color:var(--color-border, currentColor);
-					border-bottom-left-radius: .4em;
-					border-bottom-right-radius: .4em;
+				#container:after {
+					background-color:var(--color-swatch, transparent);
+					border-radius: 0 0 .4em .4em;
 					bottom:0;
 					content:" ";
-					display:flex;
 					height:.8em;
 					opacity:1;
 					position:absolute;
 					width:100%;
-					pointer-events:none;
 				}
 				#concept{
 					font-size:1.25em;
@@ -117,7 +124,11 @@ class ConceptBubble extends HTMLElement {
 					line-height:1.3;
 					opacity:.9;
 				}
-				#icon-i {
+				#icon, #info {
+					position:absolute;
+					transition: opacity .25s;
+				}
+				#icon {
 					align-items:center;
 					top: .75em;
 					border-radius: 50%;
@@ -129,152 +140,70 @@ class ConceptBubble extends HTMLElement {
 					justify-content:center;
 					opacity:.5;
 					padding: .25em;
-					position:absolute;
-					transition: opacity .5s;
 					right:.75em;
 					width: 1em;
 				}
-				#icon-i:hover {
+				#icon:hover {
 					opacity:1;
-					color:var(--color-accent);
+					color:var(--color-accent, lightblue);
 				}
-				#icon-i:hover #info {
+				#icon:hover #info {
 					opacity:1;
 				}
 				#info {
-					border-radius: .5em;
-					color: var(--color-secondary);
-					position:absolute;
+					border-radius: .4em;
+					color: var(--color-secondary, #142239);
 					bottom: 0%;
 					left:95%;
 					font-weight:400;
 					font-size:1.8em;
 					opacity:0;
-					pointer-events:none;
-					transition: opacity .25s;
 					padding:.5em;
 					background:var(--color-accent, lightblue);
 				}
 
 				/* if no value is provied for info, hide the icon */
-				:host(:is([info=""],[info=undefined],[info=null])) #icon-i, :host(:not([info])) #icon-i {
+				:host(:is([content-info=""],[content-info=undefined],[content-info=null])) #icon, :host(:not([content-info])) #icon {
 					opacity:0;
 					pointer-events:none;
 				}
 
-		</style>`;
+		</style><style id="stylesheet"></style>`;
 	}
-
-	// concept
-	get concept() {
-		return this.getAttribute("concept") || "";
-	}
-	set concept(value) {
-		this.setAttribute("concept", value);
-	}
-
-	// caption
-	get caption() {
-		return this.getAttribute("caption") || "";
-	}
-	set caption(value) {
-		this.setAttribute("caption", value);
-	}
-
-	// accent color
-	get colorAccent() {
-		return this.getAttribute("color-accent") || "lightblue";
-	}
-	set colorAccent(value) {
-		this.setAttribute("color-accent", value);
-		this.refs.container.style.setProperty("--color-accent", value);
-	}
-
-	// background color
-	get colorBackground() {
-		return this.getAttribute("color-background") || "rgb(255, 255, 255 / .5)";
-	}
-	set colorBackground(value) {
-		this.setAttribute("--color-background", value);
-		this.refs.container.style.setProperty("--color-background", value);
-	}
-
-	// border color
-	get colorBorder() {
-		return this.getAttribute("color-border") || "currentColor";
-	}
-	set colorBorder(value) {
-		this.setAttribute("color-border", value);
-		this.refs.container.style.setProperty("--color-border", value);
-	}
-
-	// primary color
-	get colorPrimary() {
-		return this.getAttribute("color-primary") || "currentColor";
-	}
-	set colorPrimary(value) {
-		this.setAttribute("color-primary", value);
-		this.refs.container.style.setProperty("--color-primary", value);
-	}
-
-	// secondary color
-	get colorSecondary() {
-		return this.getAttribute("color-secondary") || "#142239";
-	}
-	set colorSecondary(value) {
-		this.setAttribute("color-secondary", value);
-		this.refs.container.style.setProperty("--color-secondary", value);
-	}
-
-	// show color swatch
-	hasColorSwatch() {
-		const has = this.hasAttribute("show-color-swatch");
-		if (has) this.refs.container.setAttribute("show-color-swatch", "");
-	}
-
-	// info
-	get info() {
-		return this.getAttribute("info") || "";
-	}
-	set info(value) {
-		this.setAttribute("info", value);
-		if (value) this.refs.info.textContent = value;
-	}
-
-	/**
-	 * @method
-	 * @param {boolean} value */
-	set isOnScreen(value) {
-		if (value) this.refs?.container.classList.add("on-screen");
-		else this.refs?.container.classList.remove("on-screen");
-	}
-
-	// helpers
-	/** @param {string | undefined | null} str */
-	updateDisplay(str) {}
 
 	// constructor
 	constructor() {
 		super();
 
-		// set initial values
-		this.isOnScreen = false;
+		// programattically create getters and setters for each observed attribute
+		for (let attr of ConceptBubble.observedAttributes) {
+			Object.defineProperty(this, attr, {
+				get: function () {
+					return this.getAttribute(attr);
+				},
+				set: function (value) {
+					this.setAttribute(attr, value);
+					// if the attribute contains the word "content",
+					// set the textContent of the corresponding element to the value of the attribute
+					if (attr.includes("content")) {
+						this.refs[attr.split("-")[1]].textContent = value;
+					}
+					// if the attribute contains the word "color",
+					else if (attr.includes("color")) {
+						this.refs.container.style.setProperty(`--${attr}`, value);
+					}
+				},
+			});
+		}
 
 		// create a shadow root
 		this.attachShadow({ mode: "open" });
 
 		// create a template
-		const template = document.createElement("template");
-		template.innerHTML = `
-		${ConceptBubble.styles}
-		${ConceptBubble.template}
-		`;
+		const template = ConceptBubble.createTemplate();
 
 		// append the template content to the shadow DOM
 		this.shadowRoot?.appendChild(template.content.cloneNode(true));
-
-		// binding the parent context to the methods
-		this.connectedCallback = this.connectedCallback.bind(this);
 
 		// get refs elements
 		this.refs = ConceptBubble.getDomElements(this);
@@ -286,35 +215,26 @@ class ConceptBubble extends HTMLElement {
 	 * @summary Creates the shadow DOM, add styles, and starts the observer.
 	 */
 	connectedCallback() {
-		// reset values
-		this.isOnScreen = false;
-		this.hasColorSwatch();
+		// TEXT
+		// for each observed attribute that contains the word "content",
+		// set the textContent of the corresponding element to the value of the attribute
+		ConceptBubble.observedAttributes.forEach((attr) => {
+			if (attr.includes("content")) {
+				this.refs[attr.split("-")[1]].textContent = this.getAttribute(attr);
+			}
+		});
 
-		// set text content
-		this.refs.caption.textContent = this.caption;
-		this.refs.concept.textContent = this.concept;
-		this.refs.info.textContent = this.info;
-		this.refs.container.style.setProperty("--color-accent", this.colorAccent);
-		this.refs.container.style.setProperty("--color-primary", this.colorPrimary);
-		this.refs.container.style.setProperty("--color-border", this.colorBorder);
-		// prettier-ignore
-		this.refs.container.style.setProperty("--color-background", this.colorBackground);
-		// prettier-ignore
-		this.refs.container.style.setProperty("--color-secondary",this.colorSecondary);
-	}
-	/**
-	 * @param {IntersectionObserverEntry[]} entries
-	 * @returns {void}
-	 * @description callback method which fires when the element is scrolled into view
-	 */
-	observerCallback(entries) {
-		// test if the element is on screen
-		const isOnScreen = entries[0].isIntersecting;
-
-		// update variable to match the state of the element
-		if (isOnScreen != this.isOnScreen) {
-			this.isOnScreen = isOnScreen;
-		}
+		// COLORS
+		// for each observed attribute that contains the word "color",
+		// set the style property of the corresponding css variable to the value of the attribute
+		ConceptBubble.observedAttributes.forEach((attr) => {
+			if (attr.includes("color")) {
+				this.refs.container.style.setProperty(
+					`--${attr}`,
+					this.getAttribute(attr),
+				);
+			}
+		});
 	}
 }
 customElements.define("concept-bubble", ConceptBubble);
