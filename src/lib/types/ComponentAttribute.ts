@@ -1,9 +1,12 @@
-export interface ComponentAttribute {
+let key: string;
+
+export class ComponentAttribute {
 	[key: string]: unknown;
-	name: string;
-	description: string;
-	type: string;
-	required: boolean;
-	default: string;
-	notes: string;
+	default: string = "";
+	description: string = "";
+	example: string = "";
+	name: string = "";
+	notes: string = "";
+	required: boolean = false;
+	type: string = "";
 }
