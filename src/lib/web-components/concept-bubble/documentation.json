@@ -1,82 +1,101 @@
 {
 	"name": "Concept Bubble",
 	"slug": "concept-bubble",
-	"example": "<concept-bubble\n  caption=\"\"\n  concept=\"Marketing Website\"\n  color-accent=\"lightblue\"\n  color-background=\"rgb(255 255 255 / .05)\"\n  color-border=\"lightblue\"\n  color-secondary=\"#142239\"\n  info=\"test\"\n  show-color-swatch />",
+	"example": "<concept-bubble\n  caption=\"\"\n  color-accent=\"lightblue\"\n  color-background=\"rgb(255 255 255 / .05)\"\n  color-border=\"lightblue\"\n  color-secondary=\"#142239\"\n  color-swatch=\"lightblue\"\n  content-caption=\"dolor sit amet\"\n  content-concept=\"Marketing Website\"\n  content-info=\"test\"\n />",
+	"innerTemplate": "<span id=\"container\"\n\t<span id=\"concept\"></span>\n\t<span id=\"caption\"></span>\n\t<span id=\"icon\">i\n      <span id=\"info\"></span>\n    </span>\n</span>",
 	"published": true,
-	"self_closing": true,
+	"selfClosing": true,
 	"description": "Web component that displays a heading inside a bubble for use in a concept map or similar. ",
 	"attributes": [
 		{
-			"name": "color-accent",
-			"description": "",
-			"type": "string",
-			"required": false,
 			"default": "lightblue",
-			"notes": ""
+			"description": "color of tooltip icon hover state",
+			"example": "lightblue",
+			"name": "color-accent",
+			"notes": "",
+			"required": false,
+			"type": "string"
 		},
 		{
+			"default": "transparent",
+			"description": "background color for the bubble",
+			"example": "rgb(255 255 255 / .05)",
 			"name": "color-background",
-			"description": "",
-			"type": "string",
+			"notes": "",
 			"required": false,
-			"default": "rgb(255 255 255 / .05)",
-			"notes": ""
+			"type": "string"
 		},
 		{
+			"default": "transparent",
+			"description": "color of outer border of bubble",
+			"example": "lightblue",
 			"name": "color-border",
-			"description": "",
-			"type": "string",
+			"notes": "",
 			"required": false,
-			"default": "currentColor",
-			"notes": ""
+			"type": "string"
 		},
 		{
+			"default": "currentColor",
+			"description": "color of primary text inside bubble",
+			"example": "",
 			"name": "color-primary",
-			"description": "",
-			"type": "string",
+			"notes": "",
 			"required": false,
-			"default": "currentColor",
-			"notes": ""
+			"type": "string"
 		},
 		{
-			"name": "color-secondary",
-			"description": "",
-			"type": "string",
-			"required": false,
 			"default": "#142239",
-			"notes": ""
+			"description": "color of text inside tooltip",
+			"example": "",
+			"name": "color-secondary",
+			"notes": "",
+			"required": false,
+			"type": "string"
 		},
 		{
-			"name": "concept",
-			"description": "The caption to display after the number. For example, the number might be 100% and the text might be 'year over year increase in revenue'.",
-			"type": "string",
+			"default": "transparent",
+			"description": "color of swatch at bottom of bubble",
+			"example": "lightblue",
+			"name": "color-swatch",
+			"notes": "",
 			"required": false,
-			"default": "",
-			"notes": "The default will be an empty string if the attribute is not specified."
+			"type": "string"
 		},
 		{
-			"name": "caption",
-			"description": "",
-			"type": "string",
-			"required": false,
 			"default": "",
-			"notes": ""
+			"description": "secondary text inside bubble",
+			"example": "dolor sit amet",
+			"name": "content-caption",
+			"notes": "",
+			"required": false,
+			"type": "string"
 		},
 		{
-			"name": "info",
-			"description": "",
-			"type": "string",
-			"required": false,
 			"default": "",
-			"notes": ""
+			"description": "primary text inside bubble",
+			"example": "Hello World",
+			"name": "content-concept",
+			"notes": "The default will be an empty string if the attribute is not specified.",
+			"required": false,
+			"type": "string"
 		},
 		{
-			"name": "show-color-swatch",
-			"description": "",
-			"type": "string",
-			"required": false,
 			"default": "",
-			"notes": ""
+			"description": "text inside tooltip",
+			"example": "test",
+			"name": "content-info",
+			"notes": "",
+			"required": false,
+			"type": "string"
+		},
+		{
+			"name": "content-stylesheet",
+			"default": "",
+			"description": "inject css inside the component stylesheet",
+			"example": "",
+			"notes": "",
+			"required": false,
+			"type": "string"
 		}
 	]
 }
