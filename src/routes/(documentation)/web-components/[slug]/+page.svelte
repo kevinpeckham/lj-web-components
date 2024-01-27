@@ -1,23 +1,27 @@
 <!--
 @component
-Here's some documentation for this component.
+Web component documentation page
 -->
 
 <script lang="ts">
-	// import copy button class
-	// customElements.define("copy-button", CopyButton);
+	// context api
+	import { setContext } from "svelte";
+
+	// store api
+	import { writable } from "svelte/store";
+
+	// components
+	import AttributesGrid from "$components/AttributesGrid.svelte";
+	import CodeBlock from "$components/CodeBlock.svelte";
 
 	// types
+	/* global WcDocumentation */
 	import type { PageData } from "./$types";
-	interface Attribute {
-		[key: string]: unknown;
-		name: string;
-		description: string;
-		type: string;
-		optional: boolean;
-		default: string;
-		notes: string;
-	}
+
+	// utils
+	import buildExampleHTML from "$utils/wcDoc_buildExampleHTML";
+	import buildExampleScript from "$utils/wcDoc_buildExampleScript";
+	import sanitizeExampleHTML from "$utils/wcDoc_sanitizeExampleHTML";
 
 	// data
 	export let data: PageData;
@@ -26,139 +30,45 @@ Here's some documentation for this component.
 	let textarea: HTMLTextAreaElement;
 
 	// variables
-	$: attributes = data?.documentation?.attributes ?? [];
+	$: documentation = data.documentation as WcDocumentation;
+	$: attributes = documentation.attributes ?? [];
 	$: attributeNames = attributes.map((v) => v.name) ?? [];
-	$: slug = data.slug ?? ""; // same as wb tag name
+	$: slug = data.slug ?? "";
+	$: exampleHTML = buildExampleHTML(documentation) ?? "";
 
-	// settings
-	$: sanitizeOptions = {
-		tag: data.slug,
-		singleElement: true,
-		selfClosing: data?.documentation?.self_closing ?? false,
-		approvedAttributes: attributeNames ?? [],
-	};
-	type SanitizeOptions = typeof sanitizeOptions;
+	// put the documentation in context
+	$: setContext("documentation", data.documentation);
 
-	let textAreaValue: string = data.documentation?.example ?? "";
-	let sanitizedValue = textAreaValue;
-	// $: specialMarks = textAreaValue.replace(/ /g, "•").replace(/[^•\n]/g, " ");
-	// $: textAreaHeight = textarea?.scrollHeight ?? 0;
-	$: textAreaHeight = (textAreaValue.match(/\n/g)?.length ?? 0) + 1;
-	// $: console.log({ match });
-	// $: textAreaHeight = 4;
-	// $: console.log({ textAreaHeight });
+	// create a store for the script content and put it in context
+	$: scriptContentStore = writable(buildExampleScript(slug));
+	$: setContext("scriptContentStore", scriptContentStore);
 
-	function scrubString(str: string) {
-		// remove new lines
-		//str = str.replace(/\n/g, "");
+	// create a store for the html content and put it in context
+	// prettier-ignore
+	$: htmlContentStore = writable(exampleHTML);
+	$: setContext("htmlContentStore", htmlContentStore);
 
-		// remove double spaces
-		//str = str.replace(/\s{2,}?/g, " ");
+	// initial display value is the example html
+	$: sanitizedValue = exampleHTML;
 
-		// remove characters not allowed in plain text plus common text formatting characters
-		str = str.replace(/[^a-zA-Z0-9!@#$%^&*()_+\-[\]<>{};:\\|,./? "'`]/g, "");
-
-		return str;
-	}
-
-	function sanitizeHTML(html: string, options: SanitizeOptions) {
-		// create container to hold web component
-		const container = document.createElement("div");
-
-		// insert html into container
-		container.insertAdjacentHTML("beforeend", html);
-
-		// find web component
-		const el = container.querySelector(options.tag);
-
-		// find web component textContent
-		const elText = el?.textContent ?? "";
-
-		// define approved attributes
-		const approvedAttributes = [
-			...(options.approvedAttributes ?? []),
-			"aria-hidden",
-			"id",
-			"style",
-			"class",
-		].toSorted();
-
-		// is self closing
-		const isSelfClosing = options.selfClosing ?? false;
-
-		// open and close tag
-		const openTag = `<${options.tag ?? ""}`;
-		const closeTag = isSelfClosing ? " />" : `</${options.tag ?? ""}>`;
-
-		// build attributes array
-		const attributesArray = approvedAttributes.map((att) =>
-			el?.hasAttribute(att) ? `\n  ${att}="${el.getAttribute(att)}"` : "",
-		);
-
-		// filter empty strings
-		const attributesFiltered = attributesArray.filter((v) => v !== "");
-
-		// build attributes string from array
-		const attributesString = attributesFiltered.join("");
-
-		// build template
-		const template = `${openTag}${attributesString}${elText}${closeTag}`;
-
-		return template ?? "";
-	}
-	// on change sanitize the text area value
-	function onChange(event: InputEvent) {
-		textarea.selectionStart = 0;
-		const sanitized = sanitizeHTML(textAreaValue, sanitizeOptions);
-		sanitizedValue = sanitized ? sanitized : textAreaValue;
-	}
-	// on blur reset the text area value to the sanitized value
-	function onBlur(event: FocusEvent) {
-		const sanitized = sanitizeHTML(textAreaValue, sanitizeOptions);
-		textAreaValue = sanitized ? sanitized : textAreaValue;
-	}
-	// on focus select all text
-	function onFocus(event: FocusEvent) {
-		const target = event.target as HTMLTextAreaElement;
-		target.select();
-		// target.selectionStart = 0;
-		// target.selectionEnd = target?.textContent?.length ?? 0;
-	}
-
-	// on key down prevent the tab key from moving focus
-	function onKeyDown(event: KeyboardEvent) {
-		if (event.key === "Tab") {
-			// prevent default
-			event.preventDefault();
-
-			// get cursor position
-			const position = textarea.selectionStart;
-
-			// instert two spaces at cursor position
-			const inserted =
-				textAreaValue.slice(0, position) + "  " + textAreaValue.slice(position);
-
-			// update text area value
-			textarea.value = inserted;
-
-			// reset cursor position
-			textarea.selectionEnd = textarea.selectionStart = position + 2;
-
-			textAreaValue = textarea.value;
+	// when the html content store changes
+	// sanitize the value and update the sanitized value
+	$: {
+		if ($htmlContentStore != exampleHTML) {
+			const sanitized = sanitizeExampleHTML(
+				$htmlContentStore,
+				data.documentation,
+			);
+			if (sanitizedValue != sanitized) {
+				sanitizedValue = sanitized ?? "";
+			}
 		}
-	}
-
-	// on key up update sanitized value
-	function onKeyUp(event: KeyboardEvent) {
-		const sanitized = sanitizeHTML(textAreaValue, sanitizeOptions);
-		sanitizedValue = sanitized ? sanitized : textAreaValue;
 	}
 </script>
 
 <template lang="pug">
 	header.page-x-padding.pt-8
-		h1(
-			class="text-[2em]") { data.documentation.name }
+		h1.text-32 { data.documentation.name }
 		p.opacity-85.max-w-lg { data.documentation.description }
 
 	main.page-x-padding.main-y-padding.grid.grid-cols-1.gap-y-8(
@@ -171,86 +81,22 @@ Here's some documentation for this component.
 				h2.mb-2 Script
 				span(
 					class="italic opacity-80 text-[.9em]") (add to page header)
-			div(
-				class=`
-					bg-black/20
-					grid
-					grid-cols-[minmax(0,_1fr)_auto]
-					items-start
-					justify-between
-					overflow-hidden
-					pl-4
-					pr-2
-					py-2
-					relative
-					rounded-md
-					text-[.9em]
-					w-full
-					focus-within:ring-2`)
-				pre.w-full.h-full.flex.items-center.overflow-hidden
-					code#script-code(
-						class=`
-							flex-auto
-							bg-transparent
-							text-blue-200
-							w-full`,
-						contenteditable="false")
-						div &lt;script async type="module" src="https://cdn.lj.dev/e/wc/{ slug }.min.js"&gt;&lt;/script&gt;
-				copy-button.flex-none(
-					data-accent-color="#ebf92f",
-					data-target-selector="#script-code",
-					data-title="copy to clipboard")
+			CodeBlock(
+				contentEditable!="{ false }",
+				contentStore!="{ scriptContentStore }",
+				id="script-code")
 
 		//- textarea
 		section
 			div(
 				class="flex gap-x-[.5em] items-baseline")
-				h2.mb-2 HTML
+				h2.mb-2 Example HTML
 				span(
-					class="italic opacity-80 text-[.9em]") ( editable )
-			div(
-				class=`
-					bg-black/20
-					grid
-					grid-cols-[minmax(0,_1fr)_auto]
-					items-start
-					justify-between
-					pl-4
-					pr-2
-					py-2
-					relative
-					rounded-md
-					text-[.9em]
-					w-full
-					focus-within:ring-2`)
-				pre.w-full.h-full.flex.items-center
-					code(
-						class=`
-							flex-auto
-							bg-transparent
-							h-full
-							text-blue-200
-							w-full`)
-						//- prettier-ignore
-						textarea#html-code(
-							class=`
-								bg-transparent
-								block
-								resize-none
-								w-full
-								outline-none`,
-							bind:this!="{ textarea }",
-							bind:value!="{ textAreaValue }",
-							on:blur!="{ onBlur }",
-							on:change!="{ onChange }",
-							on:keydown!="{ onKeyDown }",
-							on:keyup!="{ onKeyUp }",
-							spellcheck="true",
-							style!="height: { textAreaHeight * 1.5 }em")
-				copy-button.flex-none(
-					data-accent-color="#ebf92f",
-					data-target-selector="#html-code",
-					data-title="copy to clipboard")
+					class="italic opacity-80 text-[.9em]") ( editable - try it out! )
+			CodeBlock(
+				contentEditable="true",
+				contentStore!="{ htmlContentStore }",
+				id="html-code")
 
 		//- web component
 		section
@@ -260,4 +106,21 @@ Here's some documentation for this component.
 			div.p-3.rounded(
 				class="bg-white/5")
 				+html('sanitizedValue')
+
+		//- settings & attributes
+		+if('documentation.attributes.length > 0')
+			section
+				div.flex.gap-1.px-2
+					h2.mb-2 Settings &amp; Attributes
+				AttributesGrid
+
+		//- component inner template
+		+if('data.documentation.innerTemplate')
+		section
+			div.flex.gap-1.px-2
+				h2.mb-2 Web Component Inner Template
+			pre(
+				class="bg-black/20 p-4 rounded-xl text-14 h-auto")
+				| { documentation.innerTemplate }
+
 	|</template>
