@@ -7,7 +7,7 @@
 // import store functions and types
 import { readable, derived } from "svelte/store";
 
-import type { ComponentDocumentation } from "$types/ComponentDocumentation";
+import type { ComponentDocumentation } from "$types/WcDocumentation";
 
 const filesStore = readable(
 	import.meta.glob(["/src/lib/web-components/**/documentation.json"], {
