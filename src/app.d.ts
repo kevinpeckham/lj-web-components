@@ -11,8 +11,8 @@ import type { Readable, Writable } from "svelte/store";
 import type { WcDocumentationStore } from "$stores/wcDocumentationStore.server";
 import type { WcSourceFilesStore } from "$stores/wcSourceFilesStore.server";
 import type { WcProductionFilesStore } from "$stores/wcProductionFilesStore.server";
-import type { ComponentDocumentation as _ComponentDocumentation } from "$types/ComponentDocumentation";
-import type { ComponentAttribute as _ComponentAttribute } from "$types/ComponentAttribute";
+import type { WcDocumentation as _WcDocumentation } from "$types/WcDocumentation";
+import { ComponentAttribute as _ComponentAttribute } from "$types/ComponentAttribute";
 
 // import utils
 import { error } from "@sveltejs/kit";
@@ -45,8 +45,8 @@ interface Settings {
 }
 
 declare global {
-	interface ComponentDocumentation extends _ComponentDocumentation {}
-	interface ComponentAttribute extends _ComponentAttribute {}
+	interface WcDocumentation extends _WcDocumentation {}
+	class ComponentAttribute extends _ComponentAttribute {}
 	declare namespace App {
 		interface Locals {
 			content: Content;
