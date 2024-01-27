@@ -1,13 +1,13 @@
 import type { ComponentAttribute } from "$types/ComponentAttribute";
 
-export interface ComponentDocumentation {
+export interface WcDocumentation {
 	attributes: ComponentAttribute[];
 	description: string;
 	example: string;
 	name: string;
 	published: boolean;
 	tags: string[];
-	self_closing: boolean;
+	selfClosing: boolean;
 	slug: string;
 	notes?: string;
 }
