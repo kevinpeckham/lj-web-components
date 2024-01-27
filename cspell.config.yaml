@@ -8,6 +8,7 @@ dictionaryDefinitions: null
 dictionaries: null
 enableCompoundWords: true
 words:
+  - amet
   - brotli
   - deslugify
   - fnames
