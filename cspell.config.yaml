@@ -10,10 +10,12 @@ enableCompoundWords: true
 words:
   - amet
   - brotli
+  - clazz
   - deslugify
   - fnames
   - gzipped
   - noopener
+  - OAGS
   - pako
   - splunges
   - srgb
