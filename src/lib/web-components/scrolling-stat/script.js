@@ -30,7 +30,7 @@ class ScrollingStat extends HTMLElement {
 	#startTime = 0; // start time of the animation
 	#start = 0; // number to start the animation from
 	#end = 99; // number to end the animation at
-	#duration = Number(ScrollingStat.customAttributes["animation-duration"]); // duration of the animation
+	#duration = 0; // duration of the animation
 
 	// TEMPLATE
 	// define elements here
@@ -86,8 +86,8 @@ class ScrollingStat extends HTMLElement {
 		// attribute, default
 		const values = [
 			["animation-duration", "800"],
-			["animation-value-end", "99"],
-			["animation-value-start", "0"],
+			["animation-value-end", "199"],
+			["animation-value-start", "2"],
 		];
 
 		// convert values to obj
@@ -285,6 +285,42 @@ class ScrollingStat extends HTMLElement {
 	static places(str, limit = 2) {
 		return Math.min((str.split(".")[1] || "").length, limit);
 	}
+	/**
+	 * Scrub a number string.
+	 * @param {string} str
+	 * @param {number} [limit]*/
+	static scrubNumberString(str, limit) {
+		// return empty string if str is falsy
+		if (!str) return "";
+
+		// remove illegal characters
+		const s1 = str.toString().replace(/[^\d-.]+?/g, "") ?? "";
+
+		// deal with more than 1 negative symbol
+		const s2 = s1.includes("-")
+			? "-" + s1.split("-")[s1.split("-").length - 1]
+			: s1;
+
+		// deal with more than 1 dot
+		const s3 = s2.includes(".")
+			? `${s2.split(".")[0]}.${s2.split(".")[1]}`
+			: s2;
+
+		// if decimal places limit is provided, then apply limit
+		limit = limit && typeof limit === "number" ? limit : undefined;
+		const split = s3.split(".");
+		const length = split[1]?.length ?? 0;
+		const s4 =
+			limit && length > limit
+				? `${split[0]}.${split[1].substring(0, limit)}`
+				: s3;
+
+		// make sure the result is a number not "-" or "."
+		const s5 = parseFloat(s4 ?? "") ? parseFloat(s4 ?? "") : "";
+
+		// return with one more fallback just in case
+		return s5.toString() ?? "";
+	}
 
 	// CONSTRUCTOR
 	constructor() {
@@ -297,7 +333,8 @@ class ScrollingStat extends HTMLElement {
 			Object.defineProperty(this, attrCamel, {
 				get: function () {
 					// coerce to string in case the attribute is a number
-					return this.getAttribute(attr).toString();
+					//console.log("get", this.getAttribute(attr));
+					return this.getAttribute(attr) ?? "";
 				},
 				set: function (value) {
 					this.setAttribute(attr, value);
@@ -355,7 +392,13 @@ class ScrollingStat extends HTMLElement {
 		this.#end = value;
 	}
 	updateEnd() {
-		this.end = parseFloat(this.animationValueEnd) ?? 99;
+		const fallback = ScrollingStat.customAttributes["animation-value-end"];
+		const raw = this.animationValueEnd;
+		const scrubbed = ScrollingStat.scrubNumberString(raw, 2);
+		const num = scrubbed
+			? parseFloat(scrubbed) ?? fallback
+			: parseFloat(fallback);
+		this.end = num;
 	}
 
 	// getter and setter and updater for start -- private variable
@@ -366,10 +409,13 @@ class ScrollingStat extends HTMLElement {
 		this.#start = value;
 	}
 	updateStart() {
+		const end = this.end;
+		const fallback = ScrollingStat.customAttributes["animation-value-start"];
+		const fb = (Math.abs(end) > 49 ? 0 : end > 0 ? 99 : -99) ?? fallback;
 		const raw = this.animationValueStart;
-		const end = this.end ?? 99;
-		const fb = () => (Math.abs(end) > 49 ? 0 : end > 0 ? 99 : -99);
-		this.start = raw ? parseFloat(raw) ?? 0 : fb();
+		const scrubbed = ScrollingStat.scrubNumberString(raw, 2);
+		const num = scrubbed ? parseFloat(scrubbed) ?? fb : fb;
+		this.start = num;
 	}
 
 	// getter and setter and updater for duration -- private variable
@@ -380,10 +426,13 @@ class ScrollingStat extends HTMLElement {
 		this.#duration = value;
 	}
 	updateDuration() {
-		const raw = parseInt(this.animationDuration);
-		const def = parseInt(ScrollingStat.customAttributes["animation-duration"]);
-		if (raw) this.duration = raw;
-		else this.duration = def ?? 600;
+		const fallback = parseInt(
+			ScrollingStat.customAttributes["animation-duration"],
+		);
+		const raw = this.animationDuration;
+		const scrubbed = ScrollingStat.scrubNumberString(raw, 2);
+		const num = scrubbed ? Math.abs(parseInt(scrubbed)) ?? fallback : fallback;
+		this.duration = num;
 	}
 
 	// updaters
