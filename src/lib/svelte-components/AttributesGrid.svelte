@@ -14,7 +14,7 @@ Here's some documentation for this component.
 	$: attributes = documentation.attributes ?? [];
 
 	// columns
-	const columns = ["Name", "Type", "Default", "Description"];
+	const columns = ["Name", "Default", "Description"];
 </script>
 
 <template lang="pug">
@@ -23,7 +23,7 @@ Here's some documentation for this component.
 					font-mono
 					text-15
 					grid
-					grid-cols-[minmax(16ch,auto)_10ch_minmax(16ch,auto)_minmax(20ch,1fr)]
+					grid-cols-[minmax(16ch,auto)_minmax(16ch,auto)_minmax(20ch,1fr)]
 					outline
 					outline-1
 					overflow-hidden
