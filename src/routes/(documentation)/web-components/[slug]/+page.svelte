@@ -28,6 +28,17 @@ Web component documentation page
 
 	// refs
 	let textarea: HTMLTextAreaElement;
+	let wcContainer: HTMLDivElement;
+
+	$: wc = wcContainer?.querySelector(`${slug}`);
+	$: wcConstructor = wc?.constructor;
+	$: wcTemplate =
+		wcConstructor?.els
+			// replace tabs and newlines before first start tag on each line
+			.replace(/^[ \n\t]*?</gm, "<")
+			// replace "content" keyword
+			.replace(/ content/g, "") ?? "";
+	// TODO indent inner tags...
 
 	// variables
 	$: documentation = data.documentation as WcDocumentation;
@@ -104,7 +115,8 @@ Web component documentation page
 				h2.mb-2 Web Component Preview
 				//-span (add to page header)
 			div.p-3.rounded(
-				class="bg-white/5")
+				class="bg-white/5",
+				bind:this!="{ wcContainer }")
 				+html('sanitizedValue')
 
 		//- settings & attributes
@@ -121,6 +133,6 @@ Web component documentation page
 				h2.mb-2 Web Component Inner Template
 			pre(
 				class="bg-black/20 p-4 rounded-xl text-14 h-auto")
-				| { documentation.innerTemplate }
+				| { documentation.innerTemplate ?? wcTemplate }
 
 	|</template>
