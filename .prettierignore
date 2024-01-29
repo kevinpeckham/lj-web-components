@@ -26,3 +26,7 @@ README.md
 
 # minified js files
 *.min.js
+
+# wc files
+/**/*.js
+script.js
