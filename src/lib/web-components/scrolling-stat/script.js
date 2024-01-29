@@ -1,6 +1,6 @@
 /** @copyright 2024 Lightning Jar - "Scrolling Stat" web component - License MIT */
 /** @license MIT */
-/** @version 0.0.1 */
+/** @version 0.0.2 */
 /** {@link https://lj-cdn.dev/web-components/scrolling-stat} */
 
 /**
@@ -10,6 +10,8 @@
  * @classdesc Defines web component that displays a number that counts up when it is scrolled into view.
  */
 class ScrollingStat extends HTMLElement {
+// reference to class itself
+get c() { return ScrollingStat };
 
 // initialize animation variables
 animationDuration = "0";
@@ -22,8 +24,11 @@ animationValueEnd = "0";
 #start = 0; // number to start the animation from
 #end = 99; // number to end the animation at
 #duration = 0; // duration of the animation
+#places = 0; // number of decimal places to display
 
 // ATTRIBUTES
+
+
 /**
  * Returns an object. The keys are prop names and the values are objects with default, example, and description properties.
  * @returns { { [key:string]: { default: string, example: string, description: string} } }
@@ -43,9 +48,14 @@ static get attributes() {
     ["content-caption","","widgets per lorem","caption displayed after number",],
     ["content-stylesheet", "", "", "inject css into stylesheet"],
   ];
+
   // convert values to obj
   const obj = values.reduce(
-    (acc, v) => ({...acc, [v[0]]: { default: v[1], example: v[2], description: v[3] }}),
+    (acc, v) => ({...acc, [v[0]]:
+      (v[2] && v[3]) ?
+      { default: v[1], example: v[2], description: v[3] } :
+      { default: v[1] }
+    }),
     {},
   );
   return obj;
@@ -60,19 +70,40 @@ static getDefault(prop) {
   return this.attributes[prop]?.default ?? "";
 }
 
+// GETTERS AND SETTERS
+/**
+ * Creates Observed Attribute Getters and Setters.
+ * @param {*} x = context
+ * @returns {void}
+ * */
+static createOAGS(x) {
+  for (let attr of this.observedAttributes) {
+		const def = this.getDefault(attr);
+    Object.defineProperty(x, this.kebabToCamel(attr), {
+      get: function () {
+        return x.getAttribute(attr) ?? def;
+      },
+      set: function (value) {
+        if (typeof value === 'string') x.setAttribute(attr, value);
+      },
+    });
+  }
+}
+
 // ELEMENTS
 static get els() {
 return `
 <style id="stylesheet"></style>
 <span id="container">
-  <span id="animation">0</span>
+  <span id="animation"></span>
   <span id="suffix"></span>
-  <span id="caption">&nbsp;</span>
+  <span id="caption"></span>
 </span>`.trim();
 }
 
 // STYLES
-static styles = `
+static get styles() {
+return `
 <style>
 host:, * { margin:0; box-sizing:border-box ; }
 #container {
@@ -104,7 +135,8 @@ host:, * { margin:0; box-sizing:border-box ; }
   line-height:1.3;
   opacity:.9;
 }
-</style>`;
+</style>`
+};
 
 // TEMPLATE
 static get template() {
@@ -141,21 +173,28 @@ static getRefs(x) {
 // COLORS
 /** @param {*} x = context */
 static setAllColors(x) {
-  this.observedAttributes.forEach((attr) => {
-    if (attr.includes("color")) {
-      x.refs.container.style.setProperty(`--${attr}`, x.getAttribute(attr));
-    }
-  });
+	const attrs = this.observedAttributes.filter((attr) => attr.includes("color-"));
+	/** @type {HTMLElement | null} */
+	const container = x.refs.container;
+	if (container) {
+  attrs.forEach((attr) => container.style.setProperty(`--${attr}`, x.getAttribute(attr)));
+	}
 }
 
 // TEXT
 /** @param {*} x = context */
 static setAllText(x) {
-  this.observedAttributes.forEach((attr) => {
-    if (attr.includes("content")) {
-      x.refs[attr.split("-")[1]].textContent = x.getAttribute(attr);
-    }
-  });
+	// get all attributes that start with "content-"
+	const attrs = this.observedAttributes.filter((attr) => attr.includes("content-"));
+	attrs.forEach((attr) => {
+			const key = attr.split("-")[1];
+			/** @type { (HTMLElement | null) } el */
+			const el = x.refs[key];
+			if (key && el) {
+				el.textContent = x.getAttribute(attr) ?? "";
+			}
+	});
+
 }
 
 // TWEEN
@@ -198,7 +237,8 @@ static tween(x) {
    * Get the number of decimal places in a string representation of a number.
    * @param {string} str */
   static places(str, limit = 2) {
-    return Math.min((str.split(".")[1] || "").length, limit);
+		if (!str) return 0;
+    return Math.min((str.split(".")[1] ?? "")?.length, limit);
   }
   /**
    * Scrub a number string.
@@ -218,9 +258,9 @@ static tween(x) {
     cleanedStr = cleanedStr.replace(/(?!^)-+/g, "").replace(/\.(?=.*\.)/g, "");
 
     // Apply decimal place limit if provided
-    if (typeof limit === "number") {
-        const parts = cleanedStr.split(".");
-        if (parts[1]) {
+    if (typeof limit === "number" && limit > 0) {
+        const parts = cleanedStr?.split(".");
+        if (parts.length > 1) {
             cleanedStr = parts[0] + "." + parts[1].substring(0, limit);
         }
     }
@@ -235,45 +275,34 @@ static tween(x) {
     super();
 
     // programattically create getters and setters for each observed attribute
-    // our getters and setters will use the camelCase version of the attribute name
-    for (let attr of ScrollingStat.observedAttributes) {
-      const attrCamel = ScrollingStat.kebabToCamel(attr);
-      Object.defineProperty(this, attrCamel, {
-        get: function () {
-          return this.getAttribute(attr) ?? ScrollingStat.getDefault(attr);
-        },
-        set: function (value) {
-          this.setAttribute(attr, value);
-        },
-      });
-    }
+    this.c.createOAGS(this);
 
     // create a shadow root
     this.attachShadow({ mode: "open" });
 
     // create a template
-    const template = ScrollingStat.template;
+    const template = this.c.template;
 
     // append the template content to the shadow DOM
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
 
     // define refs elements
-    this.refs = ScrollingStat.getRefs(this);
+    this.refs = this.c.getRefs(this);
 
     // binding the parent context to the methods
     this.connectedCallback = this.connectedCallback.bind(this);
     this.observerCallback = this.observerCallback.bind(this);
   }
 
-  // getter and setter for animation start time -- private variable
+  // getter and setter and reset for #startTime -- private variable
   get startTime() {
     return this.#startTime;
   }
   set startTime(value) {
-    this.#startTime = value;
+    if (value && typeof value  === "number") this.#startTime = value;
   }
   resetStartTime() {
-    this.#startTime = 0;
+    this.startTime = 0;
   }
 
   // getter and setter for isOnScreen -- private variable
@@ -282,11 +311,11 @@ static tween(x) {
   }
   /** @param {boolean} value */
   set isOnScreen(value) {
-    this.#isOnScreen = value;
+    if (typeof value  === "boolean") this.#isOnScreen = value;
     // when the element is scrolled into view, reset the start time and start the tween
-    if (value) {
+    if (value === true) {
       this.#startTime = 0;
-      ScrollingStat.tween(this);
+      this.c.tween(this);
     }
   }
 
@@ -295,51 +324,46 @@ static tween(x) {
     return this.#end;
   }
   set end(value) {
-    this.#end = value;
+    if (typeof value === "number") this.#end = value;
   }
-updateEnd() {
-  const fallback = ScrollingStat.getDefault("animation-value-end");
-  const raw = this.animationValueEnd;
-  const scrubbed = ScrollingStat.scrubNumberString(raw, fallback, 2);
-  const num = parseFloat(scrubbed);
-  this.end = num;
-}
+  updateEnd() {
+    const fallback = this.c.getDefault("animation-value-end");
+    this.end = this.start = parseFloat(this.c.scrubNumberString(this.animationValueEnd, `${fallback}`, 2));
+  }
 
   // getter and setter and updater for start -- private variable
   get start() {
     return this.#start;
   }
   set start(value) {
-    this.#start = value;
+		if (typeof value === "number") this.#start = value;
   }
   updateStart() {
-    const end = this.end;
-    const fallback = ScrollingStat.getDefault("animation-value-start");
-    const fb = (Math.abs(end) > 49 ? 0 : end > 0 ? 99 : -99) ?? fallback;
-    const raw = this.animationValueStart;
-    const scrubbed = ScrollingStat.scrubNumberString(raw, `${fb}`, 2);
-    const num = parseFloat(scrubbed);
-    this.start = num;
-  }
+    const fallback = this.c.getDefault("animation-value-start");
+    this.start = parseFloat(this.c.scrubNumberString(this.animationValueStart, `${fallback}`, 2));
+}
 
   // getter and setter and updater for duration -- private variable
   get duration() {
     return this.#duration;
   }
   set duration(value) {
-    this.#duration = value;
+		if (typeof value === "number") this.#duration = value;
   }
   updateDuration() {
-    const fallback = ScrollingStat.getDefault("animation-duration");
-    const raw = this.animationDuration;
-    const scrubbed = ScrollingStat.scrubNumberString(raw, fallback, 2);
-    const num = Math.abs(parseInt(scrubbed));
-    this.duration = num;
+    const fallback = this.c.getDefault("animation-duration");
+    this.duration = Math.abs(parseInt(this.c.scrubNumberString(this.animationDuration, `${fallback}`, 0)));
   }
 
-  // updaters
+   // getter and setter and updater for places -- private variable
+	 get places() {
+    return this.#places;
+  }
+  set places(value) {
+		if (typeof value === "number") this.#places = value;
+  }
   updatePlaces() {
-    this.places = ScrollingStat.places(this.animationValueEnd);
+    this.places = this.c.places(this.animationValueEnd);
   }
 
   /**
@@ -356,8 +380,8 @@ updateEnd() {
     this.resetStartTime();
   }
   resetContent() {
-    ScrollingStat.setAllText(this);
-    ScrollingStat.setAllColors(this);
+    this.c.setAllText(this);
+    this.c.setAllColors(this);
   }
 
   // LIFECYCLE METHODS
