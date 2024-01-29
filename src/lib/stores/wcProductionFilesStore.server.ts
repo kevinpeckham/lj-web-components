@@ -47,7 +47,6 @@ export const wcProductionFilesStore = derived(
 			const stylesScrubbed = scrubStyles(sourceText);
 
 			// scrub the templates inside the source text
-			//!! problem is here
 			const templatesScrubbed = scrubTemplates(stylesScrubbed);
 
 			// replace tabs with single spaces
