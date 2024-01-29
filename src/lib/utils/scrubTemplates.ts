@@ -8,12 +8,13 @@ export function scrubTemplates(str: string): string {
 	if (templateMatch) {
 		for (const match of templateMatch) {
 			const styleScrubbed = match
+
 				.replaceAll(new RegExp(String.raw`\\t+?`, "g"), "")
-				.replaceAll(/(?:\n|\\n)+?/g, "") // remove newlines
-				.replaceAll(/(?:\t|\\t)+?/g, " ") // remove tabs
-				.replaceAll(/(?:\s){2,}/g, " "); // remove double+ spaces
-			// .replaceAll(/(?:([;:{}>])\s)+?/g, "$1") // remove single space after [;:{}>]
-			// .replaceAll(/(?:;})/g, "}"); // remove single semicolon before closing bracket
+				//!! problem in next line
+				//.replaceAll(/(?:\n|\\n)+?/g, "") // remove newlines
+				.replaceAll(/(?:\t|\\t)+?/g, " "); // remove tabs
+			//!! problem in next line
+			//.replaceAll(/(?:\s){2,}/g, " "); // remove double+ spaces
 			str = str.replace(match, styleScrubbed);
 		}
 	}

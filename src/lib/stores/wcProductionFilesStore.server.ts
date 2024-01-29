@@ -47,6 +47,7 @@ export const wcProductionFilesStore = derived(
 			const stylesScrubbed = scrubStyles(sourceText);
 
 			// scrub the templates inside the source text
+			//!! problem is here
 			const templatesScrubbed = scrubTemplates(stylesScrubbed);
 
 			// replace tabs with single spaces
@@ -58,7 +59,9 @@ export const wcProductionFilesStore = derived(
 			// minify the text
 			const minText = minify_sync(spacesReplaced, options);
 
-			return { name: name, min: minText?.code ?? "", max: sourceText };
+			const min = minText?.code ?? "";
+
+			return { name: name, min: min, max: sourceText };
 		});
 
 		return scrubbed;

@@ -178,7 +178,11 @@ class ScrollingStat extends HTMLElement {
 
 	// OBSERVED ATTRIBUTES
 	static get observedAttributes() {
-		return [...this.#customProps, ...this.#contentProps, ...this.#colorProps];
+		// prettier-ignore
+		return [
+			...this.#customProps,
+			...this.#contentProps,
+			...this.#colorProps];
 	}
 
 	// COLOR
@@ -212,12 +216,11 @@ class ScrollingStat extends HTMLElement {
 	}
 	/**
 	 * updates the textContent of elements based on the content attributes
-	 * @param {*} context */
-	static setAllText(context) {
+	 * @param {*} x */
+	static setAllText(x) {
 		this.observedAttributes.forEach((attr) => {
 			if (attr.includes("content")) {
-				context.refs[attr.split("-")[1]].textContent =
-					context.getAttribute(attr);
+				x.refs[attr.split("-")[1]].textContent = x.getAttribute(attr);
 			}
 		});
 	}
@@ -374,7 +377,6 @@ class ScrollingStat extends HTMLElement {
 		return this.#duration;
 	}
 	set duration(value) {
-		console.log("duration", value);
 		this.#duration = value;
 	}
 	updateDuration() {
