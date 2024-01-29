@@ -1,50 +1,99 @@
 {
 	"name": "Scrolling Stat",
 	"slug": "scrolling-stat",
-	"example": "<scrolling-stat\n  animation-duration=\"800\"\n  animation-value-end=\"99\"\n  animation-value-start=\"13\"\n  caption=\"sprockets and stuff\"\n  suffix=\"%\" />",
 	"published": true,
 	"self_closing": true,
 	"description": "Web component that displays a number that counts up or down to another number when the element is scrolled into view.",
 	"attributes": [
 		{
-			"name": "animation-duration",
-			"description": "The duration of the animation in milliseconds.",
-			"type": "string",
-			"required": false,
 			"default": "800",
-			"notes": "The default value is 800 milliseconds if the attribute is not specified."
+			"description": "duration of animation in milliseconds.",
+			"example": "400",
+			"name": "animation-duration",
+			"notes": "",
+			"required": false,
+			"type": "string"
 		},
 		{
-			"name": "animation-value-start",
-			"description": "The number to start counting from.",
-			"type": "string",
-			"required": false,
 			"default": "0",
-			"notes": "The default will be 0 if the attribute is not specified and if they number_end is greater than 49 or less than -49.  If the number_end is between -49 and 49, the default will be either -99 or 99 respectively."
+			"description": "the number to animate from",
+			"example": "0",
+			"name": "animation-value-start",
+			"notes": "The default will be 0 if the attribute is not specified and if they number_end is greater than 49 or less than -49.  If the number_end is between -49 and 49, the default will be either -99 or 99 respectively.",
+			"required": false,
+			"type": "string"
 		},
 		{
-			"name": "animation-value-end",
-			"description": "The number to count to.",
-			"type": "string",
-			"required": false,
 			"default": "99",
-			"notes": "The default will be 99 if the attribute is not specified."
+			"description": "the number to animate to",
+			"example": "101",
+			"name": "animation-value-end",
+			"notes": "The default will be 0 if the attribute is not specified and if they number_end is greater than 49 or less than -49.  If the number_end is between -49 and 49, the default will be either -99 or 99 respectively.",
+			"required": false,
+			"type": "string"
 		},
 		{
-			"name": "caption",
-			"description": "The caption to display after the number. For example, the number might be 100% and the text might be 'year over year increase in revenue'.",
-			"type": "string",
+			"default": "transparent",
+			"description": "color of background",
+			"example": "rgb(255 255 255 / 0.05)",
+			"name": "color-background",
+			"notes": "",
 			"required": false,
-			"default": "",
-			"notes": "The default will be an empty string if the attribute is not specified."
+			"type": "string"
 		},
 		{
-			"name": "suffix",
-			"description": "The unit to display after the number. For example, if the number is 100 and the unit is '%', the number will be displayed as '100%'.",
-			"type": "string",
+			"default": "transparent",
+			"description": "color of border around number",
+			"example": "currentColor",
+			"name": "color-border",
+			"notes": "",
 			"required": false,
+			"type": "string"
+		},
+		{
+			"default": "currentColor",
+			"description": "color of primary text",
+			"example": "currentColor",
+			"name": "color-primary",
+			"notes": "",
+			"required": false,
+			"type": "string"
+		},
+		{
+			"default": "currentColor",
+			"description": "color of secondary text",
+			"example": "",
+			"name": "color-secondary",
+			"notes": "",
+			"required": false,
+			"type": "string"
+		},
+		{
 			"default": "",
-			"notes": "The default will be an empty string if the attribute is not specified."
+			"description": "caption displayed below number",
+			"example": "widgets per lorem",
+			"name": "content-caption",
+			"notes": "",
+			"required": false,
+			"type": "string"
+		},
+		{
+			"default": "",
+			"description": "character(s) displayed after number",
+			"example": "%",
+			"name": "content-suffix",
+			"notes": "",
+			"required": false,
+			"type": "string"
+		},
+		{
+			"default": "",
+			"description": "inject css inside the component stylesheet",
+			"example": "",
+			"name": "content-stylesheet",
+			"notes": "",
+			"required": false,
+			"type": "string"
 		}
 	]
 }

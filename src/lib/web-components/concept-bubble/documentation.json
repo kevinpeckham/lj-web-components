@@ -1,7 +1,6 @@
 {
 	"name": "Concept Bubble",
 	"slug": "concept-bubble",
-	"example": "<concept-bubble\n  caption=\"\"\n  color-accent=\"lightblue\"\n  color-background=\"rgb(255 255 255 / .05)\"\n  color-border=\"lightblue\"\n  color-secondary=\"#142239\"\n  color-swatch=\"lightblue\"\n  content-caption=\"dolor sit amet\"\n  content-concept=\"Marketing Website\"\n  content-info=\"test\"\n />",
 	"innerTemplate": "<span id=\"container\"\n\t<span id=\"concept\"></span>\n\t<span id=\"caption\"></span>\n\t<span id=\"icon\">i\n      <span id=\"info\"></span>\n    </span>\n</span>",
 	"published": true,
 	"selfClosing": true,
