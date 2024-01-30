@@ -9,13 +9,16 @@
  * @class
  * @extends HTMLElement
  * @classdesc Defines web component that displays a number that counts up when it is scrolled into view.
-
- * @param {HTMLDivElement} container The container element.
- * @param {HTMLSpanElement} concept The animation element.
- * @param {HTMLSpanElement} caption The caption element.
- * @param { { [key:string]: HTMLSpanElement} } refs
- * @attribute {string} [concept=""]
- * @attribute {string} [caption=""]
+ * @attribute color-accent | lightblue | lightblue | color of icon hover state
+ * @attribute color-background | transparent | rgb(255 255 255 / .05) | background color of the bubble
+ * @attribute color-border | transparent | lightblue | border color of the bubble
+ * @attribute color-primary | currentColor | -- | color of the concept text
+ * @attribute color-secondary | #142239 | -- | color of the caption text
+ * @attribute color-swatch | transparent | lightblue | color of the bottom of the bubble
+* @attribute content-caption | -- | what do you think? | text content of the caption
+ * @attribute content-concept | -- | Hello World | text content of the concept
+ * @attribute content-info | -- | info | text content of the info
+ * @attribute content-stylesheet | -- | -- | css stylesheet
  *
  */
 class ConceptBubble extends HTMLElement {
@@ -74,15 +77,15 @@ class ConceptBubble extends HTMLElement {
 		return template;
 	}
 
-	// get template
-	static get template() {
-		return `
-				<span id="container">
-					<span id="concept"></span>
-					<span id="caption"></span>
-					<span id="icon">i<span id="info"></span></span>
-				</span>`;
-	}
+// get template
+static get template() {
+return `
+<span id="container">
+  <span id="concept"></span>
+  <span id="caption"></span>
+  <span id="icon">i<span id="info"></span></span>
+</span>`;
+}
 
 	// get styles
 	static get styles() {
