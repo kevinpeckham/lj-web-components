@@ -7,7 +7,17 @@
  * Scrolling Stat Web Component
  * @class
  * @extends HTMLElement
- * @classdesc Defines web component that displays a number that counts up when it is scrolled into view.
+ * @classdesc Web component that displays a number that counts up or down to another number when the element is scrolled into view.
+ * @attribute animation-duration    | 800          | 600               | duration of animation in ms
+ * @attribute animation-value-end   | 99           | 98.99             | the number to animate from
+ * @attribute animation-value-start | 0            | --                | the number to animate to
+ * @attribute color-background      | transparent  | --                | background color
+ * @attribute color-border          | transparent  | currentColor      | border color
+ * @attribute color-primary         | currentColor | --                | primary text color
+ * @attribute color-secondary       | currentColor | --                | secondary text color
+ * @attribute content-suffix        | --           | %                 | characters displayed after number
+ * @attribute content-caption       | --           | widgets per lorem | caption displayed after number
+ * @attribute content-stylesheet    | --           | --                | inject css into stylesheet
  */
 class ScrollingStat extends HTMLElement {
 // reference to class itself
@@ -37,24 +47,21 @@ static get attributes() {
   // attribute, default, example, description
   // TODO: move examples and descriptions out of minified file
   const values = [
-    ["animation-duration", "800", "600", "duration of animation in ms"],
-    ["animation-value-end", "99", "98.99", "the number to animate from"],
-    ["animation-value-start", "0", "", "the number to animate to"],
-    ["color-background", "transparent", "", "background color"],
-    ["color-border", "transparent", "currentColor", "border color"],
-    ["color-primary", "currentColor", "", "primary text color"],
-    ["color-secondary", "currentColor", "", "secondary text color"],
-    ["content-suffix", "", "%", "characters displayed after number"],
-    ["content-caption","","widgets per lorem","caption displayed after number",],
-    ["content-stylesheet", "", "", "inject css into stylesheet"],
+    ["animation-duration", "800"],
+    ["animation-value-end", "99"],
+    ["animation-value-start", "0"],
+    ["color-background", "transparent"],
+    ["color-border", "transparent"],
+    ["color-primary", "currentColor"],
+    ["color-secondary", "currentColor"],
+    ["content-suffix", ""],
+    ["content-caption",""],
+    ["content-stylesheet", ""],
   ];
 
   // convert values to obj
   const obj = values.reduce(
-    (acc, v) => ({...acc, [v[0]]:
-      (v[2] && v[3]) ?
-      { default: v[1], example: v[2], description: v[3] } :
-      { default: v[1] }
+    (acc, v) => ({...acc, [v[0]]: { default: v[1] }
     }),
     {},
   );
