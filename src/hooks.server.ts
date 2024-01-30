@@ -45,10 +45,12 @@ import { redirect } from "@sveltejs/kit";
 import { error } from "@sveltejs/kit";
 import title_case from "$utils/title_case";
 import deslugify from "$utils/deslugify";
+import kebabToCamel from "$utils/kebabToCamel";
 const utils = {
 	deslugify,
 	error,
 	get,
+	kebabToCamel,
 	redirect,
 	title_case,
 };
