@@ -1,17 +1,18 @@
 /* global WcDocumentation */
 export function wcDoc_sanitizeExampleHTML(
 	html: string,
-	documentation: WcDocumentation,
+	slug: string,
+	attributeNames: string[],
 ) {
 	// unpack documentation
-	const { slug, attributes } = documentation;
+	// const { slug, attributes } = documentation;
 
 	// // create container to hold web component
 	const container = document.createElement("div");
 	// const containerId = "container";
 
 	// // get attribute names from documentation
-	const attributeNames = attributes.map((v) => v.name) ?? [];
+	// const attributeNames = attributes.map((v) => v.name) ?? [];
 
 	// // insert html into container
 	container.insertAdjacentHTML("beforeend", html);
@@ -40,7 +41,7 @@ export function wcDoc_sanitizeExampleHTML(
 	const attributesString = attributesFiltered.join("");
 
 	// is web component self closing?
-	const isSelfClosing = documentation.selfClosing;
+	const isSelfClosing = false;
 
 	// find web component textContent
 	const elText = isSelfClosing ? "" : el?.textContent ?? "";
