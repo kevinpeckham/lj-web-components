@@ -37,6 +37,7 @@ interface Utils {
 	redirect: typeof redirect;
 	title_case: TitleCase;
 	deslugify: Deslugify;
+	kebabToCamel: (str: string) => string;
 }
 
 interface Settings {
