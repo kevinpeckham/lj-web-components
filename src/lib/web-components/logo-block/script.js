@@ -1,5 +1,5 @@
-// @ts-expect-error - just parking this here temporarily
-export class ComponentUtils{static kebabToCamel(t){return t.replace(/-([a-z])/gi,(t=>t[1].toUpperCase()))}static getIds(t){return[...t.matchAll(/id="([^"]+)"/g)].map((t=>t[1]))}static updateElAttributes(t,e,s){const r=e.refs[s];t.observedAttributes.filter((t=>t.includes(`${s}-`))).forEach((t=>{const s=t.split("-")[1]??"",i=this.kebabToCamel(t),o=e[i],a="textContent"===s?r?.textContent:r?.getAttribute(s);"textContent"===s&&a!==o?r.textContent=e[i]:s&&a!==o&&r?.setAttribute(s,e[i])}))}static updateManyElAttributes(t,e,s){s.forEach((s=>this.updateElAttributes(t,e,s)))}static getRefs(t,e){return t.ids.reduce(((t,s)=>({...t,[s]:e.shadowRoot?.getElementById(s)})),{})}static createOAGS(t,e){for(let s of t.observedAttributes){const r=t.getDefault(s);Object.defineProperty(e,this.kebabToCamel(s),{get:function(){return e.getAttribute(s)??r},set:function(t){"string"==typeof t&&e.setAttribute(s,t)}})}}}
+// @ts-expect-error - type defs not available
+import { ComponentUtils } from "https://www.lj-cdn.dev/e/wc/component-utils.min.js";
 
 /** @copyright 2024 Lightning Jar - "Logo Block" web component - License MIT */
 /** @author Kevin Peckham */
