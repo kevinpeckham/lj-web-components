@@ -41,11 +41,10 @@ animationValueEnd = "0";
 
 /**
  * Returns an object. The keys are prop names and the values are objects with default, example, and description properties.
- * @returns { { [key:string]: { default: string, example: string, description: string} } }
+ * @returns { { [key:string]: { default: string} }}
  */
 static get attributes() {
-  // attribute, default, example, description
-  // TODO: move examples and descriptions out of minified file
+  // attribute, default
   const values = [
     ["animation-duration", "800"],
     ["animation-value-end", "99"],
@@ -105,7 +104,8 @@ return `
   <span id="animation"></span>
   <span id="suffix"></span>
   <span id="caption"></span>
-</span>`.trim();
+</span>
+`.trim();
 }
 
 // STYLES

@@ -92,7 +92,9 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 
 	// inner template
 	const innerTemplate =
-		file?.match(/<(?:.)+?id="container"(?:.|\n)+?>(?=`)/)?.[0]?.trim() ?? "";
+		file
+			?.match(/<(?:.)+?id="container"(?:.|\n)+?>(?:\n| )*?(?=`)/)?.[0]
+			?.trim() ?? "";
 
 	// return data
 	return {
