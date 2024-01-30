@@ -26,8 +26,10 @@ Here's some documentation for this component.
 						class="underline underline-offset-4 hover:text-accent",
 						href="/web-components/{item.slug}",
 						title="view documentation and example for {item.name}") { item.name }
+		//- ?? Reminder we're forcing reload as a workaround
 		div.grid.grid-cols-1.gap-4
-			div.text-blue-200 { data.dev ? "Under Development" : "" }
+			div.text-blue-200(
+				data-sveltekit-reload) { data.dev ? "Under Development" : "" }
 			+each('documentation as item')
 				+if('data.dev && !item.published')
 					a.block(

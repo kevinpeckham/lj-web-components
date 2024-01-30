@@ -4,6 +4,12 @@ Web component documentation page
 -->
 
 <script lang="ts">
+	// !! move to types
+	interface Attribute {
+		[key: string]: string;
+		example: string;
+	}
+
 	// context api
 	import { setContext } from "svelte";
 
@@ -15,7 +21,6 @@ Web component documentation page
 	import CodeBlock from "$components/CodeBlock.svelte";
 
 	// types
-	/* global WcDocumentation */
 	import type { PageData } from "./$types";
 
 	// utils
@@ -23,52 +28,36 @@ Web component documentation page
 	import buildExampleScript from "$utils/wcDoc_buildExampleScript";
 	import sanitizeExampleHTML from "$utils/wcDoc_sanitizeExampleHTML";
 
-	// data
-	export let data: PageData;
-
 	// refs
 	let textarea: HTMLTextAreaElement;
 	let wcContainer: HTMLDivElement;
 
-	$: wc = wcContainer?.querySelector(`${slug}`);
-	$: wcConstructor = wc?.constructor;
-	$: wcTemplate =
-		wcConstructor?.els
-			// replace tabs and newlines before first start tag on each line
-			.replace(/^[ \n\t]*?</gm, "<")
-			// replace "content" keyword
-			.replace(/ content/g, "") ?? "";
-	// TODO indent inner tags...
+	// data
+	export let data: PageData;
 
-	// variables
-	$: documentation = data.documentation as WcDocumentation;
-	$: attributes = documentation.attributes ?? [];
-	$: attributeNames = attributes.map((v) => v.name) ?? [];
-	$: slug = data.slug ?? "";
-	$: exampleHTML = buildExampleHTML(documentation) ?? "";
-
-	// put the documentation in context
-	$: setContext("documentation", data.documentation);
+	// put data in context
+	$: setContext("data", data);
 
 	// create a store for the script content and put it in context
-	$: scriptContentStore = writable(buildExampleScript(slug));
+	$: scriptContentStore = writable(buildExampleScript(data.slug));
 	$: setContext("scriptContentStore", scriptContentStore);
 
 	// create a store for the html content and put it in context
 	// prettier-ignore
-	$: htmlContentStore = writable(exampleHTML);
+	$: htmlContentStore = writable(data.exampleHTML);
 	$: setContext("htmlContentStore", htmlContentStore);
 
 	// initial display value is the example html
-	$: sanitizedValue = exampleHTML;
+	$: sanitizedValue = data.exampleHTML;
 
 	// when the html content store changes
 	// sanitize the value and update the sanitized value
 	$: {
-		if ($htmlContentStore != exampleHTML) {
+		if ($htmlContentStore != data.exampleHTML) {
 			const sanitized = sanitizeExampleHTML(
 				$htmlContentStore,
-				data.documentation,
+				data.slug,
+				data.attributeNames,
 			);
 			if (sanitizedValue != sanitized) {
 				sanitizedValue = sanitized ?? "";
@@ -79,8 +68,8 @@ Web component documentation page
 
 <template lang="pug">
 	header.page-x-padding.pt-8
-		h1.text-32 { data.documentation.name }
-		p.opacity-85.max-w-lg { data.documentation.description }
+		h1.text-32 { data.name ?? "" }
+		p.opacity-85.max-w-lg { data.description ?? "" }
 
 	main.page-x-padding.main-y-padding.grid.grid-cols-1.gap-y-8(
 		class="mb-[100svh]")
@@ -120,19 +109,20 @@ Web component documentation page
 				+html('sanitizedValue')
 
 		//- settings & attributes
-		+if('documentation.attributes.length > 0')
+		+if('data.attributeNames?.length > 0')
 			section
-				div.flex.gap-1.px-2
-					h2.mb-2 Settings &amp; Attributes
+				div.flex.gap-1.px-2.mb-4
+					h2.leading-none Settings &amp; Attributes
 				AttributesGrid
 
 		//- component inner template
-		+if('data.documentation.innerTemplate')
 		section
-			div.flex.gap-1.px-2
-				h2.mb-2 Web Component Inner Template
+			div.flex.gap-1.px-2.align-baseline.mb-4
+				h2.leading-none Web Component Inner Template
+				span(
+					class="italic leading-none opacity-80 text-[.9em]") (for reference)
 			pre(
 				class="bg-black/20 p-4 rounded-xl text-14 h-auto")
-				| { documentation.innerTemplate ?? wcTemplate }
+				| { data.innerTemplate }
 
 	|</template>

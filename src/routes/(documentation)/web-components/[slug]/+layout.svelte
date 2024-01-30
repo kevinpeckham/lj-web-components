@@ -25,7 +25,7 @@ Here's some documentation for this component.
 				async="true",
 				src!="{ $page.data.webComponentScript }",
 				type="module")
-		+if('$page.data.documentation.slug !== "copy-button"')
+		+if('$page.data.slug !== "copy-button"')
 			script(
 				async="true",
 				src!="/e/wc/copy-button.min.js",
