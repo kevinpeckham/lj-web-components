@@ -32,6 +32,7 @@ interface Content {
 // utils
 interface Utils {
 	[key: string]: unknown;
+	camelToKebab: (str: string) => string;
 	error: typeof error;
 	get: <T>(store: Readable<T>) => T;
 	redirect: typeof redirect;

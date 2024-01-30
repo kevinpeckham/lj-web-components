@@ -96,6 +96,14 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 			?.match(/<(?:.)+?id="container"(?:.|\n)+?>(?:\n| )*?(?=`)/)?.[0]
 			?.trim() ?? "";
 
+	// dependencies
+	const requires =
+		file
+			?.match(/@requires(?:.)*?\n/g)
+			?.map((v) => v.replace(/@requires/, "").trim())
+			?.map((v) => utils.camelToKebab(v))
+			?.map((v) => (v[0] === "-" ? v.substring(1) : v)) ?? [];
+
 	// return data
 	return {
 		attributes,
@@ -110,6 +118,7 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 		metaNoIndex,
 		name,
 		webComponentScript,
+		requires,
 		slug,
 	};
 };

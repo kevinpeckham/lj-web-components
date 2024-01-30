@@ -1,96 +1,5 @@
-
-class ljUtils {
-  /** @param {string} str */
-  static kebabToCamel(str) { return str.replace(/-([a-z])/ig, (g) => g[1].toUpperCase())}
-  /** @param {string} str */
-  static getIds(str) {
-    return [...str.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
-  }
-  /**
-   * @param {*} clazz
-   * @param {*} context
-   * @param {string} id
-   * */
-  static updateElAttributes(clazz, context, id) {
-
-    // get the element
-    /** @type { (HTMLElement | HTMLImageElement | HTMLAnchorElement) } el */
-    const el = context.refs[id];
-
-    // get all attributes that start with "[id]-" e.g. for #image -> "image-src"
-    /** @type {string[]} attrs */
-    const attrs = clazz.observedAttributes.filter((/** @type {string} attr */ attr) => attr.includes(`${id}-`));
-
-    // iterate over the attributes
-    attrs.forEach((attr) => {
-        // get the key e.g. "src"
-        const key = attr.split("-")[1] ?? "";
-
-        // get camelCase version of att image-src -> imageSrc
-        const camel = this.kebabToCamel(attr);
-
-        // get the possibly new value of the attribute
-        const newValue = context[camel];
-
-        // get the old value of the attribute
-        const oldValue = (key === "textContent") ? el?.textContent : el?.getAttribute(key);
-
-        // set the attribute if it is a content attribute
-        if ((key === "textContent") && (oldValue !== newValue)) el.textContent = context[camel]
-        else if (key && (oldValue !== newValue)) el?.setAttribute(key, context[camel] );
-    });
-
-  }
-  /**
-   * @param {*} clazz
-   * @param {*} context
-   * @param {string[]} ids
-   * */
-  static updateManyElAttributes(clazz, context, ids) {
-    ids.forEach((id) => ljUtils.updateElAttributes(clazz, context, id));
-  }
-  /**
-   * @param {*} clazz
-   * @param {*} context
-   * */
-  static getRefs(clazz, context) {
-    return /** @type { { [key:string]: HTMLElement} } */ (
-      clazz.ids.reduce(
-        /**
-         * @param {*} acc
-         * @param {string} id
-         * @returns
-         */
-        (acc, id) => ({
-          ...acc,
-          [id]: /** @type {HTMLElement} */ (
-            context.shadowRoot?.getElementById(id)
-          ),
-        }),
-        {},
-      )
-    );
-  }
-  /**
-   * Create getters and setters for observed attributes
-   * @param {*} clazz
-   * @param {*} context
-   * */
-  static createOAGS(clazz, context) {
-    for (let attr of clazz.observedAttributes) {
-      const def = clazz.getDefault(attr);
-      Object.defineProperty(context, ljUtils.kebabToCamel(attr), {
-        get: function () {
-          return context.getAttribute(attr) ?? def;
-        },
-        set: function (value) {
-          if (typeof value === 'string') context.setAttribute(attr, value);
-        },
-      });
-    }
-  }
-}
-
+// @ts-expect-error - just parking this here temporarily
+export class ComponentUtils{static kebabToCamel(t){return t.replace(/-([a-z])/gi,(t=>t[1].toUpperCase()))}static getIds(t){return[...t.matchAll(/id="([^"]+)"/g)].map((t=>t[1]))}static updateElAttributes(t,e,s){const r=e.refs[s];t.observedAttributes.filter((t=>t.includes(`${s}-`))).forEach((t=>{const s=t.split("-")[1]??"",i=this.kebabToCamel(t),o=e[i],a="textContent"===s?r?.textContent:r?.getAttribute(s);"textContent"===s&&a!==o?r.textContent=e[i]:s&&a!==o&&r?.setAttribute(s,e[i])}))}static updateManyElAttributes(t,e,s){s.forEach((s=>this.updateElAttributes(t,e,s)))}static getRefs(t,e){return t.ids.reduce(((t,s)=>({...t,[s]:e.shadowRoot?.getElementById(s)})),{})}static createOAGS(t,e){for(let s of t.observedAttributes){const r=t.getDefault(s);Object.defineProperty(e,this.kebabToCamel(s),{get:function(){return e.getAttribute(s)??r},set:function(t){"string"==typeof t&&e.setAttribute(s,t)}})}}}
 
 /** @copyright 2024 Lightning Jar - "Logo Block" web component - License MIT */
 /** @author Kevin Peckham */
@@ -102,6 +11,7 @@ class ljUtils {
  * Logo Block Web Component
  * @name LogoBlock
  * @class
+ * @requires ComponentUtils
  * @extends HTMLElement
  * @classdesc A web component for displaying a logo with a link. For typical use in the header of a website.
  * @attribute image-alt | -- | -- | alt text for the image
@@ -111,12 +21,6 @@ class ljUtils {
  * @attribute link-href | / | https://www.lightningjar.com | href for the link
  * @attribute link-title | -- | Lightning Jar homepage | title for the link
  * @attribute stylesheet-textContent | -- | #container {width:240px;} | inject css into stylesheet
- *
-
-const ljUtilities = {
-
-}
- *
  */
 class LogoBlock extends HTMLElement {
 
@@ -145,8 +49,6 @@ static get observedAttributes() { return Object.keys(this.attributes) }
 
 /** @param {string} attr */
 static getDefault(attr) { return this.attributes[attr] ?? "" }
-
-
 
 // ELEMENTS
 static get els() {
@@ -195,7 +97,7 @@ constructor() {
     super();
 
     // programattically create getters and setters for each observed attribute
-    ljUtils.createOAGS(this.c, this);
+    ComponentUtils.createOAGS(this.c, this);
 
     // create a shadow root
     this.attachShadow({ mode: "open" });
@@ -204,7 +106,7 @@ constructor() {
     this.shadowRoot?.appendChild(this.c.template.content.cloneNode(true))
 
     // define refs elements
-    this.refs = ljUtils.getRefs(this.c, this);
+    this.refs = ComponentUtils.getRefs(this.c, this);
 
     // update attributes
     this.updateAttributes();
@@ -220,7 +122,7 @@ constructor() {
 
   // METHODS
   updateAttributes() {
-    ljUtils.updateManyElAttributes(this.c, this, this.c.ids);
+    ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
   }
 }
 
