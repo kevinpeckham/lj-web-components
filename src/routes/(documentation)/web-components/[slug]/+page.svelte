@@ -68,6 +68,25 @@ Web component documentation page
 
 <template lang="pug">
 	header.page-x-padding.pt-8
+		div(
+			class=`
+				mb-4
+				text-13
+				text-currentColor`)
+			span.opacity-70 /&nbsp;
+			a(
+				class=`
+					inline-block
+					decoration-slate-100/30
+					underline
+					underline-offset-4
+					opacity-70
+					lg:hover:opacity-100
+					lg:hover:text-accent
+					lg:hover:decoration-current`,
+				href="/web-components") web-components
+			span.opacity-70 &nbsp;/&nbsp;
+			span.opacity-70 { data.slug ?? "" }
 		h1.text-32 { data.name ?? "" }
 		p.opacity-85.max-w-lg { data.description ?? "" }
 
