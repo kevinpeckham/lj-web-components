@@ -4,19 +4,6 @@
 // types
 import type { PageServerLoad } from "./$types";
 
-interface Attribute {
-	[key: string]: string;
-	default: string;
-	example: string;
-	description: string;
-}
-interface Attributes {
-	[key: string]: Attribute;
-}
-
-// import util
-import buildExampleHTML from "$utils/wcDoc_buildExampleHTML";
-
 // get dev environment
 import { dev } from "$app/environment";
 
@@ -27,25 +14,11 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 	// unpack locals
 	const { content, utils } = locals;
 
-	// get component store
-	const store = utils.get(content.wcProductionFilesStore);
+	// get documentation store
+	const documentationStore = utils.get(content.wcDocumentationStore);
 
-	// get web component
-	const component = store.find((f) => slug.includes(f.name));
-
-	// get file
-	const file: string | undefined = component?.max;
-
-	// if no documentation, return 404
-	if (!component || !file) utils.error(404, "No file found");
-
-	// name
-	const name = utils.title_case(slug.replace(/-/g, " ")) ?? "";
-
-	// set page metadata
-	const metaDescription = "";
-	const metaTitle = name;
-	const metaNoIndex = true;
+	// get documentation
+	const documentation = documentationStore.find((f) => slug === f.slug);
 
 	// web component script
 	// by default load the minified script
@@ -53,56 +26,25 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 		? `/e/wc/${slug}.min.js`
 		: `/e/wc/${slug}.min.js`;
 
-	// description
-	const description =
-		file
-			?.match(/@classdesc(?:.)*?\n/)?.[0]
-			?.replace(/@classdesc/, "")
-			?.trim() ?? "";
+	// from documentation
+	const attributes = documentation?.attributes ?? {};
+	const attributeNames = documentation?.attributeNames ?? [];
+	const description = documentation?.description ?? "";
+	const innerTemplate = documentation?.innerTemplate ?? "";
+	const exampleHTML = documentation?.exampleHTML ?? "";
+	const name = documentation?.name ?? "";
+	const published = documentation?.published ?? false;
+	const requires = documentation?.requires ?? [];
 
-	// get attributes from JSDoc comments
-	const attributesArray =
-		// prettier-ignore
-		file
-			?.match(/@attribute(?:.)*?\n/g)
-			// prettier-ignore
-			?.map((v) => v.replace(/@attribute/, "").trim())
-			// prettier-ignore
-			?.map((v: string) => {
-				const scrubbed = v.replace(/-{2}/g, "");
-				const split = scrubbed.split("|");
-				return {
-					name: split[0]?.trim(),
-					default: split[1]?.trim(),
-					example: split[2]?.trim(),
-					description: split[3]?.trim(),
-				}}) ?? [];
+	// if no documentation found,
+	// or not published and not in dev mode
+	// return 404
+	if (!documentation || (!published && !dev)) utils.error(404, "No file found");
 
-	// convert attributesArray to obj with name as key
-	const attributes = attributesArray.reduce((acc: Attributes, cur) => {
-		acc[cur.name] = cur;
-		return acc;
-	}, {});
-
-	// attribute names
-	const attributeNames = Object.keys(attributes) ?? [];
-
-	// example html
-	const exampleHTML = buildExampleHTML(slug, attributes) ?? "";
-
-	// inner template
-	const innerTemplate =
-		file
-			?.match(/<(?:.)+?id="container"(?:.|\n)+?>(?:\n| )*?(?=`)/)?.[0]
-			?.trim() ?? "";
-
-	// dependencies
-	const requires =
-		file
-			?.match(/@requires(?:.)*?\n/g)
-			?.map((v) => v.replace(/@requires/, "").trim())
-			?.map((v) => utils.camelToKebab(v))
-			?.map((v) => (v[0] === "-" ? v.substring(1) : v)) ?? [];
+	// set page metadata
+	const metaDescription = documentation?.description ?? "";
+	const metaTitle = name;
+	const metaNoIndex = true;
 
 	// return data
 	return {
@@ -112,7 +54,6 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 		description,
 		exampleHTML,
 		innerTemplate,
-		file,
 		metaTitle,
 		metaDescription,
 		metaNoIndex,

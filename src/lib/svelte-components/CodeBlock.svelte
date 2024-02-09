@@ -79,8 +79,10 @@ Here's some documentation for this component.
 					on:keydown!="{ onKeydown }",
 					readonly!="{ !contentEditable }")
 
-				//- 		id!="{ id }") {$contentStore}
 		copy-button.flex-none(
-			data-accent-color="#ebf92f",
-			data-target-selector!="#{id}",
-			data-title="copy to clipboard")</template>
+			color-accent="#ebf92f",
+			message-textContent="copied",
+			target-selector!="#{id}",
+			title-textContent="copy")
+
+	|</template>

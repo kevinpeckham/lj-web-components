@@ -1,5 +1,5 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "https://www.lj-cdn.dev/e/wc/component-utils.min.js";
+import { ComponentUtils } from "/e/wc/component-utils.min.js";
 
 /** @copyright 2024 Lightning Jar - "Logo Block" web component - License MIT */
 /** @author Kevin Peckham */
@@ -12,6 +12,7 @@ import { ComponentUtils } from "https://www.lj-cdn.dev/e/wc/component-utils.min.
  * @name LogoBlock
  * @class
  * @requires ComponentUtils
+ * @published 2024-02-09
  * @extends HTMLElement
  * @classdesc A web component for displaying a logo with a link. For typical use in the header of a website.
  * @attribute image-alt | -- | -- | alt text for the image
@@ -91,40 +92,38 @@ static get ids() {
   return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 }
 
-
 // CONSTRUCTOR
 constructor() {
-    super();
+	super();
 
-    // programattically create getters and setters for each observed attribute
-    ComponentUtils.createOAGS(this.c, this);
+	// programattically create getters and setters for each observed attribute
+	ComponentUtils.createOAGS(this.c, this);
 
-    // create a shadow root
-    this.attachShadow({ mode: "open" });
+	// create a shadow root
+	this.attachShadow({ mode: "open" });
 
-    // append the template content to the shadow DOM
-    this.shadowRoot?.appendChild(this.c.template.content.cloneNode(true))
+	// append the template content to the shadow DOM
+	this.shadowRoot?.appendChild(this.c.template.content.cloneNode(true))
 
-    // define refs elements
-    this.refs = ComponentUtils.getRefs(this.c, this);
+	// define refs elements
+	this.refs = ComponentUtils.getRefs(this.c, this);
 
-    // update attributes
-    this.updateAttributes();
-  }
-
-  // LIFECYCLE CALLBACKS
-  connectedCallback() {
-   this.updateAttributes();
-  }
-  attributeChangedCallback() {
-   this.updateAttributes
-  }
-
-  // METHODS
-  updateAttributes() {
-    ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
-  }
+	// update attributes
+	this.updateAttributes();
 }
+
+// LIFECYCLE CALLBACKS
+connectedCallback() {
+	this.updateAttributes();
+}
+attributeChangedCallback() {
+	this.updateAttributes();
+}
+
+// METHODS
+updateAttributes() {
+	ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
+}}
 
 customElements.define("logo-block", LogoBlock);
 export default LogoBlock;

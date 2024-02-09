@@ -43,7 +43,7 @@ const content = {
 import { get } from "svelte/store";
 import { redirect } from "@sveltejs/kit";
 import { error } from "@sveltejs/kit";
-import title_case from "$utils/title_case";
+import title_case from "$utils/titleCase";
 import deslugify from "$utils/deslugify";
 import kebabToCamel from "$utils/kebabToCamel";
 import { camelToKebab } from "$utils/camelToKebab";

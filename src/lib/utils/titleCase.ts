@@ -1,4 +1,4 @@
-export function title_case(str: string) {
+export function titleCase(str: string) {
 	return str
 		.toLowerCase()
 		.split(" ")
@@ -6,6 +6,5 @@ export function title_case(str: string) {
 		.join(" ");
 }
 
-export type TitleCase = typeof title_case;
-
-export default title_case;
+export type TitleCase = typeof titleCase;
+export default titleCase;

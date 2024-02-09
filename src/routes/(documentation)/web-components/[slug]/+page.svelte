@@ -121,8 +121,8 @@ Web component documentation page
 				h2.leading-none Web Component Inner Template
 				span(
 					class="italic leading-none opacity-80 text-[.9em]") (for reference)
-			pre(
-				class="bg-black/20 p-4 rounded-xl text-14 h-auto")
+			pre.w-full(
+				class="bg-black/20 p-4 rounded-xl text-14 h-auto whitespace-pre-wrap")
 				| { data.innerTemplate }
 
 	|</template>

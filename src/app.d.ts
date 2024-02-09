@@ -18,7 +18,7 @@ import { ComponentAttribute as _ComponentAttribute } from "$types/ComponentAttri
 import { error } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
 import type Redirects from "$settings/redirects.json";
-import type { TitleCase } from "$utils/title_case";
+import type { TitleCase } from "$utils/titleCase";
 import type { Deslugify } from "$utils/deslugify";
 
 // content

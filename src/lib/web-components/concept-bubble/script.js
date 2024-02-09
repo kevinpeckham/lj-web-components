@@ -1,3 +1,6 @@
+// @ts-expect-error - type defs not available
+import { ComponentUtils } from "/e/wc/component-utils.min.js";
+
 /** @copyright 2024 Lightning Jar - "Scrolling Stat" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
@@ -7,6 +10,8 @@
 /**
  * Scrolling Stat Web Component
  * @class
+ * @requires ComponentUtils
+ * @published 2024-02-09
  * @extends HTMLElement
  * @classdesc Defines web component that displays a number that counts up when it is scrolled into view.
  * @attribute color-accent | lightblue | lightblue | color of icon hover state
@@ -15,79 +20,56 @@
  * @attribute color-primary | currentColor | -- | color of the concept text
  * @attribute color-secondary | #142239 | -- | color of the caption text
  * @attribute color-swatch | transparent | lightblue | color of the bottom of the bubble
-* @attribute content-caption | -- | what do you think? | text content of the caption
- * @attribute content-concept | -- | Hello World | text content of the concept
- * @attribute content-info | -- | info | text content of the info
- * @attribute content-stylesheet | -- | -- | css stylesheet
+ * @attribute caption-textContent | -- | what do you think? | text content of the caption
+ * @attribute concept-textContent | -- | Hello World | text content of the concept
+ * @attribute info-textContent | -- | info | text content of the info
+ * @attribute stylesheet-textContent | -- | -- | injects css into scoped custom stylesheet
  *
  */
 class ConceptBubble extends HTMLElement {
-	refs;
+	// reference to class itself
+	get c() { return ConceptBubble };
+	// refs;
 
+	// ATTRIBUTES
 	/**
-	 * Attributes to observe for adding, removing, or changing.
-	 * @static
-	 * @returns {string[]} An array of attribute names to observe.
+	 * Returns an object. The keys are prop names. The values are the default values for the props.
+	 * @returns { { [key:string]: string } }
 	 */
-
-	static get elementIds() {
-		return ["container", "concept", "caption", "icon", "info", "stylesheet"];
-	}
-	static get observedAttributes() {
-		return [
-			"color-accent",
-			"color-background",
-			"color-border",
-			"color-primary",
-			"color-secondary",
-			"color-swatch",
-			"content-caption",
-			"content-concept",
-			"content-info",
-			"content-stylesheet",
-		];
-	}
-	/**
-	 * Builds an object of refs elements from the elementIds array.
-	 * @param {*} context
-	 * @returns { { [key:string]: HTMLSpanElement} }
-	 */
-	static getDomElements(context) {
-		const result = /** @type { { [key:string]: HTMLSpanElement} } */ (
-			ConceptBubble.elementIds.reduce(
-				(acc, id) => ({
-					...acc,
-					[id]: /** @type {HTMLSpanElement} */ (
-						context.shadowRoot?.getElementById(id)
-					),
-				}),
-				{},
-			)
-		);
-		return result;
+	static get attributes() {
+		const values = {
+			"color-accent": "lightblue",
+			"color-background": "transparent",
+			"color-border": "transparent",
+			"color-primary": "currentColor",
+			"color-secondary": "#142239",
+			"color-swatch": "transparent",
+			"caption-textContent": "test",
+			"concept-textContent": "",
+			"info-textContent": "",
+			"stylesheet-textContent": "",
+		};
+	return values;
 	}
 
-	static createTemplate() {
-		// create a template
-		const template = document.createElement("template");
-		template.innerHTML = `
-		${ConceptBubble.styles}
-		${ConceptBubble.template}
-		`;
-		return template;
+	// get observed attributes
+	static get observedAttributes() { return Object.keys(this.attributes) }
+
+	// get default value for an attribute
+	/** @param {string} attr */
+	static getDefault(attr) { return this.attributes[attr] ?? "" }
+
+	// ELEMENTS
+	static get els() {
+		return `
+		<span id="container">
+			<span id="concept"></span>
+			<span id="caption"></span>
+			<span id="icon">i<span id="info"></span></span>
+		</span>`.trim();
 	}
 
-// get template
-static get template() {
-return `
-<span id="container">
-  <span id="concept"></span>
-  <span id="caption"></span>
-  <span id="icon">i<span id="info"></span></span>
-</span>`;
-}
-
-	// get styles
+	// STYLES
 	static get styles() {
 		return `
 			<style>
@@ -166,7 +148,7 @@ return `
 				}
 
 				/* if no value is provied for info, hide the icon */
-				:host(:is([content-info=""],[content-info=undefined],[content-info=null])) #icon, :host(:not([content-info])) #icon {
+				:host(:is([info-textContent=""],[info-textContent=undefined],[info-textContent=null])) #icon, :host(:not([info-textContent])) #icon {
 					opacity:0;
 					pointer-events:none;
 				}
@@ -174,71 +156,54 @@ return `
 		</style><style id="stylesheet"></style>`;
 	}
 
+	// TEMPLATE
+	static get template() {
+		const template = document.createElement("template");
+		template.innerHTML = `${this.styles}${this.els}`.trim();
+		return template;
+	}
+
+	// IDS
+	static get ids() {
+		return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
+	}
+
+
+
 	// constructor
 	constructor() {
 		super();
 
 		// programattically create getters and setters for each observed attribute
-		for (let attr of ConceptBubble.observedAttributes) {
-			Object.defineProperty(this, attr, {
-				get: function () {
-					return this.getAttribute(attr);
-				},
-				set: function (value) {
-					this.setAttribute(attr, value);
-					// if the attribute contains the word "content",
-					// set the textContent of the corresponding element to the value of the attribute
-					if (attr.includes("content")) {
-						this.refs[attr.split("-")[1]].textContent = value;
-					}
-					// if the attribute contains the word "color",
-					else if (attr.includes("color")) {
-						this.refs.container.style.setProperty(`--${attr}`, value);
-					}
-				},
-			});
-		}
+    ComponentUtils.createOAGS(this.c, this);
 
 		// create a shadow root
 		this.attachShadow({ mode: "open" });
 
-		// create a template
-		const template = ConceptBubble.createTemplate();
-
 		// append the template content to the shadow DOM
-		this.shadowRoot?.appendChild(template.content.cloneNode(true));
+    this.shadowRoot?.appendChild(this.c.template.content.cloneNode(true))
 
-		// get refs elements
-		this.refs = ConceptBubble.getDomElements(this);
+		// define refs elements
+    this.refs = ComponentUtils.getRefs(this.c, this);
+
+		// update attributes
+    this.updateAttributes();
 	}
-	/**
-	 * Method invoked when the custom element is first connected to the document's DOM. Defines DOM elements, adds css styling, and starts the observer.
-	 * @method
-	 * @returns {void}
-	 * @summary Creates the shadow DOM, add styles, and starts the observer.
-	 */
+
+	 // LIFECYCLE CALLBACKS
 	connectedCallback() {
-		// TEXT
-		// for each observed attribute that contains the word "content",
-		// set the textContent of the corresponding element to the value of the attribute
-		ConceptBubble.observedAttributes.forEach((attr) => {
-			if (attr.includes("content")) {
-				this.refs[attr.split("-")[1]].textContent = this.getAttribute(attr);
-			}
-		});
+		this.updateAttributes();
+	 }
+	 attributeChangedCallback() {
+		this.updateAttributes();
+	 }
 
-		// COLORS
-		// for each observed attribute that contains the word "color",
-		// set the style property of the corresponding css variable to the value of the attribute
-		ConceptBubble.observedAttributes.forEach((attr) => {
-			if (attr.includes("color")) {
-				this.refs.container.style.setProperty(
-					`--${attr}`,
-					this.getAttribute(attr),
-				);
-			}
-		});
-	}
+	// METHODS
+  updateAttributes() {
+    ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
+		ComponentUtils.updateColorAttributes(this.c, this);
+  }
+
 }
 customElements.define("concept-bubble", ConceptBubble);
 export default ConceptBubble;

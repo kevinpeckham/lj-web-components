@@ -21,7 +21,7 @@ Here's some documentation for this component.
 		div.grid.grid-cols-1.gap-4
 			div.text-blue-200 Available Components
 			+each('documentation as item')
-				+if('item.published')
+				+if('item.published && !item.isPrivate')
 					a.block(
 						class="underline underline-offset-4 hover:text-accent",
 						href="/web-components/{item.slug}",

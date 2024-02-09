@@ -1,3 +1,7 @@
+// @ts-expect-error - type defs not available
+import { ComponentUtils } from "/e/wc/component-utils.min.js";
+
+
 /** @copyright 2024 Lightning Jar - "Scrolling Stat" web component - License MIT */
 /** @license MIT */
 /** @version 0.0.2 */
@@ -7,17 +11,18 @@
  * Scrolling Stat Web Component
  * @class
  * @extends HTMLElement
+ * @published 2024-02-09
  * @classdesc Web component that displays a number that counts up or down to another number when the element is scrolled into view.
- * @attribute animation-duration    | 800          | 600               | duration of animation in ms
- * @attribute animation-value-end   | 99           | 98.99             | the number to animate from
- * @attribute animation-value-start | 0            | --                | the number to animate to
- * @attribute color-background      | transparent  | --                | background color
- * @attribute color-border          | transparent  | currentColor      | border color
- * @attribute color-primary         | currentColor | --                | primary text color
- * @attribute color-secondary       | currentColor | --                | secondary text color
- * @attribute content-suffix        | --           | %                 | characters displayed after number
- * @attribute content-caption       | --           | widgets per lorem | caption displayed after number
- * @attribute content-stylesheet    | --           | --                | inject css into stylesheet
+ * @attribute animation-duration     | 800          | 600               | duration of animation in ms
+ * @attribute animation-value-end    | 99           | 98.99             | the number to animate from
+ * @attribute animation-value-start  | 0            | --                | the number to animate to
+ * @attribute color-background       | transparent  | --                | background color
+ * @attribute color-border           | transparent  | currentColor      | border color
+ * @attribute color-primary          | currentColor | --                | primary text color
+ * @attribute color-secondary        | currentColor | --                | secondary text color
+ * @attribute suffix-textContent     | --           | %                 | characters displayed after number
+ * @attribute caption-textContent    | --           | widgets per lorem | caption displayed after number
+ * @attribute stylesheet-textContent | --           | --                | inject css into stylesheet
  */
 class ScrollingStat extends HTMLElement {
 // reference to class itself
@@ -37,69 +42,38 @@ animationValueEnd = "0";
 #places = 0; // number of decimal places to display
 
 // ATTRIBUTES
-
-
-/**
- * Returns an object. The keys are prop names and the values are objects with default, example, and description properties.
- * @returns { { [key:string]: { default: string} }}
- */
+	/**
+	 * Returns an object. The keys are prop names. The values are the default values for the props.
+	 * @returns { { [key:string]: string } }
+	 */
 static get attributes() {
   // attribute, default
-  const values = [
-    ["animation-duration", "800"],
-    ["animation-value-end", "99"],
-    ["animation-value-start", "0"],
-    ["color-background", "transparent"],
-    ["color-border", "transparent"],
-    ["color-primary", "currentColor"],
-    ["color-secondary", "currentColor"],
-    ["content-suffix", ""],
-    ["content-caption",""],
-    ["content-stylesheet", ""],
-  ];
-
-  // convert values to obj
-  const obj = values.reduce(
-    (acc, v) => ({...acc, [v[0]]: { default: v[1] }
-    }),
-    {},
-  );
-  return obj;
+  const values = {
+    "animation-duration": "800",
+    "animation-value-end": "99",
+    "animation-value-start": "0",
+    "color-background": "transparent",
+    "color-border": "transparent",
+    "color-primary": "currentColor",
+    "color-secondary": "currentColor",
+    "suffix-textContent": "",
+    "caption-textContent":"",
+    "stylesheet-textContent": "",
+	};
+  return values;
 }
+
+// OBSERVED ATTRIBUTES
 static get observedAttributes() { return Object.keys(this.attributes) }
-/**
- *
- * @param {string} prop
- * @returns
- */
-static getDefault(prop) {
-  return this.attributes[prop]?.default ?? "";
-}
 
-// GETTERS AND SETTERS
-/**
- * Creates Observed Attribute Getters and Setters.
- * @param {*} x = context
- * @returns {void}
- * */
-static createOAGS(x) {
-  for (let attr of this.observedAttributes) {
-		const def = this.getDefault(attr);
-    Object.defineProperty(x, this.kebabToCamel(attr), {
-      get: function () {
-        return x.getAttribute(attr) ?? def;
-      },
-      set: function (value) {
-        if (typeof value === 'string') x.setAttribute(attr, value);
-      },
-    });
-  }
-}
+// GET DEFAULT VALUE FOR AN ATTRIBUTE
+/** @param {string} attr */
+static getDefault(attr) { return this.attributes[attr] ?? "" }
+
 
 // ELEMENTS
 static get els() {
 return `
-<style id="stylesheet"></style>
 <span id="container">
   <span id="animation"></span>
   <span id="suffix"></span>
@@ -115,10 +89,10 @@ return `
 host:, * { margin:0; box-sizing:border-box ; }
 #container {
   align-items: baseline;
-  background: var(--color-background, ${this.getDefault("color-background")});
-  outline: 1px solid var(--color-border, ${this.getDefault("color-border")});
+  background: var(--color-background, transparent);
+  outline: 1px solid var(--color-border, transparent);
   border-radius: .3em;
-  color: var(--color-primary, ${this.getDefault("color-primary")} );
+  color: var(--color-primary, currentColor);
   display: grid;
   font-weight: 800;
   gap: .3em;
@@ -134,7 +108,7 @@ host:, * { margin:0; box-sizing:border-box ; }
   font-size:1.9em;
 }
 #caption {
-  color: var(--color-secondary, ${this.getDefault("color-secondary")});
+  color: var(--color-secondary, currentColor);
   font-size:.9em;
   font-style:italic;
   font-weight:400;
@@ -142,67 +116,21 @@ host:, * { margin:0; box-sizing:border-box ; }
   line-height:1.3;
   opacity:.9;
 }
-</style>`
+</style><style id="stylesheet"></style>`
 };
 
 // TEMPLATE
 static get template() {
-const template = document.createElement("template");
-template.innerHTML = `${this.styles}${this.els}`.trim();
-return template;
+	const template = document.createElement("template");
+	template.innerHTML = `${this.styles}${this.els}`.trim();
+	return template;
 }
 
 // IDS
 static get ids() {
-  return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
+	return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 }
 
-// REFS
-/**
- * Builds an object of refs elements from the ids array.
- * @param {*} x = context
- * @returns { { [key:string]: HTMLSpanElement} }
- */
-static getRefs(x) {
-  return /** @type { { [key:string]: HTMLSpanElement} } */ (
-    this.ids.reduce(
-      (acc, id) => ({
-        ...acc,
-        [id]: /** @type {HTMLSpanElement} */ (
-          x.shadowRoot?.getElementById(id)
-        ),
-      }),
-      {},
-    )
-  );
-}
-
-// COLORS
-/** @param {*} x = context */
-static setAllColors(x) {
-	const attrs = this.observedAttributes.filter((attr) => attr.includes("color-"));
-	/** @type {HTMLElement | null} */
-	const container = x.refs.container;
-	if (container) {
-  attrs.forEach((attr) => container.style.setProperty(`--${attr}`, x.getAttribute(attr)));
-	}
-}
-
-// TEXT
-/** @param {*} x = context */
-static setAllText(x) {
-	// get all attributes that start with "content-"
-	const attrs = this.observedAttributes.filter((attr) => attr.includes("content-"));
-	attrs.forEach((attr) => {
-			const key = attr.split("-")[1];
-			/** @type { (HTMLElement | null) } el */
-			const el = x.refs[key];
-			if (key && el) {
-				el.textContent = x.getAttribute(attr) ?? "";
-			}
-	});
-
-}
 
 // TWEEN
 /**
@@ -234,12 +162,7 @@ static tween(x) {
 }
 
   // UTILS
-  /**
-   * Converts a kebab-case string to camelCase.
-   * @param {string} str */
-  static kebabToCamel(str) {
-    return str.replace(/-([a-z])/ig, (g) => g[1].toUpperCase());
-  }
+
   /**
    * Get the number of decimal places in a string representation of a number.
    * @param {string} str */
@@ -277,151 +200,158 @@ static tween(x) {
 }
 
 
-  // CONSTRUCTOR
-  constructor() {
-    super();
+// CONSTRUCTOR
+constructor() {
+  super();
 
-    // programattically create getters and setters for each observed attribute
-    this.c.createOAGS(this);
+  // programattically create getters and setters for each observed attribute
+	ComponentUtils.createOAGS(this.c, this);
 
-    // create a shadow root
-    this.attachShadow({ mode: "open" });
+	// create a shadow root
+	this.attachShadow({ mode: "open" });
 
-    // create a template
-    const template = this.c.template;
+	// append the template content to the shadow DOM
+	this.shadowRoot?.appendChild(this.c.template.content.cloneNode(true))
 
-    // append the template content to the shadow DOM
-    this.shadowRoot?.appendChild(template.content.cloneNode(true));
+	// define refs elements
+	this.refs = ComponentUtils.getRefs(this.c, this);
 
-    // define refs elements
-    this.refs = this.c.getRefs(this);
+	// update attributes
+	this.updateAttributes();
 
-    // binding the parent context to the methods
-    this.connectedCallback = this.connectedCallback.bind(this);
-    this.observerCallback = this.observerCallback.bind(this);
-  }
-
-  // getter and setter and reset for #startTime -- private variable
-  get startTime() {
-    return this.#startTime;
-  }
-  set startTime(value) {
-    if (value && typeof value  === "number") this.#startTime = value;
-  }
-  resetStartTime() {
-    this.startTime = 0;
-  }
-
-  // getter and setter for isOnScreen -- private variable
-  get isOnScreen() {
-    return this.#isOnScreen;
-  }
-  /** @param {boolean} value */
-  set isOnScreen(value) {
-    if (typeof value  === "boolean") this.#isOnScreen = value;
-    // when the element is scrolled into view, reset the start time and start the tween
-    if (value === true) {
-      this.#startTime = 0;
-      this.c.tween(this);
-    }
-  }
-
-  // getter and setter and updater for end -- private variable
-  get end() {
-    return this.#end;
-  }
-  set end(value) {
-    if (typeof value === "number") this.#end = value;
-  }
-  updateEnd() {
-    const fallback = this.c.getDefault("animation-value-end");
-    this.end = this.start = parseFloat(this.c.scrubNumberString(this.animationValueEnd, `${fallback}`, 2));
-  }
-
-  // getter and setter and updater for start -- private variable
-  get start() {
-    return this.#start;
-  }
-  set start(value) {
-		if (typeof value === "number") this.#start = value;
-  }
-  updateStart() {
-    const fallback = this.c.getDefault("animation-value-start");
-    this.start = parseFloat(this.c.scrubNumberString(this.animationValueStart, `${fallback}`, 2));
+	// binding the parent context to the methods
+	this.connectedCallback = this.connectedCallback.bind(this);
+	this.observerCallback = this.observerCallback.bind(this);
 }
 
-  // getter and setter and updater for duration -- private variable
-  get duration() {
-    return this.#duration;
-  }
-  set duration(value) {
-		if (typeof value === "number") this.#duration = value;
-  }
-  updateDuration() {
-    const fallback = this.c.getDefault("animation-duration");
-    this.duration = Math.abs(parseInt(this.c.scrubNumberString(this.animationDuration, `${fallback}`, 0)));
-  }
+// GETTERS, SETTERS AND UPDATERS FOR PRIVATE VARIABLES
+// PRIVATE VARIABLE - #startTime
+get startTime() {
+	return this.#startTime;
+}
+set startTime(value) {
+	if (value && typeof value  === "number") this.#startTime = value;
+}
+resetStartTime() {
+	this.startTime = 0;
+}
 
-   // getter and setter and updater for places -- private variable
-	 get places() {
-    return this.#places;
-  }
-  set places(value) {
-		if (typeof value === "number") this.#places = value;
-  }
-  updatePlaces() {
-    this.places = this.c.places(this.animationValueEnd);
-  }
+// PRIVATE VARIABLE - #isOnScreen
+get isOnScreen() {
+	return this.#isOnScreen;
+}
+/** @param {boolean} value */
+set isOnScreen(value) {
+	if (typeof value  === "boolean") this.#isOnScreen = value;
+	// when the element is scrolled into view, reset the start time and start the tween
+	if (value === true) {
+		this.#startTime = 0;
+		this.c.tween(this);
+	}
+}
 
-  /**
-   * Updates the textContent of the animation element.
-   * @param {string} str */
-  updateAnimationText(str) {
-    this.refs.animation.textContent = str ?? "";
-  }
-  resetAnimation() {
-    this.updateEnd();
-    this.updatePlaces();
-    this.updateStart();
-    this.updateDuration();
-    this.resetStartTime();
-  }
-  resetContent() {
-    this.c.setAllText(this);
-    this.c.setAllColors(this);
-  }
+// PRIVATE VARIABLE - #end
+get end() {
+	return this.#end;
+}
+set end(value) {
+	if (typeof value === "number") this.#end = value;
+}
+updateEnd() {
+	const fallback = this.c.getDefault("animation-value-end");
+	this.end = this.start = parseFloat(this.c.scrubNumberString(this.animationValueEnd, `${fallback}`, 2));
+}
 
-  // LIFECYCLE METHODS
-  attributeChangedCallback() {
-    this.resetAnimation();
-    this.resetContent();
-  }
-  connectedCallback() {
-    // reset values
-    this.resetAnimation();
-    this.resetContent();
+// PRIVATE VARIABLE - #start
+get start() {
+	return this.#start;
+}
+set start(value) {
+	if (typeof value === "number") this.#start = value;
+}
+updateStart() {
+	const fallback = this.c.getDefault("animation-value-start");
+	this.start = parseFloat(this.c.scrubNumberString(this.animationValueStart, `${fallback}`, 2));
+}
 
-    // create and start the observer
-    new IntersectionObserver(this.observerCallback, {
-      rootMargin: "0%",
-      threshold: 0.5,
-    }).observe(this.refs.container);
-  }
+// PRIVATE VARIABLE - #duration
+get duration() {
+	return this.#duration;
+}
+set duration(value) {
+	if (typeof value === "number") this.#duration = value;
+}
+updateDuration() {
+	const fallback = this.c.getDefault("animation-duration");
+	this.duration = Math.abs(parseInt(this.c.scrubNumberString(this.animationDuration, `${fallback}`, 0)));
+}
 
-  // OBSERVER CALLBACK
-  /**
-   * callback method which fires when the element is scrolled into view
-   * @param {IntersectionObserverEntry[]} entries
-   * @returns {void}
-   */
-  observerCallback(entries) {
-    // test if the element is on screen
-    const isOnScreen = entries[0].isIntersecting;
-    // update variable to match the state of the element
-    if (isOnScreen != this.isOnScreen) {
-      this.isOnScreen = isOnScreen;
-    }
-  }
+// PRIVATE VARIABLE - #places
+// get the number of decimal places to display
+get places() {
+	return this.#places;
+}
+set places(value) {
+	if (typeof value === "number") this.#places = value;
+}
+updatePlaces() {
+	this.places = this.c.places(this.animationValueEnd);
+}
+
+// ATTRIBUTE CHANGED CALLBACK
+attributeChangedCallback() {
+	this.resetAnimation();
+	this.updateAttributes();
+}
+// CONNECTED CALLBACK
+connectedCallback() {
+	// reset values
+	this.resetAnimation();
+	this.updateAttributes();
+
+	// create and start the observer
+	new IntersectionObserver(this.observerCallback, {
+		rootMargin: "0%",
+		threshold: 0.5,
+	}).observe(this.refs.container);
+}
+
+// OBSERVER CALLBACK
+/**
+ * callback method which fires when the element is scrolled into view
+ * @param {IntersectionObserverEntry[]} entries
+ * @returns {void}
+ */
+observerCallback(entries) {
+	// test if the element is on screen
+	const isOnScreen = entries[0].isIntersecting;
+	// update variable to match the state of the element
+	if (isOnScreen != this.isOnScreen) {
+		this.isOnScreen = isOnScreen;
+	}
+}
+
+// METHOD - UPDATE ATTRIBUTES
+updateAttributes() {
+	ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
+	ComponentUtils.updateColorAttributes(this.c, this);
+	//ComponentUtils.updateSizeAttributes(this.c, this);
+}
+
+// METHOD - UPDATE ANIMATION TEXT
+/** @param {string} str */
+updateAnimationText(str) {
+	this.refs.animation.textContent = str ?? "";
+}
+
+// METHOD - RESET ANIMATION
+resetAnimation() {
+	this.updateEnd();
+	this.updatePlaces();
+	this.updateStart();
+	this.updateDuration();
+	this.resetStartTime();
+}
 }
 customElements.define("scrolling-stat", ScrollingStat);
 export default ScrollingStat;
