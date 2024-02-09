@@ -154,6 +154,7 @@ static get styles() {
 	updateAttributes() {
 		ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
 		ComponentUtils.updateColorAttributes(this.c, this);
+		// @ts-expect-error - yes it is
 		this.refs.container.style.setProperty("--transition-duration", this?.transitionDuration ?? "0.3s");
 	}
 }

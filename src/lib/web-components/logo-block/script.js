@@ -5,7 +5,7 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.0.1 */
-/** {@link https://www.lj-cdn.dev/web-components/scrolling-stat} */
+/** {@link https://www.lj-cdn.dev/web-components/lobo-block} */
 
 /**
  * Logo Block Web Component
