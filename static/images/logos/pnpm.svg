@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300px" height="200px" viewBox="0 0 300 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>pnpm</title>
+    <g id="pnpm" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(102, 52)" fill-rule="nonzero">
+            <g id="b2JZZcA3fT-link" fill="#FFFFFF">
+                <polygon id="b2JZZcA3fT" points="0 0 97 0 97 97 0 97"></polygon>
+            </g>
+            <g id="bj0tb0Y8q-link" transform="translate(64, 6)" fill="#F9AD00">
+                <polygon id="bj0tb0Y8q" points="27 27 0 27 0 0 27 0"></polygon>
+            </g>
+            <g id="dkDSTzPj3-link" transform="translate(35, 6)" fill="#F9AD00">
+                <polygon id="dkDSTzPj3" points="27 27 0 27 0 0 27 0"></polygon>
+            </g>
+            <g id="a4vNdcNLpF-link" transform="translate(6, 6)" fill="#F9AD00">
+                <polygon id="a4vNdcNLpF" points="27 27 0 27 0 0 27 0"></polygon>
+            </g>
+            <g id="h2t4Zj1jSU-link" transform="translate(64, 35)" fill="#F9AD00">
+                <polygon id="h2t4Zj1jSU" points="27 27 0 27 0 0 27 0"></polygon>
+            </g>
+            <g id="b4t5pngwvT-link" transform="translate(35, 35)" fill="#4E4E4E">
+                <polygon id="b4t5pngwvT" points="27 27 0 27 0 0 27 0"></polygon>
+            </g>
+            <g id="b9s1gd5m2-link" transform="translate(35, 64)" fill="#4E4E4E">
+                <polygon id="b9s1gd5m2" points="27 27 0 27 0 0 27 0"></polygon>
+            </g>
+            <g id="cmt9WLvz7-link" transform="translate(64, 64)" fill="#4E4E4E">
+                <polygon id="cmt9WLvz7" points="27 27 0 27 0 0 27 0"></polygon>
+            </g>
+            <g id="bJUNqgFSg-link" transform="translate(6, 64)" fill="#4E4E4E">
+                <polygon id="bJUNqgFSg" points="27 27 0 27 0 0 27 0"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
