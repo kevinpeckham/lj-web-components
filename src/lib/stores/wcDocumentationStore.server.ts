@@ -34,6 +34,7 @@ interface ComponentDocumentation {
 	description: string;
 	innerTemplate: string;
 	published: boolean;
+	notes: string[];
 	isPrivate: boolean;
 	requires: string[];
 	slug: string;
@@ -54,6 +55,7 @@ export const wcDocumentationStore = derived(
 			const description = getDescription(file.value);
 			const innerTemplate = getInnerTemplate(file.value);
 			const published = getPublicationStatus(file.value);
+			const notes = getNotes(file.value);
 			const isPrivate = getPrivacyStatus(file.value);
 			const requires = getDependencies(file.value);
 
@@ -68,6 +70,7 @@ export const wcDocumentationStore = derived(
 				exampleHTML,
 				innerTemplate,
 				name,
+				notes,
 				published,
 				isPrivate,
 				requires,
@@ -142,4 +145,10 @@ function getDependencies(file: string) {
 }
 function getPrivacyStatus(file: string) {
 	return file?.match(/@private(?:.)*?\n/)?.[0] ? true : false;
+}
+function getNotes(file: string) {
+	return (
+		file?.match(/@note(?:.)*?\n/g)?.map((v) => v.replace(/@note/, "").trim()) ??
+		[]
+	);
 }

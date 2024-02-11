@@ -1,11 +1,11 @@
 // @ts-expect-error - type defs not available
 import { ComponentUtils } from "/e/wc/component-utils.min.js";
 
-/** @copyright 2024 Lightning Jar - "Copy Button" web component - License MIT */
+/** @copyright 2024 Lightning Jar - "LinkButton" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.0.1 */
-/** {@link https://www.lj-cdn.dev/web-components/scrolling-stat} */
+/** {@link https://www.lj-cdn.dev/web-components/link-button} */
 
 /**
  * Link Button Web Component

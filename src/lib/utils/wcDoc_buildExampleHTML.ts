@@ -29,7 +29,13 @@ export function buildExampleWcHTML(slug: string, attributes: AttributesData) {
 		keys.map((att) => {
 			const name = att ?? "";
 			const value = attributes[att]?.example ?? "";
-			const attribute = `${name}="${value}"`;
+
+			// if it is a JSON object
+			// JSON will be passed inside an extra pair of curly braces
+			const isJSON = value[0] === "{" && value[value.length - 1] === "}";
+
+			const attribute = isJSON ? `${name}=${value}` : `${name}="${value}"`;
+
 			return value ? `\n  ${attribute}` : "";
 		}) ?? [];
 	const attributesString = attributesArray?.join("") ?? "";

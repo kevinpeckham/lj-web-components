@@ -24,7 +24,6 @@ Web component documentation page
 	import type { PageData } from "./$types";
 
 	// utils
-	import buildExampleHTML from "$utils/wcDoc_buildExampleHTML";
 	import buildExampleScript from "$utils/wcDoc_buildExampleScript";
 	import sanitizeExampleHTML from "$utils/wcDoc_sanitizeExampleHTML";
 
@@ -34,6 +33,8 @@ Web component documentation page
 
 	// data
 	export let data: PageData;
+
+	// $: console.log(data.attributes);
 
 	// put data in context
 	$: setContext("data", data);
@@ -125,7 +126,8 @@ Web component documentation page
 			div.p-3.rounded(
 				class="bg-white/5",
 				bind:this!="{ wcContainer }")
-				+html('sanitizedValue')
+				+html('$htmlContentStore')
+				//- +html('sanitizedValue')
 
 		//- settings & attributes
 		+if('data.attributeNames?.length > 0')
@@ -133,6 +135,16 @@ Web component documentation page
 				div.flex.gap-1.px-2.mb-4
 					h2.leading-none Settings &amp; Attributes
 				AttributesGrid
+
+		//- notes
+		+if('data.attributeNames?.length > 0')
+			section
+				div.flex.gap-1.px-2.mb-4
+					h2.leading-none Notes
+				pre.w-full(
+					class="bg-black/20 p-4 rounded-xl text-14 h-auto whitespace-pre-wrap")
+					+each('data.notes as note')
+						p.opacity-85 { note }
 
 		//- component inner template
 		section

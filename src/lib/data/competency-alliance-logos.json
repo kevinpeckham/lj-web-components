@@ -1,0 +1,122 @@
+[
+	{
+		"name": "BP",
+		"image-src": "https://competencyalliance.dev/images/logos/bp.webp",
+		"link-href": "bp.com"
+	},
+	{
+		"name": "Shell",
+		"image-src": "https://competencyalliance.dev/images/logos/shell.webp",
+		"link-href": "https://shell.com"
+	},
+	{
+		"name": "Halliburton",
+		"image-src": "https://competencyalliance.dev/images/logos/halliburton.webp",
+		"link-href": "https://halliburton.com"
+	},
+	{
+		"name": "Aramco",
+		"image-src": "https://competencyalliance.dev/images/logos/saudi-aramco.webp",
+		"link-href": "https://aramco.com"
+	},
+	{
+		"name": "Oxy",
+		"image-src": "https://competencyalliance.dev/images/logos/oxy.webp",
+		"link-href": "https://www.oxy.com/"
+	},
+	{
+		"name": "Chevron",
+		"image-src": "https://competencyalliance.dev/images/logos/chevron.webp",
+		"link-href": "https://chevron.com/"
+	},
+	{
+		"name": "MOL Group",
+		"image-src": "https://competencyalliance.dev/images/logos/molgroup.webp",
+		"link-href": "https://molgroup.info/en"
+	},
+	{
+		"name": "SABIC",
+		"image-src": "https://competencyalliance.dev/images/logos/sabic.webp",
+		"link-href": "https://www.sabic.com/en"
+	},
+	{
+		"name": "Woodside Energy",
+		"image-src": "https://competencyalliance.dev/images/logos/woodside.webp",
+		"link-href": "https://www.woodside.com"
+	},
+	{
+		"name": "Eco Petrol",
+		"image-src": "https://competencyalliance.dev/images/logos/ecopetrol.webp",
+		"link-href": "https://www.ecopetrol-usa.com/"
+	},
+	{
+		"name": "OMV",
+		"image-src": "https://competencyalliance.dev/images/logos/omv.webp",
+		"link-href": "https://www.omv.com/en"
+	},
+	{
+		"name": "Plains",
+		"image-src": "https://competencyalliance.dev/images/logos/plains.webp",
+		"link-href": "https://www.plains.com/"
+	},
+	{
+		"name": "Cheniere",
+		"image-src": "https://competencyalliance.dev/images/logos/cheniere.webp",
+		"link-href": "https://www.cheniere.com/"
+	},
+	{
+		"name": "ONEOK",
+		"image-src": "https://competencyalliance.dev/images/logos/oneok.webp",
+		"link-href": "https://www.oneok.com/"
+	},
+	{
+		"name": "Conoco Phillips",
+		"image-src": "https://competencyalliance.dev/images/logos/conoco-phillips.webp",
+		"link-href": "https://www.conocophillips.com/"
+	},
+	{
+		"name": "Methanex",
+		"image-src": "https://competencyalliance.dev/images/logos/methanex.webp",
+		"link-href": "https://www.methanex.com/"
+	},
+	{
+		"name": "Santos",
+		"image-src": "https://competencyalliance.dev/images/logos/santos.webp",
+		"link-href": "https://www.santos.com/"
+	},
+	{
+		"name": "Repsol",
+		"image-src": "https://competencyalliance.dev/images/logos/repsol.webp",
+		"link-href": "https://www.repsol.com/en/index.cshtml"
+	},
+	{
+		"name": "OGCI",
+		"image-src": "https://competencyalliance.dev/images/logos/ogci.webp",
+		"link-href": "https://www.ogci.com/"
+	},
+	{
+		"name": "TTG",
+		"image-src": "https://competencyalliance.dev/images/logos/ttg.webp",
+		"link-href": "/"
+	},
+	{
+		"name": "John M Campbell",
+		"image-src": "https://competencyalliance.dev/images/logos/john-m-campbell.webp",
+		"link-href": "https://www.jmcampbell.com/"
+	},
+	{
+		"name": "UTT",
+		"image-src": "https://competencyalliance.dev/images/logos/utt.webp",
+		"link-href": "https://utt.edu.tt/"
+	},
+	{
+		"name": "RDC",
+		"image-src": "https://competencyalliance.dev/images/logos/rdc.webp",
+		"link-href": "https://petroskills.com"
+	},
+	{
+		"name": "Simulation Solutions",
+		"image-src": "https://competencyalliance.dev/images/logos/simulation-solutions.webp",
+		"link-href": "https://www.simulationsolutions.com/"
+	}
+]

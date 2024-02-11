@@ -33,6 +33,7 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 	const innerTemplate = documentation?.innerTemplate ?? "";
 	const exampleHTML = documentation?.exampleHTML ?? "";
 	const name = documentation?.name ?? "";
+	const notes = documentation?.notes ?? [];
 	const published = documentation?.published ?? false;
 	const requires = documentation?.requires ?? [];
 
@@ -58,6 +59,7 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 		metaDescription,
 		metaNoIndex,
 		name,
+		notes,
 		webComponentScript,
 		requires,
 		slug,

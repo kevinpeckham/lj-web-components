@@ -59,7 +59,7 @@ export const ComponentUtils = {
 				const wasUpdated = (oldValue !== newValue);
         // set the attribute if it is a content attribute
         if ((key === "textContent") && wasUpdated) el.textContent = context[camel]
-        else if (key && wasUpdated) el?.setAttribute(key, context[camel] );
+				else if (key && wasUpdated) el?.setAttribute(key, context[camel] );
     });
 
   },
@@ -157,9 +157,9 @@ export const ComponentUtils = {
         get: function () {
           return context.getAttribute(attr) ?? def;
         },
-        set: function (value) {
-          if (typeof value === 'string') context.setAttribute(attr, value);
-        },
+        // set: function (value) {
+        //   if (typeof value === 'string' && !attr.includes('data')) context.setAttribute(attr, value)
+        // },
       });
     }
   }
