@@ -32,21 +32,21 @@ import LogoTile from "/e/wc/logo-tile.min.js";
  * @attribute grid-column-gap-sm | 1.25rem | -- | gap between columns @ sm (>= 640px)
  * @attribute grid-column-gap-xs | 1rem | -- | gap between columns @ xs (>= 420px)
  * @attribute grid-column-gap-xxs | 0.5rem | -- | gap between columns @ xxs (< 420px)
- * @attribute grid-row-gap-2xl | 1.5rem | -- | gap between columns @ 2xl (>= 1536px)
- * @attribute grid-row-gap-xl | 1.5rem | -- | gap between columns @ xl (>= 1280px)
- * @attribute grid-row-gap-lg | 1.5rem | -- | gap between columns @ lg (>= 1024px)
- * @attribute grid-row-gap-md | 1.5rem | -- | gap between columns @ md (>= 768px)
- * @attribute grid-row-gap-sm | 1.5rem | -- | gap between columns @ sm (>= 640px)
- * @attribute grid-row-gap-xs | 1.5rem | -- | gap between columns @ xs (>= 420px)
- * @attribute grid-row-gap-xxs | 1.5rem | -- | gap between columns  @ xxs (< 420px)
- * @attribute grid-stagger | off | on | stagger the tiles - "off" or "on"ß
- * @attribute grid-stagger-2xl | 3.5rem | -- | stagger the tiles @ xl breakpoint
- * @attribute grid-stagger-xl | 3rem | -- | stagger the tiles @ xl
- * @attribute grid-stagger-lg | 2rem | -- | stagger the tiles @ lg
- * @attribute grid-stagger-md | 2rem | -- | stagger the tiles @ md
- * @attribute grid-stagger-sm | 2rem | -- | stagger the tiles @ lg breakpoint
- * @attribute grid-stagger-xs | 1.5rem | -- | stagger the tiles @ lg breakpoint
- * @attribute grid-stagger-xxs | 0 | -- | stagger the tiles @ xs breakpoint
+ * @attribute grid-row-gap-2xl | 1.5rem | -- | gap between rows @ 2xl (>= 1536px)
+ * @attribute grid-row-gap-xl | 1.5rem | -- | gap between rows @ xl (>= 1280px)
+ * @attribute grid-row-gap-lg | 1.5rem | -- | gap between rows @ lg (>= 1024px)
+ * @attribute grid-row-gap-md | 1.5rem | -- | gap between rows @ md (>= 768px)
+ * @attribute grid-row-gap-sm | 1.5rem | -- | gap between rows @ sm (>= 640px)
+ * @attribute grid-row-gap-xs | 1.5rem | -- | gap between rows @ xs (>= 420px)
+ * @attribute grid-row-gap-xxs | 1.5rem | -- | gap between rows  @ xxs (< 420px)
+ * @attribute grid-stagger | off | on | stagger the tiles - "off" or "on" @ 2xl (>= 1536px)
+ * @attribute grid-stagger-2xl | 3.5rem | -- | distance to stagger tiles @ 2xl breakpoint
+ * @attribute grid-stagger-xl | 3rem | -- | distance to stagger tiles @ xl (>= 1280px)
+ * @attribute grid-stagger-lg | 2rem | -- | distance to stagger tiles @ lg (>= 1024px)
+ * @attribute grid-stagger-md | 2rem | -- | distance to stagger tiles @ md (>= 768px)
+ * @attribute grid-stagger-sm | 2rem | -- | distance to stagger tiles @ sm (>= 640px)
+ * @attribute grid-stagger-xs | 1.5rem | -- | distance to stagger tiles @ xs (>= 420px)
+ * @attribute grid-stagger-xxs | 0 | -- | distance to stagger tiles @ xxs (< 420px)
  * @attribute tile-border-radius | 2.5% | 1em | border radius (rounded edges) of the tile
  * @attribute tile-color-background | transparent | white | background color of the tile
  * @attribute tile-aspect-ratio | -- | 290 / 128 | the aspect ratio of the tile
