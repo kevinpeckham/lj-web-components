@@ -74,6 +74,37 @@ export const ComponentUtils = {
    * @param {*} clazz
    * @param {*} context
    * */
+	getFontAttributes(clazz, context) {
+		return Object.keys(clazz.attributes).filter((attr) => {return attr.includes("font-") || attr.includes("text-") || attr.includes("line-") || attr.includes("letter-")});
+	},
+		/**
+   * @param {*} clazz
+   * @param {*} context
+   * */
+	updateFontAttributes(clazz, context) {
+		const fontAttrs = this.getFontAttributes(clazz, context);
+
+		fontAttrs.forEach((attr) => {
+			let key = "font";
+			if (attr.includes("text-")) key = "text";
+			if (attr.includes("line-")) key = "line";
+			if (attr.includes("letter-")) key = "letter";
+			const prop = attr.split("-")[1] ?? "";
+			const size = attr.split("-")[2] ?? "";
+			const camel = this.kebabToCamel(attr);
+			const defaultValue = clazz.attributes[attr];
+			const newValue = context[camel] ?? defaultValue;
+			const cssVariable = `--${key}-${prop}${size ? `-${size}` : ""}`;
+			const oldValue = context.refs.container.style.getPropertyValue(`$cssVariable`);
+			if (newValue !== oldValue || oldValue === null) {
+				context.refs.container.style.setProperty(`${cssVariable}`, newValue);
+			};
+		});
+	},
+	/**
+   * @param {*} clazz
+   * @param {*} context
+   * */
 	getColorAttributes(clazz, context) {
 		return Object.keys(clazz.attributes).filter((attr) => attr.includes("color-"));
 	},
@@ -100,7 +131,7 @@ export const ComponentUtils = {
    * @param {*} context
    * */
 	getSizeAttributes(clazz, context) {
-		return Object.keys(clazz.attributes).filter((attr) => attr.includes("size-"));
+		return Object.keys(clazz.attributes).filter((attr) => attr.includes("size-") && !attr.includes("font-"));
 	},
 	/**
    * @param {*} clazz
@@ -128,7 +159,7 @@ export const ComponentUtils = {
    * @param {*} context
    * */
   getRefs(clazz, context) {
-    return /** @type { { [key:string]: HTMLElement} } */ (
+    const refs = /** @type { { [key:string]: HTMLElement} } */ (
       clazz.ids.reduce(
         /**
          * @param {*} acc
@@ -144,6 +175,9 @@ export const ComponentUtils = {
         {},
       )
     );
+		// if there is no container, then lookup via ".container" class
+		if (!refs.container) { refs.container = context.shadowRoot?.querySelector(".container")}
+		return refs;
   },
   /**
    * Create getters and setters for observed attributes
