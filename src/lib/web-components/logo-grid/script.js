@@ -446,7 +446,6 @@ buildTiles() {
 	breakPoints.forEach((key) => {
 		const gridStagger = (this?.gridStagger === "on") ? true : false;
 		const colsNum = Number(this?.[`gridColumns${key}`] ?? "0") ?? 0;
-		window.console.log('colsNum', colsNum)
 
 			// stagger the tiles at the large breakpoint
 			let x = colsNum;
