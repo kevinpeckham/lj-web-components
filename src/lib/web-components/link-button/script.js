@@ -16,7 +16,7 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @extends HTMLElement
  * @classdesc Defines web component that renders a button that copies text to the user's clipboard. The text to be copied is specified by the data-target-selector attribute.  All of the text content of the target element will be copied to the clipboard.
  * @attribute border-radius | .35em | -- | border radius of the button
- * @attribute border-size | .1em | -- | border size of the button
+ * @attribute border-width | .1em | .3em | border size of the button
  * @attribute color-background | transparent | rgb(255 255 255 / .05) | background color of the button
  * @attribute color-backgroundHover | transparent | red | background color of the button on hover
  * @attribute color-border | currentColor | currentColor | color of the border
@@ -44,6 +44,8 @@ class LinkButton extends HTMLElement {
 	 */
 	static get attributes() {
 		const values = {
+			"border-radius": ".35em",
+			"border-width": ".125em",
 			"color-accent": "lightblue",
 			"color-background": "transparent",
 			"color-backgroundHover": "lightblue",
@@ -52,8 +54,6 @@ class LinkButton extends HTMLElement {
 			"color-secondary": "currentColor",
 			"color-primary": "currentColor",
 			"color-primaryHover": "currentColor",
-			"border-radius": ".35em",
-			"border-size": ".1em",
 			"padding": ".5em 1.2em",
 			"link-textContent": "",
 			"link-href": "/",
@@ -94,7 +94,7 @@ static get styles() {
 		border-color: var(--color-border, currentColor);
 		border-radius: var(--border-radius, .35em);
 		border-style:solid;
-		border-size: var(--border-size, .1em);
+		border-width: var(--border-width, .125em);
 		color: var(--color-primary, currentColor);
 		display:inline-flex;
 		font-size:.9em;
@@ -166,7 +166,7 @@ static get styles() {
 		this.refs.container.style.setProperty("--border-radius", this?.borderRadius);
 
 		// @ts-expect-error - yes it is
-		this.refs.container.style.setProperty("--border-size", this?.borderSize);
+		this.refs.container.style.setProperty("--border-width", this?.borderWidth ?? ".125em");
 
 		// @ts-expect-error - yes it is
 		this.refs.container.style.setProperty("--padding", this?.padding);
