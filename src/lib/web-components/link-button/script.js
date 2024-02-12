@@ -27,6 +27,7 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @attribute link-href | / | https://cdn.lj.dev/web-components | text appears on hover
  * @attribute link-title | -- | learn more | selector for the target element
  * @attribute link-rel | -- | external | selector for the target element
+ * @attribute padding | .5em 1.2em | -- | padding around the text in the button button
  * @attribute transition-duration | .3s| .4s | selector for the target element
  * @attribute stylesheet-textContent | -- | -- | injects css into custom stylesheet
 
@@ -53,6 +54,7 @@ class LinkButton extends HTMLElement {
 			"color-primaryHover": "currentColor",
 			"border-radius": ".35em",
 			"border-size": ".1em",
+			"padding": ".5em 1.2em",
 			"link-textContent": "",
 			"link-href": "/",
 			"link-title": "",
@@ -97,7 +99,7 @@ static get styles() {
 		display:inline-flex;
 		font-size:.9em;
 		justify-content:center;
-		padding:.5em 1em;
+		padding: var(--padding, .5em 1.2em);
 		text-decoration:none;
 		transition-property: all;
 		transition-duration: var(--transition-duration, .3s);
@@ -165,6 +167,9 @@ static get styles() {
 
 		// @ts-expect-error - yes it is
 		this.refs.container.style.setProperty("--border-size", this?.borderSize);
+
+		// @ts-expect-error - yes it is
+		this.refs.container.style.setProperty("--padding", this?.padding);
 
 	}
 }
