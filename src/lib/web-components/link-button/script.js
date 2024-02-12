@@ -15,13 +15,14 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @requires ComponentUtils
  * @extends HTMLElement
  * @classdesc Defines web component that renders a button that copies text to the user's clipboard. The text to be copied is specified by the data-target-selector attribute.  All of the text content of the target element will be copied to the clipboard.
- * @attribute color-accent | blue | lightblue| color of the hover state of button
+ * @attribute border-radius | .35em | -- | border radius of the button
+ * @attribute border-size | .1em | -- | border size of the button
  * @attribute color-background | transparent | rgb(255 255 255 / .05) | background color of the button
  * @attribute color-backgroundHover | transparent | red | background color of the button on hover
  * @attribute color-border | currentColor | currentColor | color of the border
  * @attribute color-borderHover | currentColor | red | color of the border on hover
- * @attribute color-text | currentColor | | color of the text
- * @attribute color-textHover | currentColor | | color of the text on hover
+ * @attribute color-primary | currentColor | -- | color of the text
+ * @attribute color-primaryHover | currentColor | white | color of the text on hover
  * @attribute link-textContent | -- | Get Started | success message
  * @attribute link-href | / | https://cdn.lj.dev/web-components | text appears on hover
  * @attribute link-title | -- | learn more | selector for the target element
@@ -47,10 +48,11 @@ class LinkButton extends HTMLElement {
 			"color-backgroundHover": "lightblue",
 			"color-border": "currentColor",
 			"color-borderHover": "lightblue",
-			"color-primary": "currentColor",
 			"color-secondary": "currentColor",
-			"color-text": "currentColor",
-			"color-textHover": "currentColor",
+			"color-primary": "currentColor",
+			"color-primaryHover": "currentColor",
+			"border-radius": ".35em",
+			"border-size": ".1em",
 			"link-textContent": "",
 			"link-href": "/",
 			"link-title": "",
@@ -83,14 +85,14 @@ static get styles() {
 	<style>
 	:host, * { box-sizing:border-box;margin:0; }
 	#container {
-		color: var(--color-primary, currentColor);
+
 	}
 	#link {
 		align-items:center;
 		border-color: var(--color-border, currentColor);
-		border-radius:.35em;
+		border-radius: var(--border-radius, .35em);
 		border-style:solid;
-		border-size:.1em;
+		border-size: var(--border-size, .1em);
 		color: var(--color-primary, currentColor);
 		display:inline-flex;
 		font-size:.9em;
@@ -103,6 +105,7 @@ static get styles() {
 	#link:hover {
 		border-color: var(--color-backgroundHover, lightblue);
 		background-color: var(--color-backgroundHover, lightblue);
+		color: var(--color-primaryHover, currentColor);
 	}
 
 </style><style id="stylesheet"></style>`.trim();
@@ -155,7 +158,14 @@ static get styles() {
 		ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
 		ComponentUtils.updateColorAttributes(this.c, this);
 		// @ts-expect-error - yes it is
-		this.refs.container.style.setProperty("--transition-duration", this?.transitionDuration ?? "0.3s");
+		this.refs.container.style.setProperty("--transition-duration", this?.transitionDuration);
+
+		// @ts-expect-error - yes it is
+		this.refs.container.style.setProperty("--border-radius", this?.borderRadius);
+
+		// @ts-expect-error - yes it is
+		this.refs.container.style.setProperty("--border-size", this?.borderSize);
+
 	}
 }
 
