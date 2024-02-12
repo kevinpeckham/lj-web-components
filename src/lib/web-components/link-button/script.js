@@ -16,7 +16,7 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @extends HTMLElement
  * @classdesc Defines web component that renders a button that copies text to the user's clipboard. The text to be copied is specified by the data-target-selector attribute.  All of the text content of the target element will be copied to the clipboard.
  * @attribute border-radius | .35em | -- | border radius of the button
- * @attribute border-width | .1em | .3em | border size of the button
+ * @attribute border-width | .125em | -- | border size of the button
  * @attribute color-background | transparent | rgb(255 255 255 / .05) | background color of the button
  * @attribute color-backgroundHover | transparent | red | background color of the button on hover
  * @attribute color-border | currentColor | currentColor | color of the border
