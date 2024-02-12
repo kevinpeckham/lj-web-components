@@ -204,7 +204,7 @@ static get styles() {
 		}
 		#container:has(.stagger-xxs) {
 			transform:translateX(calc(-.5 * var(--grid-stagger-xxs)));
-			scale:.95;
+			padding: 0em calc(0.5 * var(--grid-stagger-xxs));
 		}
 		.stagger-xxs {
 			transform:translateX(var(--grid-stagger-xxs));
@@ -219,7 +219,7 @@ static get styles() {
 		}
 		#container:has(.stagger-xs) {
 			transform:translateX(calc(-.5 * var(--grid-stagger-xs)));
-			scale:.9;
+			padding: 0em calc(0.5 * var(--grid-stagger-xs));
 
 		}
 		.stagger-xs {
@@ -227,7 +227,7 @@ static get styles() {
 		}
 	}
 	/* sm break point */
-	@media (min-width: 640px) and (max-width: 767.9px){
+	@media (min-width: 640px) and (max-width: 767.9px) {
 		#container {
 			column-gap: var(--grid-column-gap-sm, 1.25rem);
 			grid-template-columns: repeat(var(--grid-columns-sm, 3),minmax(0,1fr));
@@ -235,7 +235,7 @@ static get styles() {
 		}
 		#container:has(.stagger-sm) {
 			transform:translateX(calc(-.5 * var(--grid-stagger-sm)));
-			scale:.95;
+			padding: 0em calc(0.5 * var(--grid-stagger-sm));
 		}
 		.stagger-sm {
 			transform:translateX(var(--grid-stagger-sm));
@@ -251,7 +251,7 @@ static get styles() {
 		}
 		#container:has(.stagger-md) {
 			transform:translateX(calc(-.5 * var(--grid-stagger-md)));
-			scale:.95;
+			padding: 0em calc(0.5 * var(--grid-stagger-md));
 		}
 		.stagger-md {
 			transform:translateX(var(--grid-stagger-md));
@@ -267,7 +267,7 @@ static get styles() {
 		}
 		#container:has(.stagger-lg) {
 			transform:translateX(calc(-.5 * var(--grid-stagger-lg)));
-			scale:.95;
+			padding: 0em calc(0.5 * var(--grid-stagger-lg));
 		}
 		.stagger-lg { transform:translateX(var(--grid-stagger-lg)) }
 	}
@@ -281,7 +281,7 @@ static get styles() {
 		}
 		#container:has(.stagger-xl) {
 			transform:translateX(calc(-.5 * var(--grid-stagger-xl)));
-			scale:.935;
+			padding: 0em calc(0.5 * var(--grid-stagger-xl));
 		}
 		.stagger-xl { transform:translateX(var(--grid-stagger-xl)) }
 	}
