@@ -108,6 +108,7 @@ static get styles() {
 		border-color: var(--color-backgroundHover, lightblue);
 		background-color: var(--color-backgroundHover, lightblue);
 		color: var(--color-primaryHover, currentColor);
+		white-space:nowrap;
 	}
 
 </style><style id="stylesheet"></style>`.trim();
