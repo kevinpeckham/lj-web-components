@@ -103,12 +103,13 @@ static get styles() {
 		text-decoration:none;
 		transition-property: all;
 		transition-duration: var(--transition-duration, .3s);
+		white-space:nowrap;
 	}
 	#link:hover {
 		border-color: var(--color-backgroundHover, lightblue);
 		background-color: var(--color-backgroundHover, lightblue);
 		color: var(--color-primaryHover, currentColor);
-		white-space:nowrap;
+
 	}
 
 </style><style id="stylesheet"></style>`.trim();

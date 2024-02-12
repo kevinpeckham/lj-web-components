@@ -55,7 +55,7 @@ class WidgetHeading extends HTMLHeadingElement {
 			"font-size-lg": "",
 			"font-size-xl": "",
 			"font-size-2xl": "",
-			"font-weight": "500",
+			"font-weight": "600",
 			"line-height": "1.2",
 			"max-width": "100%",
 			"padding": "0",
