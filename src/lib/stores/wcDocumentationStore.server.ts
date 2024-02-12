@@ -145,7 +145,7 @@ function getPublicationStatus(file: string) {
 function getInnerTemplate(file: string) {
 	return (
 		file
-			?.match(/<(?:.)+?id="container"(?:.|\n)+?>(?:\n| )*?(?=`)/)?.[0]
+			?.match(/<(?:.)+?="container"(?:.|\n)+?>(?:\n| )*?(?=`)/)?.[0]
 			?.trim() ?? ""
 	);
 }
