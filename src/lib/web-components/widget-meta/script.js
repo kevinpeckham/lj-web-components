@@ -29,6 +29,7 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @attribute line-height | 1 | -- | text line height
  * @attribute max-width | 100% | -- | border size of the button
  * @attribute stylesheet-textContent | -- | -- | injects css into
+ * @attribute text-transform | uppercase | -- | injects css into
  * @slot | -- | Membership | slot for the text content
  * @note this is a customization of the div element
  * @note it must be implemented as an extension of the h2 element (see example)
