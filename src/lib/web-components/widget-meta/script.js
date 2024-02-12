@@ -93,8 +93,8 @@ static get styles() {
 		padding: var(--padding, 0);
 	}
 	@media (max-width: 419.9px) { div {text-align:center; font-size: var(--font-size-xxs, var(--font-size, 1.5em)); }}
-	@media (min-width: 420px) { div {text-align:left; font-size: var(--font-size-xs, var(--font-size, 1.5em)); }}
-	@media (min-width: 640px) { div {font-size: var(--font-size-sm, var(--font-size, 1.5em)); }}
+	@media (min-width: 420px) { div {font-size: var(--font-size-xs, var(--font-size, 1.5em)); }}
+	@media (min-width: 640px) { div {text-align:left; font-size: var(--font-size-sm, var(--font-size, 1.5em)); }}
 	@media (min-width: 768px) { div {font-size: var(--font-size-md, var(--font-size, 1.5em)); }}
 	@media (min-width: 1024px) { div {font-size: var(--font-size-lg, var(--font-size, 1.5em)); }}
 	@media (min-width: 1280px) { div {font-size: var(--font-size-xl, var(--font-size, 1.5em)); }}
