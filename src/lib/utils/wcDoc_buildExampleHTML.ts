@@ -19,9 +19,19 @@ const attributesData: { [key: string]: Attribute } = {
 
 type AttributesData = typeof attributesData;
 
-export function buildExampleWcHTML(slug: string, attributes: AttributesData) {
+export function buildExampleWcHTML(
+	slug: string,
+	attributes: AttributesData,
+	builtInTag?: string,
+	exampleSlotContent?: string,
+) {
 	if (!slug || typeof slug !== "string") return "";
 	if (!attributes) return "";
+
+	// get tag
+	const tag = builtInTag ? builtInTag : slug;
+	const is = builtInTag ? ` is="${slug}"` : "";
+	const slotContent = exampleSlotContent ? `\n  ${exampleSlotContent}\n` : `\n`;
 
 	const keys = Object.keys(attributes) ?? [];
 
@@ -39,7 +49,7 @@ export function buildExampleWcHTML(slug: string, attributes: AttributesData) {
 			return value ? `\n  ${attribute}` : "";
 		}) ?? [];
 	const attributesString = attributesArray?.join("") ?? "";
-	const example = `<${slug} ${attributesString}>\n</${slug}>`;
+	const example = `<${tag}${is} ${attributesString}>${slotContent}</${tag}>`;
 	return example;
 }
 

@@ -33,11 +33,14 @@ interface ComponentDocumentation {
 	exampleHTML: string;
 	description: string;
 	innerTemplate: string;
+	builtIn: boolean;
+	builtInExampleTag: string;
 	published: boolean;
 	notes: string[];
 	isPrivate: boolean;
 	requires: string[];
 	slug: string;
+	slotExampleContent?: string;
 }
 
 // utils
@@ -51,6 +54,8 @@ export const wcDocumentationStore = derived(
 		).map((file) => {
 			const attributes = getAttributes(file.value);
 			const attributeNames = Object.keys(attributes) ?? [];
+			const builtIn = isBuiltIn(file.value);
+			const builtInExampleTag = getBuiltInExampleTag(file.value);
 			const name = titleCase(deslugify(file.name));
 			const description = getDescription(file.value);
 			const innerTemplate = getInnerTemplate(file.value);
@@ -58,14 +63,23 @@ export const wcDocumentationStore = derived(
 			const notes = getNotes(file.value);
 			const isPrivate = getPrivacyStatus(file.value);
 			const requires = getDependencies(file.value);
+			const slotExampleContent = getSlotExampleContent(file.value);
 
 			// slug
 			const slug = slugify(file.name);
-			const exampleHTML = buildExampleHTML(slug, attributes) ?? "";
+			const exampleHTML =
+				buildExampleHTML(
+					slug,
+					attributes,
+					builtInExampleTag,
+					slotExampleContent,
+				) ?? "";
 
 			return {
 				attributes,
 				attributeNames,
+				builtIn,
+				builtInExampleTag,
 				description,
 				exampleHTML,
 				innerTemplate,
@@ -74,6 +88,7 @@ export const wcDocumentationStore = derived(
 				published,
 				isPrivate,
 				requires,
+				slotExampleContent,
 				slug,
 			};
 		});
@@ -151,4 +166,21 @@ function getNotes(file: string) {
 		file?.match(/@note(?:.)*?\n/g)?.map((v) => v.replace(/@note/, "").trim()) ??
 		[]
 	);
+}
+
+function isBuiltIn(file: string): boolean {
+	const match = file?.match(/@extends(?:.)*?\n/)?.[0] ?? "";
+	const isBuiltIn = match.includes("HTMLElement") ? false : true;
+	return isBuiltIn;
+}
+function getBuiltInExampleTag(file: string): string {
+	const match = file?.match(/@extends(?:.)*?\n/)?.[0] ?? "";
+	const tag = match.split("|")[1]?.trim() ?? "";
+	return tag;
+}
+
+function getSlotExampleContent(file: string) {
+	const match = file?.match(/@slot(?:.)*?\n/)?.[0] ?? "";
+	const content = match.split("|")[2]?.trim() ?? "";
+	return content;
 }

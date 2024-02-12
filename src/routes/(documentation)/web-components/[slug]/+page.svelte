@@ -1,6 +1,7 @@
 <!--
 @component
 Web component documentation page
+!! bring back sanitization
 -->
 
 <script lang="ts">
