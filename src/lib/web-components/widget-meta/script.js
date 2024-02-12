@@ -83,7 +83,7 @@ static get styles() {
 	return `
 	<style>
 	:host, * { box-sizing:border-box;margin:0; }
-	#meta {
+	div {
 		color: var(--color-primary, currentColor);
 		font-size: var(--font-size, .85em);
 		text-transform: var(--text-transform, uppercase);
@@ -92,13 +92,13 @@ static get styles() {
 		line-height: var(--line-height, 1);
 		padding: var(--padding, 0);
 	}
-	@media (max-width: 419.9px) { #heading {font-size: var(--font-size-xxs, var(--font-size, 1.5em)); }}
-	@media (min-width: 420px) { #heading {font-size: var(--font-size-xs, var(--font-size, 1.5em)); }}
-	@media (min-width: 640px) { #heading {font-size: var(--font-size-sm, var(--font-size, 1.5em)); }}
-	@media (min-width: 768px) { #heading {font-size: var(--font-size-md, var(--font-size, 1.5em)); }}
-	@media (min-width: 1024px) { #heading {font-size: var(--font-size-lg, var(--font-size, 1.5em)); }}
-	@media (min-width: 1280px) { #heading {font-size: var(--font-size-xl, var(--font-size, 1.5em)); }}
-	@media (min-width: 1536px) { #heading {font-size: var(--font-size-2xl, var(--font-size, 1.5em)); }}
+	@media (max-width: 419.9px) { div {text-align:center; font-size: var(--font-size-xxs, var(--font-size, 1.5em)); }}
+	@media (min-width: 420px) { div {text-align:left; font-size: var(--font-size-xs, var(--font-size, 1.5em)); }}
+	@media (min-width: 640px) { div {font-size: var(--font-size-sm, var(--font-size, 1.5em)); }}
+	@media (min-width: 768px) { div {font-size: var(--font-size-md, var(--font-size, 1.5em)); }}
+	@media (min-width: 1024px) { div {font-size: var(--font-size-lg, var(--font-size, 1.5em)); }}
+	@media (min-width: 1280px) { div {font-size: var(--font-size-xl, var(--font-size, 1.5em)); }}
+	@media (min-width: 1536px) { div {font-size: var(--font-size-2xl, var(--font-size, 1.5em)); }}
 </style><style id="stylesheet"></style>`.trim();
 }
 
