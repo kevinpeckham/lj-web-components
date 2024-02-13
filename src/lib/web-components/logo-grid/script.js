@@ -168,7 +168,6 @@ static getDefault(attr) { return this.attributes[attr] ?? "" }
 
 // ELEMENTS
 static get els() {
-
   return `
 <style id="stylesheet"></style>
 <div id="container">

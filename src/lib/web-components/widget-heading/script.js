@@ -16,7 +16,7 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @extends HTMLHeadingElement | h2
  * @classdesc Defines web component that renders a text heading.
  * @attribute color-primary | currentColor | -- | color of the text
- * @attribute font-size | 1.75em | -- | base font size, sets a default across breakpoints
+ * @attribute font-size | 1.75rem | -- | base font size, sets a default across breakpoints
  * @attribute font-size-xxs | -- | -- | font size @ xxs
  * @attribute font-size-xs | -- | -- | font size @ xs
  * @attribute font-size-sm | -- | -- | font size @ sm
@@ -25,6 +25,7 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @attribute font-size-xl | -- | -- | font size @ xl
  * @attribute font-size-2xl | -- | -- | font size @ 2xl
  * @attribute font-weight | 600 | -- | default font weight
+ * @attribute heading-textContent | -- | -- | text content
  * @attribute line-height | 1.2 | -- | text line height
  * @attribute max-width | 100% | 20em | border size of the button
  * @attribute stylesheet-textContent | -- | -- | injects css into
@@ -47,7 +48,7 @@ class WidgetHeading extends HTMLHeadingElement {
 		const values = {
 
 			"color-primary": "currentColor",
-			"font-size": "1.75em",
+			"font-size": "1.75rem",
 			"font-size-xxs": "",
 			"font-size-xs": "",
 			"font-size-sm": "",
@@ -56,6 +57,7 @@ class WidgetHeading extends HTMLHeadingElement {
 			"font-size-xl": "",
 			"font-size-2xl": "",
 			"font-weight": "600",
+			"heading-textContent": "",
 			"line-height": "1.2",
 			"max-width": "100%",
 			"padding": "0",
@@ -89,7 +91,7 @@ static get styles() {
 	}
 	#heading {
 		color: var(--color-primary, currentColor);
-		font-size: var(--font-size, 1.5em);
+		font-size: var(--font-size, 1.5rem);
 		font-weight: var(--font-weight, 500);
 		line-height: var(--line-height, 1.2);
 		max-width: var(--max-width, 100%);
@@ -150,7 +152,8 @@ static get styles() {
 	// METHODS
 	updateAttributes() {
 		// update slot content
-		this.refs.heading.textContent = this.textContent;
+		// @ts-expect-error - yes it is
+		this.refs.heading.textContent = this?.headingTextContent ? this?.headingTextContent : this.textContent;
 
 		// update max width
 		// @ts-expect-error - yes it is
