@@ -338,15 +338,17 @@ constructor() {
 // LIFECYCLE CALLBACKS
 connectedCallback() {
 	this.updateAttributes();
-	this.buildTiles();
+	//this.buildTiles();
 }
 attributeChangedCallback() {
 	this.updateAttributes();
-	this.buildTiles();
+	//this.buildTiles();
 }
 
 // METHODS
 updateAttributes() {
+
+
 	ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
 	ComponentUtils.updateColorAttributes(this.c, this);
 
