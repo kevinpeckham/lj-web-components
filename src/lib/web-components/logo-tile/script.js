@@ -19,7 +19,7 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @attribute image-alt | -- | -- | alt text for the image
  * @attribute image-aspect-ratio | -- | 120 / 120 | aspect ratio of the image
  * @attribute image-padding | -- | -- | padding around the outside of image
- * @attribute image-src | -- | /images/apple.svg | src for the image
+ * @attribute image-src | -- | /images/logos/apple.svg | src for the image
  * @attribute link-href | / | https://apple.com | href for the link
  * @attribute link-title | -- | go to apple | title for the link
  * @attribute tile-border-radius | -- | 1em | border radius of the tile
@@ -28,7 +28,7 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @attribute size-height | 100% | -- | outer height of the tile
  * @attribute size-width | 100% | -- | outer width of the tile
  * @attribute stagger | -- | -- | outer width of the tile
- * @attribute stylesheet-textContent | -- | -- | inject css into the inner stylesheet
+ * @attribute stylesheet | -- | -- | inject css into the inner stylesheet
  * @attribute style | -- | width:160px; | regular inline style on the component
  * @attribute transition-property | opacity | -- | duration of the transition effect
  * @attribute transition-duration | .3s | -- | duration of the transition effect
@@ -57,7 +57,7 @@ const values = {
 	"size-height": "100%",
 	"size-width": "100%",
 	"stagger": "",
-  "stylesheet-textContent": "",
+  "stylesheet": "",
 	"tile-border-radius": "1em",
 	"tile-opacity": "100%",
 	"tile-opacity-hover": "100%",
@@ -90,7 +90,7 @@ static get els() {
 // STYLES
 static get styles() {
   return `
-  <style>
+  <style id="base">
   :host, *:not(style) { display:block;box-sizing:border-box; margin:0; }
 	#container {
 		align-items:center;
@@ -192,6 +192,8 @@ updateAttributes() {
 	this.refs.container.style.setProperty("--transition-property", this?.transitionProperty ?? "");
 	// @ts-expect-error - yes it is
 	this.refs.container.style.setProperty("--lg-translate-x", this?.stagger ?? "");
+	// @ts-expect-error - yes it is
+	this.refs.stylesheet.textContent = this?.stylesheet ?? "";
 }}
 
 customElements.define("logo-tile", LogoTile);

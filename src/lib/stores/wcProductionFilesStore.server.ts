@@ -48,7 +48,6 @@ export const wcProductionFilesStore = derived(
 
 			// get requires
 			const requires = getRequires(stylesScrubbed);
-			console.log(requires);
 
 			// scrub the templates inside the source text
 			const templatesScrubbed = scrubTemplates(stylesScrubbed);

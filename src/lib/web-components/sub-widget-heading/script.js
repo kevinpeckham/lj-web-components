@@ -1,22 +1,22 @@
 // @ts-expect-error - type defs not available
 import { ComponentUtils } from "/e/wc/component-utils.min.js";
 
-/** @copyright 2024 Lightning Jar - "WidgetMeta" web component - License MIT */
+/** @copyright 2024 Lightning Jar - "WidgetHeading" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.0.1 */
-/** {@link https://www.lj-cdn.dev/web-components/widget-meta} */
+/** {@link https://www.lj-cdn.dev/web-components/sub-widget-heading} */
 
 /**
  * Widget Heading Web Component
- * @name WidgetMeta
+ * @name SubWidgetHeading
  * @class
  * @published 2024-02-09
  * @requires ComponentUtils
- * @extends HTMLDivElement | div
- * @classdesc Defines web component that renders a smaller text heading. For typical use in a widget above the heading.
+ * @extends HTMLHeadingElement | h2
+ * @classdesc Defines web component that renders a text heading.
  * @attribute color-primary | currentColor | -- | color of the text
- * @attribute font-size | .85em | -- | base font size, sets a default across breakpoints
+ * @attribute font-size | 1.75rem | -- | base font size, sets a default across breakpoints
  * @attribute font-size-xxs | -- | -- | font size @ xxs
  * @attribute font-size-xs | -- | -- | font size @ xs
  * @attribute font-size-sm | -- | -- | font size @ sm
@@ -24,20 +24,19 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @attribute font-size-lg | -- | -- | font size @ lg
  * @attribute font-size-xl | -- | -- | font size @ xl
  * @attribute font-size-2xl | -- | -- | font size @ 2xl
- * @attribute font-weight | 400 | -- | default font weight
- * @attribute letter-spacing | .05em | -- | text letter spacing
- * @attribute line-height | 1 | -- | text line height
- * @attribute max-width | 100% | -- | border size of the button
- * @attribute stylesheet-textContent | -- | -- | injects css into
- * @attribute text-transform | uppercase | -- | injects css into
- * @slot | -- | Membership | slot for the text content
- * @note this is a customization of the div element
+ * @attribute font-weight | 600 | -- | default font weight
+ * @attribute heading-text | -- | -- | text content
+ * @attribute line-height | 1.2 | -- | text line height
+ * @attribute max-width | 100% | 20em | border size of the button
+ * @attribute stylesheet | -- | -- | injects css into
+ * @slot | -- | You don't have to face these obstacles alone. | slot for the text content
+ * @note this is a customization of the h2 element
  * @note it must be implemented as an extension of the h2 element (see example)
 
  */
-class WidgetMeta extends HTMLDivElement {
+class SubWidgetHeading extends HTMLHeadingElement {
 	// reference to class itself
-	get c() { return WidgetMeta };
+	get c() { return SubWidgetHeading };
 
 
 	// ATTRIBUTES
@@ -48,7 +47,7 @@ class WidgetMeta extends HTMLDivElement {
 	static get attributes() {
 		const values = {
 			"color-primary": "currentColor",
-			"font-size": ".85em",
+			"font-size": "1.75rem",
 			"font-size-xxs": "",
 			"font-size-xs": "",
 			"font-size-sm": "",
@@ -56,12 +55,12 @@ class WidgetMeta extends HTMLDivElement {
 			"font-size-lg": "",
 			"font-size-xl": "",
 			"font-size-2xl": "",
-			"font-weight": "400",
-			"letter-spacing": "0.05em",
-			"line-height": "1",
+			"font-weight": "600",
+			"heading-text": "",
+			"line-height": "1.2",
+			"max-width": "100%",
 			"padding": "0",
-			"text-transform": "uppercase",
-			"stylesheet-textContent": ""
+			"stylesheet": ""
 		};
 	return values;
 	}
@@ -75,7 +74,10 @@ class WidgetMeta extends HTMLDivElement {
 
 // ELEMENTS
 static get els() {
-	return `<div class="container" id="meta"></div>`.trim();
+	return `
+<div id="container">
+	<div id="heading"></div>
+</div>`.trim();
 }
 
 // STYLES
@@ -83,23 +85,24 @@ static get styles() {
 	return `
 	<style>
 	:host, * { box-sizing:border-box;margin:0; }
-	div {
-		color: var(--color-primary, currentColor);
-		font-size: var(--font-size, .85em);
-		text-transform: var(--text-transform, uppercase);
-		font-weight: var(--font-weight, 500);
-		letter-spacing: var(--letter-spacing, 0.05em);
-		line-height: var(--line-height, 1);
-		padding: var(--padding, 0);
-		text-align:center;
+	#container {
+
 	}
-	@media (max-width: 419.9px) { div { font-size: var(--font-size-xxs, var(--font-size, 1.5em)); }}
-	@media (min-width: 420px) { div { font-size: var(--font-size-xs, var(--font-size, 1.5em)); }}
-	@media (min-width: 640px) { div { text-align:start; font-size: var(--font-size-sm, var(--font-size, 1.5em)); }}
-	@media (min-width: 768px) { div {font-size: var(--font-size-md, var(--font-size, 1.5em)); }}
-	@media (min-width: 1024px) { div {font-size: var(--font-size-lg, var(--font-size, 1.5em)); }}
-	@media (min-width: 1280px) { div {font-size: var(--font-size-xl, var(--font-size, 1.5em)); }}
-	@media (min-width: 1536px) { div {font-size: var(--font-size-2xl, var(--font-size, 1.5em)); }}
+	#heading {
+		color: var(--color-primary, currentColor);
+		font-size: var(--font-size, 1.5rem);
+		font-weight: var(--font-weight, 500);
+		line-height: var(--line-height, 1.2);
+		max-width: var(--max-width, 100%);
+		padding: var(--padding, 0);
+	}
+	@media (max-width: 419.9px) { #heading {font-size: var(--font-size-xxs, var(--font-size, 1.5em)); }}
+	@media (min-width: 420px) { #heading {font-size: var(--font-size-xs, var(--font-size, 1.5em)); }}
+	@media (min-width: 640px) { #heading {font-size: var(--font-size-sm, var(--font-size, 1.5em)); }}
+	@media (min-width: 768px) { #heading {font-size: var(--font-size-md, var(--font-size, 1.5em)); }}
+	@media (min-width: 1024px) { #heading {font-size: var(--font-size-lg, var(--font-size, 1.5em)); }}
+	@media (min-width: 1280px) { #heading {font-size: var(--font-size-xl, var(--font-size, 1.5em)); }}
+	@media (min-width: 1536px) { #heading {font-size: var(--font-size-2xl, var(--font-size, 1.5em)); }}
 </style><style id="stylesheet"></style>`.trim();
 }
 
@@ -148,13 +151,19 @@ static get styles() {
 	// METHODS
 	updateAttributes() {
 		// update slot content
-		this.refs.meta.textContent = this.textContent;
+		// @ts-expect-error - yes it is
+		this.refs.heading.textContent = this?.headingText ? this?.headingText : this.textContent;
+		// @ts-expect-error - yes it is
+		this.refs.stylesheet.textContent = this?.stylesheet ?? "";
+		// update max width
+		// @ts-expect-error - yes it is
+		this.refs.container.style.setProperty("--max-width", this?.maxWidth ?? "100%");
 
-		// update font and color
 		ComponentUtils.updateFontAttributes(this.c, this);
 		ComponentUtils.updateColorAttributes(this.c, this);
+
 	}
 }
 
-customElements.define("widget-meta", WidgetMeta, {extends: "div"});
-export default WidgetMeta;
+customElements.define("sub-widget-heading", SubWidgetHeading, {extends: "h2"});
+export default SubWidgetHeading;

@@ -23,11 +23,12 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @attribute color-borderHover | currentColor | red | color of the border on hover
  * @attribute color-primary | currentColor | -- | color of the text
  * @attribute color-primaryHover | currentColor | white | color of the text on hover
- * @attribute link-textContent | -- | Get Started | success message
+ * @attribute link-text | -- | Get Started | button text
  * @attribute link-href | / | https://cdn.lj.dev/web-components | text appears on hover
  * @attribute link-title | -- | learn more | selector for the target element
  * @attribute link-rel | -- | external | selector for the target element
- * @attribute padding | .5rem 1.2rem | -- | padding around the text in the button button
+ * @attribute line-height | 1 | -- | line height for button text
+ * @attribute padding | .55rem 1.2rem | .75rem 1.33rem | padding around the text in the button button
  * @attribute transition-duration | .3s| .4s | selector for the target element
  * @attribute stylesheet-textContent | -- | -- | injects css into custom stylesheet
 
@@ -54,8 +55,9 @@ class LinkButton extends HTMLElement {
 			"color-secondary": "currentColor",
 			"color-primary": "currentColor",
 			"color-primaryHover": "currentColor",
-			"padding": ".5rem 1.2rem",
-			"link-textContent": "",
+			"padding": ".55rem 1.2rem",
+			"line-height": "1",
+			"link-text": "",
 			"link-href": "/",
 			"link-title": "",
 			"link-target": "_self",
@@ -86,9 +88,6 @@ static get styles() {
 	return `
 	<style>
 	:host, * { box-sizing:border-box;margin:0; }
-	#container {
-
-	}
 	#link {
 		align-items:center;
 		border-color: var(--color-border, currentColor);
@@ -99,7 +98,8 @@ static get styles() {
 		display:inline-flex;
 		font-size:.9em;
 		justify-content:center;
-		padding: var(--padding, .5rem 1.2rem);
+		line-height: var(--line-height, 1);
+		padding: var(--padding, .5rem 1.33rem);
 		text-decoration:none;
 		transition-property: all;
 		transition-duration: var(--transition-duration, .3s);
@@ -109,9 +109,7 @@ static get styles() {
 		border-color: var(--color-backgroundHover, lightblue);
 		background-color: var(--color-backgroundHover, lightblue);
 		color: var(--color-primaryHover, currentColor);
-
 	}
-
 </style><style id="stylesheet"></style>`.trim();
 }
 
@@ -172,6 +170,12 @@ static get styles() {
 
 		// @ts-expect-error - yes it is
 		this.refs.container.style.setProperty("--padding", this?.padding);
+
+		// @ts-expect-error - yes it is
+		this.refs.container.style.setProperty("--line-height", this?.lineHeight);
+
+		// @ts-expect-error - yes it is
+		this.refs.link.textContent = this.textContent?.trim() ? this.textContent : this.linkText;
 
 	}
 }

@@ -11,7 +11,19 @@
 
 export const ComponentUtils = {
 	/** @typedef {string} S */
-	breakpoints: ["2xl", "Xl", "Lg", "Md", "Sm", "Xs", "Xxs"],
+	breakpoints: ["2xl", "xl", "lg", "md", "sm", "xs", "xxs"],
+	breakpointMap: {
+		"2xl": {min: "1440px", max: "9999px"},
+		"xl": {min: "1280px", max: "1439px"},
+		"lg": {min: "1024px", max: "1279px"},
+		"md": {min: "768px", max: "1023px"},
+		"sm": {min: "640px", max: "767px"},
+		"xs": {min: "420px", max: "639px"},
+		"xxs": {min: "0", max: "419px"
+	}},
+
+	titleCase: /** @param {S} s */ (s) => s.replace(/\b\w/g, (l) => l.toUpperCase()),
+
 	/**
 	 * @name kebabToCamel
 	 * @method

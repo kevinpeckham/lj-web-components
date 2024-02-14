@@ -1,58 +1,57 @@
 // @ts-expect-error - type defs not available
 import { ComponentUtils } from "/e/wc/component-utils.min.js";
 // @ts-expect-error yep got it
-import WidgetHeader from "/e/wc/widget-header.min.js";
+import SubWidgetHeader from "/e/wc/sub-widget-header.min.js";
 // @ts-expect-error yep got it
-import WidgetText from "/e/wc/widget-text.min.js";
+import SubWidgetText from "/e/wc/sub-widget-text.min.js";
 // @ts-expect-error yep got it
 import LogoGrid from "/e/wc/logo-grid.min.js";
 
 
 
-/** @copyright 2024 Lightning Jar - "WidgetContainer" web component - License MIT */
+/** @copyright 2024 Lightning Jar - "SubWidgetContainer" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.0.1 */
-/** {@link https://www.lj-cdn.dev/web-components/widget-container} */
+/** {@link https://www.lj-cdn.dev/web-components/sub-widget-container} */
 
 /**
  * Widget Heading Web Component
- * @name WidgetContainer
+ * @name SubWidgetContainer
  * @class
  * @published 2024-02-09
  * @requires ComponentUtils
- * @requires WidgetHeader
- * @requires WidgetText
+ * @requires SubWidgetHeader
+ * @requires SubWidgetText
  * @classdesc Defines web component that provides a container for a widget with Heading, MetaTag, LinkButton and slot.
- * @attribute button-href | -- | https://petroskills.com/about/the-alliance | href for the button
- * @attribute button-textContent | -- | Become a Member | (optional) text for the button
- * @attribute button-title | -- | learn more about becoming a member | title for the button
+ * @attribute button-href | -- | # | href for the button
+ * @attribute button-text | -- | Click Me | text for the button
+ * @attribute button-title | -- | learn more | title for the button
  * @attribute color-accent | lightblue | #00dcbb | color of the text
  * @attribute color-background | -- | #0A2F7E| color of the widget background
  * @attribute color-primary | currentColor | white | color of the text
  * @attribute color-secondary | currentColor | #00bc9c | color of...
- * @attribute heading-textContent | -- | You don't have to face these obstacles alone.
- * @attribute meta-textContent | -- | Alliance Membership
+ * @attribute heading-text | -- | It takes one to know one. | text for the heading
+ * @attribute meta-text | -- | This Just In
  * @attribute container-padding | 4rem | 4rem 4rem 6rem 4rem | padding for the container
- * @slot | -- | <logo-grid grid-stagger="on" tile-border-radius="1em" tile-color-background="white" tile-aspect-ratio="290 / 128" tile-opacity="85%" tile-opacity-hover="100%" tile-padding="10px" data-tiles={[{"name":"Apple","image-src":"/images/logos/apple.svg","link-href":"https://apple.com"},{"name":"Svelte","image-src":"/images/logos/svelte.svg","link-href":"https://svelte.dev"},{"name":"Node","image-src":"/images/logos/nodejs.svg","link-href":"https://nodejs.org"},{"name":"Typescript","image-src":"/images/logos/typescript.svg","link-href":"https://www.typescriptlang.org"},{"name":"Tailwind","image-src":"/images/logos/tailwind.svg","link-href":"https://tailwindcss.com"},{"name":"Vercel","image-src":"/images/logos/vercel.svg","link-href":"https://vercel.com"},{"name":"Github","image-src":"/images/logos/github.svg","link-href":"https://github.com"},{"name":"Vite","image-src":"/images/logos/vite.svg","link-href":"https://vite.com"},{"name":"PNPM","image-src":"/images/logos/pnpm.svg","link-href":"https://pnpm.io"}]}></logo-grid> | slot
+ * @slot | -- | <div>Content in a slot.</div> | slot
 for the text content
  * @note
-
-
  */
-class WidgetContainer extends HTMLElement {
+class SubWidgetContainer extends HTMLElement {
 	// reference to class itself
-	get c() { return WidgetContainer };
-	buttonTextContent = "";
+	get c() { return SubWidgetContainer };
+	buttonText = "";
 	buttonTitle = "";
 	buttonHref = "";
 	colorAccent = "";
 	colorBackground = "";
 	colorPrimary = "";
 	colorSecondary = "";
-	headingTextContent = "";
+	headingText = "";
 	containerPadding = "";
-	metaTextContent = "";
+	metaText = "";
+	stylesheet = "";
 
 
 	// ATTRIBUTES
@@ -63,15 +62,16 @@ class WidgetContainer extends HTMLElement {
 	static get attributes() {
 		const values = {
 			"button-href": "",
-			"button-textContent": "",
+			"button-text": "",
 			"button-title": "",
 			"color-accent": "lightblue",
 			"color-background": "transparent",
 			"color-primary": "currentColor",
 			"color-secondary": "currentColor",
-			"heading-textContent": "You don't have to face these obstacles alone.",
-			"meta-textContent": "Alliance Membership",
+			"heading-text": "",
+			"meta-text": "",
 			"container-padding": "4rem",
+			"stylesheet": ""
 		};
 
 	return values;
@@ -99,16 +99,16 @@ static els(content) {
 	} = content
 	return `
 <div id="container">
-	<widget-header
-	button-href="https://petroskills.com/about/the-alliance"
-	button-textContent="Become a Member"
-	button-title="learn more about becoming a member"
-	color-accent="#00dcbb"
-	color-primary="white"
-	color-secondary="#00bc9c"
-	heading-textContent="You don't have to face these obstacles alone."
-	meta-textContent="Alliance Membership">
-	</widget-header>
+	<sub-widget-header
+	button-href="${buttonHref}"
+	button-text="${buttonText}"
+	button-title="${buttonTitle}"
+	color-accent="${colorAccent}"
+	color-primary="${colorPrimary}"
+	color-secondary="${colorSecondary}"
+	heading-text="${headingText}"
+	meta-text="${metaText}">
+	</sub-widget-header>
 	<div id="slot"></div>
 </div>
 
@@ -181,9 +181,9 @@ static template(content) {
 			colorAccent: this.colorAccent,
 			colorPrimary: this.colorPrimary,
 			colorSecondary: this.colorSecondary,
-			headingText: this.headingTextContent,
-			metaText: this.metaTextContent,
-			buttonText: this.buttonTextContent ?? "",
+			headingText: this.headingText,
+			metaText: this.metaText,
+			buttonText: this.buttonText ?? "",
 			buttonTitle: this.buttonTitle,
 			buttonHref: this.buttonHref,
 		};
@@ -195,15 +195,12 @@ static template(content) {
 
 		// update attributes
     this.updateAttributes();
-
-
 	}
 
 	// CONNECTED CALLBACK
 	connectedCallback() {
 		this.updateAttributes();
 	}
-
 	// ATTRIBUTE CHANGED CALLBACK
 	attributeChangedCallback() {
 		this.updateAttributes();
@@ -217,9 +214,10 @@ static template(content) {
 
 		this.refs.slot.innerHTML = this.innerHTML;
 		this.refs.container.style.setProperty("--container-padding", this.containerPadding);
+		this.refs.stylesheet.textContent = this.getAttribute("stylesheet");
 
 	}
 }
 
-customElements.define("widget-container", WidgetContainer);
-export default WidgetContainer;
+customElements.define("sub-widget-container", SubWidgetContainer);
+export default SubWidgetContainer;

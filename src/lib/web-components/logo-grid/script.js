@@ -15,8 +15,13 @@ import LogoTile from "/e/wc/logo-tile.min.js";
 
 	/**
 	 * @typedef BreakpointSize
-	 * @type {"2xl" | "Xl" | "Lg" | "Md" | "Sm" | "Xs" | "Xxs"}
+	 * @type {"2xl" | "xl" | "lg" | "md" | "sm" | "xs" | "xxs"}
 	 * */
+
+	/**
+	 * @typedef Breakpoint
+	 * @type {{[key: string]: string; min: string; max: string}}
+	 */
 
 
 /** @copyright 2024 Lightning Jar - "Logo Grid" web component - License MIT */
@@ -70,14 +75,11 @@ import LogoTile from "/e/wc/logo-tile.min.js";
  * @attribute tile-padding | -- | 10px | duration of the transition effect
  * @attribute tile-transition-duration | 0.3s | -- | duration of the transition effect
  * @attribute tile-transition-property | opacity | -- | transition property to animate
- * @attribute tile-stylesheet-textContent | -- | -- | inject css into the inner stylesheet
- * @attribute stylesheet-textContent | -- | -- | inject css into the grid inner stylesheet
- * @attribute data-tiles | -- | [{"name":"Apple","image-src":"/images/logos/apple.svg","link-href":"https://apple.com"},{"name":"Svelte","image-src":"/images/logos/svelte.svg","link-href":"https://svelte.dev"},{"name":"Node","image-src":"/images/logos/nodejs.svg","link-href":"https://nodejs.org"},{"name":"Typescript","image-src":"/images/logos/typescript.svg","link-href":"https://www.typescriptlang.org"},{"name":"Tailwind","image-src":"/images/logos/tailwind.svg","link-href":"https://tailwindcss.com"},{"name":"Vercel","image-src":"/images/logos/vercel.svg","link-href":"https://vercel.com"},{"name":"Github","image-src":"/images/logos/github.svg","link-href":"https://github.com"},{"name":"Vite","image-src":"/images/logos/vite.svg","link-href":"https://vite.com"},{"name":"PNPM","image-src":"/images/logos/pnpm.svg","link-href":"https://pnpm.io"}] | JSON data for the tiles
+ * @attribute tile-stylesheet | -- | -- | inject css into the inner stylesheet
+ * @attribute stylesheet | -- | -- | inject css into the grid inner stylesheet
+ * @attribute data-json | -- | [{"name":"Apple","image-src":"/images/logos/apple.svg","link-href":"https://apple.com"},{"name":"Svelte","image-src":"/images/logos/svelte.svg","link-href":"https://svelte.dev"},{"name":"Node","image-src":"/images/logos/nodejs.svg","link-href":"https://nodejs.org"},{"name":"Typescript","image-src":"/images/logos/typescript.svg","link-href":"https://www.typescriptlang.org"},{"name":"Tailwind","image-src":"/images/logos/tailwind.svg","link-href":"https://tailwindcss.com"},{"name":"Vercel","image-src":"/images/logos/vercel.svg","link-href":"https://vercel.com"},{"name":"Github","image-src":"/images/logos/github.svg","link-href":"https://github.com"},{"name":"Vite","image-src":"/images/logos/vite.svg","link-href":"https://vite.com"},{"name":"PNPM","image-src":"/images/logos/pnpm.svg","link-href":"https://pnpm.io"}] | JSON data for the tiles
  * @note Data for the tiles is passed in as a JSON string. The tiles are built from the JSON data.
- * @note The JSON data must be wrapped in an extra pair of curly braces. See example above.
- * @note The JSON data must not contain any line breaks or spaces.
- * @note You may use underscores in place of spaces in the tile names.
- * @property {string} data-tiles - JSON data for the tiles
+ * @property {string} data-json - JSON data for the tiles
  */
 class LogoGrid extends HTMLElement {
 
@@ -85,7 +87,7 @@ class LogoGrid extends HTMLElement {
 get c() { return LogoGrid };
 
 // types
-dataTiles = "";
+dataJson = "";
 gridColumnGap2xl = "1.5rem";
 gridColumnGapXl = "1.5rem";
 gridColumnGapLg = "1.5rem";
@@ -123,7 +125,8 @@ tileOpacityHover = "";
 tilePadding = "";
 tileTransitionDuration = "";
 tileTransitionProperty = "";
-tileStylesheetTextContent = "";
+tileStylesheet = "";
+stylesheet = "";
 
 
 
@@ -163,7 +166,7 @@ const values = {
 	"grid-row-gap-sm": "1.5rem",
 	"grid-row-gap-xs": "1.5rem",
 	"grid-row-gap-xxs": "1.5rem",
-	"data-tiles": "",
+	"data-json": "",
 	"tile-aspect-ratio": "",
 	"tile-border-radius": "2.5%",
 	"tile-color-background": "transparent",
@@ -172,7 +175,8 @@ const values = {
 	"tile-padding": "",
 	"tile-transition-duration": "0.3s",
 	"tile-transition-property": "opacity",
-	"tile-stylesheet-textContent": "",
+	"tile-stylesheet": "",
+	"stylesheet": ""
 };
 return values;
 }
@@ -189,8 +193,36 @@ static get els() {
 </div>`.trim();
 }
 // STYLES
-// !! refactor css to be dynamically generated (smaller)
+
 static get styles() {
+
+
+	/** @param {BreakpointSize} bp */
+	const breakPointStyle = (bp) => {
+
+		const lc = bp.toLowerCase();
+		/** @type {Breakpoint} map */
+		const breakpoint = ComponentUtils.breakpointMap[bp];
+
+		const min = breakpoint.min;
+		const max = breakpoint.max;
+		return `
+		@media (min-width: ${min}) and (max-width: ${max}) {
+			#container {
+				column-gap: var(--grid-column-gap-${bp});
+				grid-template-columns: repeat(var(--grid-columns-${bp}), minmax(0,1fr));
+				row-gap: var(--grid-row-gap-${bp});
+			}
+			#container:has(.stagger-${bp}) {
+				transform:translateX(calc(-.5 * var(--grid-stagger-${bp})));
+				padding: 0em calc(0.5 * var(--grid-stagger-${bp}));
+			}
+			.stagger-${bp} {
+				transform:translateX(var(--grid-stagger-${bp}));
+			}
+		}
+			`};
+
   return `
   <style #base>
   :host, *:not(style) { display:block;box-sizing:border-box; margin:0; }
@@ -208,112 +240,13 @@ static get styles() {
 		height:auto;
 		width:100%;
   }
-
-	/* xxs break point */
-	@media (max-width: 419.99px) {
-		#container {
-			column-gap: var(--grid-column-gap-xxs, 0.5rem);
-			grid-template-columns: repeat(var(--grid-columns-xxs, 1), minmax(0,1fr));
-			row-gap: var(--grid-row-gap-xxs, 1rem);
-		}
-		#container:has(.stagger-xxs) {
-			transform:translateX(calc(-.5 * var(--grid-stagger-xxs)));
-			padding: 0em calc(0.5 * var(--grid-stagger-xxs));
-		}
-		.stagger-xxs {
-			transform:translateX(var(--grid-stagger-xxs));
-		}
-	}
-	/* xs break point */
-	@media (min-width: 420px) and (max-width: 639.9px) {
-		#container {
-			column-gap: var(--grid-column-gap-xs, 1rem);
-			grid-template-columns: repeat(var(--grid-columns-xs, 1), minmax(0,1fr));
-			row-gap: var(--grid-row-gap-xs, 1rem);
-		}
-		#container:has(.stagger-xs) {
-			transform:translateX(calc(-.5 * var(--grid-stagger-xs)));
-			padding: 0em calc(0.5 * var(--grid-stagger-xs));
-
-		}
-		.stagger-xs {
-			transform:translateX(var(--grid-stagger-xs));
-		}
-	}
-	/* sm break point */
-	@media (min-width: 640px) and (max-width: 767.9px) {
-		#container {
-			column-gap: var(--grid-column-gap-sm, 1.25rem);
-			grid-template-columns: repeat(var(--grid-columns-sm, 3),minmax(0,1fr));
-			row-gap: var(--grid-row-gap-sm, 1.25rem);
-		}
-		#container:has(.stagger-sm) {
-			transform:translateX(calc(-.5 * var(--grid-stagger-sm)));
-			padding: 0em calc(0.5 * var(--grid-stagger-sm));
-		}
-		.stagger-sm {
-			transform:translateX(var(--grid-stagger-sm));
-		}
-	}
-
-	/* md break point */
-	@media (min-width: 768px) and (max-width: 1023.9px) {
-		#container {
-			column-gap: var(--grid-column-gap-md, 1.5rem);
-			grid-template-columns: repeat(var(--grid-columns-md, 5),minmax(0,1fr));
-			row-gap: var(--grid-row-gap-md, 1.5rem);
-		}
-		#container:has(.stagger-md) {
-			transform:translateX(calc(-.5 * var(--grid-stagger-md)));
-			padding: 0em calc(0.5 * var(--grid-stagger-md));
-		}
-		.stagger-md {
-			transform:translateX(var(--grid-stagger-md));
-		}
-	}
-
-	/* lg break point */
-	@media (min-width: 1024px) and (max-width: 1279.9px) {
-		#container {
-			column-gap: var(--grid-column-gap-lg, 1.5rem);
-			grid-template-columns: repeat(var(--grid-columns-lg, 6), minmax(0,1fr));
-			row-gap: var(--grid-row-gap-lg, 1.5rem);
-		}
-		#container:has(.stagger-lg) {
-			transform:translateX(calc(-.5 * var(--grid-stagger-lg)));
-			padding: 0em calc(0.5 * var(--grid-stagger-lg));
-		}
-		.stagger-lg { transform:translateX(var(--grid-stagger-lg)) }
-	}
-
-	/* xl break point */
-	@media (min-width: 1280px) and (max-width: 1535.9px){
-		#container {
-			column-gap: var(--grid-column-gap-xl, 1.75rem);
-			grid-template-columns: repeat(var(--grid-columns-xl, 7), minmax(0,1fr));
-			row-gap: var(--grid-row-gap-xl, 1.5rem);
-		}
-		#container:has(.stagger-xl) {
-			transform:translateX(calc(-.5 * var(--grid-stagger-xl)));
-			padding: 0em calc(0.5 * var(--grid-stagger-xl));
-		}
-		.stagger-xl { transform:translateX(var(--grid-stagger-xl)) }
-	}
-
-
-	@media (min-width: 1536px) {
-		#container {
-			column-gap: var(--grid-column-gap-2xl, 2rem);
-			grid-template-columns: repeat(var(--grid-columns-2xl, 8),minmax(0,1fr));
-			row-gap: var(--grid-row-gap-2xl, 1.5rem);
-		}
-		#container:has(.stagger-2xl) {
-			transform:translateX(calc(-.5 * var(--grid-stagger-2xl)));
-			scale:.935;
-		}
-		.stagger-2xl { transform:translateX(var(--grid-stagger-2xl)) }
-	}
-
+	${breakPointStyle("xxs")}
+	${breakPointStyle("xs")}
+	${breakPointStyle("sm")}
+	${breakPointStyle("md")}
+	${breakPointStyle("lg")}
+	${breakPointStyle("xl")}
+	${breakPointStyle("2xl")}
 </style>`
 }
 // TEMPLATE
@@ -339,19 +272,14 @@ constructor() {
 
 	//const template = this.c.template.content.cloneNode(true);
 
-		// build tiles
-	const template = this.buildTiles();
-	window.console.log(template)
+	// build tiles
+	const template = this.buildTemplate();
 
 	// append the template content to the shadow DOM
 	this.shadowRoot?.appendChild(template.content.cloneNode(true))
 
 	// define refs elements
 	this.refs = ComponentUtils.getRefs(this.c, this);
-
-
-
-
 
 	// update attributes
 	this.updateAttributes();
@@ -360,79 +288,45 @@ constructor() {
 // LIFECYCLE CALLBACKS
 connectedCallback() {
 	this.updateAttributes();
-	//this.buildTiles();
 }
 attributeChangedCallback() {
 	this.updateAttributes();
-	//this.buildTiles();
 }
 
 // METHODS
 updateAttributes() {
+	// update stylesheet
+	this.refs.stylesheet.textContent = this.stylesheet;
 
-
-	//ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
-	//ComponentUtils.updateColorAttributes(this.c, this);
-
-
-	// update grid size attributes
-	// !! refactor this to use a loop
-	this.refs.container.style.setProperty("--grid-columns-xxs", this.gridColumnsXxs);
-	this.refs.container.style.setProperty("--grid-columns-xs", this.gridColumnsXs);
-	this.refs.container.style.setProperty("--grid-columns-sm", this.gridColumnsSm);
-	this.refs.container.style.setProperty("--grid-columns-md", this.gridColumnsMd);
-	this.refs.container.style.setProperty("--grid-columns-lg", this.gridColumnsLg);
-	this.refs.container.style.setProperty("--grid-columns-xl", this.gridColumnsXl);
-  this.refs.container.style.setProperty("--grid-columns-2xl", this.gridColumns2xl);
-
-	// update column gap attributes
-	// !! refactor this to use a loop
-	this.refs.container.style.setProperty("--grid-column-gap-xxs", this.gridColumnGapXxs);
-	this.refs.container.style.setProperty("--grid-column-gap-xs", this.gridColumnGapXs);
-	this.refs.container.style.setProperty("--grid-column-gap-sm", this.gridColumnGapSm);
-	this.refs.container.style.setProperty("--grid-column-gap-md", this.gridColumnGapMd);
-	this.refs.container.style.setProperty("--grid-column-gap-lg", this.gridColumnGapLg);
-	this.refs.container.style.setProperty("--grid-column-gap-xl", this.gridColumnGapXl);
-	this.refs.container.style.setProperty("--grid-column-gap-2xl", this.gridColumnGap2xl);
-
-	// update row gap attributes
-	// !! refactor this to use a loop
-	this.refs.container.style.setProperty("--grid-row-gap-xxs", this.gridRowGapXxs);
-	this.refs.container.style.setProperty("--grid-row-gap-xs", this.gridRowGapXs);
-	this.refs.container.style.setProperty("--grid-row-gap-sm", this.gridRowGapSm);
-	this.refs.container.style.setProperty("--grid-row-gap-md", this.gridRowGapMd);
-	this.refs.container.style.setProperty("--grid-row-gap-lg", this.gridRowGapLg);
-	this.refs.container.style.setProperty("--grid-row-gap-xl", this.gridRowGapXl);
-	this.refs.container.style.setProperty("--grid-row-gap-2xl", this.gridRowGap2xl);
-
-	// update grid stagger attribute
-	// !! refactor this to use a loop
-	this.refs.container.style.setProperty("--grid-stagger", this.gridStagger);
-	if (this.gridStaggerXxs) this.refs.container.style.setProperty("--grid-stagger-xxs", this.gridStaggerXxs);
-	if (this.gridStaggerXs) this.refs.container.style.setProperty("--grid-stagger-xs", this.gridStaggerXs);
-	this.refs.container.style.setProperty("--grid-stagger-sm", this.gridStaggerSm);
-	this.refs.container.style.setProperty("--grid-stagger-md", this.gridStaggerMd);
-	this.refs.container.style.setProperty("--grid-stagger-lg", this.gridStaggerLg);
-	this.refs.container.style.setProperty("--grid-stagger-xl", this.gridStaggerXl);
-	this.refs.container.style.setProperty("--grid-stagger-2xl", this.gridStagger2xl);
+	// update grid size, column gap, row gap, and stagger
+	ComponentUtils.breakpoints.forEach((/** @type {BreakpointSize} bp  */  bp) => {
+		const tc = ComponentUtils.titleCase(bp);
+		this.refs.container.style.setProperty(`--grid-columns-${bp}`, this[`gridColumns${tc}`]);
+		this.refs.container.style.setProperty(`--grid-column-gap-${bp}`, this[`gridColumnGap${tc}`]);
+		this.refs.container.style.setProperty(`--grid-row-gap-${bp}`, this[`gridRowGap${tc}`]);
+		this.refs.container.style.setProperty(`--grid-stagger-${bp}`, this[`gridStagger${tc}`]);
+	});
 }
 
-
 // getter and setter for parsed data
-/** @returns {TileDatum[]} tilesDataParsed */
-get tilesDataParsed() {
-	const raw = this.dataTiles ?? ""
+/** @returns {TileDatum[]} dataJsonParsed */
+get dataJsonParsed() {
+	const raw = this.dataJson ?? ""
 	const scrubbed = String.raw`${raw.replace(/\s/g, "")}`;
 	return JSON.parse(scrubbed);
 }
 
 /**
  * Get the number of columns for a given breakpoint
- * @param {BreakpointSize} breakpoint
+ * @param {BreakpointSize} bp
  * @returns {number}
  */
-getcolsNum(breakpoint) {
-	return Number(this?.[`gridColumns${breakpoint}`] ?? "0") ?? 0;
+getcolsNum(bp) {
+	/** @type {"2xl" | "Xl" | "Lg" | "Md" | "Sm" | "Xs" | "Xxs"} tc */
+	const tc = ComponentUtils.titleCase(bp);
+	/** @type { "gridColumns2xl" | "gridColumnsXl" | "gridColumnsLg" | "gridColumnsMd" | "gridColumnsSm" | "gridColumnsXs" | "gridColumnsXxs" } prop */
+	const prop = `gridColumns${tc}`;
+	return Number(this?.[prop] ?? "0") ?? 0;
 }
 
 /**
@@ -467,7 +361,7 @@ isTileInEvenRow(tileIndex, breakpoint) {
   return (row % 2) === 0;
 }
 
-buildTiles() {
+buildTemplate() {
 
 	const template = document.createElement("template");
 
@@ -478,7 +372,7 @@ buildTiles() {
 	const stagger = (this.gridStagger === "on") ? true : false;
 
 	let index = 0;
-	this.tilesDataParsed.forEach((d) => {
+	this.dataJsonParsed.forEach((d) => {
 		const tile = document.createElement("logo-tile");
 		tile.setAttribute("color-background", this?.tileColorBackground);
 		tile.setAttribute("image-alt", `${d["name"]} logo`);
@@ -491,11 +385,11 @@ buildTiles() {
 		tile.setAttribute("tile-opacity", this?.tileOpacity ?? "1");
 		tile.setAttribute("tile-opacity-hover", this?.tileOpacityHover);
 		tile.setAttribute("transition-duration", this?.tileTransitionDuration);
-		tile.setAttribute("stylesheet-textContent", this?.tileStylesheetTextContent ?? "");
+		tile.setAttribute("stylesheet-textContent", this?.tileStylesheet ?? "");
 
 		// iterate through breakpoints, add stagger classes as appropriate
 		ComponentUtils.breakpoints.forEach((/** @type {BreakpointSize} bp  */  bp) => {
-			if (stagger && this.isTileInEvenRow(index, bp)) tile.classList.add(`stagger-${bp.toLowerCase()}`)
+			if (stagger && this.isTileInEvenRow(index, bp)) tile.classList.add(`stagger-${bp}`)
 		});
 
 		container?.appendChild(tile);
@@ -503,6 +397,10 @@ buildTiles() {
 	 });
 
 	 template.innerHTML = `${this.c.styles}`.trim();
+	 const stylesheet = document.createElement("style");
+	 stylesheet.id = "stylesheet";
+	 stylesheet.textContent = this.stylesheet;
+	 template.content.appendChild(stylesheet);
 	 template.content.appendChild(container);
 	 return template;
 }

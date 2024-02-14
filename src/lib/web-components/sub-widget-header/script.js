@@ -1,59 +1,59 @@
 // @ts-expect-error - type defs not available
 import { ComponentUtils } from "/e/wc/component-utils.min.js";
 // @ts-expect-error yep got it
-import WidgetHeading from "/e/wc/widget-heading.min.js";
+import SubWidgetHeading from "/e/wc/sub-widget-heading.min.js";
 // @ts-expect-error yep got it
-import WidgetMeta from "/e/wc/widget-meta.min.js";
+import SubWidgetMeta from "/e/wc/sub-widget-meta.min.js";
 // @ts-expect-error yep got it
 import LinkButton from "/e/wc/link-button.min.js";
 // @ts-expect-error yep got it
-import WidgetText from "/e/wc/widget-text.min.js";
+import SubWidgetText from "/e/wc/sub-widget-text.min.js";
 
 
-/** @copyright 2024 Lightning Jar - "WidgetHeader" web component - License MIT */
+/** @copyright 2024 Lightning Jar - "SubWidgetHeader" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.0.1 */
-/** {@link https://www.lj-cdn.dev/web-components/widget-header} */
+/** {@link https://www.lj-cdn.dev/web-components/sub-widget-header} */
 
 /**
  * Widget Heading Web Component
- * @name WidgetHeader
+ * @name SubWidgetHeader
  * @class
  * @published 2024-02-09
  * @requires ComponentUtils
- * @requires WidgetHeading
- * @requires WidgetMeta
- * @requires WidgetText
+ * @requires SubWidgetHeading
+ * @requires SubWidgetMeta
+ * @requires SubWidgetText
  * @requires LinkButton
  * @classdesc Defines web component that provides a MetaTag, Heading, and LinkButton. Meant for use as a header to a widget or page section.
  * @attribute button-href | -- | https://petroskills.com/about/the-alliance | href for the button
- * @attribute button-textContent | -- | Become a Member | (optional) text for the button
+ * @attribute button-text | -- | Become a Member | (optional) text for the button
  * @attribute button-title | -- | learn more about becoming a member | title for the button
  * @attribute color-accent | lightblue | #00dcbb | color of the text
  * @attribute color-primary | currentColor | white | color of the text
  * @attribute color-secondary | currentColor | #00bc9c | color of...
- * @attribute heading-textContent | -- | You don't have to face these obstacles alone. | heading text
- * @attribute text-textContent | -- | Energy companies are typically focused on their core businesses, rather than developing, executing, and maintaining competency development processes, programs, and systems. | header text
+ * @attribute heading-text | -- | You don't have to face these obstacles alone. | heading text
+ * @attribute header-text | -- | Energy companies are typically focused on their core businesses, rather than developing, executing, and maintaining competency development processes, programs, and systems. | header text
 for the text content
- * @attribute meta-textContent | -- | Alliance Membership | meta text
+ * @attribute meta-text | -- | Alliance Membership | meta text
 
  * @note
 
 
  */
-class WidgetHeader extends HTMLElement {
+class SubWidgetHeader extends HTMLElement {
 	// reference to class itself
-	get c() { return WidgetHeader };
-	buttonTextContent = "";
+	get c() { return SubWidgetHeader };
+	buttonText = "";
 	buttonTitle = "";
 	buttonHref = "";
 	colorAccent = "";
 	colorPrimary = "";
 	colorSecondary = "";
-	textTextContent = "";
-	headingTextContent = "";
-	metaTextContent = "";
+	headerText = "";
+	headingText = "";
+	metaText = "";
 
 
 	// ATTRIBUTES
@@ -64,14 +64,14 @@ class WidgetHeader extends HTMLElement {
 	static get attributes() {
 		const values = {
 			"button-href": "",
-			"button-textContent": "",
+			"button-text": "",
 			"button-title": "",
 			"color-accent": "lightblue",
 			"color-primary": "currentColor",
 			"color-secondary": "currentColor",
-			"heading-textContent": "You don't have to face these obstacles alone.",
-			"text-textContent": "",
-			"meta-textContent": "Alliance Membership",
+			"heading-text": "You don't have to face these obstacles alone.",
+			"header-text": "",
+			"meta-text": "Alliance Membership",
 		};
 
 	return values;
@@ -95,21 +95,22 @@ static els(content) {
 		colorAccent,
 		colorPrimary,
 		colorSecondary,
-		metaText
+		metaText,
+		headerText
 	} = content
 	return `
 <div id="container">
 	<div
 		color-primary="${colorAccent}"
 		id="meta"
-		is="widget-meta"
+		is="sub-widget-meta"
 		style="margin-bottom: 1em;"
 	>${metaText}</div>
 	<div
 		class="heading-row">
 		<h2
 			id="heading"
-			is="widget-heading",
+			is="sub-widget-heading",
 			max-width="24em"
 		>${headingText}</h2>
 		<link-button
@@ -121,16 +122,14 @@ static els(content) {
 			color-primaryHover="${colorPrimary}",
 			link-href="${buttonHref}",
 			link-title="${buttonTitle}",
-			link-textContent="${buttonText}"
+			link-text="${buttonText}"
 			style="display:${buttonText ? 'inline-block' : 'none'};"
 		>${buttonText}</link-button>
 	</div>
 	<p
 		id="text"
-		is="widget-text"
-		max-width="32rem">
-	</p>
-
+		is="sub-widget-text"
+		max-width="32rem">${headerText}</p>
 </div>`.trim();
 }
 
@@ -205,11 +204,12 @@ static template(content) {
 			colorAccent: this.colorAccent,
 			colorPrimary: this.colorPrimary,
 			colorSecondary: this.colorSecondary,
-			headingText: this.headingTextContent,
-			metaText: this.metaTextContent,
-			buttonText: this.buttonTextContent ?? "",
+			headingText: this.headingText,
+			metaText: this.metaText,
+			buttonText: this.buttonText ?? "",
 			buttonTitle: this.buttonTitle,
 			buttonHref: this.buttonHref,
+			headerText: this.headerText,
 		};
 		const template = this.c.template(content);
 		this.shadowRoot?.appendChild(template.content.cloneNode(true))
@@ -219,8 +219,6 @@ static template(content) {
 
 		// update attributes
     this.updateAttributes();
-
-
 	}
 
 	// CONNECTED CALLBACK
@@ -235,12 +233,10 @@ static template(content) {
 
 	// METHODS
 	updateAttributes() {
-		//ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
 		ComponentUtils.updateFontAttributes(this.c, this);
 		ComponentUtils.updateColorAttributes(this.c, this);
-		this.refs.text.textContent = this.textTextContent;
 	}
 }
 
-customElements.define("widget-header", WidgetHeader);
-export default WidgetHeader;
+customElements.define("sub-widget-header", SubWidgetHeader);
+export default SubWidgetHeader;

@@ -22,7 +22,7 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 	const store = utils.get(content.wcProductionFilesStore);
 
 	// get web component
-	const component = store.find((f) => slug.includes(f.name));
+	const component = store.find((f) => slug.split(".")[0] === f.name);
 
 	// get file
 	const file: string | undefined = slug.includes(".min")
