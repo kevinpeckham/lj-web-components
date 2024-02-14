@@ -122,6 +122,7 @@ static get styles() {
 	:host, * { box-sizing:border-box;margin:0; }
 	#container {
 		font-size:16px;
+		color: var(--color-primary, currentColor);
 		background-color: var(--color-background, transparent);
 		padding: var(--container-padding, 4rem);
 	}

@@ -109,6 +109,7 @@ static els(content) {
 	<div
 		class="heading-row">
 		<h2
+			color-primary="${colorPrimary}"
 			id="heading"
 			is="sub-widget-heading",
 			max-width="24em"
@@ -140,6 +141,7 @@ static get styles() {
 	:host, * { box-sizing:border-box;margin:0; }
 	#container {
 		font-size:16px;
+		color: var(--color-primary, currentColor);
 		margin-bottom:2.5rem;
 		position:relative;
 	}
