@@ -15,8 +15,8 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @requires ComponentUtils
  * @extends HTMLElement
  * @classdesc Defines web component that renders a button that copies text to the user's clipboard. The text to be copied is specified by the data-target-selector attribute.  All of the text content of the target element will be copied to the clipboard.
- * @attribute border-radius | .35em | -- | border radius of the button
- * @attribute border-width | .125em | -- | border size of the button
+ * @attribute border-radius | .35rem | -- | border radius of the button
+ * @attribute border-width | .12rem | -- | border size of the button
  * @attribute color-background | transparent | rgb(255 255 255 / .05) | background color of the button
  * @attribute color-backgroundHover | transparent | red | background color of the button on hover
  * @attribute color-border | currentColor | currentColor | color of the border
@@ -27,7 +27,7 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @attribute link-href | / | https://cdn.lj.dev/web-components | text appears on hover
  * @attribute link-title | -- | learn more | selector for the target element
  * @attribute link-rel | -- | external | selector for the target element
- * @attribute padding | .5em 1.2em | -- | padding around the text in the button button
+ * @attribute padding | .5rem 1.2rem | -- | padding around the text in the button button
  * @attribute transition-duration | .3s| .4s | selector for the target element
  * @attribute stylesheet-textContent | -- | -- | injects css into custom stylesheet
 
@@ -54,7 +54,7 @@ class LinkButton extends HTMLElement {
 			"color-secondary": "currentColor",
 			"color-primary": "currentColor",
 			"color-primaryHover": "currentColor",
-			"padding": ".5em 1.2em",
+			"padding": ".5rem 1.2rem",
 			"link-textContent": "",
 			"link-href": "/",
 			"link-title": "",
@@ -92,14 +92,14 @@ static get styles() {
 	#link {
 		align-items:center;
 		border-color: var(--color-border, currentColor);
-		border-radius: var(--border-radius, .35em);
+		border-radius: var(--border-radius, .35rem);
 		border-style:solid;
-		border-width: var(--border-width, .125em);
+		border-width: var(--border-width, .125rem);
 		color: var(--color-primary, currentColor);
 		display:inline-flex;
 		font-size:.9em;
 		justify-content:center;
-		padding: var(--padding, .5em 1.2em);
+		padding: var(--padding, .5rem 1.2rem);
 		text-decoration:none;
 		transition-property: all;
 		transition-duration: var(--transition-duration, .3s);

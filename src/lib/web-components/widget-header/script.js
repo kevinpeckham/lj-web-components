@@ -6,6 +6,8 @@ import WidgetHeading from "/e/wc/widget-heading.min.js";
 import WidgetMeta from "/e/wc/widget-meta.min.js";
 // @ts-expect-error yep got it
 import LinkButton from "/e/wc/link-button.min.js";
+// @ts-expect-error yep got it
+import WidgetText from "/e/wc/widget-text.min.js";
 
 
 /** @copyright 2024 Lightning Jar - "WidgetHeader" web component - License MIT */

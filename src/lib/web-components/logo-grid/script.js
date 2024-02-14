@@ -4,6 +4,21 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
 import LogoTile from "/e/wc/logo-tile.min.js";
 
 
+
+	/**
+	 * @typedef TileDatum
+	 * @type {Object}
+	 * @property {string} name
+	 * @property {string} image-src
+	 * @property {string} link-href
+	 * */
+
+	/**
+	 * @typedef BreakpointSize
+	 * @type {"2xl" | "Xl" | "Lg" | "Md" | "Sm" | "Xs" | "Xxs"}
+	 * */
+
+
 /** @copyright 2024 Lightning Jar - "Logo Grid" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
@@ -57,7 +72,7 @@ import LogoTile from "/e/wc/logo-tile.min.js";
  * @attribute tile-transition-property | opacity | -- | transition property to animate
  * @attribute tile-stylesheet-textContent | -- | -- | inject css into the inner stylesheet
  * @attribute stylesheet-textContent | -- | -- | inject css into the grid inner stylesheet
- * @attribute data-tiles | -- | {[{"name":"Apple","image-src":"/images/logos/apple.svg","link-href":"https://apple.com"},{"name":"Svelte","image-src":"/images/logos/svelte.svg","link-href":"https://svelte.dev"},{"name":"Node","image-src":"/images/logos/nodejs.svg","link-href":"https://nodejs.org"},{"name":"Typescript","image-src":"/images/logos/typescript.svg","link-href":"https://www.typescriptlang.org"},{"name":"Tailwind","image-src":"/images/logos/tailwind.svg","link-href":"https://tailwindcss.com"},{"name":"Vercel","image-src":"/images/logos/vercel.svg","link-href":"https://vercel.com"},{"name":"Github","image-src":"/images/logos/github.svg","link-href":"https://github.com"},{"name":"Vite","image-src":"/images/logos/vite.svg","link-href":"https://vite.com"},{"name":"PNPM","image-src":"/images/logos/pnpm.svg","link-href":"https://pnpm.io"}]} | JSON data for the tiles
+ * @attribute data-tiles | -- | [{"name":"Apple","image-src":"/images/logos/apple.svg","link-href":"https://apple.com"},{"name":"Svelte","image-src":"/images/logos/svelte.svg","link-href":"https://svelte.dev"},{"name":"Node","image-src":"/images/logos/nodejs.svg","link-href":"https://nodejs.org"},{"name":"Typescript","image-src":"/images/logos/typescript.svg","link-href":"https://www.typescriptlang.org"},{"name":"Tailwind","image-src":"/images/logos/tailwind.svg","link-href":"https://tailwindcss.com"},{"name":"Vercel","image-src":"/images/logos/vercel.svg","link-href":"https://vercel.com"},{"name":"Github","image-src":"/images/logos/github.svg","link-href":"https://github.com"},{"name":"Vite","image-src":"/images/logos/vite.svg","link-href":"https://vite.com"},{"name":"PNPM","image-src":"/images/logos/pnpm.svg","link-href":"https://pnpm.io"}] | JSON data for the tiles
  * @note Data for the tiles is passed in as a JSON string. The tiles are built from the JSON data.
  * @note The JSON data must be wrapped in an extra pair of curly braces. See example above.
  * @note The JSON data must not contain any line breaks or spaces.
@@ -322,17 +337,24 @@ constructor() {
 	// create a shadow root
 	this.attachShadow({ mode: "open" });
 
+	//const template = this.c.template.content.cloneNode(true);
+
+		// build tiles
+	const template = this.buildTiles();
+	window.console.log(template)
+
 	// append the template content to the shadow DOM
-	this.shadowRoot?.appendChild(this.c.template.content.cloneNode(true))
+	this.shadowRoot?.appendChild(template.content.cloneNode(true))
 
 	// define refs elements
 	this.refs = ComponentUtils.getRefs(this.c, this);
 
+
+
+
+
 	// update attributes
 	this.updateAttributes();
-
-	// build tiles
-	this.buildTiles();
 }
 
 // LIFECYCLE CALLBACKS
@@ -349,8 +371,8 @@ attributeChangedCallback() {
 updateAttributes() {
 
 
-	ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
-	ComponentUtils.updateColorAttributes(this.c, this);
+	//ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
+	//ComponentUtils.updateColorAttributes(this.c, this);
 
 
 	// update grid size attributes
@@ -396,37 +418,67 @@ updateAttributes() {
 }
 
 
+// getter and setter for parsed data
+/** @returns {TileDatum[]} tilesDataParsed */
+get tilesDataParsed() {
+	const raw = this.dataTiles ?? ""
+	const scrubbed = String.raw`${raw.replace(/\s/g, "")}`;
+	return JSON.parse(scrubbed);
+}
+
+/**
+ * Get the number of columns for a given breakpoint
+ * @param {BreakpointSize} breakpoint
+ * @returns {number}
+ */
+getcolsNum(breakpoint) {
+	return Number(this?.[`gridColumns${breakpoint}`] ?? "0") ?? 0;
+}
+
+/**
+ * Get the number of columns for a given breakpoint
+ * @param {number} tileIndex
+ * @param {BreakpointSize} breakpoint
+ * @returns {number}
+ */
+getTileColumn(tileIndex, breakpoint) {
+	const colsNum = this.getcolsNum(breakpoint);
+	return (tileIndex % colsNum) + 1;
+}
+/**
+ * Get the number of columns for a given breakpoint
+ * @param {number} tileIndex
+ * @param {BreakpointSize} breakpoint
+ * @returns {number}
+ */
+getTileRow(tileIndex, breakpoint) {
+	const colsNum = this.getcolsNum(breakpoint);
+	return Math.floor(tileIndex / colsNum) + 1;
+}
+/**
+ * Get the number of columns for a given breakpoint
+ * @param {number} tileIndex
+ * @param {BreakpointSize} breakpoint
+ * @returns {boolean}
+ */
+isTileInEvenRow(tileIndex, breakpoint) {
+	// const colsNum = this.getcolsNum(breakpoint);
+  const row = this.getTileRow(tileIndex, breakpoint);
+  return (row % 2) === 0;
+}
+
 buildTiles() {
 
-	// delete existing tiles
-	this.refs.container.innerHTML = "";
-	// build new tiles
+	const template = document.createElement("template");
 
+	const container = document.createElement("div");
+	container.id = "container";
 
-	/**
-	 * @typedef TileDatum
-	 * @type {Object}
-	 * @property {string} name
-	 * @property {string} image-src
-	 * @property {string} link-href
-	 *
-	 * */
-
-
-	/** @type { string } */
-	const dataJSON = this.dataTiles ?? "";
-	const dataLast = dataJSON.length - 1;
-	const dataScrubbed =
-		dataJSON[0] === "{" && dataJSON[dataLast] === "}"
-			? dataJSON.substring(1, dataLast)
-			: dataJSON;
-
-	/** @type { TileDatum[] } */
-	const dataParsed = JSON.parse(dataScrubbed);
+	// is stagger on?
+	const stagger = (this.gridStagger === "on") ? true : false;
 
 	let index = 0;
-
-	dataParsed.forEach((d) => {
+	this.tilesDataParsed.forEach((d) => {
 		const tile = document.createElement("logo-tile");
 		tile.setAttribute("color-background", this?.tileColorBackground);
 		tile.setAttribute("image-alt", `${d["name"]} logo`);
@@ -440,28 +492,19 @@ buildTiles() {
 		tile.setAttribute("tile-opacity-hover", this?.tileOpacityHover);
 		tile.setAttribute("transition-duration", this?.tileTransitionDuration);
 		tile.setAttribute("stylesheet-textContent", this?.tileStylesheetTextContent ?? "");
-		this.refs.container.appendChild(tile);
 
-	// stagger the tiles
-	const breakPoints = ["2xl", "Xl", "Lg", "Md", "Sm", "Xs", "Xxs"];
-	breakPoints.forEach((key) => {
-		const gridStagger = (this?.gridStagger === "on") ? true : false;
-		const colsNum = Number(this?.[`gridColumns${key}`] ?? "0") ?? 0;
-
-			// stagger the tiles at the large breakpoint
-			let x = colsNum;
-
-			while (x > 0 && colsNum > 1 && gridStagger) {
-				if ( x - 1 === (index % (colsNum * 2))) { tile.classList.add(`stagger-${key.toLowerCase()}`) }
-				x = x - 1;
-			}
+		// iterate through breakpoints, add stagger classes as appropriate
+		ComponentUtils.breakpoints.forEach((/** @type {BreakpointSize} bp  */  bp) => {
+			if (stagger && this.isTileInEvenRow(index, bp)) tile.classList.add(`stagger-${bp.toLowerCase()}`)
 		});
 
+		container?.appendChild(tile);
+	 	index++;
+	 });
 
-
-
-		index++;
-	});
+	 template.innerHTML = `${this.c.styles}`.trim();
+	 template.content.appendChild(container);
+	 return template;
 }
 
 }

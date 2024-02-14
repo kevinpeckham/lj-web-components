@@ -46,6 +46,10 @@ export const wcProductionFilesStore = derived(
 			// scrub the styles inside the source text
 			const stylesScrubbed = scrubStyles(sourceText);
 
+			// get requires
+			const requires = getRequires(stylesScrubbed);
+			console.log(requires);
+
 			// scrub the templates inside the source text
 			const templatesScrubbed = scrubTemplates(stylesScrubbed);
 
@@ -71,3 +75,10 @@ export const wcProductionFilesStore = derived(
 
 export default wcProductionFilesStore;
 export type WcProductionFilesStore = typeof wcProductionFilesStore;
+
+function getRequires(text: string): string[] {
+	const requires = text.match(/@require(?:.)*?\n/g);
+	return (
+		requires?.map((require) => require?.replace("@requires", "").trim()) ?? []
+	);
+}

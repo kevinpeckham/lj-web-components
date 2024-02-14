@@ -40,11 +40,16 @@ export function buildExampleWcHTML(
 			const name = att ?? "";
 			const value = attributes[att]?.example ?? "";
 
-			// if it is a JSON object
-			// JSON will be passed inside an extra pair of curly braces
-			const isJSON = value[0] === "{" && value[value.length - 1] === "}";
+			// is it JSON?
+			const isJSON =
+				value[0] === "{" ||
+				(value[0] === "[" && value[value.length - 1] === "}") ||
+				value[value.length - 1] === "]";
 
-			const attribute = isJSON ? `${name}=${value}` : `${name}="${value}"`;
+			// if it is JSON, make sure it's valid JSON, then put inside single quote
+			const attribute = isJSON
+				? `${name}='${JSON.parse(JSON.stringify(value))}'`
+				: `${name}="${value}"`;
 
 			return value ? `\n  ${attribute}` : "";
 		}) ?? [];

@@ -11,7 +11,7 @@
 
 export const ComponentUtils = {
 	/** @typedef {string} S */
-
+	breakpoints: ["2xl", "Xl", "Lg", "Md", "Sm", "Xs", "Xxs"],
 	/**
 	 * @name kebabToCamel
 	 * @method
