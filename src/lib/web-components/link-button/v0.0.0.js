@@ -4,7 +4,7 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
 /** @copyright 2024 Lightning Jar - "LinkButton" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
-/** @version 0.0.1 */
+/** @version 0.0.0 */
 /** {@link https://www.lj-cdn.dev/web-components/link-button} */
 
 /**

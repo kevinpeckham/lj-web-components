@@ -18,7 +18,12 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 	const documentationStore = utils.get(content.wcDocumentationStore);
 
 	// get documentation
-	const documentation = documentationStore.find((f) => slug === f.slug);
+	const component = documentationStore[slug];
+
+	// !! come back to this for public/private/published components
+	// get latest published version number
+	const latestVersionNumber = Object.keys(component).sort().reverse()[0];
+	const documentation = component[latestVersionNumber];
 
 	// web component script
 	// by default load the minified script
@@ -36,6 +41,7 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 	const notes = documentation?.notes ?? [];
 	const published = documentation?.published ?? false;
 	const requires = documentation?.requires ?? [];
+	const version = latestVersionNumber;
 
 	// if no documentation found,
 	// or not published and not in dev mode
@@ -63,5 +69,6 @@ export const load: PageServerLoad = async function ({ locals, params }) {
 		webComponentScript,
 		requires,
 		slug,
+		version,
 	};
 };

@@ -1,6 +1,6 @@
 /** @copyright 2024 Lightning Jar - "Scrolling Stat" web component - License MIT */
 /** @license MIT */
-/** @version 0.0.2 */
+/** @version 0.1.1 */
 /** {@link https://lj-cdn.dev/web-components/scrolling-stat} */
 
 /**

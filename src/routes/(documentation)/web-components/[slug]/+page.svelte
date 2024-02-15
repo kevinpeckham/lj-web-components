@@ -41,7 +41,7 @@ Web component documentation page
 	$: setContext("data", data);
 
 	// create a store for the script content and put it in context
-	$: scriptContentStore = writable(buildExampleScript(data.slug));
+	$: scriptContentStore = writable(buildExampleScript(data.slug, data.version));
 	$: setContext("scriptContentStore", scriptContentStore);
 
 	// create a store for the html content and put it in context

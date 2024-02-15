@@ -1,59 +1,57 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.min.js";
+import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
 // @ts-expect-error yep got it
-import SubWidgetHeading from "/e/wc/sub-widget-heading.min.js";
+import SubWidgetHeader from "/e/wc/sub-widget-header.0.1.1.min.js";
 // @ts-expect-error yep got it
-import SubWidgetMeta from "/e/wc/sub-widget-meta.min.js";
+import SubWidgetText from "/e/wc/sub-widget-text.0.1.1.min.js";
 // @ts-expect-error yep got it
-import LinkButton from "/e/wc/link-button.min.js";
-// @ts-expect-error yep got it
-import SubWidgetText from "/e/wc/sub-widget-text.min.js";
+import LogoGrid from "/e/wc/logo-grid.0.1.1.min.js";
 
 
-/** @copyright 2024 Lightning Jar - "SubWidgetHeader" web component - License MIT */
+
+/** @copyright 2024 Lightning Jar - "SubWidgetContainer" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
-/** @version 0.0.1 */
-/** {@link https://www.lj-cdn.dev/web-components/sub-widget-header} */
+/** @version 0.1.1 */
+/** {@link https://www.lj-cdn.dev/web-components/sub-widget-container} */
 
 /**
  * Widget Heading Web Component
- * @name SubWidgetHeader
+ * @name SubWidgetContainer
  * @class
  * @published 2024-02-09
  * @requires ComponentUtils
- * @requires SubWidgetHeading
- * @requires SubWidgetMeta
+ * @requires SubWidgetHeader
  * @requires SubWidgetText
- * @requires LinkButton
- * @classdesc Defines web component that provides a MetaTag, Heading, and LinkButton. Meant for use as a header to a widget or page section.
- * @attribute button-href | -- | https://petroskills.com/about/the-alliance | href for the button
- * @attribute button-text | -- | Become a Member | (optional) text for the button
- * @attribute button-title | -- | learn more about becoming a member | title for the button
+ * @classdesc Defines web component that provides a container for a widget with Heading, MetaTag, LinkButton and slot.
+ * @attribute button-href | -- | # | href for the button
+ * @attribute button-text | -- | Click Me | text for the button
+ * @attribute button-title | -- | learn more | title for the button
  * @attribute color-accent | lightblue | #00dcbb | color of the text
+ * @attribute color-background | -- | #0A2F7E| color of the widget background
  * @attribute color-primary | currentColor | white | color of the text
  * @attribute color-secondary | currentColor | #00bc9c | color of...
- * @attribute heading-text | -- | You don't have to face these obstacles alone. | heading text
- * @attribute header-text | -- | Energy companies are typically focused on their core businesses, rather than developing, executing, and maintaining competency development processes, programs, and systems. | header text
+ * @attribute heading-text | -- | It takes one to know one. | text for the heading
+ * @attribute meta-text | -- | This Just In
+ * @attribute container-padding | 4rem | 4rem 4rem 6rem 4rem | padding for the container
+ * @slot | -- | <div>Content in a slot.</div> | slot
 for the text content
- * @attribute meta-text | -- | Alliance Membership | meta text
-
  * @note
-
-
  */
-class SubWidgetHeader extends HTMLElement {
+class SubWidgetContainer extends HTMLElement {
 	// reference to class itself
-	get c() { return SubWidgetHeader };
+	get c() { return SubWidgetContainer };
 	buttonText = "";
 	buttonTitle = "";
 	buttonHref = "";
 	colorAccent = "";
+	colorBackground = "";
 	colorPrimary = "";
 	colorSecondary = "";
-	headerText = "";
 	headingText = "";
+	containerPadding = "";
 	metaText = "";
+	stylesheet = "";
 
 
 	// ATTRIBUTES
@@ -67,11 +65,13 @@ class SubWidgetHeader extends HTMLElement {
 			"button-text": "",
 			"button-title": "",
 			"color-accent": "lightblue",
+			"color-background": "transparent",
 			"color-primary": "currentColor",
 			"color-secondary": "currentColor",
-			"heading-text": "You don't have to face these obstacles alone.",
-			"header-text": "",
-			"meta-text": "Alliance Membership",
+			"heading-text": "",
+			"meta-text": "",
+			"container-padding": "4rem",
+			"stylesheet": ""
 		};
 
 	return values;
@@ -95,42 +95,23 @@ static els(content) {
 		colorAccent,
 		colorPrimary,
 		colorSecondary,
-		metaText,
-		headerText
+		metaText
 	} = content
 	return `
 <div id="container">
-	<div
-		color-primary="${colorAccent}"
-		id="meta"
-		is="sub-widget-meta"
-		style="margin-bottom: 1em;"
-	>${metaText}</div>
-	<div
-		class="heading-row">
-		<h2
-			color-primary="${colorPrimary}"
-			id="heading"
-			is="sub-widget-heading",
-			max-width="24em"
-		>${headingText}</h2>
-		<link-button
-			id="button"
-			border-width=".15em",
-			color-backgroundHover="${colorSecondary}",
-			color-borderHover="${colorSecondary}",
-			color-primary="${colorAccent}",
-			color-primaryHover="${colorPrimary}",
-			link-href="${buttonHref}",
-			link-title="${buttonTitle}",
-			link-text="${buttonText}"
-			style="display:${buttonText ? 'inline-block' : 'none'};"
-		>${buttonText}</link-button>
-	</div>
-	<p
-		id="text"
-		is="sub-widget-text"
-		max-width="32rem">${headerText}</p>
+	<sub-widget-header
+	button-href="${buttonHref}"
+	button-text="${buttonText}"
+	button-title="${buttonTitle}"
+	color-accent="${colorAccent}"
+	color-primary="${colorPrimary}"
+	color-secondary="${colorSecondary}"
+	heading-text="${headingText}"
+	meta-text="${metaText}">
+	</sub-widget-header>
+	<div id="slot"></div>
+</div>
+
 </div>`.trim();
 }
 
@@ -142,8 +123,8 @@ static get styles() {
 	#container {
 		font-size:16px;
 		color: var(--color-primary, currentColor);
-		margin-bottom:2.5rem;
-		position:relative;
+		background-color: var(--color-background, transparent);
+		padding: var(--container-padding, 4rem);
 	}
 	.heading-row {
 		display: grid;
@@ -152,26 +133,21 @@ static get styles() {
 		place-items:center;
 		text-align:center;
 		gap: 1.5rem;
-		margin-bottom: 2rem;
+		margin-bottom: 2.5rem;
+		position:relative;
 		width:100%;
-	}
-	p {
-		display:block;
-		max-width:30rem;
 	}
 	@media (min-width: 640px) {
 		.heading-row {
 			text-align:left;
-			place-items:start;
-			place-content:start;
+			display:flex;
+			justify-content:space-between;
+			align-items:flex-end;
 		}
 	}
 	@media (min-width: 1024px) {
 		.heading-row {
 			margin-bottom: 3rem;
-			display:flex;
-			justify-content:space-between;
-			align-items:flex-end;
 		}
 	}
 </style><style id="stylesheet"></style>`.trim();
@@ -211,7 +187,6 @@ static template(content) {
 			buttonText: this.buttonText ?? "",
 			buttonTitle: this.buttonTitle,
 			buttonHref: this.buttonHref,
-			headerText: this.headerText,
 		};
 		const template = this.c.template(content);
 		this.shadowRoot?.appendChild(template.content.cloneNode(true))
@@ -227,7 +202,6 @@ static template(content) {
 	connectedCallback() {
 		this.updateAttributes();
 	}
-
 	// ATTRIBUTE CHANGED CALLBACK
 	attributeChangedCallback() {
 		this.updateAttributes();
@@ -235,10 +209,16 @@ static template(content) {
 
 	// METHODS
 	updateAttributes() {
+		ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
 		ComponentUtils.updateFontAttributes(this.c, this);
 		ComponentUtils.updateColorAttributes(this.c, this);
+
+		this.refs.slot.innerHTML = this.innerHTML;
+		this.refs.container.style.setProperty("--container-padding", this.containerPadding);
+		this.refs.stylesheet.textContent = this.getAttribute("stylesheet");
+
 	}
 }
 
-customElements.define("sub-widget-header", SubWidgetHeader);
-export default SubWidgetHeader;
+customElements.define("sub-widget-container", SubWidgetContainer);
+export default SubWidgetContainer;

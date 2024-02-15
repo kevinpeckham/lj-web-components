@@ -1,8 +1,7 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.min.js";
-// @ts-expect-error yep got it
-import LogoTile from "/e/wc/logo-tile.min.js";
-
+import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
+// @ts-expect-error type defs not available
+import LogoTile from "/e/wc/logo-tile.0.1.1.min.js";
 
 
 	/**
@@ -27,7 +26,7 @@ import LogoTile from "/e/wc/logo-tile.min.js";
 /** @copyright 2024 Lightning Jar - "Logo Grid" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
-/** @version 0.0.1 */
+/** @version 0.1.1 */
 /** {@link https://www.lj-cdn.dev/web-components/logo-grid} */
 
 /**

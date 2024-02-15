@@ -39,8 +39,15 @@ import scrubTemplates from "$utils/scrubTemplates";
 export const wcProductionFilesStore = derived(
 	wcSourceFilesStore,
 	($sourceFiles) => {
-		const scrubbed = $sourceFiles.map((sourceFile) => {
+		interface File {
+			name: string;
+			min: string;
+			max: string;
+			version: string;
+		}
+		const files: File[] = $sourceFiles.map((sourceFile) => {
 			const name = sourceFile.name;
+			const version = sourceFile.version;
 			const sourceText = sourceFile.value;
 
 			// scrub the styles inside the source text
@@ -63,10 +70,45 @@ export const wcProductionFilesStore = derived(
 
 			const min = minText?.code ?? "";
 
-			return { name: name, min: min, max: sourceText };
+			const obj = { name: name, min: min, max: sourceText, version };
+			return obj;
 		});
 
-		return scrubbed;
+		interface Version {
+			min: string;
+			max: string;
+		}
+		interface Component {
+			[key: string]: Version;
+		}
+		interface ComponentLibrary {
+			[key: string]: Component;
+		}
+
+		// take files and nest versions under names
+		let acc: ComponentLibrary = {};
+		const nestedFiles = files.reduce((acc, file) => {
+			const name = file.name;
+			const min = file.min;
+			const max = file.max;
+			const version = file.version;
+			acc[name] = acc[name] ?? {};
+			acc[name][version] = {
+				min: file.min,
+				max: file.max,
+			};
+			return acc;
+		}, {} as ComponentLibrary);
+
+		// layer in latest data point for each component
+		// for (const component in nestedFiles) {
+		// 	const versions = nestedFiles[component];
+		// 	const latestVersion = Object.keys(versions).sort().reverse()[0];
+		// 	const latest = versions[latestVersion];
+		// 	nestedFiles[component] = { ...nestedFiles[component], latest };
+		// }
+
+		return nestedFiles;
 	},
 );
 

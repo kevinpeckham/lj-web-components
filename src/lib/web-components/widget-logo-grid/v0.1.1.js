@@ -1,18 +1,18 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.min.js";
+import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
 // @ts-expect-error yep got it
-import SubWidgetContainer from "/e/wc/sub-widget-container.min.js";;
+import SubWidgetContainer from "/e/wc/sub-widget-container.0.1.1.min.js";
 // @ts-expect-error yep got it
-import SubWidgetText from "/e/wc/sub-widget-text.min.js";
+import SubWidgetText from "/e/wc/sub-widget-text.0.1.1.min.js";
 // @ts-expect-error yep got it
-import LogoGrid from "/e/wc/logo-grid.min.js";
+import LogoGrid from "/e/wc/logo-grid.0.1.1.min.js";
 
 
 
 /** @copyright 2024 Lightning Jar - "WidgetLogoGrid" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
-/** @version 0.0.1 */
+/** @version 0.1.1 */
 /** {@link https://www.lj-cdn.dev/web-components/widget-logo-grid} */
 
 /**
@@ -28,7 +28,7 @@ import LogoGrid from "/e/wc/logo-grid.min.js";
  * @attribute button-href | -- | # | href for the button
  * @attribute button-text | -- | Become a Member | text for the button
  * @attribute button-title | -- | learn more | title for the button
-  @attribute container-padding | 4rem | 4rem 4rem 6rem 4rem | padding for the container
+ * @attribute container-padding | 4rem | 4rem 4rem 6rem 4rem | padding for the container
  * @attribute color-accent | lightblue | #00dcbb | color of the text
  * @attribute color-background | -- | #0A2F7E | color of the widget background
  * @attribute color-primary | currentColor | white | color of the text
@@ -63,7 +63,7 @@ import LogoGrid from "/e/wc/logo-grid.min.js";
  * @attribute grid-stagger-lg | 2rem | -- | distance to stagger tiles @ lg (>= 1024px)
  * @attribute grid-stagger-md | 2rem | -- | distance to stagger tiles @ md (>= 768px)
  * @attribute grid-stagger-sm | 2rem | -- | distance to stagger tiles @ sm (>= 640px)
- * @attribute grid-stagger-xs | 1.5rem | -- | distance to stagger tiles @ xs (>= 420px)
+ * @attribute grid-stagger-xs | 1.5rem | 0 | distance to stagger tiles @ xs (>= 420px)
  * @attribute grid-stagger-xxs | 0 | -- | distance to stagger tiles @ xxs (< 420px)
  * @attribute grid-stylesheet | -- | #container { margin-bottom:2rem } | inject css into the grid inner stylesheet
  * @attribute tile-border-radius | 2.5% | 1em | border radius (rounded edges) of the tile

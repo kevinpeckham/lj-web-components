@@ -1,10 +1,10 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.min.js";
+import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
 
 /** @copyright Lightning Jar 2024 - "Copyright Statement" web component */
 /** @author Kevin Peckham */
 /** @license MIT */
-/** @version 0.0.1 */
+/** @version 0.1.1 */
 /** {@link https://www.lj-cdn.dev/web-components/copyright-statment} */
 
 /**

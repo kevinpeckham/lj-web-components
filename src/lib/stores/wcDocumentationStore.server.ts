@@ -15,6 +15,7 @@ import deslugify from "$utils/deslugify";
 
 // import source file store
 import { wcSourceFilesStore } from "$lib/stores/wcSourceFilesStore.server";
+import { wcProductionFilesStore } from "./wcProductionFilesStore.server";
 
 interface Attribute {
 	[key: string]: string;
@@ -26,7 +27,13 @@ interface Attribute {
 interface Attributes {
 	[key: string]: Attribute;
 }
+interface DocumentationLibrary {
+	[key: string]: ComponentDocumentation;
+}
 interface ComponentDocumentation {
+	[key: string]: VersionDocumentation;
+}
+interface VersionDocumentation {
 	attributes: Attributes;
 	attributeNames: string[];
 	name: string;
@@ -47,52 +54,29 @@ interface ComponentDocumentation {
 import slugify from "$utils/slugify";
 
 export const wcDocumentationStore = derived(
-	wcSourceFilesStore,
+	wcProductionFilesStore,
 	($filesStore) => {
-		const allDocumentation: ComponentDocumentation[] = Object.values(
-			$filesStore,
-		).map((file) => {
-			const attributes = getAttributes(file.value);
-			const attributeNames = Object.keys(attributes) ?? [];
-			const builtIn = isBuiltIn(file.value);
-			const builtInExampleTag = getBuiltInExampleTag(file.value);
-			const name = titleCase(deslugify(file.name));
-			const description = getDescription(file.value);
-			const innerTemplate = getInnerTemplate(file.value);
-			const published = getPublicationStatus(file.value);
-			const notes = getNotes(file.value);
-			const isPrivate = getPrivacyStatus(file.value);
-			const requires = getDependencies(file.value);
-			const slotExampleContent = getSlotExampleContent(file.value);
+		const documentationLibrary: DocumentationLibrary = {};
 
-			// slug
-			const slug = slugify(file.name);
-			const exampleHTML =
-				buildExampleHTML(
-					slug,
-					attributes,
-					builtInExampleTag,
-					slotExampleContent,
-				) ?? "";
+		// iterate over each component
+		for (const componentName in $filesStore) {
+			const componentVersions = $filesStore[componentName];
+			const componentDocumentation: ComponentDocumentation = {};
 
-			return {
-				attributes,
-				attributeNames,
-				builtIn,
-				builtInExampleTag,
-				description,
-				exampleHTML,
-				innerTemplate,
-				name,
-				notes,
-				published,
-				isPrivate,
-				requires,
-				slotExampleContent,
-				slug,
-			};
-		});
-		return allDocumentation;
+			// iterate over each version of the component
+			for (const versionNumber in componentVersions) {
+				const file = componentVersions[versionNumber].max;
+				const documentation: VersionDocumentation = buildDocumentationFromFile(
+					componentName,
+					file,
+				);
+				componentDocumentation[versionNumber] = documentation;
+			}
+
+			documentationLibrary[componentName] = componentDocumentation;
+		}
+
+		return documentationLibrary;
 	},
 );
 
@@ -167,7 +151,6 @@ function getNotes(file: string) {
 		[]
 	);
 }
-
 function isBuiltIn(file: string): boolean {
 	const match = file?.match(/@extends(?:.)*?\n/)?.[0] ?? "";
 	const isBuiltIn = match.includes("HTMLElement") ? false : true;
@@ -178,9 +161,45 @@ function getBuiltInExampleTag(file: string): string {
 	const tag = match.split("|")[1]?.trim() ?? "";
 	return tag;
 }
-
 function getSlotExampleContent(file: string) {
 	const match = file?.match(/@slot(?:.)*?\n/)?.[0] ?? "";
 	const content = match.split("|")[2]?.trim() ?? "";
 	return content;
+}
+function buildDocumentationFromFile(componentName: string, file: string) {
+	const attributes = getAttributes(file);
+	const attributeNames = Object.keys(attributes) ?? [];
+	const builtIn = isBuiltIn(file);
+	const builtInExampleTag = getBuiltInExampleTag(file);
+	const name = titleCase(deslugify(componentName));
+	const description = getDescription(file);
+	const innerTemplate = getInnerTemplate(file);
+	const published = getPublicationStatus(file);
+	const notes = getNotes(file);
+	const isPrivate = getPrivacyStatus(file[0]);
+	const requires = getDependencies(file[0]);
+	const slotExampleContent = getSlotExampleContent(file[0]);
+
+	// slug
+	const slug = slugify(componentName);
+	const exampleHTML =
+		buildExampleHTML(slug, attributes, builtInExampleTag, slotExampleContent) ??
+		"";
+
+	return {
+		attributes,
+		attributeNames,
+		builtIn,
+		builtInExampleTag,
+		description,
+		exampleHTML,
+		innerTemplate,
+		name,
+		notes,
+		published,
+		isPrivate,
+		requires,
+		slotExampleContent,
+		slug,
+	};
 }

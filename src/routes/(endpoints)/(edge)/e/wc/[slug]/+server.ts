@@ -21,13 +21,43 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 	// pull in component store
 	const store = utils.get(content.wcProductionFilesStore);
 
-	// get web component
-	const component = store.find((f) => slug.split(".")[0] === f.name);
+	// get component name
+	const componentName = slug.split(".")[0]; // my-component
 
-	// get file
+	// lookup component
+	const component = store[componentName];
+
+	// throw error if no component
+	if (!component) throw error(404, "Component file not found");
+
+	// look for requested version number
+	const rvn = slug.match(/((?:\d\.)+\d)(?:\.min)?\.js$/)?.[1] ?? ""; // 1.0.0
+
+	// test if requested version number is valid
+	// is valid if it has at least 3 digits separated by dots
+	const rvnIsValid = rvn && rvn.match(/(\d+\.){2,}\d+/) ? true : false;
+
+	// throw error if rvn exists, but is invalid
+	if (rvn && !rvnIsValid) throw error(404, "Invalid version number");
+
+	// get requested version of component
+	const requested = rvn ? component[rvn] ?? null : null; // v1.0.0
+
+	// if rvn is valid, but requested version is not found, throw error
+	if (rvn && !requested) throw error(404, "Requested version not found");
+
+	// get latest version number
+	const lvn = Object.keys(component).sort().reverse()[0];
+
+	// serve correct component version
+	// if there is a requested version serve it
+	// if specific version was not requested, serve latest
+	const selected = requested ? requested : component[lvn] ?? null;
+	if (!selected) throw error(404, "Requested file is unavailable");
+
 	const file: string | undefined = slug.includes(".min")
-		? component?.min
-		: component?.max;
+		? selected?.min
+		: selected?.max;
 
 	// throw error if no file
 	if (!file) throw error(404, "No file found");

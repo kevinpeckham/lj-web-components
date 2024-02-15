@@ -1,22 +1,22 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.min.js";
+import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
 
-/** @copyright 2024 Lightning Jar - "SubWidgetMeta" web component - License MIT */
+/** @copyright 2024 Lightning Jar - "SubWidgetText" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
-/** @version 0.0.1 */
-/** {@link https://www.lj-cdn.dev/web-components/sub-widget-meta} */
+/** @version 0.1.1 */
+/** {@link https://www.lj-cdn.dev/web-components/sub-widget-text} */
 
 /**
- * Widget Heading Web Component
- * @name SubWidgetMeta
+ * Widget text Web Component
+ * @name SubWidgetText
  * @class
  * @published 2024-02-09
  * @requires ComponentUtils
- * @extends HTMLDivElement | div
- * @classdesc Defines web component that renders a smaller text heading. For typical use in a widget above the heading.
- * @attribute color-primary | currentColor | #ea0026 | color of the text
- * @attribute font-size | .85em | -- | base font size, sets a default across breakpoints
+ * @extends HTMLParagraphElement | p
+ * @classdesc Defines web component that renders a text. Meant to be used inside widget components.
+ * @attribute color-primary | currentColor | -- | color of the text
+ * @attribute font-size | 1rem | -- | base font size, sets a default across breakpoints
  * @attribute font-size-xxs | -- | -- | font size @ xxs
  * @attribute font-size-xs | -- | -- | font size @ xs
  * @attribute font-size-sm | -- | -- | font size @ sm
@@ -25,19 +25,19 @@ import { ComponentUtils } from "/e/wc/component-utils.min.js";
  * @attribute font-size-xl | -- | -- | font size @ xl
  * @attribute font-size-2xl | -- | -- | font size @ 2xl
  * @attribute font-weight | 400 | -- | default font weight
- * @attribute letter-spacing | .05em | -- | text letter spacing
- * @attribute line-height | 1 | -- | text line height
- * @attribute max-width | 100% | -- | border size of the button
- * @attribute stylesheet | -- | div | injects css into
- * @attribute text-transform | uppercase | -- | injects css into
- * @slot | -- | Membership | slot for the text content
- * @note this is a customization of the div element
+ * @attribute text-textContent | -- | -- | text content
+ * @attribute line-height | 1.5 | -- | text line height
+ * @attribute max-width | 100% | 32rem | border size of the button
+ * @attribute opacity | .9 | -- | opacity of the text
+ * @attribute stylesheet-textContent | -- | -- | injects css into
+ * @slot | -- | Our diverse group of industry leaders collaborates to establish the oil & gas industry benchmarks for competency development and similar standards for the NetZero and Renewables sectors. | slot for the text content
+ * @note this is a customization of the h2 element
  * @note it must be implemented as an extension of the h2 element (see example)
 
  */
-class SubWidgetMeta extends HTMLDivElement {
+class SubWidgetText extends HTMLParagraphElement {
 	// reference to class itself
-	get c() { return SubWidgetMeta };
+	get c() { return SubWidgetText };
 
 
 	// ATTRIBUTES
@@ -48,7 +48,7 @@ class SubWidgetMeta extends HTMLDivElement {
 	static get attributes() {
 		const values = {
 			"color-primary": "currentColor",
-			"font-size": ".85em",
+			"font-size": "1rem",
 			"font-size-xxs": "",
 			"font-size-xs": "",
 			"font-size-sm": "",
@@ -57,11 +57,12 @@ class SubWidgetMeta extends HTMLDivElement {
 			"font-size-xl": "",
 			"font-size-2xl": "",
 			"font-weight": "400",
-			"letter-spacing": "0.05em",
-			"line-height": "1",
+			"text-textContent": "",
+			"line-height": "1.5",
+			"max-width": "100%",
+			"opacity": ".9",
 			"padding": "0",
-			"text-transform": "uppercase",
-			"stylesheet": ""
+			"stylesheet-textContent": ""
 		};
 	return values;
 	}
@@ -75,7 +76,10 @@ class SubWidgetMeta extends HTMLDivElement {
 
 // ELEMENTS
 static get els() {
-	return `<div class="container" id="meta"></div>`.trim();
+	return `
+<div id="container">
+	<div id="text"></div>
+</div>`.trim();
 }
 
 // STYLES
@@ -83,23 +87,25 @@ static get styles() {
 	return `
 	<style>
 	:host, * { box-sizing:border-box;margin:0; }
-	div {
-		color: var(--color-primary, currentColor);
-		font-size: var(--font-size, .85em);
-		text-transform: var(--text-transform, uppercase);
-		font-weight: var(--font-weight, 500);
-		letter-spacing: var(--letter-spacing, 0.05em);
-		line-height: var(--line-height, 1);
-		padding: var(--padding, 0);
-		text-align:center;
+	#container {
+
 	}
-	@media (max-width: 419.9px) { div { font-size: var(--font-size-xxs, var(--font-size, 1.5em)); }}
-	@media (min-width: 420px) { div { font-size: var(--font-size-xs, var(--font-size, 1.5em)); }}
-	@media (min-width: 640px) { div { text-align:start; font-size: var(--font-size-sm, var(--font-size, 1.5em)); }}
-	@media (min-width: 768px) { div {font-size: var(--font-size-md, var(--font-size, 1.5em)); }}
-	@media (min-width: 1024px) { div {font-size: var(--font-size-lg, var(--font-size, 1.5em)); }}
-	@media (min-width: 1280px) { div {font-size: var(--font-size-xl, var(--font-size, 1.5em)); }}
-	@media (min-width: 1536px) { div {font-size: var(--font-size-2xl, var(--font-size, 1.5em)); }}
+	#text {
+		color: var(--color-primary, currentColor);
+		font-size: var(--font-size, 1.5rem);
+		font-weight: var(--font-weight, 500);
+		line-height: var(--line-height, 1.2);
+		max-width: var(--max-width, 100%);
+		opacity: var(--opacity, .9);
+		padding: var(--padding, 0);
+	}
+	@media (max-width: 419.9px) { #text {font-size: var(--font-size-xxs, var(--font-size, 1.5em)); }}
+	@media (min-width: 420px) { #text {font-size: var(--font-size-xs, var(--font-size, 1.5em)); }}
+	@media (min-width: 640px) { #text {font-size: var(--font-size-sm, var(--font-size, 1.5em)); }}
+	@media (min-width: 768px) { #text {font-size: var(--font-size-md, var(--font-size, 1.5em)); }}
+	@media (min-width: 1024px) { #text {font-size: var(--font-size-lg, var(--font-size, 1.5em)); }}
+	@media (min-width: 1280px) { #text {font-size: var(--font-size-xl, var(--font-size, 1.5em)); }}
+	@media (min-width: 1536px) { #text {font-size: var(--font-size-2xl, var(--font-size, 1.5em)); }}
 </style><style id="stylesheet"></style>`.trim();
 }
 
@@ -148,15 +154,24 @@ static get styles() {
 	// METHODS
 	updateAttributes() {
 		// update slot content
-		this.refs.meta.textContent = this.textContent;
 		// @ts-expect-error - yes it is
-		this.refs.stylesheet.textContent = this.stylesheet;
+		this.refs.text.textContent = this?.textTextContent ? this?.textTextContent : this.textContent;
 
-		// update font and color
+		// update max width
+		// @ts-expect-error - yes it is
+		this.refs.container.style.setProperty("--max-width", this?.maxWidth ?? "100%");
+
+		// opacity
+		// @ts-expect-error - yes it is
+		this.refs.container.style.setProperty("--opacity", this?.opacity ?? ".9");
+
+
+
 		ComponentUtils.updateFontAttributes(this.c, this);
 		ComponentUtils.updateColorAttributes(this.c, this);
+
 	}
 }
 
-customElements.define("sub-widget-meta", SubWidgetMeta, {extends: "div"});
-export default SubWidgetMeta;
+customElements.define("sub-widget-text", SubWidgetText, {extends: "p"});
+export default SubWidgetText;

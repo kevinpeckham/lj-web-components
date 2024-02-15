@@ -1,10 +1,10 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.min.js";
+import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
 
 
 /** @copyright 2024 Lightning Jar - "Scrolling Stat" web component - License MIT */
 /** @license MIT */
-/** @version 0.0.2 */
+/** @version 0.1.1 */
 /** {@link https://lj-cdn.dev/web-components/scrolling-stat} */
 
 /**
