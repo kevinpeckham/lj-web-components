@@ -135,8 +135,10 @@ static get styles() {
 		// create a shadow root
 		this.attachShadow({ mode: "open" });
 
+		const template = this.c.template;
+
 		// append the template content to the shadow DOM
-    this.shadowRoot?.appendChild(this.c.template.content.cloneNode(true))
+    this.shadowRoot?.appendChild(template.content.cloneNode(true))
 
 		// define refs elements
     this.refs = ComponentUtils.getRefs(this.c, this);
