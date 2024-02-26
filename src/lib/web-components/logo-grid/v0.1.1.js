@@ -220,7 +220,7 @@ static get styles() {
 			`};
 
   return `
-	<link rel="stylesheet" href="/e/wc/preflight.min.css">
+	<link rel="stylesheet" href="https://unpkg.com/tailwindcss@3.4.1/src/css/preflight.css">
   <style #base>
 	#container {
 		height:auto;

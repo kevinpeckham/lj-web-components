@@ -376,7 +376,8 @@ buildTemplate() {
 	// preflight
 	const preflight = document.createElement("link");
 	preflight.rel = "stylesheet";
-	preflight.href = "/e/wc/preflight.min.css";
+	preflight.href = "https://unpkg.com/tailwindcss@3.4.1/src/css/preflight.css";
+
 
 	// user-editable stylesheet
 	const userStylesheet = document.createElement("style");

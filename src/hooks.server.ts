@@ -37,6 +37,7 @@ import {
 	wcJsProductionFilesStore,
 	wcProductionFilesStore,
 } from "$stores/wcProductionFilesStore.server";
+import { customProductionFilesStore } from "$stores/customProductionFilesStore.server";
 
 // content
 const content = {
@@ -47,6 +48,7 @@ const content = {
 	wcJsSourceFilesStore,
 	wcJsonSourceFilesStore,
 	wcProductionFilesStore,
+	customProductionFilesStore,
 };
 
 // utils

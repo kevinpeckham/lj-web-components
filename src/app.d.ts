@@ -13,6 +13,7 @@ import type { WcJsSourceFilesStore, WcCssSourceFilesStore, WcJsonSourceFilesStor
 import type { WcCssProductionFilesStore, WcJsProductionFilesStore, WcProductionFilesStore } from "$stores/wcProductionFilesStore.server";
 import type { WcDocumentation as _WcDocumentation } from "$types/WcDocumentation";
 import { ComponentAttribute as _ComponentAttribute } from "$types/ComponentAttribute";
+import type { CustomProductionFilesStore } from "$stores/customProductionFilesStore.server";
 
 // import utils
 import { error } from "@sveltejs/kit";
@@ -31,6 +32,7 @@ interface Content {
 	wcJsProductionFilesStore: WcJsProductionFilesStore;
 	wcJsonSourceFilesStore: WcJsonSourceFilesStore;
 	wcProductionFilesStore: WcProductionFilesStore;
+	customProductionFilesStore: CustomProductionFilesStore;
 }
 
 // utils
