@@ -22,7 +22,6 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 	// const jsStore = utils.get(content.wcJsProductionFilesStore);
 	// const cssStore = utils.get(content.wcCssProductionFilesStore);
 	const store = utils.get(content.customProductionFilesStore);
-	console.log(store);
 
 	// get component name
 	const componentName = slug.split(".")[0].split("@")[0]; // my-component
@@ -33,9 +32,11 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 	// throw error if no component
 	if (!component) throw error(404, "Component file not found");
 
+	// look for no-cache flag
+	const noCache = slug.includes("@@no-cache");
+
 	// look for requested version number
-	const rvn =
-		slug.match(/((?:\d\.)+\d)(?:\.min)?\.(?:js|json|css)$/)?.[1] ?? ""; // 1.0.0
+	const rvn = slug.match(/((?:\d\.)+\d)(?:\.min)?\.(?:js|json|css)/)?.[1] ?? ""; // 1.0.0
 
 	// test if requested version number is valid
 	// is valid if it has at least 3 digits separated by dots
@@ -80,12 +81,17 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 	// throw error if no file
 	if (!file) throw error(404, "No file found");
 
+	let cache = "public, max-age=86400, stale-while-revalidate=604800";
+	if (noCache) {
+		cache = "no-cache";
+	}
+
 	// set headers
 	const headers: { [key: string]: string } = {
 		"Content-Type": `${type}`,
 		"Access-Control-Allow-Origin": "*",
 		"Access-Control-Allow-Methods": "GET",
-		"Cache-Control": "public, max-age=86400, stale-while-revalidate=604800",
+		"Cache-Control": `${cache}`,
 		"Referrer-Policy": "strict-origin-when-cross-origin",
 	};
 
