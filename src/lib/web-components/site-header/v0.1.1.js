@@ -219,8 +219,8 @@ get template() {
 	const template = document.createElement("template");
 	template.innerHTML = `
 		<style>.hide-before-load { opacity: 0;}</style>
-		<link rel="stylesheet" href="/e/wc/preflight.min.css">
-		<link rel="stylesheet" href="/e/wc/site-header@0.1.1.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/tailwindcss@3.4.1/src/css/preflight.css">
+		<link rel="stylesheet" href="https://cdn.lj.dev/e/wc/site-header@0.1.1.min.css">
 		${this.containerHTML}`.trim();
 
 	// add inner content
