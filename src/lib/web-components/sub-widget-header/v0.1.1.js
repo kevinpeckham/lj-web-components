@@ -1,13 +1,13 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
+import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 // @ts-expect-error yep got it
-import SubWidgetHeading from "/e/wc/sub-widget-heading.0.1.1.min.js";
+import SubWidgetHeading from "/e/wc/sub-widget-heading.@0.1.1.min.js";
 // @ts-expect-error yep got it
-import SubWidgetMeta from "/e/wc/sub-widget-meta.0.1.1.min.js";
+import SubWidgetMeta from "/e/wc/sub-widget-meta@0.1.1.min.js";
 // @ts-expect-error yep got it
-import LinkButton from "/e/wc/link-button.0.1.1.min.js";
+import LinkButton from "/e/wc/link-button@0.1.1.min.js";
 // @ts-expect-error yep got it
-import SubWidgetText from "/e/wc/sub-widget-text.0.1.1.min.js";
+import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
 
 
 /** @copyright 2024 Lightning Jar - "SubWidgetHeader" web component - License MIT */

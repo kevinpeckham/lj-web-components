@@ -27,14 +27,26 @@ import type { Handle } from "@sveltejs/kit";
 
 // import data stores
 import wcDocumentationStore from "$stores/wcDocumentationStore.server";
-import wcSourceFilesStore from "$stores/wcSourceFilesStore.server";
-import wcProductionFilesStore from "$stores/wcProductionFilesStore.server";
+import {
+	wcCssSourceFilesStore,
+	wcJsSourceFilesStore,
+	wcJsonSourceFilesStore,
+} from "$stores/wcSourceFilesStore.server";
+import {
+	wcCssProductionFilesStore,
+	wcJsProductionFilesStore,
+	wcProductionFilesStore,
+} from "$stores/wcProductionFilesStore.server";
 
 // content
 const content = {
+	wcCssSourceFilesStore,
+	wcCssProductionFilesStore,
 	wcDocumentationStore,
+	wcJsProductionFilesStore,
+	wcJsSourceFilesStore,
+	wcJsonSourceFilesStore,
 	wcProductionFilesStore,
-	wcSourceFilesStore,
 };
 
 // utils

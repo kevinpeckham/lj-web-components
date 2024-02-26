@@ -18,11 +18,13 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 	// get error function from utils
 	const error = utils.error;
 
-	// pull in component store
+	// pull in js component store
+	// const jsStore = utils.get(content.wcJsProductionFilesStore);
+	// const cssStore = utils.get(content.wcCssProductionFilesStore);
 	const store = utils.get(content.wcProductionFilesStore);
 
 	// get component name
-	const componentName = slug.split(".")[0]; // my-component
+	const componentName = slug.split(".")[0].split("@")[0]; // my-component
 
 	// lookup component
 	const component = store[componentName];
@@ -31,7 +33,8 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 	if (!component) throw error(404, "Component file not found");
 
 	// look for requested version number
-	const rvn = slug.match(/((?:\d\.)+\d)(?:\.min)?\.js$/)?.[1] ?? ""; // 1.0.0
+	const rvn =
+		slug.match(/((?:\d\.)+\d)(?:\.min)?\.(?:js|json|css)$/)?.[1] ?? ""; // 1.0.0
 
 	// test if requested version number is valid
 	// is valid if it has at least 3 digits separated by dots
@@ -55,16 +58,30 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 	const selected = requested ? requested : component[lvn] ?? null;
 	if (!selected) throw error(404, "Requested file is unavailable");
 
-	const file: string | undefined = slug.includes(".min")
-		? selected?.min
-		: selected?.max;
+	let file = "";
+	let type = "text/plain";
+	const isCss = slug.includes(".css");
+	const isJs = slug.includes(".js") && !slug.includes(".json");
+	const isJson = slug.includes(".json");
+	const isMin = slug.includes(".min");
+
+	if (isCss) {
+		file = isMin ? selected?.css?.min ?? "" : selected?.css?.max ?? "";
+		type = "text/css";
+	} else if (isJs) {
+		file = isMin ? selected?.js?.min ?? "" : selected?.js?.max ?? "";
+		type = "text/javascript";
+	} else if (isJson) {
+		type = "application/json";
+		file = isMin ? selected?.json?.min ?? "" : selected?.json?.max ?? "";
+	}
 
 	// throw error if no file
 	if (!file) throw error(404, "No file found");
 
 	// set headers
 	const headers: { [key: string]: string } = {
-		"Content-Type": "text/javascript",
+		"Content-Type": `${type}`,
 		"Access-Control-Allow-Origin": "*",
 		"Access-Control-Allow-Methods": "GET",
 		"Cache-Control": "public, max-age=86400, stale-while-revalidate=604800",

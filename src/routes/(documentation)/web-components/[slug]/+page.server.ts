@@ -7,6 +7,8 @@ import type { PageServerLoad } from "./$types";
 // get dev environment
 import { dev } from "$app/environment";
 
+// import buildExampleScript from "$utils/wcDoc_buildExampleScript";
+
 export const load: PageServerLoad = async function ({ locals, params }) {
 	// get slug
 	const slug = params.slug as string;

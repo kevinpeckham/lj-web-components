@@ -1,4 +1,16 @@
-export function scrubStyles(str: string): string {
+export function scrubStyles(str: string, cssFile?: boolean): string {
+	// if css file, remove comments
+	if (cssFile) {
+		str = str
+			.replace(/\/\*.*?\*\//g, "") // remove comments
+			.replaceAll(new RegExp(String.raw`\\t+?`, "g"), "") // remove tabs
+			.replaceAll(/(?:\n|\\n)+?/g, "") // remove newlines
+			.replaceAll(/(?:\t|\\t)+?/g, " ") // replace tabs with spaces
+			.replaceAll(/(?:\s){2,}/g, " ") // remove double+ spaces
+			.replaceAll(/(?:([;:{}>])\s)+?/g, "$1") // remove single space after [;:{}>]
+			.replaceAll(/(?:;})/g, "}"); // remove single semicolon before closing bracket
+	}
+
 	// match style tags
 	const styleTagMatch = str.match(/(?:<style>)(?:.|\n)*(?:<\/style>)/gi);
 
@@ -6,7 +18,7 @@ export function scrubStyles(str: string): string {
 	if (styleTagMatch) {
 		for (const match of styleTagMatch) {
 			const styleScrubbed = match
-				.replaceAll(new RegExp(String.raw`\\t+?`, "g"), "")
+				.replaceAll(new RegExp(String.raw`\\t+?`, "g"), "") // remove tabs
 				.replaceAll(/(?:\n|\\n)+?/g, "") // remove newlines
 				.replaceAll(/(?:\t|\\t)+?/g, " ") // replace tabs with spaces
 				.replaceAll(/(?:\s){2,}/g, " ") // remove double+ spaces

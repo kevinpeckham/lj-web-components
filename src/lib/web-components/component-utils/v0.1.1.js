@@ -56,7 +56,7 @@ export const ComponentUtils = {
         // get the key e.g. "src"
         const key = attr.split("-")[1] ?? "";
 
-        // get camelCase version of att image-src -> imageSrc
+        // get camelCase version of att e.g. image-src -> imageSrc
         const camel = this.kebabToCamel(attr);
 
 				// get the default value of the attribute
@@ -171,8 +171,10 @@ export const ComponentUtils = {
    * @param {*} context
    * */
   getRefs(clazz, context) {
+		// ids method is typicall static, but it can be an instance method
+		const ids = (clazz?.ids?.length > 0) ? clazz.ids : context?.ids ?? [];
     const refs = /** @type { { [key:string]: HTMLElement} } */ (
-      clazz.ids.reduce(
+      ids.reduce(
         /**
          * @param {*} acc
          * @param {string} id

@@ -9,8 +9,8 @@
 // import types
 import type { Readable, Writable } from "svelte/store";
 import type { WcDocumentationStore } from "$stores/wcDocumentationStore.server";
-import type { WcSourceFilesStore } from "$stores/wcSourceFilesStore.server";
-import type { WcProductionFilesStore } from "$stores/wcProductionFilesStore.server";
+import type { WcJsSourceFilesStore, WcCssSourceFilesStore, WcJsonSourceFilesStore } from "$stores/wcSourceFilesStore.server";
+import type { WcCssProductionFilesStore, WcJsProductionFilesStore, WcProductionFilesStore } from "$stores/wcProductionFilesStore.server";
 import type { WcDocumentation as _WcDocumentation } from "$types/WcDocumentation";
 import { ComponentAttribute as _ComponentAttribute } from "$types/ComponentAttribute";
 
@@ -25,7 +25,11 @@ import type { Deslugify } from "$utils/deslugify";
 interface Content {
 	[key: string]: unknown;
 	wcDocumentationStore: WcDocumentationStore;
-	wcSourceFilesStore: WcSourceFilesStore;
+	wcCssProductionFilesStore: WcCssProductionFilesStore;
+	wcCssSourceFilesStore: WcCssSourceFilesStore;
+	wcJsSourceFilesStore: WcJsSourceFilesStore;
+	wcJsProductionFilesStore: WcJsProductionFilesStore;
+	wcJsonSourceFilesStore: WcJsonSourceFilesStore;
 	wcProductionFilesStore: WcProductionFilesStore;
 }
 

@@ -14,8 +14,8 @@ import titleCase from "$utils/titleCase";
 import deslugify from "$utils/deslugify";
 
 // import source file store
-import { wcSourceFilesStore } from "$lib/stores/wcSourceFilesStore.server";
-import { wcProductionFilesStore } from "./wcProductionFilesStore.server";
+//import { wcJsSourceFilesStore } from "$lib/stores/wcSourceFilesStore.server";
+import { wcJsProductionFilesStore } from "./wcProductionFilesStore.server";
 
 interface Attribute {
 	[key: string]: string;
@@ -54,7 +54,7 @@ interface VersionDocumentation {
 import slugify from "$utils/slugify";
 
 export const wcDocumentationStore = derived(
-	wcProductionFilesStore,
+	wcJsProductionFilesStore,
 	($filesStore) => {
 		const documentationLibrary: DocumentationLibrary = {};
 
@@ -176,9 +176,9 @@ function buildDocumentationFromFile(componentName: string, file: string) {
 	const innerTemplate = getInnerTemplate(file);
 	const published = getPublicationStatus(file);
 	const notes = getNotes(file);
-	const isPrivate = getPrivacyStatus(file[0]);
-	const requires = getDependencies(file[0]);
-	const slotExampleContent = getSlotExampleContent(file[0]);
+	const isPrivate = getPrivacyStatus(file);
+	const requires = getDependencies(file);
+	const slotExampleContent = getSlotExampleContent(file);
 
 	// slug
 	const slug = slugify(componentName);
