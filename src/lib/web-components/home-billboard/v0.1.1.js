@@ -111,6 +111,7 @@ get parsedImagesData() {
 // HTML BUILDERS
 /** @param {ImageDatum} imageDatum */
 buildimageHTML(imageDatum) {
+
 	if (!imageDatum || !imageDatum?.url ) return "";
 	return `
 	<img
@@ -130,25 +131,29 @@ buildImagesHTML(newImagesData) {
 		/** @param {ImageDatum} imageDatum */
 		(imageDatum) => this.buildimageHTML(imageDatum)).join("");
 }
+
+
 buildRingHTML() {
-	let top = this.c.randomInteger(5, 95);
-	let left = this.c.calculateLeft(top);
-	let size = this.c.randomInteger(40, 100);
-	let opacity = this.c.calculateOpacity(size);
-	let scale = this.c.calculateScale(size);
-	let shadowX = (size * 0.01).toFixed(2);
-	let shadowY = 1;
-	let shadowBlur = (size * 0.01).toFixed(2);
-	let shadowOpacity = (size * 0.004).toFixed(2);
-	let shadowColor = `color-mix(in srgb, ${this.colorShadow} ${Number(Number(shadowOpacity)?.toFixed(2) ?? '.16') * 100}%, transparent)`;
-	let shadow = `drop-shadow(${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowColor})`;
-	let timing = "ease-in-out";
-	let translateX = 0;
-	let translateY = 0;
-	let duration = 0.3;
-	let delay = 0;
-	let color = this.colorPrimary ?? 'currentColor';
-	let pointerEvents = "auto";
+
+	const top = this.c.randomInteger(5, 95);
+	const left = this.c.calculateLeft(top);
+	const size = this.c.randomInteger(40, 100);
+	const opacity = this.c.calculateOpacity(size);
+	const scale = this.c.calculateScale(size);
+	const shadowX = (size * 0.01).toFixed(2);
+	const shadowY = 1;
+	const shadowBlur = (size * 0.01).toFixed(2);
+	const shadowOpacity = (size * 0.004).toFixed(2);
+	const shadowColor = `color-mix(in srgb, ${this.colorShadow} ${Number(Number(shadowOpacity)?.toFixed(2) ?? '.16') * 100}%, transparent)`;
+	const shadow = `drop-shadow(${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowColor})`;
+	const timing = "ease-in-out";
+	const translateX = 0;
+	const translateY = 0;
+	const duration = 0.3;
+	const delay = 0;
+	const color = this.colorPrimary ?? 'currentColor';
+	const pointerEvents = "auto";
+
 
 	let style = `
 		color: ${color};
@@ -162,6 +167,8 @@ buildRingHTML() {
 		transition-duration: ${duration}s;
 		transition-timing-function: ${timing};
 		transition-delay: ${delay}s;`
+
+		let lastValue = 0;
 	return `
 	<div
 		class="ring"
@@ -169,6 +176,41 @@ buildRingHTML() {
 		role="presentation"
 		aria-hidden="true">
 	</div>`
+}
+static test() {
+	window.console.log("test");
+}
+
+/** @param {PointerEvent} e */
+static handleMouseEnter(e) {
+
+	/** @type {HTMLDivElement | null} t */
+	const t = e.target instanceof HTMLDivElement ? e.target : null;
+	if (t) {
+		const lastScaleValue = t.style.scale;
+		t.style.transitionDelay = "0";
+		t.style.transitionDuration = "0.1s";
+		t.style.pointerEvents = "none";
+		t.style.transitionTimingFunction = "ease-out";
+		t.style.scale = "0.25";
+
+	// after time, reset scale to random value
+	setTimeout(() => {
+		this.jump(t, lastScaleValue);
+	}, 300);
+}
+}
+/** @param {HTMLDivElement} t, @param {string} lastScaleValue */
+static jump(t, lastScaleValue) {
+	// bind this to the function
+		t.style.transitionDelay = "0";
+		t.style.transitionDuration = "0";
+		t.style.transform = `translate(${this.randomInteger(-1, 1)}em, ${this.randomInteger(-1, 1)}em)`;
+		t.style.transitionDuration = "0.3";
+		t.style.transitionDelay = "0.2";
+		t.style.pointerEvents = "auto";
+		t.style.transitionTimingFunction = "ease-in";
+		t.style.scale = lastScaleValue;
 }
 buildRingsHTML() {
 	const count = this.ringsCount ? Number(this.ringsCount) : 30;
@@ -533,6 +575,13 @@ connectedCallback() {
 
 	// define refs elements
 	this.refs = ComponentUtils.getRefs(this.c, this);
+
+	// add event listeners to the rings
+	this.refs.container.querySelectorAll(".ring").forEach((ring) => {
+		ring.addEventListener("mouseenter", (e) => {
+			this.c.handleMouseEnter(e);
+		});
+});
 
 	if (this.dataJsonUrl) this.fetchData();
 }
