@@ -1,0 +1,40 @@
+{
+	"font-family": "Mulish,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",
+	"images-data": [
+		{
+			"url": "https://res.cloudinary.com/dn0pqjjbq/image/upload/v1708950992/petro/wind_xvg3mh.webp",
+			"alt": "wind",
+			"left": "20%",
+			"top": "16%",
+			"width": "30%"
+		},
+		{
+			"url": "https://res.cloudinary.com/dn0pqjjbq/image/upload/v1708951699/petro/solar_ksxj0e.webp",
+			"alt": "solar",
+			"left": "55%",
+			"top": "15%",
+			"width": "15%"
+		},
+		{
+			"url": "https://res.cloudinary.com/dn0pqjjbq/image/upload/v1708951881/petro/hardhat_lgkwgc.webp",
+			"alt": "hard hat",
+			"left": "65%",
+			"top": "30%",
+			"width": "20%"
+		},
+		{
+			"url": "https://res.cloudinary.com/dn0pqjjbq/image/upload/v1708951980/petro/refinery_q6souz.webp",
+			"alt": "refinery",
+			"left": "50%",
+			"top": "52%",
+			"width": "40%"
+		},
+		{
+			"url": "https://www.competencyalliance.dev/images/offshore.avif",
+			"alt": "offshore",
+			"left": "20%",
+			"top": "52%",
+			"width": "25%"
+		}
+	]
+}

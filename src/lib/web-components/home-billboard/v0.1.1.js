@@ -1,14 +1,11 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
+
+import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js@@no-cache";
 // @ts-expect-error yep got it
-import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
-// @ts-expect-error yep got it
-import SubWidgetHeading from "/e/wc/sub-widget-heading@0.1.1.min.js";
-// @ts-expect-error yep got it
-import LinkButton from "/e/wc/link-button@0.1.1.min.js";
+import LinkButton from "/e/wc/link-button@0.1.1.min.js@@no-cache";
 
 // types
-/** @typedef {{url?:string; alt?: string; left?: string; top?: string; width?: string; }} ImageDatum */
+/** @typedef {{url?:string; alt?:string; left?:string; top?:string; width?:string; }} ImageDatum */
 
 /** @copyright 2024 Lightning Jar - "HomeBillboard" web component - License MIT */
 /** @author Kevin Peckham */
@@ -26,23 +23,23 @@ import LinkButton from "/e/wc/link-button@0.1.1.min.js";
  * @requires SubWidgetText
  * @requires LogoGrid
  * @classdesc Defines web component that displays a billboard with a headline, text, button and slotted content
- * @attribute button-href | -- | / | url for the button
- * @attribute button-text | -- | Get Started | text for the button
- * @attribute button-title | -- | explore training & competency solutions | title for the button
- * @attribute button-rel | -- | -- | rel for the button
+ * @attribute link-href | -- | / | url for the button
+ * @attribute link-text | -- | Get Started | text for the button
+ * @attribute link-title | -- | explore training & competency solutions | title for the button
+ * @attribute link-rel | -- | -- | rel for the button
  * @attribute color-accent | lightblue | #ceede9 | color of the text
  * @attribute color-background | -- | #F8FAFC | color of the widget background
- * @attribute color-button-background-hover | -- | #0b2e7e | color of the button background on hover
- * @attribute color-button-primary-hover | -- | white | color of the button text on hover
  * @attribute color-primary | currentColor | #0b2e7e | color of the text
  * @attribute color-shadow | black | rgb(11 46 126) | color of the shadow
  * @attribute container-padding | 4rem | -- | padding for the container
- * @attribute images-data | [] | [{"url":"https://res.cloudinary.com/dn0pqjjbq/image/upload/v1708950992/petro/wind_xvg3mh.webp", "alt":"wind", "left":"20%", "top":"16%", "width":"30%"},{"url":"https://res.cloudinary.com/dn0pqjjbq/image/upload/v1708951699/petro/solar_ksxj0e.webp", "alt":"solar", "left":"55%", "top":"15%", "width":"15%"},{"url":"https://res.cloudinary.com/dn0pqjjbq/image/upload/v1708951881/petro/hardhat_lgkwgc.webp", "alt":"hard hat", "left":"65%", "top":"30%", "width":"20%"},{"url":"https://res.cloudinary.com/dn0pqjjbq/image/upload/v1708951980/petro/refinery_q6souz.webp", "alt":"refinery", "left":"50%", "top":"52%", "width":"40%"},{"url":"https://www.competencyalliance.dev/images/offshore.avif","alt":"offshore", "left":"20%", "top":"52%", "width":"25%"}] | data for images in json format
- * @attribute font-family | -- | Mulish,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji | font family for the text
+ * @attribute images-data | [] | -- | data for images in json format
+ * @attribute font-family | inherit | -- | font family for the text
  * @attribute heading-text | -- | Robust Training &<br>Competency Solutions<br>For The Energy Industry. | text for the heading
- * @attribute widget-text | -- | We cater to the evolving needs of the industry and its customers including: digital learning, certification, assessment, data analytics, and competency consulting. | text for the widget
+ * @attribute paragraph-text | -- | We cater to the evolving needs of the industry and its customers including: digital learning, certification, assessment, data analytics, and competency consulting. | text for the widget
+ * @attribute rings-on | true | -- | if true, display rings
+ * @attribute rings-count | 30 | -- | number of rings to display
  * @attribute stylesheet | -- | #container { border-bottom: solid 1px rgb(229 231 235 / 40% )  } | inject css into the inner stylesheet
- * @attribute data-json-url | -- |-- | url of remote json data
+ * @attribute data-json-url | -- | /e/wc/home-billboard.min.json | url of remote json data
  * @note
  */
 class HomeBillboard extends HTMLElement {
@@ -51,25 +48,25 @@ class HomeBillboard extends HTMLElement {
 	get c() { return HomeBillboard };
 
 	// PROPERTIES
-	buttonHref = "";
+	linkHref = "";
 	buttonRel = "";
-	buttonText = "";
-	buttonTitle = "";
+	linkText = "";
+	linkTitle = "";
 	colorAccent = "";
 	colorBackground = "";
-	colorButtonBackgroundHover = "";
-	colorButtonPrimaryHover = "";
 	colorPrimary = "";
 	colorShadow = "";
 	containerPadding = "";
 	fontFamily = "";
 	headingText = "";
 	imagesData = "[]";
-	widgetText = "";
+	paragraphText = "";
+	ringsOn = "true";
+	ringsCount = "30";
 	stylesheet = "";
 	dataJsonUrl = "";
 
-// ATTRIBUTES
+// ATTRIBUTES GETTER
 /**
  * Returns an object. The keys are prop names. The values are the default values for the props.
  * @returns { { [key:string]: string } }
@@ -77,12 +74,10 @@ class HomeBillboard extends HTMLElement {
 static get attributes() {
 	const values = {
 		// sub-widget-container attributes
-		"color-button-background-hover": "",
-		"color-button-primary-hover": "",
-		"button-href": "",
-		"button-rel": "",
-		"button-text": "",
-		"button-title": "",
+		"link-href": "",
+		"link-rel": "",
+		"link-text": "",
+		"link-title": "",
 		"color-accent": "lightblue",
 		"color-background": "transparent",
 		"color-primary": "currentColor",
@@ -91,7 +86,7 @@ static get attributes() {
 		"font-family": "",
 		"heading-text": "",
 		"images-data": "[]",
-		"widget-text": "",
+		"paragraph-text": "",
 		"rings-on": "true",
 		"rings-count": "30",
 		"stylesheet": "",
@@ -100,17 +95,20 @@ static get attributes() {
 return values;
 }
 
-// get observed attributes
+// OBSERVED ATTRIBUTES GETTER
 static get observedAttributes() { return Object.keys(this.attributes) }
 
-// get default value for an attribute
+// ATTRIBUTE DEFAULT VALUE GETTER
 /** @param {string} attr */
 static getDefault(attr) { return this.attributes[attr] ?? "" }
 
-// IMAGES
+// PARSE DATA JSON
+/** @returns {ImageDatum[]} */
 get parsedImagesData() {
 	return JSON.parse(this.imagesData) ?? []
 }
+
+// HTML BUILDERS
 /** @param {ImageDatum} imageDatum */
 buildimageHTML(imageDatum) {
 	if (!imageDatum || !imageDatum?.url ) return "";
@@ -125,77 +123,14 @@ buildimageHTML(imageDatum) {
 			style="left: ${imageDatum?.left ?? '0' }; top: ${imageDatum?.top ?? '0'}; width: ${imageDatum?.width ?? '100%'}"
 			width="600" />`
 }
-get billboardImagesHTML() {
-	return this.parsedImagesData.map(
+/** @param {ImageDatum[]} [newImagesData] */
+buildImagesHTML(newImagesData) {
+	const imagesData = newImagesData && newImagesData[0] ? newImagesData : this.parsedImagesData;
+	return imagesData.map(
 		/** @param {ImageDatum} imageDatum */
 		(imageDatum) => this.buildimageHTML(imageDatum)).join("");
 }
-
-// RINGS
-/**
- * @method randomInteger
- * @static
- * @param {number} min
- * @param {number} max
- * @returns {number}
- */
-static randomInteger(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-/**
- * @method calculateLeft
- * @static
- * @param {number} top
- * @returns {number}
- * */
-static calculateLeft(top) {
-	if (top < 24 || top > 72) return this.randomInteger(5, 95);
-		else {
-			const ab = this.randomInteger(0, 1);
-			if (ab == 0) return this.randomInteger(5, 20);
-			else if (ab == 1) return this.randomInteger(80, 90);
-		}
-		return 0;
-}
-/**
- * @method calculateOpacity
- * @static
- * @param {number} size
- * @param {number} [min]
- * @param {number} [max]
- * @returns {number}
- * */
-static calculateOpacity(size, min, max) {
-	size = size ? size : 0;
-	min = min ?? 0;
-	max = max ?? 1;
-	const calculated = size * 0.01;
-	const maxLimitApplied = calculated > max ? max : calculated;
-	const minLimitApplied = calculated < min ? min : maxLimitApplied;
-	const result = Number(minLimitApplied.toFixed(2));
-	return result;
-}
-
-/**
- * @method calculateScale
- * @static
- * @param {number} size
- * @param {number} [min]
- * @param {number} [max]
- * @returns {number}
- * */
-static calculateScale(size, min, max) {
-	size = size ? size : 0;
-	min = min ?? 0;
-	max = max ?? 1;
-	const calculated = Number((size * 0.01).toFixed(2));
-	if (calculated > max) return max;
-	else if (calculated < min) return min;
-	else return calculated;
-}
-
-get ringHTML() {
+buildRingHTML() {
 	let top = this.c.randomInteger(5, 95);
 	let left = this.c.calculateLeft(top);
 	let size = this.c.randomInteger(40, 100);
@@ -205,7 +140,7 @@ get ringHTML() {
 	let shadowY = 1;
 	let shadowBlur = (size * 0.01).toFixed(2);
 	let shadowOpacity = (size * 0.004).toFixed(2);
-	let shadowColor = `color-mix(in srgb, this.colorShadow ${(Number(shadowOpacity) ?? .16) * 100}%, transparent)`;
+	let shadowColor = `color-mix(in srgb, ${this.colorShadow} ${Number(Number(shadowOpacity)?.toFixed(2) ?? '.16') * 100}%, transparent)`;
 	let shadow = `drop-shadow(${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowColor})`;
 	let timing = "ease-in-out";
 	let translateX = 0;
@@ -226,19 +161,24 @@ get ringHTML() {
 		transform: translate(${translateX}em, ${translateY}em);
 		transition-duration: ${duration}s;
 		transition-timing-function: ${timing};
-		transition-delay: ${delay}s;
-	`
+		transition-delay: ${delay}s;`
 	return `
 	<div
 		class="ring"
-		style="${style};"
+		style="${style}"
 		role="presentation"
 		aria-hidden="true">
 	</div>`
 }
-
-// ELEMENTS
-get graphicHTML() {
+buildRingsHTML() {
+	const count = this.ringsCount ? Number(this.ringsCount) : 30;
+ 	let str= "";
+	for (let i = 0; i < count; i++) {
+		str += this.buildRingHTML();
+	}
+	return str;
+}
+buildGraphicHTML() {
 
 	return `
 	<div
@@ -248,14 +188,38 @@ get graphicHTML() {
 		<!-- base circle -->
 		<div id="base-circle"></div>
 
-		<!-- images -->
-		${this.billboardImagesHTML}
-
 		<!-- rings -->
-		${this.ringHTML}
-	`
+		${this.buildRingsHTML()}
+
+		<!-- images -->
+		<div id="images-container">
+			${this.buildImagesHTML()}
+		</div>`
+}
+buildLinkHTML(/** @type {{[key:string]: string;}} [data] */ data) {
+
+	// string for the attributes
+	let attributeString = "";
+
+	// attributes
+	const attributes = "color-background color-primary link-href link-text link-title link-rel".split(" ");
+
+	// iterate over the attributes, if the data has a value for the attribute, update the attribute
+	attributes.forEach((attr) => {
+		const value = data?.[attr] ?? this.getAttribute(attr) ?? "";
+		if (value) {
+			attributeString += ` ${attr}="${value}"`;
+			this.setAttribute(attr, value);
+		}});
+	return `
+	<link-button
+		color-backgroundHover="${this.colorPrimary}"
+		color-primaryHover="${this.colorBackground}"
+		${attributeString}
+		id="button"></link-button>`
 }
 
+// ELEMENTS MASTER LAYOUT GETTER
 get els() {
 	return `
 <style id="stylesheet">${this.stylesheet}</style>
@@ -263,28 +227,20 @@ get els() {
 	<div id="container-inner">
 		<div id="content-container">
 			<h1 id="heading">${this.headingText}</h1>
-			<p id="text">${this.widgetText}</p>
-			<div id="button-container">
-				<link-button
-					${this.colorBackground ? `color-background="${this.colorBackground}"` : ""}
-					${this.colorPrimary ? `color-primary="${this.colorPrimary}"` : ""}
-					color-backgroundHover="${this.colorButtonBackgroundHover ?? this.colorPrimary ?? 'currentColor'}"
-					${this.colorButtonPrimaryHover ? `color-primaryHover="${this.colorButtonPrimaryHover}"` : ""}
-					link-href="${this.buttonHref}"
-					link-text="${this.buttonText}"
-					link-title="${this.buttonTitle}"
-					link-rel="${this.buttonRel}"
-					id="button">${this.buttonText}</link-button>
+			<p id="paragraph">${this.paragraphText}</p>
+			<div id="link-container">
+				${this.buildLinkHTML()}
 			</div>
 		</div>
 		<div id="graphic-container">
-			${this.graphicHTML}
+			${this.buildGraphicHTML()}
 			<slot id="slot"></slot>
 		</div>
 	</div>
 </div>`.trim();
 }
 
+// STYLES GETTER
 get styles() {
 	return `
 	<link rel="stylesheet" href="/e/wc/preflight.min.css">
@@ -369,7 +325,7 @@ get styles() {
 				font-size:1.75rem;
 			}
 		}
-		#text {
+		#paragraph {
 			display:none;
 			font-weight:500;
 			margin-bottom:1.5rem;
@@ -378,24 +334,24 @@ get styles() {
 		}
 		/* text - sm */
 		@media (min-width: 640px) {
-			#text {
+			#paragraph {
 				display:block;
 			}
 		}
 		/* text - lg */
 		@media (min-width: 1024px) {
-			#text {
+			#paragraph {
 				text-align:start;
 			}
 		}
-		/* button-container */
-		#button-container {
+		/* link-container */
+		#link-container {
 			display:flex;
 			justify-content:center;
 		}
-		/* button-container - lg */
+		/* link-container - lg */
 		@media (min-width: 1024px) {
-			#button-container {
+			#link-container {
 				justify-content:start;
 			}
 		}
@@ -445,7 +401,7 @@ get styles() {
 			}
 		}
 		/* base circle */
-		#base-circle {
+		#billboard-images #base-circle {
 			aspect-ratio:1;
 			align-items:center;
 			background-color:transparent;
@@ -457,7 +413,7 @@ get styles() {
 			width:100%;
 		}
 		/* base circe - after */
-		#base-circle::after {
+		#billboard-images #base-circle::after {
 			aspect-ratio:1;
 			background-color:var(--color-accent, lightblue);
 			content:"";
@@ -466,7 +422,7 @@ get styles() {
 			width:50%;
 		}
 		/* image */
-		.billboard-image {
+		#billboard-images .billboard-image {
 			aspect-ratio:1;
 			box-shadow: 0 4px 6px -1px color-mix(in srgb, rgb(11 46 126) 40%, transparent), 0 2px 4px -2px color-mix(in srgb, rgb(11 46 126) 10%, transparent);
 			border-radius: 9999px;
@@ -479,14 +435,41 @@ get styles() {
 			overflow-x: clip;
 			overflow-y: clip;
 			position:absolute;
+			scale: 1;
+			transition-duration: 0.2s;
+			transition-property: transform, scale;
+			transition-timing-function: ease-out;
+			transform: rotate3d(0, 0, 0, 0);
+			opacity: 1;
 		}
-		@supports not (box-shadow: color-mix(in srgb, rgb(11 46 126) 40%) {
-			box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .4);
+		@supports not (box-shadow: color-mix(in srgb, rgb(11 46 126) 40%)) {
+			#billboard-images .billboard-image { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .4) }
 		}
+		/* image hover */
+		#billboard-images .billboard-image:hover {
+			transform: scale(1.1);
+		}
+		#billboard-images.animation-reset .image.photo {
+			transform: rotate3d(0, 0, 0, 0);
+			scale: 0;
+		}
+		#billboard-images.animation-reset .image.photo.spin-in {
+			transform: rotate3d(0, 0, 1, 1turn);
+		}
+		#billboard-images.animation-reset .image.photo.flip-in-x {
+			transform: rotate3d(1, 0, 0, 1turn);
+		}
+		#billboard-images.animation-reset .image.photo.flip-in-y {
+			transform: rotate3d(0, 1, 0, 1turn);
+		}
+		#billboard-images.animation-reset .image.photo.flip-in-xy {
+			transform: rotate3d(1, 1, 0, 1turn);
+		}
+
 		/* ring */
-		.ring {
+		#billboard-images .ring {
 			align-items: center;
-			aspect-ratio: 1;
+			aspect-ratio: 1 / 1;
 			border-radius: 50%;
 			font-size: 2em;
 			font-weight: 600;
@@ -499,7 +482,7 @@ get styles() {
 			transition-timing-function: ease-out;
 			transition-property: scale;
 		}
-		.ring::after {
+		#billboard-images .ring::after {
 			background-clip: text;
 			background-size: 100%;
 			border-radius: 50%;
@@ -515,19 +498,19 @@ get styles() {
 	</style>`;
 }
 
-	// TEMPLATE
-	get template() {
-		const template = document.createElement("template");
-		template.innerHTML = `${this.styles}${this.els}`.trim();
-		return template;
-	}
+// TEMPLATE GETTER
+get template() {
+	const template = document.createElement("template");
+	template.innerHTML = `${this.styles}${this.els}`.trim();
+	return template;
+}
 
-	// IDS
-	get ids() {
-		return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
-	}
+// IDS GETTER
+get ids() {
+	return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
+}
 
-// constructor
+// CONSTRUCTOR
 constructor() {
 	super();
 
@@ -537,55 +520,103 @@ constructor() {
 	// create a shadow root
 	this.attachShadow({ mode: "open" });
 
-
 	// append template to shadow root
 	this.shadowRoot?.appendChild(this.template.content.cloneNode(true));
 
 	// define refs elements
 	this.refs = ComponentUtils.getRefs(this.c, this);
 
-	// update attributes
-	this.updateAttributes();
 }
 
-	// CONNECTED CALLBACK
-	connectedCallback() { this.fetchData(); }
+// CONNECTED CALLBACK
+connectedCallback() { this.fetchData(); }
 
-	// ATTRIBUTE CHANGED CALLBACK
-	attributeChangedCallback() {}
+// ATTRIBUTE CHANGED CALLBACK
+attributeChangedCallback() {}
 
-	// METHODS
-	updateAttributes() {
-		// update css custom color properties
-		// this.refs.container.style.setProperty("--color-accent", this.colorAccent);
-		// this.refs.container.style.setProperty("--color-background", this.colorBackground);
-		// this.refs.container.style.setProperty("--color-primary", this.colorPrimary);
-		// this.refs.container.style.setProperty("--font-family", this.fontFamily);
+// REBUILDERS -- rebuild elements with new data
+/** @param {*} data */
+rebuildImagesWithNewData(data) {
+	// if there is not valid images data return
+	if (!data || !data['images-data'] || !data['images-data'][0]) return;
 
-		// heading text
-		if (this.refs.heading.innerHTML != this.headingText) {
-			this.refs.heading.innerHTML = this.headingText;
-		}
-		// widget text
-		if (this.refs.text.innerHTML != this.widgetText) {
-			this.refs.text.innerHTML = this.widgetText;
-		}
+	// exiting elements
+	const shadowRoot = this.shadowRoot;
+	const billboardImages = shadowRoot?.getElementById("billboard-images");
+	const imagesContainer = shadowRoot?.getElementById("images-container");
 
-		// update the inner stylesheet
-		this.refs.stylesheet.textContent = this.getAttribute("stylesheet");
-	}
+	// new container
+	const newImagesContainer = document.createElement("div");
+	newImagesContainer.id = "images-container";
+
+	// rebuild images with new data
+	const imagesData = data['images-data'];
+
+	newImagesContainer.innerHTML = this.buildImagesHTML(imagesData);
+	if (billboardImages && imagesContainer) {
+		billboardImages?.replaceChild(newImagesContainer, imagesContainer) };
+}
+/** @param {*} data */
+rebuildLinkWithNewData(data) {
+	// button attributes
+	const attributes = "link-href link-text link-title link-rel".split(" ");
+
+	// if no relevant data points, return
+	let hasData = false;
+	attributes.forEach((attr) => {if (data?.[attr]) hasData = true;});
+	if (!hasData) return;
+
+	// existing elements
+	const shadowRoot = this.shadowRoot;
+	const contentContainer = shadowRoot?.getElementById("content-container");
+	const linkContainer = shadowRoot?.getElementById("link-container");
+
+	// new container
+	const newLinkContainer = document.createElement("div");
+	newLinkContainer.id = "link-container";
+
+	// add the new link
+	newLinkContainer.innerHTML = this.buildLinkHTML(data);
+	if (contentContainer && linkContainer) {
+		contentContainer?.replaceChild(newLinkContainer, linkContainer) };
+}
 
 /** @param {*} data */
-rebuildWithNewData(data) {
-	const shadowRoot = this.shadowRoot;
-	const container = shadowRoot?.getElementById("container");
-	const containerInner = shadowRoot?.getElementById("container-inner");
-	const newContainerInner = document.createElement("div");
-	newContainerInner.id = "container-inner";
-	newContainerInner.innerHTML = "";
-	if (container && containerInner) {
-		container?.replaceChild(newContainerInner, containerInner) };
+updateCSSVariables(data) {
+	const attributes = "color-accent color-background color-primary color-shadow font-family".split(" ");
+
+	// iterate over the attributes, if the data has a value for the attribute, update the attribute
+	attributes.forEach((attr) => {
+		let value = data?.[attr] ?? this.getAttribute(attr);
+		if (value) {
+			window.console.log(`--${attr}`, value)
+			if (this.refs.container.style.getPropertyValue(`--${attr}`) != value) this.refs.container.style.setProperty(`--${attr}`, value);
+			if (this.getAttribute(attr) != value) this.setAttribute(attr, value);
+		}
+	});
+
 }
+
+
+// UPDATERS
+/** @param {{[key:string]: string;}} [data] */
+updateTextContent(data) {
+	const attributes = "stylesheet heading-text paragraph-text".split(" ");
+
+	// iterate over the attributes, if the data has a value for the attribute, update the attribute
+	attributes.forEach((attr) => {
+		let value = data?.[attr] ?? this.getAttribute(attr);
+		if (value) {
+			if (this.innerHTML != value) this.refs[`${attr.split('-')[0]}`].innerHTML = value;
+			if (this.getAttribute(attr) != value) this.setAttribute(attr, value);
+		}
+	});
+
+}
+
+
+
+// FETCH DATA
 fetchData() {
 	// if no data url or it does not end in .json, return empty string
 	if (!this.dataJsonUrl || !this.dataJsonUrl.includes('.json') ) return "";
@@ -595,13 +626,79 @@ fetchData() {
       .then(data => data.json())
       .then((json) => {
 				if (json) {
-        this.rebuildWithNewData(json);
+				this.updateCSSVariables(json);
+				this.updateTextContent(json);
+				this.rebuildLinkWithNewData(json);
+				this.rebuildImagesWithNewData(json);
+
 			}
         res();
       })
       .catch((error) => rej(error));
   }))
 	}
+}
+
+// STATIC HELPERS
+/**
+ * @method randomInteger
+ * @static
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
+ */
+static randomInteger(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+/**
+ * @method calculateLeft
+ * @static
+ * @param {number} top
+ * @returns {number}
+ * */
+static calculateLeft(top) {
+	if (top < 24 || top > 72) return this.randomInteger(5, 95);
+		else {
+			const ab = this.randomInteger(0, 1);
+			if (ab == 0) return this.randomInteger(5, 20);
+			else if (ab == 1) return this.randomInteger(80, 90);
+		}
+		return 0;
+}
+/**
+ * @method calculateOpacity
+ * @static
+ * @param {number} size
+ * @param {number} [min]
+ * @param {number} [max]
+ * @returns {number}
+ * */
+static calculateOpacity(size, min, max) {
+	size = size ? size : 0;
+	min = min ?? 0;
+	max = max ?? 1;
+	const calculated = size * 0.01;
+	const maxLimitApplied = calculated > max ? max : calculated;
+	const minLimitApplied = calculated < min ? min : maxLimitApplied;
+	const result = Number(minLimitApplied.toFixed(2));
+	return result;
+}
+/**
+ * @method calculateScale
+ * @static
+ * @param {number} size
+ * @param {number} [min]
+ * @param {number} [max]
+ * @returns {number}
+ * */
+static calculateScale(size, min, max) {
+	size = size ? size : 0;
+	min = min ?? 0;
+	max = max ?? 1;
+	const calculated = Number((size * 0.01).toFixed(2));
+	if (calculated > max) return max;
+	else if (calculated < min) return min;
+	else return calculated;
 }
 }
 
