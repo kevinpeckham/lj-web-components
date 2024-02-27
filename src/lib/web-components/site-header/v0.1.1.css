@@ -429,7 +429,6 @@
 		overflow-y: scroll;
 	}
 }
-
 .fill-primary {
 	fill: var(--color-primary, #000);
 }
