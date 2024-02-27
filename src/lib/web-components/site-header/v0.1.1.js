@@ -672,24 +672,28 @@ constructor() {
 	this.attachShadow({ mode: "open" });
 
 	// append the template content to the shadow DOM
-	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
+	// this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
 
 	// define refs elements
-	this.refs = ComponentUtils.getRefs(this.c, this);
+	// this.refs = ComponentUtils.getRefs(this.c, this);
 
 }
 
 // CONNECTED CALLBACK
 connectedCallback() {
-	// fetch data from a remote json file if preferred
-	this.fetchData();
-	//this.updateAttributes();
+		// append the template content to the shadow DOM
+		this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
+
+		// define refs elements
+		this.refs = ComponentUtils.getRefs(this.c, this);
+
+		if (this.dataJsonUrl) this.fetchData();
 }
 
 // ATTRIBUTE CHANGED CALLBACK
-attributeChangedCallback() {
+// attributeChangedCallback() {
 
-}
+// }
 
 // METHODS
 fetchData() {
