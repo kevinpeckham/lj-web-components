@@ -81,7 +81,8 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 	// throw error if no file
 	if (!file) throw error(404, "No file found");
 
-	let cache = "public, max-age=86400, stale-while-revalidate=604800";
+	let cache =
+		"public, max-age=86400, stale-while-revalidate=604800, stale-if-error=604800";
 	if (noCache) {
 		cache = "no-cache";
 	}
