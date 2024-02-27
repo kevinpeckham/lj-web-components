@@ -285,7 +285,7 @@ get styles() {
 		}
 		/* container - xl */
 		@media (min-width: 1280px) {
-			#container {
+			#container-inner {
 				padding:128px 80px;
 		}
 		}
@@ -524,19 +524,21 @@ constructor() {
 	// create a shadow root
 	this.attachShadow({ mode: "open" });
 
-	// append template to shadow root
-	this.shadowRoot?.appendChild(this.template.content.cloneNode(true));
+}
+
+// CONNECTED CALLBACK
+connectedCallback() {
+	// append the template content to the shadow DOM
+	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
 
 	// define refs elements
 	this.refs = ComponentUtils.getRefs(this.c, this);
 
+	if (this.dataJsonUrl) this.fetchData();
 }
 
-// CONNECTED CALLBACK
-connectedCallback() { this.fetchData(); }
-
 // ATTRIBUTE CHANGED CALLBACK
-attributeChangedCallback() {}
+// attributeChangedCallback() {}
 
 // REBUILDERS -- rebuild elements with new data
 /** @param {*} data */
