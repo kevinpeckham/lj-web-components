@@ -34,6 +34,26 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 
  */
 class LinkButton extends HTMLElement {
+	borderRadius = "";
+	borderWidth = "";
+	colorAccent = "";
+	colorBackground = "";
+	colorBackgroundHover = "";
+	colorBorder = "";
+	colorBorderHover = "";
+	colorSecondary = "";
+	colorPrimary = "";
+	colorPrimaryHover = "";
+	padding = "";
+	lineHeight = "";
+	linkText = "";
+	linkHref = "";
+	linkTitle = "";
+	linkTarget = "";
+	linkRel = "";
+	transitionDuration = "";
+	stylesheetTextContent = "";
+
 	// reference to class itself
 	get c() { return LinkButton };
 
@@ -75,16 +95,38 @@ class LinkButton extends HTMLElement {
 	/** @param {string} attr */
 	static getDefault(attr) { return this.attributes[attr] ?? "" }
 
-// ELEMENTS
-static get els() {
+// ELEMENTS MASTER LAYOUT GETTER
+get els() {
 	return `
-<div id="container">
-	<a id="link"></a>
+<style id="stylesheet"></style>
+<div
+	id="container"
+	style="
+		--border-radius: ${this.borderRadius};
+		--border-width: ${this.borderWidth};
+		--color-accent: ${this.colorAccent};
+		--color-background: ${this.colorBackground};
+		--color-backgroundHover: ${this.colorBackgroundHover};
+		--color-border: ${this.colorBorder};
+		--color-borderHover: ${this.colorBorderHover};
+		--color-secondary: ${this.colorSecondary};
+		--color-primary: ${this.colorPrimary};
+		--color-primaryHover: ${this.colorPrimaryHover};
+		--line-height: ${this.lineHeight};
+		--padding: ${this.padding};
+		--transition-duration: ${this.transitionDuration};
+	"
+	>
+	<a
+		href="${this.linkHref}"
+		${(this.linkRel) ? `rel="${this.linkRel}"` : ''}
+		title="${this.linkTitle}"
+		id="link">${this.linkText}</a>
 </div>`.trim();
 }
 
 // STYLES
-static get styles() {
+get styles() {
 	return `
 	<style>
 	:host, * { box-sizing:border-box;margin:0; }
@@ -110,18 +152,18 @@ static get styles() {
 		background-color: var(--color-backgroundHover, lightblue);
 		color: var(--color-primaryHover, currentColor);
 	}
-</style><style id="stylesheet"></style>`.trim();
+</style>`.trim();
 }
 
 	// TEMPLATE
-	static get template() {
+	get template() {
 		const template = document.createElement("template");
 		template.innerHTML = `${this.styles}${this.els}`.trim();
 		return template;
 	}
 
 	// IDS
-	static get ids() {
+	get ids() {
 		return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 	}
 
@@ -135,50 +177,21 @@ static get styles() {
 		// create a shadow root
 		this.attachShadow({ mode: "open" });
 
-		const template = this.c.template;
-
-		// append the template content to the shadow DOM
-    this.shadowRoot?.appendChild(template.content.cloneNode(true))
-
-		// define refs elements
-    this.refs = ComponentUtils.getRefs(this.c, this);
-
-		// update attributes
-    this.updateAttributes();
 	}
 
 	 // CONNECTED CALLBACK
 	connectedCallback() {
-		this.updateAttributes();
+		// append the template content to the shadow DOM
+		this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
+
+		// define refs elements
+		this.refs = ComponentUtils.getRefs(this.c, this);
+		// this.updateAttributes();
 	}
 
 	// ATTRIBUTE CHANGED CALLBACK
 	attributeChangedCallback() {
-		this.updateAttributes();
-	}
-
-	// METHODS
-	updateAttributes() {
-		ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
-		ComponentUtils.updateColorAttributes(this.c, this);
-		// @ts-expect-error - yes it is
-		this.refs.container.style.setProperty("--transition-duration", this?.transitionDuration);
-
-		// @ts-expect-error - yes it is
-		this.refs.container.style.setProperty("--border-radius", this?.borderRadius);
-
-		// @ts-expect-error - yes it is
-		this.refs.container.style.setProperty("--border-width", this?.borderWidth ?? ".125em");
-
-		// @ts-expect-error - yes it is
-		this.refs.container.style.setProperty("--padding", this?.padding);
-
-		// @ts-expect-error - yes it is
-		this.refs.container.style.setProperty("--line-height", this?.lineHeight);
-
-		// @ts-expect-error - yes it is
-		this.refs.link.textContent = this.textContent?.trim() ? this.textContent : this.linkText;
-
+		// this.updateAttributes();
 	}
 }
 
