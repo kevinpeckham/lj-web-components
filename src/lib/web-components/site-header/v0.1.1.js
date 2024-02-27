@@ -692,7 +692,6 @@ attributeChangedCallback() {
 }
 
 // METHODS
-
 fetchData() {
 	// if no data url or it does not end in .json, return empty string
 	if (!this.dataJsonUrl || !this.dataJsonUrl.includes('.json') ) return "";
