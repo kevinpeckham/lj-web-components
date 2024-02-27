@@ -1,5 +1,5 @@
+@import url("https://unpkg.com/tailwindcss@3.4.1/src/css/preflight.css");
 /* stylesheet for site header web component */
-
 :host {
 	box-sizing: border-box; /* 1 */
 	border-width: 0; /* 2 */
