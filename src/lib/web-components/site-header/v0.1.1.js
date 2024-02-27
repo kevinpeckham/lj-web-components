@@ -39,6 +39,7 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute container-height | 70px | -- | text content of the copy button
  * @attribute menus-data | [] | -- | json data for the menus
  * @attribute data-json-url | -- | /e/wc/site-header@0.1.1.min.json | fetch data from a remote json file if preferred
+ * @attribute stylesheet | -- | -- | custom stylesheet content
  * @note Data fetched via data-json-url prop will override attribute values
  */
 class SiteHeader extends HTMLElement {
@@ -57,7 +58,7 @@ class SiteHeader extends HTMLElement {
 	dataJsonUrl = "";
 	containerHeight = "";
 	menusData = "";
-	stylesheetContent = "";
+	stylesheet= "";
 
 // reference to class itself
 get c() { return SiteHeader };
@@ -99,7 +100,7 @@ static get attributes() {
 		"menus-data": "[]",
 
 		//- stylesheet
-		"stylesheet-content": ""
+		"stylesheet": ""
 	};
 return values;
 }
@@ -221,6 +222,7 @@ get template() {
 		<style>.hide-before-load { opacity: 0;}</style>
 		<link rel="stylesheet" href="https://unpkg.com/tailwindcss@3.4.1/src/css/preflight.css">
 		<link rel="stylesheet" href="https://cdn.lj.dev/e/wc/site-header@0.1.1.min.css">
+		<style id="stylesheet"></style>
 		${this.containerHTML}`.trim();
 
 	// add inner content
@@ -250,6 +252,8 @@ constructor() {
 	// define refs elements
 	this.refs = ComponentUtils.getRefs(this.c, this);
 
+	this.refs.stylesheet.textContent = this.stylesheet;
+
 	// update attributes
 	this.updateAttributes();
 }
@@ -269,6 +273,7 @@ attributeChangedCallback() {
 // METHODS
 updateAttributes() {
 	ComponentUtils.updateColorAttributes(this.c, this);
+	this.refs.stylesheet.innerHTML = this.stylesheet;
 }
 fetchData() {
 	// if no data url or it does not end in .json, return empty string
