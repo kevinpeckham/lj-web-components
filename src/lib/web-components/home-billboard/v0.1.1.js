@@ -1,8 +1,8 @@
 // @ts-expect-error - type defs not available
 
-import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js@@no-cache";
+import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 // @ts-expect-error yep got it
-import LinkButton from "/e/wc/link-button@0.1.1.min.js@@no-cache";
+import LinkButton from "/e/wc/link-button@0.1.1.min.js";
 
 // types
 /** @typedef {{url?:string; alt?:string; left?:string; top?:string; width?:string; }} ImageDatum */
@@ -589,7 +589,6 @@ updateCSSVariables(data) {
 	attributes.forEach((attr) => {
 		let value = data?.[attr] ?? this.getAttribute(attr);
 		if (value) {
-			window.console.log(`--${attr}`, value)
 			if (this.refs.container.style.getPropertyValue(`--${attr}`) != value) this.refs.container.style.setProperty(`--${attr}`, value);
 			if (this.getAttribute(attr) != value) this.setAttribute(attr, value);
 		}
