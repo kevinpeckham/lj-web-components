@@ -47,6 +47,9 @@ class HomeBillboard extends HTMLElement {
 	// reference to class itself
 	get c() { return HomeBillboard };
 
+	// PRIVATE VARIABLES
+	#isOnScreen = false;
+
 	// PROPERTIES
 	linkHref = "";
 	buttonRel = "";
@@ -225,6 +228,7 @@ buildGraphicHTML() {
 	return `
 	<div
 		id="billboard-images"
+		class="animation-reset"
 		aria-hidden="true">
 
 		<!-- base circle -->
@@ -526,7 +530,7 @@ get styles() {
 			transform-origin: center;
 			transition-duration: 3s;
 			transition-timing-function: ease-out;
-			transition-property: scale;
+			transition-property: scale, opacity;
 		}
 		#billboard-images .ring::after {
 			background-clip: text;
@@ -539,6 +543,10 @@ get styles() {
 			vertical-align: middle;
 			pointer-events: none;
 			line-height: 1;
+		}
+		#billboard-images.animation-reset .ring {
+			scale: 0;
+			opacity: 0!important;
 		}
 
 	</style>`;
@@ -566,6 +574,8 @@ constructor() {
 	// create a shadow root
 	this.attachShadow({ mode: "open" });
 
+	// bind observer callback to the class
+	this.observerCallback = this.observerCallback.bind(this);
 }
 
 // CONNECTED CALLBACK
@@ -581,9 +591,16 @@ connectedCallback() {
 		ring.addEventListener("mouseenter", (e) => {
 			this.c.handleMouseEnter(e);
 		});
-});
+	});
 
+	// if there is a data url, fetch the data
 	if (this.dataJsonUrl) this.fetchData();
+
+	// create and start the observer
+	new IntersectionObserver(this.observerCallback, {
+		rootMargin: "0%",
+		threshold: 0.5,
+	}).observe(this.refs.container);
 }
 
 // ATTRIBUTE CHANGED CALLBACK
@@ -636,6 +653,7 @@ rebuildLinkWithNewData(data) {
 		contentContainer?.replaceChild(newLinkContainer, linkContainer) };
 }
 
+// UPDATERS
 /** @param {*} data */
 updateCSSVariables(data) {
 	const attributes = "color-accent color-background color-primary color-shadow font-family".split(" ");
@@ -650,9 +668,6 @@ updateCSSVariables(data) {
 	});
 
 }
-
-
-// UPDATERS
 /** @param {{[key:string]: string;}} [data] */
 updateTextContent(data) {
 	const attributes = "stylesheet heading-text paragraph-text".split(" ");
@@ -754,6 +769,42 @@ static calculateScale(size, min, max) {
 	else if (calculated < min) return min;
 	else return calculated;
 }
+
+// PRIVATE VARIABLE - #isOnScreen
+get isOnScreen() {
+	return this.#isOnScreen;
+}
+/** @param {boolean} value */
+set isOnScreen(value) {
+
+	if (typeof value  === "boolean") this.#isOnScreen = value;
+	// when the element is scrolled into view do this
+	if (value === true) {
+		window.console.log(this.refs['billboard-images']);
+		this.refs['billboard-images']?.classList.remove("animation-reset");
+	} else {
+		this.refs['billboard-images']?.classList.add("animation-reset");
+	}
+
+}
+
+// OBSERVER CALLBACK
+/**
+ * callback method which fires when the element is scrolled into view
+ * @param {IntersectionObserverEntry[]} entries
+ * @returns {void}
+ */
+observerCallback(entries) {
+	// test if the element is on screen
+	const isOnScreen = entries[0].isIntersecting;
+	// update variable to match the state of the element
+	if (isOnScreen != this.isOnScreen) {
+		window.console.log(isOnScreen ? "is on screen" : "is off screen");
+		// this.refs.container.classList.toggle("animation-reset", !isOnScreen);
+		this.isOnScreen = isOnScreen;
+	}
+}
+
 }
 
 customElements.define("home-billboard", HomeBillboard);
