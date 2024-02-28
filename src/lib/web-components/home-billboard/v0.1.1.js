@@ -36,8 +36,9 @@ import LinkButton from "/e/wc/link-button@0.1.1.min.js";
  * @attribute font-family | inherit | -- | font family for the text
  * @attribute heading-text | -- | Robust Training &<br>Competency Solutions<br>For The Energy Industry. | text for the heading
  * @attribute paragraph-text | -- | We cater to the evolving needs of the industry and its customers including: digital learning, certification, assessment, data analytics, and competency consulting. | text for the widget
- * @attribute rings-on | true | -- | if true, display rings
- * @attribute rings-count | 30 | -- | number of rings to display
+ * @attribute flair-glyph | ○ | -- | glyph to dispay as flair
+ * @attribute flair-on | true | -- | if true, display rings
+ * @attribute flair-count | 30 | -- | number of rings to display
  * @attribute stylesheet | -- | #container { border-bottom: solid 1px rgb(229 231 235 / 40% )  } | inject css into the inner stylesheet
  * @attribute data-json-url | -- | /e/wc/home-billboard.min.json | url of remote json data
  * @note
@@ -51,6 +52,9 @@ class HomeBillboard extends HTMLElement {
 	#isOnScreen = false;
 
 	// PROPERTIES
+	flairCount = "30";
+	flairGlyph = ""
+	flairOn = "true";
 	linkHref = "";
 	buttonRel = "";
 	linkText = "";
@@ -64,8 +68,8 @@ class HomeBillboard extends HTMLElement {
 	headingText = "";
 	imagesData = "[]";
 	paragraphText = "";
-	ringsOn = "true";
-	ringsCount = "30";
+
+
 	stylesheet = "";
 	dataJsonUrl = "";
 
@@ -77,6 +81,9 @@ class HomeBillboard extends HTMLElement {
 static get attributes() {
 	const values = {
 		// sub-widget-container attributes
+		"flair-count": "30",
+		"flair-glyph": "○",
+		"flair-on": "true",
 		"link-href": "",
 		"link-rel": "",
 		"link-text": "",
@@ -90,8 +97,6 @@ static get attributes() {
 		"heading-text": "",
 		"images-data": "[]",
 		"paragraph-text": "",
-		"rings-on": "true",
-		"rings-count": "30",
 		"stylesheet": "",
 		"data-json-url": "",
 	};
@@ -135,8 +140,7 @@ buildImagesHTML(newImagesData) {
 }
 
 
-buildRingHTML() {
-
+buildFlairHTML() {
 	const top = this.c.randomInteger(5, 95);
 	const left = this.c.calculateLeft(top);
 	const size = this.c.randomInteger(40, 100);
@@ -173,14 +177,11 @@ buildRingHTML() {
 		let lastValue = 0;
 	return `
 	<div
-		class="ring"
+		class="flair"
 		style="${style}"
 		role="presentation"
 		aria-hidden="true">
 	</div>`
-}
-static test() {
-	window.console.log("test");
 }
 
 /** @param {PointerEvent} e */
@@ -214,11 +215,11 @@ static jump(t, lastScaleValue) {
 		t.style.transitionTimingFunction = "ease-in";
 		t.style.scale = lastScaleValue;
 }
-buildRingsHTML() {
-	const count = this.ringsCount ? Number(this.ringsCount) : 30;
+buildFlairsHTML() {
+	const count = this.flairCount ? Number(this.flairCount) : 30;
  	let str= "";
 	for (let i = 0; i < count; i++) {
-		str += this.buildRingHTML();
+		str += this.buildFlairHTML();
 	}
 	return str;
 }
@@ -233,8 +234,8 @@ buildGraphicHTML() {
 		<!-- base circle -->
 		<div id="base-circle"></div>
 
-		<!-- rings -->
-		${this.buildRingsHTML()}
+		<!-- flairs -->
+		${this.buildFlairsHTML()}
 
 		<!-- images -->
 		<div id="images-container">
@@ -268,7 +269,7 @@ buildLinkHTML(/** @type {{[key:string]: string;}} [data] */ data) {
 get els() {
 	return `
 <style id="stylesheet">${this.stylesheet}</style>
-<div id="container" style="--color-accent:${this.colorAccent}; --color-background:${this.colorBackground}; --color-primary:${this.colorPrimary}; --color-shadow:${this.colorShadow}; --font-family:${this.fontFamily}">
+<div id="container" style="--color-accent:${this.colorAccent}; --color-background:${this.colorBackground}; --color-primary:${this.colorPrimary}; --color-shadow:${this.colorShadow}; --font-family:${this.fontFamily}; --flair-glyph:'${this.flairGlyph}';">
 	<div id="container-inner">
 		<div id="content-container">
 			<h1 id="heading">${this.headingText}</h1>
@@ -526,10 +527,8 @@ get styles() {
 		}
 
 
-
-
 		/* ring */
-		#billboard-images .ring {
+		#billboard-images .flair {
 			align-items: center;
 			aspect-ratio: 1 / 1;
 			border-radius: 50%;
@@ -544,11 +543,11 @@ get styles() {
 			transition-timing-function: ease-out;
 			transition-property: scale, opacity;
 		}
-		#billboard-images .ring::after {
+		#billboard-images .flair::after {
 			background-clip: text;
 			background-size: 100%;
 			border-radius: 50%;
-			content: "○";
+			content: var(--flair-glyph, "○");
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -556,7 +555,7 @@ get styles() {
 			pointer-events: none;
 			line-height: 1;
 		}
-		#billboard-images.animation-reset .ring {
+		#billboard-images.animation-reset .flair {
 			scale: 0;
 			opacity: 0!important;
 		}
@@ -599,7 +598,7 @@ connectedCallback() {
 	this.refs = ComponentUtils.getRefs(this.c, this);
 
 	// add event listeners to the rings
-	this.refs.container.querySelectorAll(".ring").forEach((ring) => {
+	this.refs.container.querySelectorAll(".flair").forEach((ring) => {
 		ring.addEventListener("mouseenter", (e) => {
 			this.c.handleMouseEnter(e);
 		});
