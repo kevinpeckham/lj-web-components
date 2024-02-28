@@ -114,11 +114,10 @@ get parsedImagesData() {
 // HTML BUILDERS
 /** @param {ImageDatum} imageDatum */
 buildimageHTML(imageDatum) {
-
 	if (!imageDatum || !imageDatum?.url ) return "";
 	return `
 	<img
-			class="billboard-image flip-in-xy"
+			class="billboard-image flip-in"
 			alt="${ imageDatum?.alt }"
 			draggable="false"
 			height="600"
@@ -459,6 +458,8 @@ get styles() {
 			filter:drop-shadow(0 1px 2px rgb(0 0 0 / .1));
 			height:auto;
 			justify-content:center;
+			opacity:1;
+			transition: opacity 0.3s ease-in;
 			position:relative;
 			width:100%;
 		}
@@ -470,6 +471,9 @@ get styles() {
 			position:absolute;
 			border-radius: 9999px;
 			width:50%;
+		}
+		#billboard-images.animation-reset #base-circle {
+			opacity:0;
 		}
 		/* image */
 		#billboard-images .billboard-image {
@@ -486,7 +490,7 @@ get styles() {
 			overflow-y: clip;
 			position:absolute;
 			scale: 1;
-			transition-duration: 0.2s;
+			transition-duration: 0.3s;
 			transition-property: transform, scale;
 			transition-timing-function: ease-out;
 			transform: rotate3d(0, 0, 0, 0);
@@ -499,22 +503,30 @@ get styles() {
 		#billboard-images .billboard-image:hover {
 			transform: scale(1.1);
 		}
-		#billboard-images.animation-reset .image.photo {
+		#billboard-images.animation-reset .billboard-image {
 			transform: rotate3d(0, 0, 0, 0);
 			scale: 0;
 		}
-		#billboard-images.animation-reset .image.photo.spin-in {
-			transform: rotate3d(0, 0, 1, 1turn);
-		}
-		#billboard-images.animation-reset .image.photo.flip-in-x {
-			transform: rotate3d(1, 0, 0, 1turn);
-		}
-		#billboard-images.animation-reset .image.photo.flip-in-y {
-			transform: rotate3d(0, 1, 0, 1turn);
-		}
-		#billboard-images.animation-reset .image.photo.flip-in-xy {
+		/* flip-in-xy */
+		#billboard-images.animation-reset .billboard-image.flip-in:first-child,
+		#billboard-images.animation-reset .billboard-image.flip-in:nth-child(4) {
 			transform: rotate3d(1, 1, 0, 1turn);
 		}
+		/* flip-in-y */
+		#billboard-images.animation-reset .billboard-image.flip-in:nth-child(2){
+			transform: rotate3d(0, 1, 0, 1turn);
+		}
+		/* flip-in-x */
+		#billboard-images.animation-reset .billboard-image.flip-in:nth-child(3),
+		#billboard-images.animation-reset .billboard-image.flip-in:nth-child(5) {
+			transform: rotate3d(1, 0, 0, 1turn);
+		}
+		#billboard-images.animation-reset .billboard-image.spin-in {
+			transform: rotate3d(0, 0, 1, 1turn);
+		}
+
+
+
 
 		/* ring */
 		#billboard-images .ring {
