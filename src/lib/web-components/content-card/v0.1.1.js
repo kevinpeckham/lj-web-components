@@ -495,7 +495,7 @@ get styles() {
 	#body-bullets li {
 		display: list-item;
 		margin-bottom: .25rem;
-		font-size: .95em;
+		font-size: .9em;
 	}
 	#body-bullets li::marker {
 		font-feature-settings:"cv02", "cv03", "cv04", "cv11";
