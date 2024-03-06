@@ -27,9 +27,12 @@ import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
  * @attribute heading-font-weight | 600 | -- | font weight of the heading
  * @attribute heading-margin-bottom | 1.5rem | -- | margin bottom of the heading
  * @attribute heading-text | -- | Expertise that Spans the Energy Value Chain | text of the heading
+ *
+ * WIDGET TEXT
+ * @attribute body-text | -- | In partnership with our members, The Competency Alliance has established the NetZero and Renewables divisions, following the PetroSkills model used to form an industry benchmark in the Oil and Gas sector 20 years ago. | text of the widget
 *
-* CONTAINER
-* @attribute container-background | white | #F9FAFC | background color of the widget
+* Widget CONTAINER
+* @attribute widget-background | white | #F9FAFC | background color of the widget
 * @attribute color-primary | currentColor | #203E86 | color of the text
 
 * CARD
@@ -45,23 +48,16 @@ import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
  * @attribute card-transition-duration | .3s | -- | transition duration of the card
  * @attribute card-width | 100% | -- | width of the card
  *
- * CARD LINK
- * @attribute card-link-url | -- | -- | url of a link for the entire card
- * @attribute card-link-rel | -- | -- | rel of a link for the entire card
- *
  * OUTSIDE HEADING
  * @attribute card-outside-heading-color | inherit | -- | color of the outside heading
  * @attribute card-outside-heading-font-size | inherit | -- | font size of the outside heading
  * @attribute card-outside-heading-font-weight | inherit | -- | font weight of the outside
  heading
  * @attribute card-outside-heading-margin-bottom | .5rem | -- | margin of the outside heading
- * @attribute card-outside-heading-text | -- | -- | text of the outside heading
  * @attribute card-outside-heading-position | above | -- | position of the outside heading
  *
  * BACKGROUND IMAGE
- * @attribute card-background-image-alt | -- | -- | alt text of the background image
  * @attribute card-background-image-position | bottom | -- | position of the background image
- * @attribute card-background-image-url | -- | -- | url of the background image
  *
  * CARD HEADER
  * @attribute card-header-border-bottom | 1px solid #e2e8f0 | -- | border bottom of the card header
@@ -70,11 +66,8 @@ import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
  * @attribute card-header-font-size | 1rem | -- | font size of the card header
  * @attribute card-header-font-weight | 500 | 900 | font weight of the card header
  * @attribute card-header-padding | .25rem 1rem | -- | padding of the card header
- * @attribute card-header-logo-url | -- | /images/custom/petro/mark-petroskills.svg | url of the logo
- * @attribute card-header-logo-alt | -- | -- | alt text of the logo
  * @attribute card-header-logo-width | auto | -- | width of the logo
  * @attribute card-header-logo-height | 2.5rem | -- | height of the logo
- * @attribute card-header-text | -- | PetroSkills | text of the card header
  *
  * BODY CONTAINER
  * @attribute card-body-padding | .75rem | -- | padding of the body container
@@ -83,27 +76,23 @@ import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
  * @attribute card-body-font-size | .9rem | -- | font size of the body text
  * @attribute card-body-font-weight | 400 | -- | font weight of the body text
  * @attribute card-body-text-color | inherit | -- | color of the body text
- * @attribute card-body-text | -- |-- | text of the body
+ *
+ * DATA
  * @attribute cards-data-json | [] | [{"cardBackgroundImageUrl":"/images/custom/petro/company_graphic_petroskills.png", "cardHeaderLogoUrl":"/images/custom/petro/mark-petroskills.svg","cardHeaderText":"PetroSkills","cardBodyBullets":["Upstream", "Midstream", "Downstream"],"cardFooterLinkUrl": "/","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"/images/custom/petro/company_graphic_netzeroskills.png","cardHeaderLogoUrl": "/images/custom/petro/mark-net-zero-skills.svg","cardHeaderText": "NetZeroSkills","cardBodyBullets": ["Green House Gas Management", "Carbon Capture, Utilization & Storage", "Hydrogen"],"cardFooterLinkUrl": "/","cardFooterLinkLabel": "Learn More"},{"cardBackgroundImageUrl":"/images/custom/petro/company_graphic_renewableskills.png","cardHeaderLogoUrl": "/images/custom/petro/mark-renewable-skills.svg","cardHeaderText": "RenewableSkills","cardBodyBullets": ["Geothermal", "Wind"],"cardFooterLinkUrl": "/","cardFooterLinkLabel": "Learn More"},{"cardBackgroundImageUrl":"/images/custom/petro/company_graphic_ability.png","cardHeaderLogoUrl": "/images/custom/petro/mark-ability.svg","cardHeaderText": "Ability","cardBodyBullets": ["Competency Engine & LMS","Competency Consulting","Economics & PM","Organizational Effectiveness"],"cardFooterLinkUrl": "/","cardFooterLinkLabel": "Learn More"}] | array of bullet points | json data for the cards
  *
- * @attribute card-body-image-url | -- | https://www.competencyalliance.dev/images/company_graphic_petroskills.png | url of the image
  *
  * FOOTER
  * @attribute card-footer-backdrop-filter | blur(8px) | -- | backdrop filter of the card header
  * @attribute card-footer-border-top | 1px solid #e2e8f0 | --| border bottom of the card header
  * @attribute card-footer-background | rgb(255 255 255 / 40%) | -- | background color of the card header
- * @attribute card-footer-color-text | inherit | -- | text color of the card header
+ * @attribute card-footer-color | inherit | -- | text color of the card header
  * @attribute card-footer-font-size | .85rem | -- | font size of the card header
  * @attribute card-footer-font-weight | 400 | -- | font weight of the card header
  * @attribute card-footer-min-height | 2.5rem | -- | min height of the card header
  * @attribute card-footer-padding | .25rem 1rem | -- | padding of the card header
- * @attribute card-footer-text | -- | -- | text of the card footer
+
  *
  * FOOTER LINK
- * @attribute card-footer-link-url | -- | / | url of the footer link
- * @attribute card-footer-link-rel | -- | -- | rel of the footer link
- * @attribute card-footer-link-title | -- | -- | title of the footer link
- * @attribute card-footer-link-label | -- | Learn More | label of the footer link;
  * @attribute card-footer-link-background | rgb(255 255 255 / 30%) | -- | background color of the footer link (button style)
  * @attribute card-footer-link-border | 1px solid currentColor | -- | border of the footer link (button style)
  * @attribute card-footer-link-border-radius | .25rem; | -- | border radius of the footer link (button style)
@@ -120,8 +109,8 @@ import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
 
  */
 class WidgetCardGrid extends HTMLElement {
-	// container
-	containerBackground = "";
+	// widget
+	widgetBackground = "";
 	colorPrimary = "";
 
 	// Widget heading
@@ -129,6 +118,9 @@ class WidgetCardGrid extends HTMLElement {
 	headingFontWeight = "";
 	headingMarginBottom = "";
 	headingText = "";
+
+	// Body
+	bodyText = "";
 
 	// Outside Heading
 	cardOutsideHeadingColor = "";
@@ -225,7 +217,7 @@ static get attributes() {
 const values = {
 
 	/* container */
-	"container-background": "white",
+	"widget-background": "white",
 	"color-primary": "currentColor",
 
 	/* heading */
@@ -233,6 +225,9 @@ const values = {
 	"heading-font-weight": "600",
 	"heading-margin-bottom": "1.5rem",
 	"heading-text": "",
+
+	/* body */
+	"body-text": "",
 
 	/* outside */
 	"card-outside-heading-color": "inherit",
@@ -461,7 +456,7 @@ get els() {
 <div
 	id="container"
 	style="
-		--background:${this.containerBackground};
+		--background:${this.widgetBackground};
 		--color-primary:${this.colorPrimary};
 		--heading-font-size:${this.headingFontSize};
 		--heading-font-weight:${this.headingFontWeight};
@@ -479,7 +474,7 @@ get els() {
 			<h2 id="heading">${this.headingText}</h2>
 
 			<!-- text -->
-			<p id="text">In partnership with our members, The Competency Alliance has established the NetZero and Renewables divisions, following the PetroSkills model used to form an industry benchmark in the Oil and Gas sector 20 years ago.</p>
+			<p id="text">${this.bodyText ?? ""}</p>
 
 			<!-- card grid -->
 			<div id="grid">${this.buildGridHTML()}</div>\
@@ -510,7 +505,7 @@ get styles() {
 
 	}
 	#container {
-		background-color: var(--container-background, white);
+		background-color: var(--widget-background, white);
 		display:grid;
 		align-items:start;
 		padding:64px 16px 96px;
