@@ -10,7 +10,7 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
 /** {@link https://www.lj-cdn.dev/web-components/widget-card-grid} */
 
 /**
- * Logo Block Web Component
+ * Widget Card Grid Web Component
  * @name WidgetCardGrid
  * @class
  * @requires ComponentUtils
