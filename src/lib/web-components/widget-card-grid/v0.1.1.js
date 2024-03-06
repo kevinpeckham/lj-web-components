@@ -2,10 +2,6 @@
 import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
 // @ts-expect-error yep got it
 import ContentCard from "/e/wc/content-card.0.1.1.min.js";
-// @ts-expect-error yep got it
-import SubWidgetContainer from "/e/wc/sub-widget-container@0.1.1.min.js";
-// @ts-expect-error yep got it
-import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
 
 /** @copyright 2024 Lightning Jar - "Widget Card Grid" web component - License MIT */
 /** @author Kevin Peckham */
@@ -20,7 +16,7 @@ import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
  * @requires ComponentUtils
  * @published 2024-02-09
  * @extends HTMLElement
- * @classdesc A web component for displaying a linked tile with a single full bleed image-- for typical use in a grid of products.
+ * @classdesc A web component for displaying a grid of cards.
  *
  * WIDGET HEADING
  * @attribute heading-font-size | 1.25rem | -- | font size of the heading
