@@ -23,22 +23,14 @@ import LinkButton from "/e/wc/link-button@0.1.1.min.js";
  * @requires SubWidgetText
  * @requires LogoGrid
  * @classdesc Defines web component that displays a billboard with a headline, text, button and slotted content
- * @attribute link-href | -- | / | url for the button
- * @attribute link-text | -- | Get Started | text for the button
- * @attribute link-title | -- | explore training & competency solutions | title for the button
- * @attribute link-rel | -- | -- | rel for the button
- * @attribute color-accent | lightblue | #ceede9 | color of the text
- * @attribute color-background | -- | #F8FAFC | color of the widget background
- * @attribute color-primary | currentColor | #0b2e7e | color of the text
- * @attribute color-shadow | black | rgb(11 46 126) | color of the shadow
- * @attribute container-padding | 4rem | -- | padding for the container
- * @attribute images-data | [] | -- | data for images in json format
- * @attribute font-family | inherit | -- | font family for the text
- * @attribute heading-text | -- | Robust Training &<br>Competency Solutions<br>For The Energy Industry. | text for the heading
- * @attribute paragraph-text | -- | We cater to the evolving needs of the industry and its customers including: digital learning, certification, assessment, data analytics, and competency consulting. | text for the widget
- * @attribute flair-glyph | ○ | -- | glyph to dispay as flair
- * @attribute flair-on | true | -- | if true, display rings
- * @attribute flair-count | 30 | -- | number of rings to display
+ * OUTSIDE HEADING
+ * @attribute outside-heading-color | inherit | -- | color of the heading
+ * @attribute outside-heading-font-size | -- | -- | font size of the heading
+ * @attribute outside-heading-font-weight | -- | -- | font weight of the heading
+ * @attribute outside-heading-text | -- | -- | text for the heading
+ * @attribute outside-heading-position | above | -- | position of the heading
+ * CONTAINER
+ *
  * @attribute stylesheet | -- | #container { border-bottom: solid 1px rgb(229 231 235 / 40% )  } | inject css into the inner stylesheet
  * @attribute data-json-url | -- | /e/wc/home-billboard.min.json | url of remote json data
  * @note
