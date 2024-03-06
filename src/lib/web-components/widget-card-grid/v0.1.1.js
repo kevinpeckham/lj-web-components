@@ -22,6 +22,11 @@ import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
  * @extends HTMLElement
  * @classdesc A web component for displaying a linked tile with a single full bleed image-- for typical use in a grid of products.
  *
+ * WIDGET META
+ * @attribute widget-meta-font-size | .75rem | -- | font size of the meta text
+ * @attribute widget-meta-margin-bottom | 1.5rem | -- | margin bottom of the meta text
+ * @attribute widget-meta-text | -- | Challenges
+ *
  * WIDGET HEADING
  * @attribute heading-font-size | 1.25rem | -- | font size of the heading
  * @attribute heading-font-weight | 600 | -- | font weight of the heading
@@ -34,6 +39,7 @@ import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
 * Widget CONTAINER
 * @attribute widget-background | white | #F9FAFC | background color of the widget
 * @attribute color-primary | currentColor | #203E86 | color of the text
+* @attribute color-accent | lightblue | rgb(0 184 156 / 100%) | color of the text
 
 * CARD
  * @attribute card-background-color | white | #EAF1F7 | background color of the card
@@ -47,6 +53,7 @@ import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
  * @attribute card-transition-property | opacity | -- | transition property of the card
  * @attribute card-transition-duration | .3s | -- | transition duration of the card
  * @attribute card-width | 100% | -- | width of the card
+
  *
  * OUTSIDE HEADING
  * @attribute card-outside-heading-color | inherit | -- | color of the outside heading
@@ -109,9 +116,16 @@ import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
 
  */
 class WidgetCardGrid extends HTMLElement {
+
 	// widget
 	widgetBackground = "";
+	colorAccent = "";
 	colorPrimary = "";
+
+	// Meta
+	widgetMetaFontSize = "";
+	widgetMetaMarginBottom = "";
+	widgetMetaText = "";
 
 	// Widget heading
 	headingFontSize = "";
@@ -219,6 +233,12 @@ const values = {
 	/* container */
 	"widget-background": "white",
 	"color-primary": "currentColor",
+	"color-accent": "currentColor",
+
+	/* meta */
+	"widget-meta-font-size": ".75rem",
+	"widget-meta-margin-bottom": ".5rem",
+	"widget-meta-text": "",
 
 	/* heading */
 	"heading-font-size": "1.25rem",
@@ -458,10 +478,12 @@ get els() {
 	style="
 		--background:${this.widgetBackground};
 		--color-primary:${this.colorPrimary};
+		--color-accent:${this.colorAccent};
 		--heading-font-size:${this.headingFontSize};
 		--heading-font-weight:${this.headingFontWeight};
 		--heading-margin-bottom:${this.headingMarginBottom};
-		"
+		--font-size:${this.widgetMetaFontSize};
+		--margin-bottom:${this.widgetMetaMarginBottom};"
 >
 		<div
 			id="container-inner"
@@ -469,6 +491,9 @@ get els() {
 			color-primary="#062273"
 			heading-text="Expertise that Spans the Energy Value Chain"
 			>
+
+			<!-- meta -->
+			${this.widgetMetaText ? `<div id="meta" style="">${this.widgetMetaText}</div>` : ''}
 
 			<!-- heading row -->
 			<h2 id="heading">${this.headingText}</h2>
@@ -526,6 +551,14 @@ get styles() {
 			padding:64px 80px 96px;
 		}
 	}
+	/* Meta */
+	#meta {
+		color: var(--color-accent, currentColor);
+		font-size: var(--font-size, .85rem);
+		margin-bottom: var(--margin-bottom, 1.5rem);
+		opacity:.9;
+		text-transform:uppercase;
+	}
 	/* Heading */
 	#heading {
 		color: var(--color-primary, currentColor);
@@ -555,7 +588,7 @@ get styles() {
 		display:block;
 		max-width:none;
 		margin-bottom:2rem;
-		opacity:.9rem;
+		opacity:.9;
 	}
 	@media (min-width: 640px) {
 		#text {
