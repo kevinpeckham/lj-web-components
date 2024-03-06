@@ -333,6 +333,7 @@ get styles() {
 	}
 	#container {
 		background-color: var(--color-background, transparent);
+		color: var(--color-primary, currentColor);
 		display:grid;
 		align-items:start;
 		padding:64px 16px 96px;
