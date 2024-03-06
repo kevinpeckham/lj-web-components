@@ -27,24 +27,25 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @attribute heading-font-size | 1.25rem | -- | font size of the heading
  * @attribute heading-font-weight | 600 | -- | font weight of the heading
  * @attribute heading-margin-bottom | 1.5rem | -- | margin bottom of the heading
- * @attribute heading-text | -- | Expertise that Spans the Energy Value Chain | text of the heading
+ * @attribute heading-text | -- | Today's energy industries face new competency challenges.
  *
  * WIDGET TEXT
- * @attribute body-text | -- | In partnership with our members, The Competency Alliance has established the NetZero and Renewables divisions, following the PetroSkills model used to form an industry benchmark in the Oil and Gas sector 20 years ago. | text of the widget
+ * @attribute body-text | -- | Energy companies are typically focused on their core businesses, rather than developing, executing, and maintaining competency development processes, programs, and systems. | text of the widget
 *
 * Widget CONTAINER
 * @attribute widget-background | white | #F9FAFC | background color of the widget
-* @attribute color-primary | currentColor | #203E86 | color of the text
+* @attribute color-primary | currentColor | #0A2E7E | color of the text
 * @attribute color-accent | lightblue | rgb(0 184 156 / 100%) | color of the text
 
 * CARD
- * @attribute card-background-color | white | #EAF1F7 | background color of the card
+ * @attribute card-background-color | white | "#EAF1F7" | background color of the card
  * @attribute card-border-radius | .35rem | .5rem | border radius of the card
+ * @attribute card-box-shadow | none | 0 0 1px 0 rgba(0,0,0,.4); | box shadow of the card
  * @attribute card-height | auto | -- | height of the card
  * @attribute card-hover-opacity | -- | -- | opacity of the card on hover
  * @attribute card-hover-background-color | -- | -- | background color of the card on hover
  * @attribute card-max-width | none | 24rem | max width of the card
- * @attribute card-min-height | auto | 24rem | min height of the card
+ * @attribute card-min-height | auto | 20rem | min height of the card
  * @attribute card-opacity | 100% | -- | opacity of the card
  * @attribute card-transition-property | opacity | -- | transition property of the card
  * @attribute card-transition-duration | .3s | -- | transition duration of the card
@@ -81,7 +82,7 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @attribute card-body-text-color | inherit | -- | color of the body text
  *
  * DATA
- * @attribute cards-data-json | [] | [{"cardBackgroundImageUrl":"/images/custom/petro/company_graphic_petroskills.png", "cardHeaderLogoUrl":"/images/custom/petro/mark-petroskills.svg","cardHeaderText":"PetroSkills","cardBodyBullets":["Upstream", "Midstream", "Downstream"],"cardFooterLinkUrl": "/","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"/images/custom/petro/company_graphic_netzeroskills.png","cardHeaderLogoUrl": "/images/custom/petro/mark-net-zero-skills.svg","cardHeaderText": "NetZeroSkills","cardBodyBullets": ["Green House Gas Management", "Carbon Capture, Utilization & Storage", "Hydrogen"],"cardFooterLinkUrl": "/","cardFooterLinkLabel": "Learn More"},{"cardBackgroundImageUrl":"/images/custom/petro/company_graphic_renewableskills.png","cardHeaderLogoUrl": "/images/custom/petro/mark-renewable-skills.svg","cardHeaderText": "RenewableSkills","cardBodyBullets": ["Geothermal", "Wind"],"cardFooterLinkUrl": "/","cardFooterLinkLabel": "Learn More"},{"cardBackgroundImageUrl":"/images/custom/petro/company_graphic_ability.png","cardHeaderLogoUrl": "/images/custom/petro/mark-ability.svg","cardHeaderText": "Ability","cardBodyBullets": ["Competency Engine & LMS","Competency Consulting","Economics & PM","Organizational Effectiveness"],"cardFooterLinkUrl": "/","cardFooterLinkLabel": "Learn More"}] | array of bullet points | json data for the cards
+ * @attribute cards-data-json | [] | [{"cardFeatureImageUrl":"/images/custom/petro/ocean-turbines.webp","cardBodyText":"Energy companies are increasingly moving towards diversification beyond traditional hydrocarbons.","cardOutsideHeadingText":"New Skills"},{"cardFeatureImageUrl":"/images/custom/petro/solar-worker.webp","cardBodyText":"The transition to clean energy is expected to generate > 10M net new jobs by 2030.","cardOutsideHeadingText":"New People"},{"cardFeatureImageUrl":"/images/custom/petro/solar-farm.webp","cardBodyText":"In the office, field, or board room, energy workers will require up-skilling and digital dexterity to adapt.","cardOutsideHeadingText":"New Demands"},{"cardFeatureImageUrl":"/images/custom/petro/business-person.webp","cardBodyText":"Significant investment is required to deliver knowledge to the right person, at the right time, in the right format.","cardOutsideHeadingText":"New Investments"}] | json data for the cards
  *
  *
  * FOOTER
@@ -143,6 +144,7 @@ class WidgetCardGrid extends HTMLElement {
 	// Card
 	cardBackgroundColor = "";
 	cardBorderRadius = "";
+	cardBoxShadow = "";
 	cardHeight = "";
 	cardHoverOpacity = "";
 	cardHoverBackgroundColor = "";
@@ -250,12 +252,13 @@ const values = {
 	"card-outside-heading-font-size": "1rem",
 	"card-outside-heading-font-weight": "inherit",
 	"card-outside-heading-margin-bottom": ".5rem",
-	"card-outside-heading-position": "above",
+	"card-outside-heading-position": "top",
 	"card-outside-heading-text": "",
 
 	/* card */
 	"card-background-color": "white",
 	"card-border-radius": ".35rem",
+	"card-box-shadow": "none",
 	"card-height": "auto",
 	"card-hover-opacity": "",
 	"card-hover-background-color": "",
@@ -357,6 +360,7 @@ buildGridHTML() {
 		"outside-heading-text",
 		"card-background-color",
 		"card-border-radius",
+		"card-box-shadow",
 		"card-height",
 		"card-hover-opacity",
 		"card-hover-background-color",
@@ -372,7 +376,11 @@ buildGridHTML() {
 		"background-image-alt",
 		"background-image-position",
 		"background-image-url",
+		"feature-image-url",
+		"feature-image-alt",
+		"feature-image-position",
 		"body-bullets",
+		"body-text",
 		"header-border-bottom",
 		"header-background",
 		"header-color-text",
@@ -425,7 +433,7 @@ buildGridHTML() {
 		/** @type { string } camelCase */
 		const camelCase = ComponentUtils.kebabToCamel(adjustedName);
 
-		if (attName === "body-bullets") { return `${attName}='${JSON.stringify(item['cardBodyBullets'])}'`}
+		if (attName === "body-bullets" && item['cardBodyBullets']) { return `${attName}='${JSON.stringify(item['cardBodyBullets'])}'`}
 
 		// if item has a matching value, return it
 		else if (item[camelCase]) return `${attName}='${item[camelCase]}'`
@@ -522,8 +530,6 @@ get styles() {
 		webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale; }
 	#container {
-
-
 	}
 	#container {
 		background-color: var(--widget-background, white);
@@ -616,9 +622,6 @@ get styles() {
 		grid-template-columns:	grid-template-columns: repeat(1, minmax(0, 1fr));
 		gap:1rem;
 		width:100%;
-	}
-	#grid content-card {
-		box-shadow:0 0 1px 0 rgba(0,0,0,.2);
 	}
 	@media (min-width: 640px) {
 		#grid {

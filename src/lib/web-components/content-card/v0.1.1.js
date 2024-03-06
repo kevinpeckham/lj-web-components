@@ -15,14 +15,19 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @published 2024-02-09
  * @extends HTMLElement
  * @classdesc A web component for displaying a linked tile with a single full bleed image-- for typical use in a grid of products.
+ *
+ * CONTAINER
+ * @attribute color-primary | currentColor | #0A2E7E | primary text color
+ *
  * CARD
  * @attribute card-background-color | white | #EAF1F7 | background color of the card
  * @attribute card-border-radius | .35rem | -- | border radius of the card
+ * @attribute card-box-shadow | none | 0 0 1px 0 rgba(0,0,0,.2) | box shadow of the card
  * @attribute card-height | auto | -- | height of the card
  * @attribute card-hover-opacity | -- | -- | opacity of the card on hover
  * @attribute card-hover-background-color | -- | -- | background color of the card on hover
  * @attribute card-max-width | none | 16rem | max width of the card
- * @attribute card-min-height | auto | 24rem | min height of the card
+ * @attribute card-min-height | auto | 20rem | min height of the card
  * @attribute card-opacity | 100% | -- | opacity of the card
  * @attribute card-transition-property | opacity | -- | transition property of the card
  * @attribute card-transition-duration | .3s | -- | transition duration of the card
@@ -38,13 +43,18 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute outside-heading-font-weight | inherit | -- | font weight of the outside
  heading
  * @attribute outside-heading-margin-bottom | .5rem | -- | margin of the outside heading
- * @attribute outside-heading-text | -- | -- | text of the outside heading
+ * @attribute outside-heading-text | -- | New Skills | text of the outside heading
  * @attribute outside-heading-position | above | -- | position of the outside heading
  *
  * BACKGROUND IMAGE
  * @attribute background-image-alt | -- | -- | alt text of the background image
  * @attribute background-image-position | bottom | -- | position of the background image
- * @attribute background-image-url | -- | /images/custom/petro/company_graphic_petroskills.png | url of the background image
+ * @attribute background-image-url | -- | -- | url of the background image
+ *
+ * FEATURE IMAGE
+ * @attribute feature-image-alt | -- | -- | alt text of the feature image
+ * @attribute feature-image-position | bottom-right | -- | position of the feature image
+ * @attribute feature-image-url | -- | /images/custom/petro/ocean-turbines.webp | url of the feature image
  *
  * CARD HEADER
  * @attribute header-border-bottom | 1px solid #e2e8f0 | -- | border bottom of the card header
@@ -53,23 +63,23 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute header-font-size | 1rem | -- | font size of the card header
  * @attribute header-font-weight | 500 | 900 | font weight of the card header
  * @attribute header-padding | .25rem 1rem | -- | padding of the card header
- * @attribute header-logo-url | -- | /images/custom/petro/mark-petroskills.svg | url of the logo
+ * @attribute header-logo-url | -- | -- | url of the logo
  * @attribute header-logo-alt | -- | -- | alt text of the logo
  * @attribute header-logo-width | auto | -- | width of the logo
  * @attribute header-logo-height | 2.5rem | -- | height of the logo
- * @attribute header-text | -- | PetroSkills | text of the card header
+ * @attribute header-text | -- | -- | text of the card header
  *
  * BODY CONTAINER
  * @attribute body-padding | .75rem | -- | padding of the body container
  *
  * BODY TEXT & BULLETS
- * @attribute body-bullets | [] | ["Upstream", "Midstream", "Downstream"] | array of bullet points
+ * @attribute body-bullets | [] | -- | array of bullet points
  * @attribute body-font-size | .9rem | -- | font size of the body text
  * @attribute body-font-weight | 400 | -- | font weight of the body text
  * @attribute body-text-color | inherit | -- | color of the body text
- * @attribute body-text | -- |-- | text of the body
+ * @attribute body-text | -- | Energy companies are increasingly moving towards diversification beyond traditional hydrocarbons. | text of the body
  *
- * @attribute body-image-url | -- | https://www.competencyalliance.dev/images/company_graphic_petroskills.png | url of the image
+ * @attribute body-image-url | -- | -- | url of the image
  *
  * FOOTER
  * @attribute footer-backdrop-filter | blur(8px) | -- | backdrop filter of the card header
@@ -83,10 +93,10 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute footer-text | -- | -- | text of the card footer
  *
  * FOOTER LINK
- * @attribute footer-link-url | -- | / | url of the footer link
+ * @attribute footer-link-url | -- | -- | url of the footer link
  * @attribute footer-link-rel | -- | -- | rel of the footer link
  * @attribute footer-link-title | -- | -- | title of the footer link
- * @attribute footer-link-label | -- | Learn More | label of the footer link;
+ * @attribute footer-link-label | -- | -- | label of the footer link;
  * @attribute footer-link-background | rgb(255 255 255 / 30%) | -- | background color of the footer link (button style)
  * @attribute footer-link-border | 1px solid currentColor | -- | border of the footer link (button style)
  * @attribute footer-link-border-radius | .25rem; | -- | border radius of the footer link (button style)
@@ -105,6 +115,9 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  */
 class ContentCard extends HTMLElement {
 
+	// Container
+	colorPrimary = "currentColor";
+
 	// Outside Heading
 	outsideHeadingColor = "";
 	outsideHeadingFontSize = "";
@@ -116,6 +129,7 @@ class ContentCard extends HTMLElement {
 	// Card
 	cardBackgroundColor = "";
 	cardBorderRadius = "";
+	cardBoxShadow = "";
 	cardHeight = "";
 	cardHoverOpacity = "";
 	cardHoverBackgroundColor = "";
@@ -130,6 +144,11 @@ class ContentCard extends HTMLElement {
 	backgroundImageAlt = "";
 	backgroundImagePosition = "";
 	backgroundImageUrl = "";
+
+	// Feature Image
+	featureImageAlt = "";
+	featureImagePosition = "";
+	featureImageUrl = "";
 
 	// Card Header
 	headerBorderBottom = "";
@@ -195,6 +214,7 @@ get c() { return ContentCard };
 static get attributes() {
 const values = {
 	/* container */
+	"color-primary": "currentColor",
 
 
 	/* outside */
@@ -208,6 +228,7 @@ const values = {
 	/* card */
 	"card-background-color": "white",
 	"card-border-radius": ".35rem",
+	"card-box-shadow": "none",
 	"card-height": "auto",
 	"card-hover-opacity": "",
 	"card-hover-background-color": "",
@@ -227,6 +248,11 @@ const values = {
 	"background-image-alt": "",
 	"background-image-position": "bottom",
 	"background-image-url": "",
+
+	/* feature image */
+	"feature-image-alt": "",
+	"feature-image-position": "bottom-right",
+	"feature-image-url": "",
 
 	/* header */
 	"header-border-bottom": "1px solid #e2e8f0",
@@ -308,6 +334,7 @@ get els() {
 <div
 	id="container"
 	style="
+		--color-primary: ${this.colorPrimary};
 		--outside-heading-color: ${this.outsideHeadingColor};
 		--outside-heading-font-size: ${this.outsideHeadingFontSize};
 		--outside-heading-font-weight: ${this.outsideHeadingFontWeight};
@@ -315,6 +342,7 @@ get els() {
 		--outside-heading-position: ${this.outsideHeadingPosition};
 		--card-background-color: ${this.cardBackgroundColor};
 		--card-border-radius: ${this.cardBorderRadius};
+		--card-box-shadow: ${this.cardBoxShadow};
 		--card-height: ${this.cardHeight};
 		--card-hover-opacity: ${this.cardHoverOpacity};
 		--card-hover-background-color: ${this.cardHoverBackgroundColor};
@@ -379,9 +407,16 @@ get els() {
 			<div id="body">
 				<!-- body text -->
 				<p id="body-text">${this.bodyText}</p>
+
 				<!-- body bullets -->
 				${this.buildBulletsHTML()}
-			</div>
+
+				<!-- feature-image -->
+				<div id="feature-image-container">
+					<figure id="feature-image-figure">
+						<img role="presentation" alt="${this.featureImageAlt ?? ''}" id="feature-image" src="${this.featureImageUrl}" />
+					</figure>
+				</div>
 
 
 			${this.footerText || this.footerLinkLabel ? `
@@ -410,15 +445,19 @@ get styles() {
   <style id="base">
   :host, *:not(style) { display:block;box-sizing:border-box; margin:0; }
 	#container {
+		color: var(--color-primary, currentColor);
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: start;
 	}
 	#card {
+		border-radius: var(--card-border-radius, .35em);
+		box-shadow: var(--card-box-shadow, none);
 		display: flex;
-		order:${this.outsideHeadingPosition === "below" ? "2" : "1"};
+		order:${this.outsideHeadingPosition === "below" ? "1" : "2"};
 		opacity: var(--card-opacity, 100%);
+		outline:transparent;
 		position:relative;
 		transition-property: ${this.cardHoverOpacity ? 'opacity,' : ''}, shadow;
 		transition-duration: var(--card-transition-duration, .3s);
@@ -433,7 +472,7 @@ get styles() {
 		font-size: var(--outside-heading-font-size, 1rem);
 		font-weight: var(--outside-heading-font-weight, 500);
 		margin-bottom: var(--outside-heading-margin-bottom, 0);
-		order: ${this.outsideHeadingPosition === "below" ? "1" : "2"};
+		order: ${this.outsideHeadingPosition === "below" ? "2" : "1"};
 	}
 	#container #outside-heading:hover {
 		opacity: ${this.cardHoverOpacity};
@@ -443,8 +482,8 @@ get styles() {
 		border-radius: var(--card-border-radius, .35em);
 		display:grid;
 		grid-template-columns: repeat(1, minmax(0, 1fr));
-		grid-template-rows: auto 1fr auto;
-		height: var(--card-height, auto);
+		grid-template-rows: auto 1fr minmax(fit, auto);
+		height: 100%;
 		min-height: var(--card-min-height, auto);
 		overflow: hidden;
 		position:relative;
@@ -457,7 +496,7 @@ get styles() {
 		border-bottom: var(--header-border-bottom, 1px solid #e2e8f0);
 		background: var(--header-background, transparent);
 		color: var(--header-color-text, inherit);
-		display:flex;
+		display:${this.headerText || this.headerLogoUrl ? 'flex' : 'none'};
 		font-size: var(--header-font-size, 1rem);
 		font-weight: var(--header-font-weight, 500);
 		max-height: fit-content;
@@ -478,19 +517,23 @@ get styles() {
 		height: var(--header-logo-height, auto);
 	}
 	#body {
+		display:grid;
+		grid-template-columns: repeat(1, minmax(0, 1fr));
 		height:auto;
-		padding: var(--body-padding, 1rem);
 		font-size: var(--body-font-size, .9rem);
 		font-weight: var(--body-font-weight, 400);
 		color: var(--body-text-color, inherit);
 	}
 	#body-text {
-	margin-bottom: .5rem;
+		font-size:.9rem;
+		margin-bottom: .5rem;
+		opacity:.9;
+		padding: var(--body-padding, 1rem);
 	}
 	#body-bullets {
 		list-style-type: disc;
 		list-style-position: inside;
-		padding: 0;
+		padding: var(--body-padding, 1rem);
 	}
 	#body-bullets li {
 		display: list-item;
@@ -503,6 +546,42 @@ get styles() {
 		unicode-bidi: isolate;
 		color:inherit;
 		text-indent:none;
+	}
+	#feature-image-container {
+		display: flex;
+		justify-content: flex-end;
+		position: relative;
+		width:100%;
+	}
+	#feature-image-figure {
+		align-items: center;
+		aspect-ratio:1;
+		border-top-left-radius:9999px;
+		background:#CFF3F3;
+		display: flex;
+		height:auto;
+		items-center;
+		justify-content: flex-end;
+		position: relative;
+		width:80%;
+	}
+	#feature-image {
+		aspect-ratio:1;
+		bottom:0;
+		display:flex;
+		height:auto;
+		position:absolute;
+		object-fit:contain;
+
+		overflow:hidden;
+		pointer-events:none;
+		scale:1.5;
+		transform:translate(24%, 24%);
+		object-position: 60% 0%;
+
+
+		width:100%;
+		z-index:0;
 	}
 	#background-image {
 		bottom:0;
@@ -522,7 +601,7 @@ get styles() {
 		border-top: var(--footer-border-top, 1px solid #e2e8f0);
 		color: var(--footer-color-text, inherit);
 		column-gap:1rem;
-		display:flex;
+		display:${this.footerLinkLabel || this.footerText ? 'flex' : 'none'};
 		font-size: var(--footer-font-size, 1rem);
 		font-weight: var(--footer-font-weight, 500);
 		justify-self: end;
