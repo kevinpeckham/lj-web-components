@@ -178,8 +178,7 @@ class ContentCard extends HTMLElement {
 	footerLinkFontWeight = "";
 	footerLinkHoverColor = "";
 	footerLinkHoverBackground = "";
-
-
+	footerLinkPadding = "";
 
 	// stylesheet
 	stylesheet = "";
@@ -276,6 +275,7 @@ const values = {
 	"footer-link-font-weight": "400",
 	"footer-link-hover-color": "currentColor",
 	"footer-link-hover-background": "rgb(255 255 255 / 80%)",
+	"footer-link-padding": ".25rem .5rem",
 
 	/* stylesheet */
   "stylesheet": "",
@@ -357,6 +357,7 @@ get els() {
 		--footer-link-font-weight: ${this.footerLinkFontWeight};
 		--footer-link-hover-color: ${this.footerLinkHoverColor};
 		--footer-link-hover-background: ${this.footerLinkHoverBackground};
+		--footer-link-padding: ${this.footerLinkPadding};
 	">
 
 	<!-- outside heading -->
@@ -537,7 +538,7 @@ get styles() {
 		border-radius: .25rem;
 		color: var(--footer-color-text, inherit);
 		font-size: .85em;
-		padding: .25rem .5rem;
+		padding: var(--footer-link-padding, .25rem .5rem);
 		text-decoration: none;
 		box-shadow: 0 0 0 0px currentColor;
 		transition-property: background, color, border;

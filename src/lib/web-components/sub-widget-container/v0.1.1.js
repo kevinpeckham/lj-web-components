@@ -32,6 +32,7 @@ import LogoGrid from "/e/wc/logo-grid@0.1.1.min.js";
  * @attribute color-primary | currentColor | white | color of the text
  * @attribute color-secondary | currentColor | #00bc9c | color of...
  * @attribute heading-text | -- | It takes one to know one. | text for the heading
+ * @attribute heading-margin-bottom | 2.5rem | -- | margin bottom for the heading
  * @attribute meta-text | -- | This Just In
  * @attribute container-padding | 4rem | 4rem 4rem 6rem 4rem | padding for the container
  * @slot | -- | <div>Content in a slot.</div> | slot
@@ -49,6 +50,7 @@ class SubWidgetContainer extends HTMLElement {
 	colorPrimary = "";
 	colorSecondary = "";
 	headingText = "";
+	headingMarginBottom = "";
 	containerPadding = "";
 	metaText = "";
 	stylesheet = "";
@@ -68,6 +70,7 @@ class SubWidgetContainer extends HTMLElement {
 			"color-background": "transparent",
 			"color-primary": "currentColor",
 			"color-secondary": "currentColor",
+			"heading-margin-bottom": "1rem",
 			"heading-text": "",
 			"meta-text": "",
 			"container-padding": "4rem",
@@ -109,7 +112,7 @@ static els(content) {
 	heading-text="${headingText}"
 	meta-text="${metaText}">
 	</sub-widget-header>
-	<div id="slot"></div>
+	<slot id="slot"></slot>
 </div>
 
 </div>`.trim();
@@ -133,7 +136,7 @@ static get styles() {
 		place-items:center;
 		text-align:center;
 		gap: 1.5rem;
-		margin-bottom: 2.5rem;
+		margin-bottom: var(--heading-margin-bottom, 1rem);
 		position:relative;
 		width:100%;
 	}
