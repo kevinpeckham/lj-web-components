@@ -568,7 +568,7 @@ get styles() {
 	#feature-image {
 		aspect-ratio:1;
 		bottom:0;
-		display:flex;
+		display:${this.featureImageUrl ? 'flex' : 'none'};
 		height:auto;
 		position:absolute;
 		object-fit:contain;
