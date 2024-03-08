@@ -34,6 +34,7 @@ html,
 	-webkit-tap-highlight-color: transparent; /* 7 */
 }
 body {
+	background-color: hsla(208, 46%, 98%, 1);
 	margin: 0; /* 1 */
 	line-height: inherit; /* 2 */
 }
