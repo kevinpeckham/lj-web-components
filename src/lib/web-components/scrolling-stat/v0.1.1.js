@@ -16,22 +16,41 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute animation-duration     | 800          | 600               | duration of animation in ms
  * @attribute animation-value-end    | 99           | 98.99             | the number to animate from
  * @attribute animation-value-start  | 0            | --                | the number to animate to
- * @attribute color-background       | transparent  | --                | background color
- * @attribute color-border           | transparent  | currentColor      | border color
- * @attribute color-primary          | currentColor | --                | primary text color
+ * @attribute color-background       | transparent  | rgb(255 255 255 / 2.5%) | background color
+ * @attribute color-border           | currentColor | --     						| border color
+ * @attribute color-primary          | currentColor | --               | primary text color
  * @attribute color-secondary        | currentColor | --                | secondary text color
- * @attribute suffix-textContent     | --           | %                 | characters displayed after number
- * @attribute caption-textContent    | --           | widgets per lorem | caption displayed after number
- * @attribute stylesheet-textContent | --           | --                | inject css into stylesheet
+ * @attribute container-border-width | 1px          | --                | border width of the container
+ * @attribute container-height       | auto         | --                | height of the container
+ * @attribute container-width        | 100%         | --                | width of the container
+ * @attribute container-max-width    | none         | 14rem                | max width of the container
+ * @attribute container-padding      | 1.5em        | --                | padding of the container
+ * @attribute font-family            | inherit      | --                | font family
+ * @attribute suffix-text     | --           | %                 | characters displayed after number
+ * @attribute caption-text    | --           | widgets per lorem | caption displayed after number
+ * @attribute stylesheet-text | --           | --                | inject css into stylesheet
  */
 class ScrollingStat extends HTMLElement {
 // reference to class itself
 get c() { return ScrollingStat };
 
-// initialize animation variables
+// initialize variables
 animationDuration = "0";
-animationValueStart = "0";
 animationValueEnd = "0";
+animationValueStart = "0";
+colorBackground = "";
+colorBorder = "";
+colorPrimary = "";
+colorSecondary = "";
+containerBorderWidth = "";
+containerHeight = "";
+containerWidth = "";
+containerMaxWidth = "";
+containerPadding = "";
+fontFamily = "";
+suffixText = "";
+captionText = "";
+stylesheetText = "";
 
 // initialize private variables
 #isOnScreen = false;
@@ -53,12 +72,18 @@ static get attributes() {
     "animation-value-end": "99",
     "animation-value-start": "0",
     "color-background": "transparent",
-    "color-border": "transparent",
+    "color-border": "currentColor",
     "color-primary": "currentColor",
     "color-secondary": "currentColor",
-    "suffix-textContent": "",
-    "caption-textContent":"",
-    "stylesheet-textContent": "",
+		"container-border-width": "1px",
+		"container-height": "auto",
+		"container-width": "100%",
+		"container-max-width": "none",
+		"container-padding": "1.5em",
+		"font-family": "inherit",
+    "suffix-text": "",
+    "caption-text": "",
+    "stylesheet-text": "",
 	};
   return values;
 }
@@ -72,37 +97,63 @@ static getDefault(attr) { return this.attributes[attr] ?? "" }
 
 
 // ELEMENTS
-static get els() {
+get els() {
 return `
-<span id="container">
-  <span id="animation"></span>
-  <span id="suffix"></span>
-  <span id="caption"></span>
+<span
+	id="container"
+	style="
+		--color-background: ${this.colorBackground};
+		--color-border: ${this.colorBorder};
+		--color-primary: ${this.colorPrimary};
+		--color-secondary: ${this.colorSecondary};
+		--font-family: ${this.fontFamily};
+		--container-height: ${this.containerHeight};
+		--container-border-width: ${this.containerBorderWidth};
+		--container-width: ${this.containerWidth};
+		--container-max-width: ${this.containerMaxWidth};
+		--container-padding: ${this.containerPadding};"
+	>
+  <span id="animation">${this.animationValueStart}</span>
+  <span id="suffix">${this.suffixText}</span>
+  <span id="caption">${this.captionText}</span>
 </span>
 `.trim();
 }
 
+// PREFLIGHT
+get preflight() {
+	return `*,::before,::after {box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor} html,:host {line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body {margin:0;line-height:inherit}hr {height:0;color:inherit;border-top-width:1px}abbr:where([title]) {text-decoration:underline dotted}h1,h2,h3,h4,h5,h6 {font-size:inherit;font-weight:inherit}a {color:inherit;text-decoration:inherit}b,strong {font-weight:bolder} button,select {text-transform:none}button,[type="button"],[type="reset"],[type="submit"] {-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring {outline:auto}:-moz-ui-invalid {box-shadow:none}progress {vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button {height:auto}[type="search"] {-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration {-webkit-appearance:none}::-webkit-file-upload-button {-webkit-appearance:button;font:inherit}summary {display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre {margin:0}fieldset {margin:0;padding:0}legend {padding:0}ol,ul,menu {list-style:none;margin:0;padding:0}dialog {padding:0}textarea {resize:vertical}input::placeholder,textarea::placeholder {opacity:1;color:theme("colors.gray.400", #9ca3af)}button,[role="button"] {cursor:pointer}:disabled {cursor:default}img,svg,video,canvas,audio,iframe,embed,object {display:block;vertical-align:middle}img,video {max-width:100%;height:auto}[hidden] {display:none}`
+}
+
 // STYLES
-static get styles() {
+get styles() {
 return `
-<style>
+<style id="preflight">${this.preflight}</style>
+<style id="base">
 host:, * { margin:0; box-sizing:border-box ; }
 #container {
   align-items: baseline;
   background: var(--color-background, transparent);
-  outline: 1px solid var(--color-border, transparent);
+	border: 1px solid var(--color-border, transparent);
   border-radius: .3em;
+	border-width: var(--container-border-width, 1px);
   color: var(--color-primary, currentColor);
   display: grid;
+	font-family: var(--font-family, inherit);
   font-weight: 800;
-  gap: .3em;
-  grid: auto-flow/auto 1fr;
+	gap: .3em;
+	grid: auto-flow/auto 1fr;
+	height: var(--container-height, auto);
   line-height: 1;
-  padding: 1.5em;
-  max-width: 12em;
+	outline: 1px solid var(--color-border, transparent);
+  padding: var(--container-padding, 1.5em);
+  max-width: var(--container-max-width, none);
+	width: var(--container-width, 100%);
 }
 #animation{
   font-size:2.75em;
+	-webkit-font-smoothing: auto;
+	-moz-osx-font-smoothing: auto;
 }
 #suffix {
   font-size:1.9em;
@@ -120,14 +171,14 @@ host:, * { margin:0; box-sizing:border-box ; }
 };
 
 // TEMPLATE
-static get template() {
+get template() {
 	const template = document.createElement("template");
 	template.innerHTML = `${this.styles}${this.els}`.trim();
 	return template;
 }
 
 // IDS
-static get ids() {
+get ids() {
 	return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 }
 
@@ -210,18 +261,28 @@ constructor() {
 	// create a shadow root
 	this.attachShadow({ mode: "open" });
 
+	// binding the parent context to the methods
+	this.connectedCallback = this.connectedCallback.bind(this);
+	this.observerCallback = this.observerCallback.bind(this);
+}
+
+// CONNECTED CALLBACK
+connectedCallback() {
 	// append the template content to the shadow DOM
-	this.shadowRoot?.appendChild(this.c.template.content.cloneNode(true))
+	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
 
 	// define refs elements
 	this.refs = ComponentUtils.getRefs(this.c, this);
 
-	// update attributes
-	this.updateAttributes();
+	// reset values
+	this.resetAnimation();
+		// this.updateAttributes();
 
-	// binding the parent context to the methods
-	this.connectedCallback = this.connectedCallback.bind(this);
-	this.observerCallback = this.observerCallback.bind(this);
+	// create and start the observer
+	new IntersectionObserver(this.observerCallback, {
+		rootMargin: "0%",
+		threshold: 0.5,
+	}).observe(this.refs.container);
 }
 
 // GETTERS, SETTERS AND UPDATERS FOR PRIVATE VARIABLES
@@ -303,18 +364,7 @@ attributeChangedCallback() {
 	this.resetAnimation();
 	this.updateAttributes();
 }
-// CONNECTED CALLBACK
-connectedCallback() {
-	// reset values
-	this.resetAnimation();
-	this.updateAttributes();
 
-	// create and start the observer
-	new IntersectionObserver(this.observerCallback, {
-		rootMargin: "0%",
-		threshold: 0.5,
-	}).observe(this.refs.container);
-}
 
 // OBSERVER CALLBACK
 /**
@@ -333,9 +383,8 @@ observerCallback(entries) {
 
 // METHOD - UPDATE ATTRIBUTES
 updateAttributes() {
-	ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
-	ComponentUtils.updateColorAttributes(this.c, this);
-	//ComponentUtils.updateSizeAttributes(this.c, this);
+	// ComponentUtils.updateManyElAttributes(this.c, this, this.ids);
+	// ComponentUtils.updateColorAttributes(this.c, this);
 }
 
 // METHOD - UPDATE ANIMATION TEXT
