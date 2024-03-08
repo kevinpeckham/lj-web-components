@@ -19,7 +19,7 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute container-border-width | 1px          | --                | border width of the container
  * @attribute container-height       | auto         | --                | height of the container
  * @attribute container-width        | 100%         | --                | width of the container
- * @attribute container-max-width    | none         | 22rem                | max width of the container
+ * @attribute container-max-width    | none         | 24rem                | max width of the container
  * @attribute container-padding      | 1.5em        | --                | padding of the container
  * @attribute font-family            | inherit      | --                | font family
  * @attribute heading-text           | --           | Competency Solutions | heading text
