@@ -16,7 +16,10 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @published 2024-02-09
  * @extends HTMLElement
  * @classdesc A web component for quickly creating a grid of items. The grid is responsive and can be configured to display a variety of content types.
- *
+ * @attribute align-content | start | -- | how rows are positioned in the container
+ * @attribute align-items | center | -- | how items are positioned in the container
+ * @attribute justify-content | center | -- | how items are positioned along a container's main axis
+ * @attribute justify-items | center | -- | how grid items are positioned along their inline axis
  * @attribute gap-x-xs | 1rem | -- | gap between grid items @ screen width < 640px
  * @attribute gap-x-sm | 1rem | -- | gap between grid items @ screen width >= 640px
  * @attribute gap-x-md | 1rem | -- | gap between grid items @ screen width >= 768px
@@ -39,25 +42,23 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute grid-rows-lg | none | -- | # rows @ screen width >= 1024px
  * @attribute grid-rows-xl | none | -- | # rows @ screen width >= 1280px
  * @attribute grid-rows-2xl | none | -- | # rows @ screen width >= 1536px
- * @attribute align-content | start | -- | how rows are positioned in the container
- * @attribute align-items | center | -- | how items are positioned in the container
- * @attribute justify-content | center | -- | how items are positioned along a container's main axis
- * @attribute justify-items | center | -- | how grid items are positioned along their inline axis
+ * @attribute padding-x | 0 | -- | padding on the left and right of the widget
+ * @attribute padding-top | 1rem | -- | padding on the top of the widget
+ * @attribute padding-bottom | 0 | -- | padding on the bottom of the widget
  * @attribute stylesheet | -- | -- | inject custom styles into the widget
  * @slot | -- | <i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i> | inject content into the widget
 
  */
 class QuickGrid extends HTMLElement {
 
-	// container
-
-	// stylesheet
-	stylesheet = "";
-
 // reference to class itself
 get c() { return QuickGrid };
 
 // PROPERTIES
+alignContent = "start";
+alignItems = "center";
+justifyContent = "start";
+justifyItems = "center";
 gapXXs = "1rem";
 gapXSm = "1rem";
 gapXMd = "1rem";
@@ -82,10 +83,11 @@ gridRowsMd = "";
 gridRowsLg = "";
 gridRowsXl = "";
 gridRows2xl = "";
-alignContent = "start";
-alignItems = "center";
-justifyContent = "start";
-justifyItems = "center";
+paddingX = "0";
+paddingTop = "1rem";
+paddingBottom = "0";
+stylesheet = "";
+
 
 
 
@@ -99,7 +101,10 @@ justifyItems = "center";
 static get attributes() {
 const values = {
 
-	/* container */
+	"align-content": "start",
+	"align-items": "center",
+	"justify-content": "start",
+	"justify-items": "center",
 	"gap-x-xs": "1rem",
 	"gap-x-sm": "1rem",
 	"gap-x-md": "1rem",
@@ -124,12 +129,9 @@ const values = {
 	"grid-rows-lg": "none",
 	"grid-rows-xl": "none",
 	"grid-rows-2xl": "none",
-	"align-content": "start",
-	"align-items": "center",
-	"justify-content": "start",
-	"justify-items": "center",
-
-	/* stylesheet */
+	"padding-x": "0",
+	"padding-top": "1rem",
+	"padding-bottom": "0",
 	"stylesheet": "",
 
 };
@@ -156,18 +158,10 @@ get els() {
 <slot
 	id="container"
 	style="
-	--grid-columns-xs:${this.gridColumnsXs};
-	--grid-columns-sm:${this.gridColumnsSm};
-	--grid-columns-md:${this.gridColumnsMd};
-	--grid-columns-lg:${this.gridColumnsLg};
-	--grid-columns-xl:${this.gridColumnsXl};
-	--grid-columns-2xl:${this.gridColumns2xl};
-	--grid-rows-xs:${this.gridRowsXs};
-	--grid-rows-sm:${this.gridRowsSm};
-	--grid-rows-md:${this.gridRowsMd};
-	--grid-rows-lg:${this.gridRowsLg};
-	--grid-rows-xl:${this.gridRowsXl};
-	--grid-rows-2xl:${this.gridRows2xl};
+	--align-content:${this.alignContent};
+	--align-items:${this.alignItems};
+	--justify-content:${this.justifyContent};
+	--justify-items:${this.justifyItems};
 	--gap-x-xs:${this.gapXXs};
 	--gap-x-sm:${this.gapXSm};
 	--gap-x-md:${this.gapXMd};
@@ -180,10 +174,21 @@ get els() {
 	--gap-y-lg:${this.gapYLg};
 	--gap-y-xl:${this.gapYXl};
 	--gap-y-2xl:${this.gapY2xl};
-	--align-content:${this.alignContent};
-	--align-items:${this.alignItems};
-	--justify-content:${this.justifyContent};
-	--justify-items:${this.justifyItems};
+	--grid-columns-xs:${this.gridColumnsXs};
+	--grid-columns-sm:${this.gridColumnsSm};
+	--grid-columns-md:${this.gridColumnsMd};
+	--grid-columns-lg:${this.gridColumnsLg};
+	--grid-columns-xl:${this.gridColumnsXl};
+	--grid-columns-2xl:${this.gridColumns2xl};
+	--grid-rows-xs:${this.gridRowsXs};
+	--grid-rows-sm:${this.gridRowsSm};
+	--grid-rows-md:${this.gridRowsMd};
+	--grid-rows-lg:${this.gridRowsLg};
+	--grid-rows-xl:${this.gridRowsXl};
+	--grid-rows-2xl:${this.gridRows2xl};
+	--padding-x:${this.paddingX};
+	--padding-top:${this.paddingTop};
+	--padding-bottom:${this.paddingBottom};
 	"
 >
 
@@ -212,6 +217,7 @@ get styles() {
 		grid-template-rows:${this.gridRowsXs === "none" ? 'none' : 'repeat(var(--grid-rows-xs, none), minmax(0, 1fr))'};
 		justify-content:var(--justify-content);
 		justify-items:var(--justify-items);
+		padding:var(--padding-top) var(--padding-x) var(--padding-bottom);
 		width:100%;
 	}
 	@media (min-width: 640px) {
