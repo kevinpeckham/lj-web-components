@@ -19,7 +19,7 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute align-content | start | -- | how rows are positioned in the container
  * @attribute align-items | center | -- | how items are positioned in the container
  * @attribute justify-content | center | -- | how items are positioned along a container's main axis
- * @attribute justify-items | center | -- | how grid items are positioned along their inline axis
+ * @attribute justify-items | legacy | -- | how grid items are positioned along their inline axis
  * @attribute gap-x-xs | 1rem | -- | gap between grid items @ screen width < 640px
  * @attribute gap-x-sm | 1rem | -- | gap between grid items @ screen width >= 640px
  * @attribute gap-x-md | 1rem | -- | gap between grid items @ screen width >= 768px
@@ -104,7 +104,7 @@ const values = {
 	"align-content": "start",
 	"align-items": "center",
 	"justify-content": "start",
-	"justify-items": "center",
+	"justify-items": "legacy",
 	"gap-x-xs": "1rem",
 	"gap-x-sm": "1rem",
 	"gap-x-md": "1rem",
