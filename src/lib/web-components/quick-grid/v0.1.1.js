@@ -43,8 +43,8 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute grid-rows-xl | none | -- | # rows @ screen width >= 1280px
  * @attribute grid-rows-2xl | none | -- | # rows @ screen width >= 1536px
  * @attribute padding-x | 0 | -- | padding on the left and right of the widget
- * @attribute padding-top | 1rem | -- | padding on the top of the widget
- * @attribute padding-bottom | 0 | -- | padding on the bottom of the widget
+ * @attribute grid-padding-top | 0 | -- | padding on the top of the widget
+ * @attribute grid-padding-bottom | 0 | -- | padding on the bottom of the widget
  * @attribute stylesheet | -- | -- | inject custom styles into the widget
  * @slot | -- | <i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i> | inject content into the widget
 
@@ -83,9 +83,9 @@ gridRowsMd = "";
 gridRowsLg = "";
 gridRowsXl = "";
 gridRows2xl = "";
-paddingX = "0";
-paddingTop = "1rem";
-paddingBottom = "0";
+gridPaddingX = "0";
+gridPaddingTop = "0";
+gridPaddingBottom = "0";
 stylesheet = "";
 
 
@@ -130,8 +130,8 @@ const values = {
 	"grid-rows-xl": "none",
 	"grid-rows-2xl": "none",
 	"padding-x": "0",
-	"padding-top": "1rem",
-	"padding-bottom": "0",
+	"grid-padding-top": "1rem",
+	"grid-padding-bottom": "0",
 	"stylesheet": "",
 
 };
@@ -186,9 +186,9 @@ get els() {
 	--grid-rows-lg:${this.gridRowsLg};
 	--grid-rows-xl:${this.gridRowsXl};
 	--grid-rows-2xl:${this.gridRows2xl};
-	--padding-x:${this.paddingX};
-	--padding-top:${this.paddingTop};
-	--padding-bottom:${this.paddingBottom};
+	--padding-x:${this.gridPaddingX};
+	--grid-padding-top:${this.gridPaddingTop};
+	--grid-padding-bottom:${this.gridPaddingBottom};
 	"
 >
 
@@ -217,7 +217,7 @@ get styles() {
 		grid-template-rows:${this.gridRowsXs === "none" ? 'none' : 'repeat(var(--grid-rows-xs, none), minmax(0, 1fr))'};
 		justify-content:var(--justify-content);
 		justify-items:var(--justify-items);
-		padding:var(--padding-top) var(--padding-x) var(--padding-bottom);
+		padding:var(--grid-padding-top) var(--padding-x) var(--grid-padding-bottom);
 		width:100%;
 	}
 	@media (min-width: 640px) {
