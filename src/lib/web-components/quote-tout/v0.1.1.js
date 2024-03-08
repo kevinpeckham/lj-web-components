@@ -22,10 +22,10 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute container-max-width    | none         | 18rem                | max width of the container
  * @attribute container-padding      | 1.5em        | --                | padding of the container
  * @attribute font-family            | inherit      | --                | font family
- * @attribute quote-text             | --           | The Alliance model has been very successful for over 20 years. We are now leveraging our proven capabilities and processes to develop and deliver high-quality competency management and training solutions to new energy sectors. | characters displayed after number
+ * @attribute quote-text             | --           | The Alliance model has been very successful for over 20 years. We are now leveraging our proven capabilities and processes to develop and deliver high-quality competency management and training solutions to new energy sectors. | text of the quote
  * @attribute quote-font-size        | 1rem         | .95rem                | font size of the quote
  * @attribute quote-line-height			| 1.3          | --                | line height of the quote
- * @attribute attribution-text       | --           | -- | caption displayed after number
+ * @attribute attribution-text       | --           | -- | attribution for the quote
  * @attribute stylesheet-text        | --           | --                | inject css into stylesheet
  */
 class QuoteTout extends HTMLElement {
