@@ -272,6 +272,7 @@ border-bottom-color: var(--color-border, currentColor);
   font-size: var(--subheading-font-size, 1rem);
   font-weight: var(--subheading-font-weight, 400);
   line-height: var(--subheading-line-height, 1.2);
+	margin-bottom: var(--subheading-margin-bottom, 1rem);
   opacity:var(--subheading-opacity, .9);
 }
 </style><style id="stylesheet"></style>`
