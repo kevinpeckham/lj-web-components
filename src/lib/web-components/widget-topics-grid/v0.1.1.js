@@ -243,6 +243,7 @@ get styles() {
 	/* text */
 	#text {
 	 opacity:.9;
+	 max-width:576px;
 	}
 
   /* topics */
