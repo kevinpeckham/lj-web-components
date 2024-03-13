@@ -14,12 +14,12 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @published 2024-02-09
  * @classdesc Web component that displays a quote tout.
  * @attribute color-background       | transparent  | #E2F4F2 | background color
- * @attribute color-border           | currentColor | --     						| border color
+ * @attribute color-border           | transparent | --     						| border color
  * @attribute color-primary          | currentColor | #0A2E7E           | primary text color
- * @attribute container-border-width | 1px          | --                | border width of the container
+ * @attribute container-border-width | 0          | --                | border width of the container
  * @attribute container-height       | auto         | --                | height of the container
  * @attribute container-width        | 100%         | --                | width of the container
- * @attribute container-max-width    | none         | 24rem                | max width of the container
+ * @attribute container-max-width    | none         | --               | max width of the container
  * @attribute container-padding      | 1.5em        | --                | padding of the container
  * @attribute font-family            | inherit      | --                | font family
  * @attribute heading-text           | --           | Competency Solutions | heading text
@@ -27,11 +27,11 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute heading-font-weight    | 700          | --                | font weight of the heading
  * @attribute headingLineHeight      | 1.3          | --                | line height of the heading
  * @attribute subheading-text        | --           | Improve Individual & Organizational Capabilities | subheading text
- * @attribute subheading-font-size   | 1rem         | .9rem                | font size of the subheading
+ * @attribute subheading-font-size   | .95rem         | --                | font size of the subheading
  * @attribute subheading-font-weight | 600          | --                | font weight of the subheading
  * @attribute subheading-line-height | 1.3          | --                | line height of the subheading
  * @attribute body-text              | --           | A variety of solutions to help companies improve individual and organizational capabilities through the development and assurance of individual and organizational competence. | text of the body
- * @attribute body-font-size         | 1rem         | .85rem                | font size of the body
+ * @attribute body-font-size         | 1rem         | --                | font size of the body
  * @attribute body-line-height       | 1.3          | --                | line height of the body
  * @attribute link-font-size         | .8rem      | -- | font-size of the link
  * @attribute link-text							| --           | Learn More | text of the link
@@ -80,9 +80,9 @@ static get attributes() {
   // attribute, default
   const values = {
     "color-background": "transparent",
-    "color-border": "currentColor",
+    "color-border": "transparent",
     "color-primary": "currentColor",
-		"container-border-width": "1px",
+		"container-border-width": "0",
 		"container-height": "auto",
 		"container-width": "100%",
 		"container-max-width": "none",
@@ -93,11 +93,11 @@ static get attributes() {
 		"heading-font-weight": "700",
 		"headingLineHeight": "1.3",
     "subheading-text": "",
-		"subheading-font-size": ".9rem",
-		"subheading-font-weight": "600",
+		"subheading-font-size": "1rem",
+		"subheading-font-weight": "500",
 		"subheading-line-height": "1.2",
 		"body-text": "",
-		"body-font-size": ".9rem",
+		"body-font-size": "1rem",
 		"body-line-height": "1.3",
 		"link-font-size": ".8rem",
 		"link-text": "",
@@ -162,9 +162,8 @@ return `
 host:, * { margin:0; box-sizing:border-box ; }
 #container {
   background: var(--color-background, transparent);
-	border: 1px solid var(--color-border, transparent);
+	border: var(--container-border-width, 0) solid var(--color-border, transparent);
   border-radius: .3em;
-	border-width: var(--container-border-width, 1px);
   color: var(--color-primary, currentColor);
 	font-family:var(--font-family, inherit);
   line-height: 1.2;
@@ -193,11 +192,11 @@ host:, * { margin:0; box-sizing:border-box ; }
 }
 #subheading {
   color: var(--color-secondary, currentColor);
-  font-size:var(--subheading-font-size, .9rem);
+  font-size:var(--subheading-font-size, 1rem);
   font-style:italic;
   font-weight:var(--subheading-font-weight, 500);
   line-height:1.3;
-	margin-bottom:1rem;
+	margin-bottom:.8rem;
   opacity:1;
 }
 #body {
