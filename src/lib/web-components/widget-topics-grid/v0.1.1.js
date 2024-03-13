@@ -124,11 +124,7 @@ get topicsData() {
   const result = JSON.parse(this.topicsDataJson) ?? "[]";
   return result;
 }
-get toutsData() {
-  const result = JSON.parse(this.toutsDataJson) ?? "[]";
-  window.console.log("result", result);
-  return result;
-}
+
 
 
 // ELEMENTS
