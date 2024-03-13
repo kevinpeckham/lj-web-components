@@ -245,3 +245,10 @@ html,
 		Segoe UI Symbol,
 		Noto Color Emoji;
 }
+
+/* sidebar slot container */
+[slot="sidebar"] {
+	display: grid;
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+	row-gap: 1rem;
+}
