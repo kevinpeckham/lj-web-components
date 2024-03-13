@@ -25,8 +25,6 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute heading-margin-top | 1.5rem | -- | margin top of the heading
  * @attribute heading-text | -- | PetroSkills expands under The Competency Alliance to Bridge the Learning and Development Gap Between Petroleum and the Energy Transition | widget heading text
  * @attribute body-text | -- | Browse our world-class training courses and modules by category. | text of the widget
- * @attribute quote-text | -- | -- | text of the quote
- * @attribute quote-attribution | -- | -- | attribution for quote
  * @slot | -- | <div slot="main">[slot=main]</div> | slot for the main content
  * @slot | -- | <div slot="sidebar">[slot=sidebar]</div> | slot for the sidebar content
  * SIDEBAR
@@ -84,7 +82,6 @@ const values = {
 	"include-sidebar": "true",
   "link-url": "",
   "link-label": "",
-  "quote-attribution": "",
   "sections-data-json": '[]',
 
   /* stylesheet */
