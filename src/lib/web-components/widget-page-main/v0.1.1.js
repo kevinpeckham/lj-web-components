@@ -33,7 +33,8 @@ import CtaTout from "/e/wc/cta-tout.0.1.1.min.js";
  * @attribute quote-attribution | -- | -- | attribution for quote
  * @slot | -- | <div slot="main"><iframe src="https://go.marketing.petroskills.com/l/934903/2021-09-24/4p8q" width="100%" height="800px" type="text/html" frameborder="0" allowtransparency="true" style="border: 0px;"></iframe></div> | slot for the main content
  * @slot | -- | <div slot="sidebar">Hello World</div> | slot for the sidebar content
-
+ * SIDEBAR
+ * @attribute include-sidebar | true | false | include the sidebar
  *
  * DATA
  * @attribute touts-data-json | [] | [] | json data for the cta touts

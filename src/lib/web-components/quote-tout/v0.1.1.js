@@ -16,14 +16,14 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute color-background       | transparent  | #D8E0ED | background color
  * @attribute color-border           | currentColor | --     						| border color
  * @attribute color-primary          | currentColor | #0A2E7E           | primary text color
- * @attribute container-border-width | 1px          | --                | border width of the container
+ * @attribute container-border-width | 0px          | --                | border width of the container
  * @attribute container-height       | auto         | --                | height of the container
  * @attribute container-width        | 100%         | --                | width of the container
- * @attribute container-max-width    | none         | 18rem                | max width of the container
+ * @attribute container-max-width    | none         |                 | max width of the container
  * @attribute container-padding      | 1.5em        | --                | padding of the container
  * @attribute font-family            | inherit      | --                | font family
  * @attribute quote-text             | --           | The Alliance model has been very successful for over 20 years. We are now leveraging our proven capabilities and processes to develop and deliver high-quality competency management and training solutions to new energy sectors. | text of the quote
- * @attribute quote-font-size        | 1rem         | .95rem                | font size of the quote
+ * @attribute quote-font-size        | 1rem         | --                | font size of the quote
  * @attribute quote-line-height			| 1.3          | --                | line height of the quote
  * @attribute attribution-text       | --           | -- | attribution for the quote
  * @attribute stylesheet-text        | --           | --                | inject css into stylesheet
@@ -59,9 +59,9 @@ static get attributes() {
   // attribute, default
   const values = {
     "color-background": "transparent",
-    "color-border": "currentColor",
+    "color-border": "transparent",
     "color-primary": "currentColor",
-		"container-border-width": "1px",
+		"container-border-width": "0",
 		"container-height": "auto",
 		"container-width": "100%",
 		"container-max-width": "none",
@@ -124,7 +124,7 @@ return `
 host:, * { margin:0; box-sizing:border-box ; }
 #container {
   background: var(--color-background, transparent);
-	border: 1px solid var(--color-border, transparent);
+	border: var(--container-border-width, 0) solid var(--color-border, transparent);
   border-radius: .3em;
 	border-width: var(--container-border-width, 1px);
   color: var(--color-primary, currentColor);

@@ -20,8 +20,8 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  *
  * WIDGET CONTAINER
  * @attribute color-accent | lightblue | rgb(0 184 156 / 100%) | color of the text
- * @attribute color-background | white | #0B2E7E | background color of the widget
- * @attribute color-primary | currentColor | white | color of the text
+ * @attribute color-background | white | #F8FAFC | background color of the widget
+ * @attribute color-primary | currentColor | #0B2E7E | color of the text
 
  *
  * WIDGET META
@@ -34,7 +34,7 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @attribute heading-font-weight | 600 | -- | font weight of the heading
  * @attribute heading-margin-bottom | 1.5rem | -- | margin bottom of the heading
  * @attribute heading-margin-top | 1.5rem | -- | margin top of the heading
- * @attribute heading-text | -- | Training | widget heading text
+ * @attribute heading-text | -- | In-Classroom & Virtual Instructor-Led Courses | widget heading text
  *
  * WIDGET HEADING LINK
  * @attribute heading-link-url | -- | https://petroskills.com/training | url of the heading link
@@ -42,6 +42,14 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  *
  * WIDGET BODY TEXT
  * @attribute body-text | -- | Browse our world-class training courses and modules by category. | text of the widget
+ *
+ * GRID
+ * @attribute grid-columns | 1 | -- | number of columns in the grid at xs
+ * @attribute grid-columns-sm | 2 | -- | number of columns in the grid at sm
+ * @attribute grid-columns-md | 3 | 2 | number of columns in the grid at md
+ * @attribute grid-columns-lg | 4 | 3 | number of columns in the grid at lg
+ * @attribute grid-columns-xl | 5 | 4 | number of columns in the grid at xl
+ * @attribute grid-columns-2xl | 6 | 4 | number of columns in the grid at xxl
  *
  * CARD HEADING
  * @attribute card-label-color | inherit | -- | color of the outside heading
@@ -53,14 +61,15 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
 
 * CARD
  * @attribute card-aspect-ratio | 1/1 | -- | aspect ratio of the card
- * @attribute card-background-color | white | "#EAF1F7" | background color of the card
+ * @attribute card-background-color | white | -- | background color of the card
  * @attribute card-border-radius | .35rem | .5rem | border radius of the card
- * @attribute card-box-shadow | none | 0 0 1px 0 rgba(0,0,0,.4); | box shadow of the card
+ * @attribute card-box-shadow | none | 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) | box shadow of the card
  * @attribute card-font-size | 100% | -- | font size of the card
  * @attribute card-font-weight | inherit | -- | font weight of the card
  * @attribute card-height | auto | -- | height of the card
  * @attribute card-hover-opacity | -- | -- | opacity of the card on hover
  * @attribute card-hover-background-color | -- | -- | background color of the card on hover
+ * @attribute card-image-position | cover | thumb | location of the card image
  * @attribute card-max-width | none | 24rem | max width of the card
  * @attribute card-min-height | auto | 20rem | min height of the card
  * @attribute card-opacity | 100% | -- | opacity of the card
@@ -69,7 +78,7 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @attribute card-width | 100% | -- | width of the card
  *
  * DATA
- * @attribute cards-data-json | [] | [{"cardImageUrl":"/images/custom/petro/category-thumb-upstream.webp","cardLabelText":"Upstream", "cardLinkUrl": "https://petroskills.com/training/categories/upstream","cardLinkTitle":"explore Upstream training"},{"cardImageUrl":"/images/custom/petro/category-thumb-midstream.webp","cardLabelText":"Midstream","cardLinkUrl": "https://petroskills.com/training/categories/midstream","cardLinkTitle":"explore Midstream training"},{"cardImageUrl":"/images/custom/petro/category-thumb-downstream.webp","cardLabelText":"Downstream","cardLinkUrl": "https://petroskills.com/training/categories/downstream","cardLinkTitle":"explore Downstream training"},{"cardImageUrl":"/images/custom/petro/category-thumb-energy-transition.webp","cardLabelText":"Energy Transition","cardLinkUrl": "https://petroskills.com/training/categories/energy-transition","cardLinkTitle":"explore Energy Transition training"},{"cardImageUrl":"/images/custom/petro/category-thumb-business.webp","cardLabelText":"Business & Management","cardLinkUrl": "https://petroskills.com/training/categories/business-management","cardLinkTitle":"explore Business & Management training"},{"cardImageUrl":"/images/custom/petro/category-thumb-health.webp","cardLabelText":"Health, Safety, & Environment","cardLinkUrl": "https://petroskills.com/training/categories/health-safety","cardLinkTitle":"explore Health & Safety training"},{"cardImageUrl":"/images/custom/petro/category-thumb-operations.webp","cardLabelText":"Operations & Maintenance","cardLinkUrl": "https://petroskills.com/training/categories/operator-training","cardLinkTitle":"explore Operations & Maintenance training"}] | json data for the cards
+ * @attribute cards-data-json | [] | [{"cardImageUrl":"https://www.thecompetencyalliance.com/images/disciplines/Renewable_Icon.JPG","cardHeading":"Overview of Net-Zero and Renewables - NG2", "cardLinkUrl": "https://www.petroskills.com/en/training/courses/overview-of-net-zero-and-renewables---ng-2---elearning-course~p13995","cardLinkTitle":"explore Upstream training"}] | json data for the cards
  *
  * STYLESHEET
  * @attribute card-stylesheet | -- | #container { color:#042373; } | inject css into the inner stylesheet
@@ -82,6 +91,14 @@ class WidgetTileGrid extends HTMLElement {
 	colorAccent = "";
 	colorPrimary = "";
 	colorBackground = "";
+
+	// Grid
+	gridColumns = "";
+	gridColumnsSm = "";
+	gridColumnsMd = "";
+	gridColumnsLg = "";
+	gridColumnsXl = "";
+	gridColumns2xl = "";
 
 	// Meta
 	metaFontSize = "";
@@ -111,6 +128,12 @@ class WidgetTileGrid extends HTMLElement {
 	cardLabelMarginTop = "";
 	cardLabelPosition = "";
 
+	// Inside Heading
+	cardHeadingColor = "";
+	cardHeadingFontSize = "";
+	cardHeadingFontWeight = "";
+	cardHeadingMarginBottom = "";
+
 	// Card
 	cardAspectRatio = "";
 	cardBackgroundColor = "";
@@ -121,6 +144,7 @@ class WidgetTileGrid extends HTMLElement {
 	cardHeight = "";
 	cardHoverOpacity = "";
 	cardHoverBackgroundColor = "";
+	cardImagePosition = "";
 	cardMaxWidth = "";
 	cardMinHeight = "";
 	cardOpacity = "";
@@ -179,6 +203,12 @@ const values = {
 	"card-label-margin-top": ".5rem",
 	"card-label-position": "below",
 
+	/* inside */
+	"card-heading-color": "inherit",
+	"card-heading-font-size": "1.125rem",
+	"card-heading-font-weight": "500",
+	"card-heading-margin-bottom": ".5rem",
+
 	/* card */
 	"card-aspect-ratio": "1/1",
 	"card-background-color": "white",
@@ -189,6 +219,7 @@ const values = {
 	"card-height": "auto",
 	"card-hover-opacity": "",
 	"card-hover-background-color": "",
+	"card-image-position": "cover",
 	"card-max-width": "none",
 	"card-min-height": "auto",
 	"card-opacity": "100%",
@@ -198,6 +229,14 @@ const values = {
 
 	/* data */
 	"cards-data-json": "[]",
+
+	/* grid */
+	"grid-columns": "1",
+	"grid-columns-sm": "2",
+	"grid-columns-md": "3",
+	"grid-columns-lg": "4",
+	"grid-columns-xl": "5",
+	"grid-columns-2xl": "6",
 
 	/* stylesheet */
 	"stylesheet": "",
@@ -226,9 +265,14 @@ buildGridHTML() {
 				href="${item.cardLinkUrl}"
 				title="${item.cardLinkTitle}">
 				<div class="tile-inner">
-					<img class="tile-image" src="${item.cardImageUrl}" alt="${item.cardLabelText}" />
+						<!-- heading -->
+						${item.cardHeading ? `<h3 class="card-heading">${item.cardHeading}</h3>` : ''}
+						<!-- body -->
+						${item.cardBody ? `<p class="card-body">${item.cardBody}</p>` : ''}
+						<img data-image-position="${this.cardImagePosition}" class="tile-image" src="${item.cardImageUrl}" alt="${item.cardLabelText}" />
+
 				</div>
-				<div class="card-label">${item.cardLabelText}</div>
+				${item.cardLabelText ? `<div class="card-label">${item.cardLabelText}</div>` : ''}
 			</a>`
 	}
 
@@ -271,6 +315,10 @@ get els() {
 		--card-label-margin-bottom:${this.cardLabelMarginBottom};
 		--card-label-margin-top:${this.cardLabelMarginTop};
 		--card-label-position:${this.cardLabelPosition};
+		--card-heading-color:${this.cardHeadingColor};
+		--card-heading-font-size:${this.cardHeadingFontSize};
+		--card-heading-font-weight:${this.cardHeadingFontWeight};
+		--card-heading-margin-bottom:${this.cardHeadingMarginBottom};
 		--card-aspect-ratio:${this.cardAspectRatio};
 		--card-background-color:${this.cardBackgroundColor};
 		--card-border-radius:${this.cardBorderRadius};
@@ -286,6 +334,12 @@ get els() {
 		--card-transition-property:${this.cardTransitionProperty};
 		--card-transition-duration:${this.cardTransitionDuration};
 		--card-width:${this.cardWidth};
+		--grid-columns:${this.gridColumns};
+		--grid-columns-sm:${this.gridColumnsSm};
+		--grid-columns-md:${this.gridColumnsMd};
+		--grid-columns-lg:${this.gridColumnsLg};
+		--grid-columns-xl:${this.gridColumnsXl};
+		--grid-columns-2xl:${this.gridColumns2xl};
 >
 		<div
 			id="container-inner"
@@ -447,42 +501,47 @@ get styles() {
 	}
 	@media (min-width: 640px) {
 		#grid {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
+			grid-template-columns: repeat(var(--grid-columns-sm), minmax(0, 1fr));
 		}
 	}
 	@media (min-width: 720px) {
 		#grid {
 			gap:1.25rem;
-			grid-template-columns: repeat(3, minmax(0, 1fr));
+			grid-template-columns: repeat(var(--grid-columns-md), minmax(0, 1fr))
 		}
 	}
 	@media (min-width: 1024px) {
 		#grid {
 			column-gap:24px;
-			grid-template-columns: repeat(4,minmax(0,1fr));
+			grid-template-columns: repeat(var(--grid-columns-lg), minmax(0, 1fr))
 			place-content:center;
 		}
 	}
 	@media (min-width: 1280px) {
 		#grid {
 			column-gap:32px;
-		  grid-template-columns: repeat(5,minmax(0,1fr));
+		  grid-template-columns: repeat(var(--grid-columns-xl), minmax(0, 1fr))
 		}
 	}
 	@media (min-width: 1536px) {
 		#grid {
 			column-gap:48px;
-			grid-template-columns: repeat(6,minmax(0,1fr));
+			grid-template-columns: repeat(var(--grid-columns-2xl), minmax(0, 1fr))
 		}
 	}
 	#grid .tile {
+		position:relative;
 		width:100%;
+
 	}
 	#grid .tile .tile-inner {
 		aspect-ratio:1/1;
 		background-color:var(--card-background-color, transparent);
 		border-radius:var(--card-border-radius, .35rem);
+		box-shadow:var(--card-box-shadow, none);
 		overflow:hidden;
+		padding:1rem;
+		position:relative;
 		width:100%;
 	}
 	#grid .tile .card-label {
@@ -492,16 +551,40 @@ get styles() {
 		text-underline-offset:.25em;
 		transition:opacity .3s;
 	}
+	#grid .tile .card-heading {
+		color:var(--card-heading-color, inherit);
+		font-size: var(--card-heading-font-size, 1rem);
+		font-weight: var(--card-heading-font-weight, inherit);
+		margin-bottom: var(--card-heading-margin-bottom, .5rem);
+		opacity:.85;
+	}
 	#grid .tile .tile-image {
 		aspect-ratio:1/1;
+	}
+	#grid .tile .tile-image[data-image-position="cover"] {
+		height:100%;
+		object-fit:cover;
+		overflow:hidden;
 		transition:scale .3s ease;
+		width:100%;
+	}
+	#grid .tile .tile-image[data-image-position="thumb"] {
+		border-radius:.25rem;
+		height:4rem;
+		object-fit:cover;
+		overflow:hidden;
+		position:absolute;
+		bottom:1rem;
+		right:1rem;
+		//margin:1rem;
+		width:4rem;
 	}
 	@media (min-width: 1024px) {
 		#grid .tile:hover .card-label {
 			opacity:1;
 			text-decoration:underline;
 		}
-		#grid .tile:hover .tile-image {
+		#grid .tile:hover .tile-image[data-image-position="cover"]  {
 			scale:1.2;
 		}
 	}
