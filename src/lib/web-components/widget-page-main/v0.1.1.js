@@ -27,17 +27,17 @@ import CtaTout from "/e/wc/cta-tout.0.1.1.min.js";
  * @attribute heading-font-weight | 600 | -- | font weight of the heading
  * @attribute heading-margin-bottom | 1.5rem | -- | margin bottom of the heading
  * @attribute heading-margin-top | 1.5rem | -- | margin top of the heading
- * @attribute heading-text | -- | PetroSkills expands under The Competency Alliance to Bridge the Learning and Development Gap Between Petroleum and the Energy Transition | widget heading text
- * @attribute link-url | -- | https://petroskills.com/training | url of the heading link
- * @attribute link-label | -- | View All Courses | label of the heading link
+ * @attribute heading-text | -- | Send Us a Message | widget heading text
  * @attribute body-text | -- | Browse our world-class training courses and modules by category. | text of the widget
- * @attribute quote-text | -- | The Alliance model has been very successful for over 20 years. We are now leveraging our proven capabilities and processes to develop and deliver high-quality competency management and training solutions to new energy sectors. | text of the quote
+ * @attribute quote-text | -- | -- | text of the quote
  * @attribute quote-attribution | -- | -- | attribution for quote
+ * @slot | -- | <div slot="main"><iframe src="https://go.marketing.petroskills.com/l/934903/2021-09-24/4p8q" width="100%" height="800px" type="text/html" frameborder="0" allowtransparency="true" style="border: 0px;"></iframe></div> | slot for the main content
+ * @slot | -- | <div slot="sidebar">Hello World</div> | slot for the sidebar content
 
  *
  * DATA
- * @attribute touts-data-json | [] | [{"heading":"Competency Solutions","subheading":"Improve Individual & Organizational Capabilities","body":"A variety of solutions to help companies improve individual and organizational capabilities through the development and assurance of individual and organizational competence.","link-url":"/","link-label":"Learn More","background-color":"#E2F4F2"}] | json data for the cta touts
- * @attribute sections-data-json | [] | [{"section-heading":"The Energy Industry Faces New Challenges","section-text":["PetroSkills expands under The Competency Alliance to Bridge the Learning and Development Gap Between Petroleum and the Energy TransitionThe energy industry is facing major challenges, such as the need for clean energy, new business models, emerging technologies, and the reallocation of oil and gas professionals to low carbon or renewable energy. These challenges are driving the requirement for new skills and competencies. To better serve the industry and its customers, PetroSkills is expanding into The Competency Alliance, building on the methodology we used to become the Oil & Gas industry’s leading alliance and expanding it to the Net Zero and Renewable sectors.","The Competency Alliance is grouped to cover the three major energy sectors. As it has done for over 50 years, PetroSkills covers Upstream, Midstream, and Downstream oil and gas. NetZeroSkills includes Greenhouse Gas Management, Carbon Capture/Sequestration, and Hydrogen. RenewableSkills handles the Wind and Geothermal sectors.","Just as PetroSkills does, and will continue to do in oil & gas, The Competency Alliance’s industry-collaboration model is enabling it to become a leading provider of competency-based training and development solutions across multiple sectors of the energy industry. This includes not just traditional training and development, but also digital and online learning, certification and assessment, and data analytics. By offering a wider range of services, including workforce assessment and competency consulting, The Competency Alliance is better equipped to meet the changing needs of the industry and its customers."],"link-url":"https://petroskills.com/training","link-title":"View All Courses"},{"section-heading":"New Energy Sectors","section-text":["Sectors are formed by energy companies coming together to collaborate and build performance-ready professionals. Certain aspects of training are important, but not unique, and Alliance members can leverage external resources to benchmark those learning and development at a lower cost versus each company going it alone. & “The Alliance model has been very successful for over 20 years. We are now leveraging our proven capabilities and processes to develop and deliver high-quality competency management and training solutions to new energy sectors,” says Tony Sperduti, Senior Vice President of Renewables and Net-Zero Energy for The Competency Alliance."]},{"section-heading":"A Wealth of Training Resources","section-text":["The Competency Alliance already has 200+ instructor-led courses and thousands of hours of eLearning based on the Competency Maps that have been developed and vetted through Alliance Member SMEs. Competency Maps for Net Zero and Renewable technology are driving additional content in the Energy Transition sectors."],"link-label":"Get Started","link-url":"/"}] | json data for the body content sections
+ * @attribute touts-data-json | [] | [] | json data for the cta touts
+ * @attribute sections-data-json | [] | [] | json data for the body content sections
  *
  * STYLESHEET
  * @attribute card-stylesheet | -- | #container { color:#042373; } | inject css into the inner stylesheet
@@ -213,12 +213,9 @@ get els() {
     <h2 id="main-heading">${this.headingText}</h2>
 
     <!-- section -->
-    <section>
+    ${this.buildSectionsHTML()}
 
-      ${this.buildSectionsHTML()}
-
-    </section>
-
+	<slot name="main"></slot>
   </main>
 
   <!-- sidebar column -->
@@ -239,6 +236,8 @@ get els() {
 
     <!-- cta touts -->
     ${this.buildToutsHTML()}
+
+		<slot name="sidebar"></slot>
 
   </aside>
 
