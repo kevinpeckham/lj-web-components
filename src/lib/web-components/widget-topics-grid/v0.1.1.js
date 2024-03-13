@@ -152,14 +152,9 @@ get els() {
 		<!-- widget text -->
 		<p id="text">${this.bodyText}</p>
 
+
     <!-- topics -->
     <div id="topics">${this.buildTopicsHTML()}</div>
-
-		<!-- horizontal rule -->
-		<hr id="hr"></hr>
-
-		<!-- widget link -->
-		<div="widget-cta-bar">${this.linkUrl && this.linkLabel ? `<a id="link" href="${this.linkUrl}">${this.linkLabel}</a>` : ""}</div>
 
 </main>`.trim();
 }
@@ -191,6 +186,7 @@ get styles() {
 		padding:64px 16px 96px;
 		place-items-start;
 		place-content:start;
+		position:relative;
     width:100%;
   }
   @media (min-width: 640px) {
@@ -314,21 +310,10 @@ get styles() {
   @media (min-width: 768px) {
     .topic-text {
 			font-size:.9rem;
-      max-width:576px;
+      max-width:440px;
       padding:0;
       }
     }
-  @media (min-width: 1024px) {
-    .topic-text {
-    max-width:576px;
-    }
-  }
-  @media (min-width: 1280px) {
-   	.topic-text {
-      max-width:576px;
-      }
-    }
-
 	/* topic link */
 	.topic-link {
 		color:var(--color-primary, currentColor);
@@ -349,37 +334,7 @@ get styles() {
 		opacity:1;
 	}
 
-	/* horizontal rule */
-	#hr {
-		color: var(--color-primary, currentColor);
-		opacity:.3;
-		margin-top:4rem;
-		margin-bottom:2rem;
-	}
 
-  /* widget link */
-  #link {
-		background-color: var(--color-primary, currentColor);
-    color: var(--color-background, currentColor);
-    display:inline-block;
-    font-size: .8rem;
-    border: solid 1px var(--color-background, currentColor);
-    border-radius:.25rem;
-    padding:.35rem .85rem;
-		text-align:center;
-    transition:background-color .15s ease;
-    }
-	@media (min-width: 768px) {
-		#link {
-			display:inline-block;
-			max-width:fit-content;
-			padding:.5rem 1rem;
-		}
-	}
-  #link:hover {
-      background-color:var(--color-primary, currentColor);
-      color:var(--color-background, currentColor);
-  }
 </style>`
 }
 // TEMPLATE
