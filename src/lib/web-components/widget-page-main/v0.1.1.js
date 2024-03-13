@@ -1,9 +1,5 @@
 // @ts-expect-error - type defs not available
 import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
-// @ts-expect-error - type defs not available
-import QuoteTout from "/e/wc/quote-tout.0.1.1.min.js";
-// @ts-expect-error - type defs not available
-import CtaTout from "/e/wc/cta-tout.0.1.1.min.js";
 
 /** @copyright 2024 Lightning Jar - "Widget Page Main" web component - License MIT */
 /** @author Kevin Peckham */
@@ -34,10 +30,9 @@ import CtaTout from "/e/wc/cta-tout.0.1.1.min.js";
  * @slot | -- | <div slot="main">[slot=main]</div> | slot for the main content
  * @slot | -- | <div slot="sidebar">[slot=sidebar]</div> | slot for the sidebar content
  * SIDEBAR
- * @attribute include-sidebar | true | false | include the sidebar
+ * @attribute include-sidebar | true | -- | include the sidebar
  *
  * DATA
- * @attribute touts-data-json | [] | [] | json data for the cta touts
  * @attribute sections-data-json | [] | [{"section-heading":"The Energy Industry Faces New Challenges","section-text":["PetroSkills expands under The Competency Alliance to Bridge the Learning and Development Gap Between Petroleum and the Energy TransitionThe energy industry is facing major challenges, such as the need for clean energy, new business models, emerging technologies, and the reallocation of oil and gas professionals to low carbon or renewable energy. These challenges are driving the requirement for new skills and competencies. To better serve the industry and its customers, PetroSkills is expanding into The Competency Alliance, building on the methodology we used to become the Oil & Gas industry’s leading alliance and expanding it to the Net Zero and Renewable sectors.","The Competency Alliance is grouped to cover the three major energy sectors. As it has done for over 50 years, PetroSkills covers Upstream, Midstream, and Downstream oil and gas. NetZeroSkills includes Greenhouse Gas Management, Carbon Capture/Sequestration, and Hydrogen. RenewableSkills handles the Wind and Geothermal sectors.","Just as PetroSkills does, and will continue to do in oil & gas, The Competency Alliance’s industry-collaboration model is enabling it to become a leading provider of competency-based training and development solutions across multiple sectors of the energy industry. This includes not just traditional training and development, but also digital and online learning, certification and assessment, and data analytics. By offering a wider range of services, including workforce assessment and competency consulting, The Competency Alliance is better equipped to meet the changing needs of the industry and its customers."],"link-url":"https://petroskills.com/training","link-title":"View All Courses"},{"section-heading":"New Energy Sectors","section-text":["Sectors are formed by energy companies coming together to collaborate and build performance-ready professionals. Certain aspects of training are important, but not unique, and Alliance members can leverage external resources to benchmark those learning and development at a lower cost versus each company going it alone. & “The Alliance model has been very successful for over 20 years. We are now leveraging our proven capabilities and processes to develop and deliver high-quality competency management and training solutions to new energy sectors,” says Tony Sperduti, Senior Vice President of Renewables and Net-Zero Energy for The Competency Alliance."]},{"section-heading":"A Wealth of Training Resources","section-text":["The Competency Alliance already has 200+ instructor-led courses and thousands of hours of eLearning based on the Competency Maps that have been developed and vetted through Alliance Member SMEs. Competency Maps for Net Zero and Renewable technology are driving additional content in the Energy Transition sectors."],"link-label":"Get Started","link-url":"/"}] | json data for the body content sections
  *
  * STYLESHEET
@@ -46,7 +41,6 @@ import CtaTout from "/e/wc/cta-tout.0.1.1.min.js";
 
  */
 class WidgetPageMain extends HTMLElement {
-
 
   bodyText = "";
   colorAccent = "";
@@ -57,12 +51,10 @@ class WidgetPageMain extends HTMLElement {
   headingMarginBottom = "";
   headingMarginTop = "";
   headingText = "";
+	includeSidebar = true;
   linkUrl = "";
   linkLabel = "";
-  quoteText = "";
-  quoteAttribution = "";
   sectionsDataJson = "[]";
-  toutsDataJson = "[]";
 
   // stylesheet
   stylesheet = "";
@@ -89,12 +81,11 @@ const values = {
   "heading-margin-bottom": "1.5rem",
   "heading-margin-top": "1.5rem",
   "heading-text": "",
+	"include-sidebar": "true",
   "link-url": "",
   "link-label": "",
-  "quote-text": "",
   "quote-attribution": "",
   "sections-data-json": '[]',
-  "touts-data-json": "[]",
 
   /* stylesheet */
   "stylesheet": "",
@@ -143,51 +134,14 @@ buildSectionsHTML() {
 
   return buildSections() ;
 }
-buildToutsHTML() {
-  window.console.log("toutsData", this.toutsData);
 
-  /** @param {sectionDatum} item */
-  const buildTout = (item) => {
-    if (!item.body && !item.heading && !item.subheading) return "";
-    return `
-        <div class="tout-container">
-          <cta-tout
-            color-background="${item.backgroundColor ?? '#E2F4F2'}"
-            color-border="rgb(10 46 126 / 5%)"
-            color-primary="#0A2E7E"
-            container-max-width="none"
-            heading-text="${item.heading ?? ''}"
-            subheading-text="${item.subheading ?? ''}"
-            subheading-font-size=".9rem"
-            body-text="${item.body}"
-            body-font-size=".85rem"
-            link-text="${item['link-label'] ?? ''}"
-            link-url="${item['link-url'] ?? ''}">
-          </cta-tout>
-      </div>
-     `
-  }
-
-  const buildTouts = () => {
-    return this.toutsData.map((
-      /** @type {sectionDatum} item */
-      item) => buildTout(item)).join("");
-  }
-
-
-  return buildTouts() ;
-}
 
 // DATA
 get sectionsData() {
   const result = JSON.parse(this.sectionsDataJson) ?? "[]";
   return result;
 }
-get toutsData() {
-  const result = JSON.parse(this.toutsDataJson) ?? "[]";
-  window.console.log("result", result);
-  return result;
-}
+
 
 
 // ELEMENTS
@@ -221,25 +175,7 @@ get els() {
 
   <!-- sidebar column -->
   <aside id="sidebar">
-
-    <!-- quote tout(s) -->
-    ${this?.quoteText ? `
-      <div class="tout-container">
-        <quote-tout
-          color-background="#D8E0ED"
-          color-border="rgb(10 46 126 / 5%)"
-          color-primary="#0A2E7E"
-          container-max-width="none"
-          quote-text="${this?.quoteText ?? ''}"
-          quote-font-size=".95rem">
-        </quote-tout>
-      </div>` : ""}
-
-    <!-- cta touts -->
-    ${this.buildToutsHTML()}
-
 		<slot name="sidebar"></slot>
-
   </aside>
 
 
@@ -399,12 +335,6 @@ get styles() {
   /* sidebar */
   #sidebar {
   }
-
-  /* tout container */
-  #sidebar .tout-container {
-    margin-bottom: 2rem;
-  }
-
 
 </style>`
 }
