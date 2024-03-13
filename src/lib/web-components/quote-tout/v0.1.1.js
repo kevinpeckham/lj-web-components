@@ -14,9 +14,9 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @published 2024-02-09
  * @classdesc Web component that displays a quote tout.
  * @attribute color-background       | transparent  | #D8E0ED | background color
- * @attribute color-border           | currentColor | --     						| border color
+ * @attribute color-border           | transparent | --     						| border color
  * @attribute color-primary          | currentColor | #0A2E7E           | primary text color
- * @attribute container-border-width | 0px          | --                | border width of the container
+ * @attribute container-border-width | 0          | --                | border width of the container
  * @attribute container-height       | auto         | --                | height of the container
  * @attribute container-width        | 100%         | --                | width of the container
  * @attribute container-max-width    | none         |                 | max width of the container
