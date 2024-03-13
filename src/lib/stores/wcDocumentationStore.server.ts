@@ -163,8 +163,11 @@ function getBuiltInExampleTag(file: string): string {
 }
 function getSlotExampleContent(file: string) {
 	const match = file?.match(/@slot(?:.)*?\n/)?.[0] ?? "";
+	const slots = [...file.matchAll(/@slot(?:.)*?\n/g)]?.map(
+		(v) => v[0].split("|")[2]?.trim() ?? "",
+	);
 	const content = match.split("|")[2]?.trim() ?? "";
-	return content;
+	return slots;
 }
 function buildDocumentationFromFile(componentName: string, file: string) {
 	const attributes = getAttributes(file);
