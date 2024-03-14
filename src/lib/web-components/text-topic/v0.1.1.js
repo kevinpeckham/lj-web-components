@@ -20,7 +20,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute color-secondary | currentColor | darkblue | color of the link text on hover
  * @attribute font-family | inherit | -- | font family for the text
  * @attribute heading-text | -- | The Energy Industry Faces New Challenges | text for the heading
- * @attribute link-padding | .55rem 1.2rem | .75rem 1.33rem | padding around the text in the button button
+ * @attribute link-padding | .75rem 1.33rem | -- | padding around the text in the button button
  * @attribute link-rel | -- | external | selector for the target element
  * @attribute link-text | -- | -- | button text
  * @attribute link-title | -- | -- | selector for the target element
