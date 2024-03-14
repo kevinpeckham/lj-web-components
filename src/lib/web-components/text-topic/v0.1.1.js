@@ -22,9 +22,9 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute heading-text | -- | The Energy Industry Faces New Challenges | text for the heading
  * @attribute link-padding | .55rem 1.2rem | .75rem 1.33rem | padding around the text in the button button
  * @attribute link-rel | -- | external | selector for the target element
- * @attribute link-text | -- | Get Started | button text
+ * @attribute link-text | -- | -- | button text
  * @attribute link-title | -- | -- | selector for the target element
- * @attribute link-url | / | https://cdn.lj.dev/web-components | text appears on hover
+ * @attribute link-url | -- | https://cdn.lj.dev/web-components | text appears on hover
  * @attribute transition-duration | .3s| .4s | transition duration for hover effect on link
  * @attribute transition-property | background-color, color, opacity | -- | transition property for hover effect on link
  * @attribute stylesheet | -- | -- | injects css into custom stylesheet
@@ -62,9 +62,9 @@ class TextTopic extends HTMLElement {
 			"heading-text": "",
 			"link-padding": ".55rem 1.2rem",
 			"link-rel": "external",
-			"link-text": "Get Started",
+			"link-text": "",
 			"link-title": "",
-			"link-url": "/",
+			"link-url": "",
 			"transition-duration": ".15s",
 			"transition-property": "background-color, color, opacity",
 			"stylesheet": ""
@@ -94,11 +94,11 @@ get els() {
 		--transition-property: ${this.transitionProperty};">
 	<h3 id="heading">${this.headingText}</h3>
 	<div id="text">${this.bodyText}</div>
-	<a
+	${this.linkText && this.linkUrl ? `<a
 		href="${this.linkUrl}"
 		${(this.linkRel) ? `rel="${this.linkRel}"` : ''}
 		${this.linkTitle ? `title="${this.linkTitle}"` : ''}
-		id="link">${this.linkText}</a>
+		id="link">${this.linkText}</a>` : ''}
 </div>`.trim();
 }
 
