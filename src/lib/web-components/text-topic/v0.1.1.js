@@ -16,7 +16,6 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @extends HTMLElement
  * @classdesc Defines web component that renders a section of plain body text, with an optional heading and and optional link.
  * @attribute body-text | -- | <p>PetroSkills expands under The Competency Alliance to Bridge the Learning and Development Gap Between Petroleum and the Energy TransitionThe energy industry is facing major challenges, such as the need for clean energy, new business models, emerging technologies, and the reallocation of oil and gas professionals to low carbon or renewable energy. These challenges are driving the requirement for new skills and competencies. To better serve the industry and its customers, PetroSkills is expanding into The Competency Alliance, building on the methodology we used to become the Oil & Gas industry’s leading alliance and expanding it to the Net Zero and Renewable sectors.</p><p>The Competency Alliance is grouped to cover the three major energy sectors. As it has done for over 50 years, PetroSkills covers Upstream, Midstream, and Downstream oil and gas. NetZeroSkills includes Greenhouse Gas Management, Carbon Capture/Sequestration, and Hydrogen. RenewableSkills handles the Wind and Geothermal sectors</p> | accepts a string of HTML content
- * @attribute color-accent | lightblue | -- | color of link background on hover
  * @attribute color-primary | currentColor | white | color of the text
  * @attribute color-secondary | currentColor | darkblue | color of the link text on hover
  * @attribute font-family | inherit | -- | font family for the text
@@ -32,7 +31,6 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  */
 class TextTopic extends HTMLElement {
 	bodyText = "";
-	colorAccent = "";
 	colorPrimary = "";
 	colorSecondary = "";
 	fontFamily = "";
@@ -58,7 +56,6 @@ class TextTopic extends HTMLElement {
 	static get attributes() {
 		const values = {
 			"body-text": "",
-			"color-accent": "lightblue",
 			"color-primary": "currentColor",
 			"color-secondary": "darkblue",
 			"font-family": "inherit",
@@ -89,7 +86,6 @@ get els() {
 <div
 	id="container"
 	style="
-		--color-accent: ${this.colorAccent};
 		--color-primary: ${this.colorPrimary};
 		--color-secondary: ${this.colorSecondary};
 		--font-family: ${this.fontFamily};
@@ -163,7 +159,7 @@ get styles() {
 	}
 	#link:hover {
 		border-color: var(--color-secondary, lightblue);
-		background-color: var(--color-accent, lightblue);
+		background-color: var(--color-primary, lightblue);
 		color: var(--color-secondary, currentColor);
 	}
 </style>`.trim();
