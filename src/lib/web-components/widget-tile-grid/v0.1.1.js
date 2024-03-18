@@ -521,7 +521,7 @@ get styles() {
 	@media (min-width: 1024px) {
 		#grid {
 			column-gap:24px;
-			grid-template-columns: repeat(var(--grid-columns-lg), minmax(0, 1fr))
+			grid-template-columns: repeat(var(--grid-columns-lg), minmax(0, 1fr));
 			place-content:center;
 		}
 	}
