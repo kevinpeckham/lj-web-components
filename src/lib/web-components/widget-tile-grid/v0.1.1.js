@@ -1,7 +1,5 @@
 // @ts-expect-error - type defs not available
 import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
-// @ts-expect-error - type defs not available
-import ContentCard from "/e/wc/content-card.0.1.1.min.js";
 
 /** @copyright 2024 Lightning Jar - "Widget Tile Grid" web component - License MIT */
 /** @author Kevin Peckham */
@@ -20,8 +18,8 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  *
  * WIDGET CONTAINER
  * @attribute color-accent | lightblue | rgb(0 184 156 / 100%) | color of the text
- * @attribute color-background | white | #F8FAFC | background color of the widget
- * @attribute color-primary | currentColor | #0B2E7E | color of the text
+ * @attribute color-background | white | #0B2E7E | background color of the widget
+ * @attribute color-primary | currentColor | white | color of the text
 
  *
  * WIDGET META
@@ -34,7 +32,7 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @attribute heading-font-weight | 600 | -- | font weight of the heading
  * @attribute heading-margin-bottom | 1.5rem | -- | margin bottom of the heading
  * @attribute heading-margin-top | 1.5rem | -- | margin top of the heading
- * @attribute heading-text | -- | In-Classroom & Virtual Instructor-Led Courses | widget heading text
+ * @attribute heading-text | -- | Training | widget heading text
  *
  * WIDGET HEADING LINK
  * @attribute heading-link-url | -- | https://petroskills.com/training | url of the heading link
@@ -44,7 +42,8 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @attribute body-text | -- | Browse our world-class training courses and modules by category. | text of the widget
  *
  * GRID
- * @attribute grid-columns | 1 | -- | number of columns in the grid at xs
+ * @attribute grid-columns | 1 | -- | number of columns in the grid < xs
+ * @attribute grid-columns-xs | 2 | -- | number of columns in the grid at xs
  * @attribute grid-columns-sm | 2 | -- | number of columns in the grid at sm
  * @attribute grid-columns-md | 3 | 2 | number of columns in the grid at md
  * @attribute grid-columns-lg | 4 | 3 | number of columns in the grid at lg
@@ -69,7 +68,7 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @attribute card-height | auto | -- | height of the card
  * @attribute card-hover-opacity | -- | -- | opacity of the card on hover
  * @attribute card-hover-background-color | -- | -- | background color of the card on hover
- * @attribute card-image-position | cover | thumb | location of the card image
+ * @attribute card-image-position | cover | -- | location of the card image
  * @attribute card-max-width | none | 24rem | max width of the card
  * @attribute card-min-height | auto | 20rem | min height of the card
  * @attribute card-opacity | 100% | -- | opacity of the card
@@ -78,7 +77,7 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @attribute card-width | 100% | -- | width of the card
  *
  * DATA
- * @attribute cards-data-json | [] | [{"cardImageUrl":"https://www.thecompetencyalliance.com/images/disciplines/Renewable_Icon.JPG","cardHeading":"Overview of Net-Zero and Renewables - NG2", "cardLinkUrl": "https://www.petroskills.com/en/training/courses/overview-of-net-zero-and-renewables---ng-2---elearning-course~p13995","cardLinkTitle":"explore Upstream training"}] | json data for the cards
+ * @attribute cards-data-json | [] | [{"cardImageUrl":"https://cdn.lj.dev/images/custom/petro/category-thumb-upstream.webp","cardLabelText":"Upstream", "cardLinkUrl": "https://petroskills.com/training/categories/upstream","cardLinkTitle":"explore Upstream training"},{"cardImageUrl":"https://cdn.lj.dev/images/custom/petro/category-thumb-midstream.webp","cardLabelText":"Midstream","cardLinkUrl": "https://petroskills.com/training/categories/midstream","cardLinkTitle":"explore Midstream training"},{"cardImageUrl":"https://cdn.lj.dev/images/custom/petro/category-thumb-downstream.webp","cardLabelText":"Downstream","cardLinkUrl": "https://petroskills.com/training/categories/downstream","cardLinkTitle":"explore Downstream training"},{"cardImageUrl":"https://cdn.lj.dev/images/custom/petro/category-thumb-energy-transition.webp","cardLabelText":"Energy Transition","cardLinkUrl": "https://petroskills.com/training/categories/energy-transition","cardLinkTitle":"explore Energy Transition training"},{"cardImageUrl":"https://cdn.lj.dev/images/custom/petro/category-thumb-business.webp","cardLabelText":"Business & Management","cardLinkUrl": "https://petroskills.com/training/categories/business-management","cardLinkTitle":"explore Business & Management training"},{"cardImageUrl":"https://cdn.lj.dev/images/custom/petro/category-thumb-health.webp","cardLabelText":"Health, Safety, & Environment","cardLinkUrl": "https://petroskills.com/training/categories/health-safety","cardLinkTitle":"explore Health & Safety training"},{"cardImageUrl":"https://cdn.lj.dev/images/custom/petro/category-thumb-operations.webp","cardLabelText":"Operations & Maintenance","cardLinkUrl": "https://petroskills.com/training/categories/operator-training","cardLinkTitle":"explore Operations & Maintenance training"}] | json data for the cards
  *
  * STYLESHEET
  * @attribute card-stylesheet | -- | #container { color:#042373; } | inject css into the inner stylesheet
@@ -94,6 +93,7 @@ class WidgetTileGrid extends HTMLElement {
 
 	// Grid
 	gridColumns = "";
+	gridColumnsXs = "";
 	gridColumnsSm = "";
 	gridColumnsMd = "";
 	gridColumnsLg = "";
@@ -233,6 +233,7 @@ const values = {
 	/* grid */
 	"grid-columns": "1",
 	"grid-columns-sm": "2",
+	"grid-columns-xs": "2",
 	"grid-columns-md": "3",
 	"grid-columns-lg": "4",
 	"grid-columns-xl": "5",
@@ -263,7 +264,8 @@ buildGridHTML() {
 			<a
 				class="tile"
 				href="${item.cardLinkUrl}"
-				title="${item.cardLinkTitle}">
+				${item.cardLinkTitle ? `title="${item.cardLinkTitle}"` : ''}
+				>
 				<div class="tile-inner">
 						<!-- heading -->
 						${item.cardHeading ? `<h3 class="card-heading">${item.cardHeading}</h3>` : ''}
@@ -335,6 +337,7 @@ get els() {
 		--card-transition-duration:${this.cardTransitionDuration};
 		--card-width:${this.cardWidth};
 		--grid-columns:${this.gridColumns};
+		--grid-columns-xs:${this.gridColumnsXs};
 		--grid-columns-sm:${this.gridColumnsSm};
 		--grid-columns-md:${this.gridColumnsMd};
 		--grid-columns-lg:${this.gridColumnsLg};
@@ -499,6 +502,11 @@ get styles() {
 		gap:1rem;
 		width:100%;
 	}
+	@media (min-width: 420px) {
+		#grid {
+			grid-template-columns: repeat(var(--grid-columns-xs), minmax(0, 1fr));
+		}
+	}
 	@media (min-width: 640px) {
 		#grid {
 			grid-template-columns: repeat(var(--grid-columns-sm), minmax(0, 1fr));
@@ -565,6 +573,8 @@ get styles() {
 		height:100%;
 		object-fit:cover;
 		overflow:hidden;
+		position:absolute;
+		inset:0;
 		transition:scale .3s ease;
 		width:100%;
 	}
