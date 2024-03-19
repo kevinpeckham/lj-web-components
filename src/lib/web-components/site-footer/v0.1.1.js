@@ -142,7 +142,8 @@ get els() {
 				<img
 					id="brand-image"
 					alt="${this.brandImageAlt}"
-					src="${this.brandImageUrl}" />
+					src="${this.brandImageUrl}"
+					loading="lazy" />
 			</a>
 			<div id="nav-links">
 			${JSON.parse(this.navLinksData).map((
