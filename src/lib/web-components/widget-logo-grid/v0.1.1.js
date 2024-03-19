@@ -331,8 +331,7 @@ buildLogoGridHTML(data) {
 		tiles-data='${tilesDataString}'
 	></logo-grid>
 `}
-/** @param { string } [slot] */
-/** @param {*} [data] */
+/** @param { string } [slot] , @param {*} [data] */
 buildSubWidgetContainerHTML(slot, data) {
 	return `
 	<sub-widget-container
@@ -376,7 +375,7 @@ buildTemplate() {
 	// preflight
 	const preflight = document.createElement("link");
 	preflight.rel = "stylesheet";
-	preflight.href = "https://unpkg.com/tailwindcss@3.4.1/src/css/preflight.css";
+	preflight.textContent = ComponentUtils.preflight;
 
 
 	// user-editable stylesheet
