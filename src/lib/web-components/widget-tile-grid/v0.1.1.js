@@ -271,7 +271,7 @@ buildGridHTML() {
 						${item.cardHeading ? `<h3 class="card-heading">${item.cardHeading}</h3>` : ''}
 						<!-- body -->
 						${item.cardBody ? `<p class="card-body">${item.cardBody}</p>` : ''}
-						<img data-image-position="${this.cardImagePosition}" class="tile-image" src="${item.cardImageUrl}" alt="${item.cardLabelText}" />
+						<img data-image-position="${this.cardImagePosition}" class="tile-image" src="${item.cardImageUrl}" alt="${item.cardLabelText}" loading="lazy"/>
 
 				</div>
 				${item.cardLabelText ? `<div class="card-label">${item.cardLabelText}</div>` : ''}
