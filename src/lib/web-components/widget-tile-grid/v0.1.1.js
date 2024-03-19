@@ -175,6 +175,7 @@ const values = {
 	"color-accent": "currentColor",
 	"color-background": "#0B2E7E",
 	"color-primary": "currentColor",
+	"color-secondary": "currentColor",
 
 	/* widget meta */
 	"meta-font-size": ".75rem",

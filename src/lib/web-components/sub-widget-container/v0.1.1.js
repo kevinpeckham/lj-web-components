@@ -3,8 +3,6 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 // @ts-expect-error yep got it
 import SubWidgetHeader from "/e/wc/sub-widget-header@0.1.1.min.js";
 // @ts-expect-error yep got it
-import SubWidgetText from "/e/wc/sub-widget-text@0.1.1.min.js";
-// @ts-expect-error yep got it
 import LogoGrid from "/e/wc/logo-grid@0.1.1.min.js";
 
 
