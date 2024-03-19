@@ -355,8 +355,8 @@ get els() {
 		${ this.headingText ? `<h2 id="heading">${this.headingText}</h2>` : '' }
 		${ (this.linkText || this.buttonText) && (this.linkUrl || this.buttonHref) ? `<a
 			id="heading-link"
-			title="${this.linkTitle ?? this.buttonTitle}"
-			href="${this.linkUrl ?? this.buttonHref}">${this.linkText ? this.linkText : this.buttonText ?? ''}</a>` : '' }
+			title="${this.linkTitle ? this.linkTitle : this.buttonTitle ?? ''}"
+			href="${this.linkUrl ? this.linkUrl : this.buttonHref}">${this.linkText ? this.linkText : this.buttonText ?? ''}</a>` : '' }
 	</div>` : ''}
 
 	<!-- text -->
