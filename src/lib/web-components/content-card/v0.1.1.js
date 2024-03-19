@@ -322,7 +322,6 @@ buildBulletsHTML() {
 	/** @type {string[]} bulletsData */
 	const bulletsData = JSON.parse(this.bodyBullets);
 	const bullets = bulletsData.map((bullet) => `<li>${bullet}</li>`).join("");
-	window.console.log(bullets);
 	return `<ul id="body-bullets">${bullets ?? 'test'}</ul>`;
 }
 
