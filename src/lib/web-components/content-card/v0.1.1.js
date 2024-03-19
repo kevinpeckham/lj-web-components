@@ -399,7 +399,7 @@ get els() {
 
 			<!-- header -->
 			<header id="header">
-				<img id="header-image" src="${this.headerLogoUrl}" alt="${this.headerLogoAlt}" width="${this.headerLogoWidth}" height="${this.headerLogoHeight}" />
+				<img id="header-image" src="${this.headerLogoUrl}" alt="${this.headerLogoAlt}" width="${this.headerLogoWidth}" height="${this.headerLogoHeight}" loading="lazy" />
 				<span id="header-text">${this.headerText}</span>
 			</header>
 
