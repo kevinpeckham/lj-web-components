@@ -108,7 +108,7 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @attribute card-footer-link-padding | .25rem .5rem; | -- | padding of the footer link (button style)
  *
  * STYLESHEET
- * @attribute card-stylesheet | -- | #container { color:#042373; } | inject css into the inner stylesheet
+ * @attribute stylesheet | -- | #container { color:#0b2e7e; } | inject css into the inner stylesheet
  * @attribute style | -- | -- | regular inline style on the component
 
  */
@@ -570,7 +570,9 @@ get styles() {
 		filer:drop-shadow(0 1px 1px rgba(0, 0, 0, .05));
 		font-size: 1.25rem;
 		font-weight: var(--heading-font-weight, bold);
+		line-height:1.25;
 		margin-bottom: .5rem;
+		max-width:576px;
 	}
 	@media (min-width: 640px) {
 		#heading {
