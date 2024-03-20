@@ -65,10 +65,10 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  *
  * CARD HEADER
  * @attribute card-header-border-bottom | 1px solid #e2e8f0 | -- | border bottom of the card header
-	* @attribute card-header-background | white | #F9FDFF | background color of the card header
+ * @attribute card-header-background | white | #F9FDFF | background color of the card header
  * @attribute card-header-color-text | inherit | -- | text color of the card header
  * @attribute card-header-font-size | 1rem | -- | font size of the card header
- * @attribute card-header-font-weight | 500 | 900 | font weight of the card header
+ * @attribute card-header-font-weight | bold | -- | font weight of the card header
  * @attribute card-header-padding | .25rem 1rem | -- | padding of the card header
  * @attribute card-header-logo-width | auto | -- | width of the logo
  * @attribute card-header-logo-height | 2.5rem | -- | height of the logo
@@ -250,7 +250,7 @@ const values = {
 	/* outside */
 	"card-outside-heading-color": "inherit",
 	"card-outside-heading-font-size": "1rem",
-	"card-outside-heading-font-weight": "inherit",
+	"card-outside-heading-font-weight": "bold",
 	"card-outside-heading-margin-bottom": ".5rem",
 	"card-outside-heading-position": "top",
 	"card-outside-heading-text": "",
@@ -514,14 +514,11 @@ get els() {
 </div>`.trim();
 }
 
-get preflight() {
-	return `*,::before,::after {box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor}::before,::after {--tw-content:""}html,:host {line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:theme( "fontFamily.sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" );font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body {margin:0;line-height:inherit}hr {height:0;color:inherit;border-top-width:1px}abbr:where([title]) {text-decoration:underline dotted}h1,h2,h3,h4,h5,h6 {font-size:inherit;font-weight:inherit}a {color:inherit;text-decoration:inherit}b,strong {font-weight:bolder}code,kbd,samp,pre {font-family:theme( "fontFamily.mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace );font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small {font-size:80%}sub,sup {font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub {bottom:-0.25em}sup {top:-0.5em}table {text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea {font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select {text-transform:none}button,[type="button"],[type="reset"],[type="submit"] {-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring {outline:auto}:-moz-ui-invalid {box-shadow:none}progress {vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button {height:auto}[type="search"] {-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration {-webkit-appearance:none}::-webkit-file-upload-button {-webkit-appearance:button;font:inherit}summary {display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre {margin:0}fieldset {margin:0;padding:0}legend {padding:0}ol,ul,menu {list-style:none;margin:0;padding:0}dialog {padding:0}textarea {resize:vertical}input::placeholder,textarea::placeholder {opacity:1;color:theme("colors.gray.400", #9ca3af)}button,[role="button"] {cursor:pointer}:disabled {cursor:default}img,svg,video,canvas,audio,iframe,embed,object {display:block;vertical-align:middle}img,video {max-width:100%;height:auto}[hidden] {display:none}`
-}
 
 // STYLES
 get styles() {
   return `
-	<style id="preflight">${this.preflight}</style>
+	<style id="preflight">${ComponentUtils.preflight}</style>
   <style id="base">
   :host, *:not(style) {
 		display:block;
