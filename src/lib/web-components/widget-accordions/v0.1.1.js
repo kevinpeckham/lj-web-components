@@ -77,41 +77,26 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
 
  */
 class WidgetAccordions extends HTMLElement {
-
-	// container
 	colorAccent = "";
 	colorPrimary = "";
 	colorBackground = "";
-
-	// Meta
 	metaFontSize = "";
 	metaMarginBottom = "";
 	metaText = "";
-
-	// Widget heading
 	headingFontSize = "";
 	headingFontWeight = "";
 	headingMarginBottom = "";
 	headingMarginTop = "";
 	headingText = "";
-
-	// Widget heading link
 	headingLinkUrl = "";
 	headingLinkLabel = "";
-
-
-	// Body
 	bodyText = "";
-
-	// Outside Heading
 	cardLabelColor = "";
 	cardLabelFontSize = "";
 	cardLabelFontWeight = "";
 	cardLabelMarginBottom = "";
 	cardLabelMarginTop = "";
 	cardLabelPosition = "";
-
-	// Card
 	cardAspectRatio = "";
 	cardBackgroundColor = "";
 	cardBorderRadius = "";
@@ -127,11 +112,7 @@ class WidgetAccordions extends HTMLElement {
 	cardTransitionProperty = "";
 	cardTransitionDuration = "";
 	cardWidth = "";
-
-	// Data
 	cardsDataJson = "[]";
-
-	// stylesheet
 	stylesheet = "";
 
 // reference to class itself
@@ -146,40 +127,7 @@ get c() { return WidgetAccordions };
  */
 static get attributes() {
 const values = {
-
-	/* container */
-	"color-accent": "currentColor",
-	"color-background": "#0B2E7E",
-	"color-primary": "currentColor",
-
-	/* widget meta */
-	"meta-font-size": ".75rem",
-	"meta-margin-bottom": ".5rem",
-	"meta-text": "",
-
-	/* widget heading */
-	"heading-font-size": "1.25rem",
-	"heading-font-weight": "600",
-	"heading-margin-bottom": "1.5rem",
-	"heading-margin-top": "1.5rem",
-	"heading-text": "",
-
-	/* widget heading link */
-	"heading-link-url": "",
-	"heading-link-label": "",
-
-	/* widget body text */
 	"body-text": "",
-
-	/* outside */
-	"card-label-color": "inherit",
-	"card-label-font-size": "1rem",
-	"card-label-font-weight": "inherit",
-	"card-label-margin-bottom": ".5rem",
-	"card-label-margin-top": ".5rem",
-	"card-label-position": "below",
-
-	/* card */
 	"card-aspect-ratio": "1/1",
 	"card-background-color": "white",
 	"card-border-radius": ".35rem",
@@ -189,19 +137,33 @@ const values = {
 	"card-height": "auto",
 	"card-hover-opacity": "",
 	"card-hover-background-color": "",
+	"card-label-color": "inherit",
+	"card-label-font-size": "1rem",
+	"card-label-font-weight": "inherit",
+	"card-label-margin-bottom": ".5rem",
+	"card-label-margin-top": ".5rem",
+	"card-label-position": "below",
 	"card-max-width": "none",
 	"card-min-height": "auto",
 	"card-opacity": "100%",
 	"card-transition-property": "opacity",
 	"card-transition-duration": "0.3s",
 	"card-width": "100%",
-
-	/* data */
 	"cards-data-json": "[]",
-
-	/* stylesheet */
+	"color-accent": "currentColor",
+	"color-background": "#0B2E7E",
+	"color-primary": "currentColor",
+	"heading-font-size": "1.25rem",
+	"heading-font-weight": "bold",
+	"heading-link-url": "",
+	"heading-link-label": "",
+	"heading-margin-bottom": "1.5rem",
+	"heading-margin-top": "1.5rem",
+	"heading-text": "",
+	"meta-font-size": ".75rem",
+	"meta-margin-bottom": ".5rem",
+	"meta-text": "",
 	"stylesheet": "",
-
 };
 return values;
 }
@@ -217,7 +179,6 @@ static getDefault(attr) { return this.attributes[attr] ?? "" }
 
 // HTML BUILDERS
 buildGridHTML() {
-
 	/** @param {card} item */
 	const buildTileHTML = (item) => {
 		return `
@@ -227,7 +188,7 @@ buildGridHTML() {
 				<div class="card-text">${item?.text ?? ''}</div>
 			</div>`
 	}
-
+	/** @param {card[]} items */
 	const buildTilesHTML = (items) => {
 		return items.map((
 			/** @type {card} item */
@@ -262,7 +223,6 @@ get data() {
 	const result = JSON.parse(this.cardsDataJson) ?? "[]";
 	return result;
 }
-
 
 // ELEMENTS
 get els() {
@@ -305,7 +265,6 @@ get els() {
 		<div
 			id="container-inner"
 			>
-
 			<!-- meta -->
 			${this.metaText ? `<div id="meta" style="">${this.metaText}</div>` : ''}
 
@@ -322,57 +281,30 @@ get els() {
 
 			<!-- accordions -->
 			<div id="accordions">${this.buildGridHTML()}</div>
-
 		</div>
-
-
-</div>`.trim();
+</div>`.trim().replace(/[\n\t\s]*?<!--.*?-->[\n\t\s]*?/g, "");
 }
 
-get preflight() {
-	return `*,::before,::after {box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor}::before,::after {--tw-content:""}html,:host {line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:theme( "fontFamily.sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" );font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body {margin:0;line-height:inherit}hr {height:0;color:inherit;border-top-width:1px}abbr:where([title]) {text-decoration:underline dotted}h1,h2,h3,h4,h5,h6 {font-size:inherit;font-weight:inherit}a {color:inherit;text-decoration:inherit}b,strong {font-weight:bolder}code,kbd,samp,pre {font-family:theme( "fontFamily.mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace );font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small {font-size:80%}sub,sup {font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub {bottom:-0.25em}sup {top:-0.5em}table {text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea {font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select {text-transform:none}button,[type="button"],[type="reset"],[type="submit"] {-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring {outline:auto}:-moz-ui-invalid {box-shadow:none}progress {vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button {height:auto}[type="search"] {-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration {-webkit-appearance:none}::-webkit-file-upload-button {-webkit-appearance:button;font:inherit}summary {display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre {margin:0}fieldset {margin:0;padding:0}legend {padding:0}ol,ul,menu {list-style:none;margin:0;padding:0}dialog {padding:0}textarea {resize:vertical}input::placeholder,textarea::placeholder {opacity:1;color:theme("colors.gray.400", #9ca3af)}button,[role="button"] {cursor:pointer}:disabled {cursor:default}img,svg,video,canvas,audio,iframe,embed,object {display:block;vertical-align:middle}img,video {max-width:100%;height:auto}[hidden] {display:none}`
-}
 
 // STYLES
 get styles() {
   return `
-	<style id="preflight">${this.preflight}</style>
+	${ComponentUtils.preflight}
   <style id="base">
-  :host, *:not(style) {
-		display:block;
-		box-sizing:border-box;
-		margin:0;	-
-		webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale; }
 	#container {
 		background-color: var(--color-background, transparent);
 		color: var(--color-primary, currentColor);
 		display:grid;
 		align-items:start;
-		padding:64px 16px 96px;
 		width:100%;
 	}
-	@media (min-width: 640px) {
-		#container {
-			padding:64px 24px 96px;
-		}
-	}
-	@media (min-width: 1024px) {
-		#container {
-			padding:48px 32px 76px;
-		}
-	}
-	@media (min-width: 1280px) {
-		#container {
-			padding:64px 80px 96px;
-		}
-	}
+	${ComponentUtils.widgetPaddingStyles()}
 	/* Meta */
 	#meta {
 		color: var(--color-accent, currentColor);
 		font-size: var(--font-size, .85rem);
 		margin-bottom: var(--margin-bottom, 1.5rem);
-		opacity:.9;
+		opacity:1;
 		text-transform:uppercase;
 	}
 	/* Heading */
@@ -385,9 +317,11 @@ get styles() {
 	}
 	#heading {
 		color: var(--color-primary, currentColor);
+		filer:drop-shadow(0 1px 1px rgba(0, 0, 0, .05));
 		font-size: 1.25rem;
 		font-weight: var(--heading-font-weight, 600);
 		margin-bottom: .5rem;
+		max-width:576px;
 	}
 	#heading-link {
 		color: var(--color-accent, currentColor);
@@ -453,7 +387,6 @@ get styles() {
 			margin-bottom:64px;
 			}
 		}
-
 	/* Accordions */
 	#accordions {
 		background:#CBD5E1;
@@ -594,8 +527,6 @@ get styles() {
 		margin-bottom: .5rem;
 		opacity:.9;
 	}
-
-
 	#grid {
 		display:grid;
 		grid-template-columns:	grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -662,7 +593,6 @@ get styles() {
 			scale:1.2;
 		}
 	}
-
 	/* utilities */
 	.sr-only {
 		border:0;
