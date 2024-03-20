@@ -29,7 +29,7 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  *
  * WIDGET HEADING
  * @attribute heading-font-size | 1.25rem | -- | font size of the heading
- * @attribute heading-font-weight | 600 | -- | font weight of the heading
+ * @attribute heading-font-weight | bold | -- | font weight of the heading
  * @attribute heading-margin-bottom | 1.5rem | -- | margin bottom of the heading
  * @attribute heading-margin-top | 1.5rem | -- | margin top of the heading
  * @attribute heading-text | -- | Training | widget heading text
@@ -85,13 +85,37 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
 
  */
 class WidgetTileGrid extends HTMLElement {
-
-	// container
+	bodyText = "";
+	cardAspectRatio = "";
+	cardBackgroundColor = "";
+	cardBorderRadius = "";
+	cardBoxShadow = "";
+	cardFontSize = "";
+	cardFontWeight = "";
+	cardHeadingColor = "";
+	cardHeadingFontSize = "";
+	cardHeadingFontWeight = "";
+	cardHeadingMarginBottom = "";
+	cardHeight = "";
+	cardHoverOpacity = "";
+	cardHoverBackgroundColor = "";
+	cardImagePosition = "";
+	cardLabelColor = "";
+	cardLabelFontSize = "";
+	cardLabelFontWeight = "";
+	cardLabelMarginBottom = "";
+	cardLabelMarginTop = "";
+	cardLabelPosition = "";
+	cardMaxWidth = "";
+	cardMinHeight = "";
+	cardOpacity = "";
+	cardTransitionProperty = "";
+	cardTransitionDuration = "";
+	cardWidth = "";
+	cardsDataJson = "[]";
 	colorAccent = "";
 	colorPrimary = "";
 	colorBackground = "";
-
-	// Grid
 	gridColumns = "";
 	gridColumnsXs = "";
 	gridColumnsSm = "";
@@ -99,63 +123,16 @@ class WidgetTileGrid extends HTMLElement {
 	gridColumnsLg = "";
 	gridColumnsXl = "";
 	gridColumns2xl = "";
-
-	// Meta
-	metaFontSize = "";
-	metaMarginBottom = "";
-	metaText = "";
-
-	// Widget heading
 	headingFontSize = "";
 	headingFontWeight = "";
+	headingLinkUrl = "";
+	headingLinkLabel = "";
 	headingMarginBottom = "";
 	headingMarginTop = "";
 	headingText = "";
-
-	// Widget heading link
-	headingLinkUrl = "";
-	headingLinkLabel = "";
-
-
-	// Body
-	bodyText = "";
-
-	// Outside Heading
-	cardLabelColor = "";
-	cardLabelFontSize = "";
-	cardLabelFontWeight = "";
-	cardLabelMarginBottom = "";
-	cardLabelMarginTop = "";
-	cardLabelPosition = "";
-
-	// Inside Heading
-	cardHeadingColor = "";
-	cardHeadingFontSize = "";
-	cardHeadingFontWeight = "";
-	cardHeadingMarginBottom = "";
-
-	// Card
-	cardAspectRatio = "";
-	cardBackgroundColor = "";
-	cardBorderRadius = "";
-	cardBoxShadow = "";
-	cardFontSize = "";
-	cardFontWeight = "";
-	cardHeight = "";
-	cardHoverOpacity = "";
-	cardHoverBackgroundColor = "";
-	cardImagePosition = "";
-	cardMaxWidth = "";
-	cardMinHeight = "";
-	cardOpacity = "";
-	cardTransitionProperty = "";
-	cardTransitionDuration = "";
-	cardWidth = "";
-
-	// Data
-	cardsDataJson = "[]";
-
-	// stylesheet
+	metaFontSize = "";
+	metaMarginBottom = "";
+	metaText = "";
 	stylesheet = "";
 
 // reference to class itself
@@ -184,7 +161,7 @@ const values = {
 
 	/* widget heading */
 	"heading-font-size": "1.25rem",
-	"heading-font-weight": "600",
+	"heading-font-weight": "bold",
 	"heading-margin-bottom": "1.5rem",
 	"heading-margin-top": "1.5rem",
 	"heading-text": "",
@@ -393,7 +370,6 @@ get styles() {
 		align-items:start;
 		width:100%;
 	}
-	/* test */
 	${ComponentUtils.widgetPaddingStyles()}
 	/* Meta */
 	#meta {
