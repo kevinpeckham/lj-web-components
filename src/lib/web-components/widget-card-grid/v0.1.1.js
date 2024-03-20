@@ -536,6 +536,11 @@ get styles() {
 			padding:64px ${pageXPadding.sm} 96px;
 		}
 	}
+	@media (min-width: 760px) {
+		#container {
+			padding:64px ${pageXPadding.md} 96px;
+		}
+	}
 	@media (min-width: 1024px) {
 		#container {
 			padding:48px ${pageXPadding.lg} 76px;

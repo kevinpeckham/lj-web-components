@@ -370,6 +370,7 @@ get els() {
 }
 
 get styles() {
+	const pageXPadding = ComponentUtils.pageXPadding;
 	return `
 	<style id="preflight">${ComponentUtils.preflight}</style>
   <style id="base">
@@ -379,22 +380,37 @@ get styles() {
 		color: var(--color-primary, currentColor);
 		display:grid;
 		align-items:start;
-		padding:64px 16px 96px;
+		padding:64px ${pageXPadding.xxs} 96px;
 		max-width:100%;
+	}
+	@media (min-width: 420px) {
+		#container {
+			padding:64px ${pageXPadding.xs} 96px;
+		}
 	}
 	@media (min-width: 640px) {
 		#container {
-			padding:64px 24px 96px;
+			padding:64px ${pageXPadding.sm} 96px;
+		}
+	}
+	@media (min-width: 760px) {
+		#container {
+			padding:64px ${pageXPadding.md} 96px;
 		}
 	}
 	@media (min-width: 1024px) {
 		#container {
-			padding:48px 32px 76px;
+			padding:48px ${pageXPadding.lg} 76px;
 		}
 	}
 	@media (min-width: 1280px) {
 		#container {
-			padding:64px 80px 96px;
+			padding:64px ${pageXPadding.xl} 96px;
+		}
+	}
+	@media (min-width: 1536px) {
+		#container {
+			padding:64px ${pageXPadding['2xl']} 96px;
 		}
 	}
 	/* Meta */
