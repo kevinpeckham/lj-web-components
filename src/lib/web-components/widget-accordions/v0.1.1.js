@@ -270,7 +270,7 @@ get els() {
 
 			<!-- heading row -->
 			<div id="heading-row">
-				<h2 id="heading">${this.headingText}</h2>
+				<h2 id="heading">${this.headingText[0].toUpperCase() + this.headingText.substring(1).toLowerCase()}</h2>
 				<a
 					id="heading-link"
 					href="${this.headingLinkUrl}">${this.headingLinkLabel}</a>
