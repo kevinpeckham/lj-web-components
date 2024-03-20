@@ -27,7 +27,7 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @attribute heading-font-size | 1.25rem | -- | font size of the heading
  * @attribute heading-font-weight | bold | -- | font weight of the heading
  * @attribute heading-margin-bottom | 1.5rem | -- | margin bottom of the heading
- * @attribute heading-text | -- | Today's energy industries face new competency challenges.
+ * @attribute heading-text | -- | Expertise that Spans the Energy Value Chain.
  *
  * WIDGET TEXT
  * @attribute body-text | -- | Energy companies are typically focused on their core businesses, rather than developing, executing, and maintaining competency development processes, programs, and systems. | text of the widget
@@ -499,7 +499,7 @@ get els() {
 			${this.widgetMetaText ? `<div id="meta" style="">${this.widgetMetaText}</div>` : ''}
 
 			<!-- heading row -->
-			<h2 id="heading">${this.headingText}</h2>
+			<h2 id="heading">${this.headingText[0].toUpperCase() + this.headingText.substring(1).toLowerCase()}</h2>
 
 			<!-- text -->
 			<p id="text">${this.bodyText ?? ""}</p>
