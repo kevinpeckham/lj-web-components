@@ -25,7 +25,7 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  *
  * WIDGET HEADING
  * @attribute heading-font-size | 1.25rem | -- | font size of the heading
- * @attribute heading-font-weight | 600 | -- | font weight of the heading
+ * @attribute heading-font-weight | bold | -- | font weight of the heading
  * @attribute heading-margin-bottom | 1.5rem | -- | margin bottom of the heading
  * @attribute heading-text | -- | Today's energy industries face new competency challenges.
  *
