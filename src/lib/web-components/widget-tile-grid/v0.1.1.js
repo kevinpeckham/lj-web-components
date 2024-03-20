@@ -374,6 +374,7 @@ get els() {
 
 // STYLES
 get styles() {
+
   return `
 	<style id="preflight">${ComponentUtils.preflight}</style>
   <style id="base">
@@ -390,24 +391,10 @@ get styles() {
 		color: var(--color-primary, currentColor);
 		display:grid;
 		align-items:start;
-		padding:64px 16px 96px;
 		width:100%;
 	}
-	@media (min-width: 640px) {
-		#container {
-			padding:64px 24px 96px;
-		}
-	}
-	@media (min-width: 1024px) {
-		#container {
-			padding:48px 32px 76px;
-		}
-	}
-	@media (min-width: 1280px) {
-		#container {
-			padding:64px 80px 96px;
-		}
-	}
+	/* test */
+	${ComponentUtils.widgetPaddingStyles()}
 	/* Meta */
 	#meta {
 		color: var(--color-accent, currentColor);
