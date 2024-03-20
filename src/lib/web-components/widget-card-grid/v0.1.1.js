@@ -33,12 +33,12 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @attribute body-text | -- | Energy companies are typically focused on their core businesses, rather than developing, executing, and maintaining competency development processes, programs, and systems. | text of the widget
 *
 * Widget CONTAINER
-* @attribute widget-background | white | #F9FAFC | background color of the widget
+* @attribute color-background | #F8FAFC | -- | background color of the widget
 * @attribute color-primary | currentColor | #0A2E7E | color of the text
 * @attribute color-accent | lightblue | rgb(0 184 156 / 100%) | color of the text
 
 * CARD
- * @attribute card-background-color | white | "#EAF1F7" | background color of the card
+ * @attribute card-background-color | white | #EAF1F7 | background color of the card
  * @attribute card-border-radius | .35rem | .5rem | border radius of the card
  * @attribute card-box-shadow | none | 0 0 1px 0 rgba(0,0,0,.4); | box shadow of the card
  * @attribute card-height | auto | -- | height of the card
@@ -115,8 +115,8 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
 class WidgetCardGrid extends HTMLElement {
 
 	// widget
-	widgetBackground = "";
 	colorAccent = "";
+	colorBackground = "";
 	colorPrimary = "";
 
 	// Meta
@@ -230,6 +230,7 @@ const values = {
 
 	/* container */
 	"widget-background": "white",
+	"color-background": "#F8FAFC",
 	"color-primary": "currentColor",
 	"color-accent": "currentColor",
 
@@ -240,7 +241,7 @@ const values = {
 
 	/* heading */
 	"heading-font-size": "1.25rem",
-	"heading-font-weight": "600",
+	"heading-font-weight": "bold",
 	"heading-margin-bottom": "1.5rem",
 	"heading-text": "",
 
@@ -480,7 +481,7 @@ get els() {
 <div
 	id="container"
 	style="
-		--background:${this.widgetBackground};
+		--color-background:${this.colorBackground};
 		--color-primary:${this.colorPrimary};
 		--color-accent:${this.colorAccent};
 		--heading-font-size:${this.headingFontSize};
@@ -491,9 +492,6 @@ get els() {
 >
 		<div
 			id="container-inner"
-			color-background="#F9FAFC"
-			color-primary="#062273"
-			heading-text="Expertise that Spans the Energy Value Chain"
 			>
 
 			<!-- meta -->
@@ -517,37 +515,40 @@ get els() {
 
 // STYLES
 get styles() {
+	const pageXPadding = ComponentUtils.pageXPadding;
   return `
 	<style id="preflight">${ComponentUtils.preflight}</style>
   <style id="base">
-  :host, *:not(style) {
-		display:block;
-		box-sizing:border-box;
-		margin:0;	-
-		webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale; }
 	#container {
-	}
-	#container {
-		background-color: var(--widget-background, white);
+		background-color: var(--color-background);
 		display:grid;
 		align-items:start;
-		padding:64px 16px 96px;
-		width:100%;
+		padding:64px ${pageXPadding.xxs} 96px;
+		max-width:100%;
+	}
+	@media (min-width: 420px) {
+		#container {
+			padding:64px ${pageXPadding.xs} 96px;
+		}
 	}
 	@media (min-width: 640px) {
 		#container {
-			padding:64px 24px 96px;
+			padding:64px ${pageXPadding.sm} 96px;
 		}
 	}
 	@media (min-width: 1024px) {
 		#container {
-			padding:48px 32px 76px;
+			padding:48px ${pageXPadding.lg} 76px;
 		}
 	}
 	@media (min-width: 1280px) {
 		#container {
-			padding:64px 80px 96px;
+			padding:64px ${pageXPadding.xl} 96px;
+		}
+	}
+	@media (min-width: 1536px) {
+		#container {
+			padding:64px ${pageXPadding['2xl']} 96px;
 		}
 	}
 	/* Meta */
@@ -555,14 +556,14 @@ get styles() {
 		color: var(--color-accent, currentColor);
 		font-size: var(--font-size, .85rem);
 		margin-bottom: var(--margin-bottom, 1.5rem);
-		opacity:.9;
+		opacity:1;
 		text-transform:uppercase;
 	}
 	/* Heading */
 	#heading {
 		color: var(--color-primary, currentColor);
 		font-size: 1.25rem;
-		font-weight: var(--heading-font-weight, 600);
+		font-weight: var(--heading-font-weight, bold);
 		margin-bottom: .5rem;
 	}
 	@media (min-width: 640px) {
@@ -616,9 +617,10 @@ get styles() {
 		}
 	#grid {
 		display:grid;
-		grid-template-columns:	grid-template-columns: repeat(1, minmax(0, 1fr));
+		grid-template-columns:repeat(1, minmax(0, 1fr));
 		gap:1rem;
-		width:100%;
+		place-items:start;
+		width:auto;
 	}
 	@media (min-width: 640px) {
 		#grid {
@@ -686,7 +688,6 @@ connectedCallback() {
 	this.refs = ComponentUtils.getRefs(this.c, this);
 }
 
-// METHODS
 }
 
 customElements.define("widget-card-grid", WidgetCardGrid);
