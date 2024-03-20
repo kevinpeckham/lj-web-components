@@ -1,8 +1,6 @@
 // @ts-expect-error - type defs not available
-
 import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
-// @ts-expect-error yep got it
-import LinkButton from "/e/wc/link-button@0.1.1.min.js";
+
 
 // types
 /** @typedef {{url?:string; alt?:string; left?:string; top?:string; width?:string; }} ImageDatum */
@@ -19,20 +17,27 @@ import LinkButton from "/e/wc/link-button@0.1.1.min.js";
  * @classduration of the transition effect
  * @published 2024-02-14
  * @requires ComponentUtils
- * @requires SubWidgetContainer
- * @requires SubWidgetText
- * @requires LogoGrid
  * @classdesc Defines web component that displays a billboard with a headline, text, button and slotted content
- * OUTSIDE HEADING
- * @attribute outside-heading-color | inherit | -- | color of the heading
- * @attribute outside-heading-font-size | -- | -- | font size of the heading
- * @attribute outside-heading-font-weight | -- | -- | font weight of the heading
- * @attribute outside-heading-text | -- | -- | text for the heading
- * @attribute outside-heading-position | above | -- | position of the heading
- * CONTAINER
- *
+ * @attribute color-accent | lightblue | #ceede9 | color of the accent
+ * @attribute color-background | transparent | #F8FAFC | color of the background
+ * @attribute color-primary | currentColor | #0b2e7e | color of the primary text
+ * @attribute color-shadow | black | rgb(11 46 126) | color of the shadow
+ * @attribute flair-count | 30 | -- | number of flairs
+ * @attribute flair-glyph | ○ | -- | glyph for the flairs
+ * @attribute flair-on | true | -- | boolean to turn flairs on or off
+ * @attribute font-family | inherit | -- | font family for the text
+ * @attribute heading-font-weight | 900 | -- | font weight for the heading
+ * @attribute heading-text | -- | Robust Training & <br> Competency Solutions <br> For The Energy Industry. | text for the heading
+ * @attribute images-data | -- | [{"url":"https://www.competencyalliance.dev/images/wind.webp","alt":"wind power","left":"20%","top":"16%","width":"30%"},{"url":"https://www.competencyalliance.dev/images/solar.webp","alt":"solar power","left":"55%","top":"15%","width":"15%"},{"url":"https://www.competencyalliance.dev/images/hardhat.webp","alt":"hardhat","left":"65%","top":"30%","width":"20%"},{"url":"https://www.competencyalliance.dev/images/refinery.webp","alt":"refinery","left":"50%","top":"52%","width":"40%"},{"url":"https://www.competencyalliance.dev/images/offshore.webp","alt":"offshore oil platform","left":"20%","top":"52%","width":"25%"}] | json data for the images
+ * @attribute link-href | -- | /contact | DEPRECATED url for the link
+	* @attribute link-url | -- | -- | url for the link
+
+* @attribute link-rel | -- | contact | rel for the link
+ * @attribute link-text | -- | Get Started | text for the link
+ * @attribute link-title | -- | contact us to learn more | title for the link
+ * @attribute paragraph-text | -- | We cater to the evolving needs of the industry and its customers including: digital learning, certification, assessment, data analytics, and competency consulting. | text for the paragraph
  * @attribute stylesheet | -- | #container { border-bottom: solid 1px rgb(229 231 235 / 40% )  } | inject css into the inner stylesheet
- * @attribute data-json-url | -- | /e/wc/home-billboard.min.json | url of remote json data
+ * @attribute data-json-url | -- | -- | url of remote json data
  * @note
  */
 class HomeBillboard extends HTMLElement {
@@ -44,26 +49,25 @@ class HomeBillboard extends HTMLElement {
 	#isOnScreen = false;
 
 	// PROPERTIES
-	flairCount = "30";
-	flairGlyph = ""
-	flairOn = "true";
-	linkHref = "";
-	buttonRel = "";
-	linkText = "";
-	linkTitle = "";
 	colorAccent = "";
 	colorBackground = "";
 	colorPrimary = "";
 	colorShadow = "";
-	containerPadding = "";
+	flairCount = "30";
+	flairGlyph = ""
+	flairOn = "true";
 	fontFamily = "";
+	headingFontWeight = "";
 	headingText = "";
 	imagesData = "[]";
+	linkHref = "";
+	linkRel = "";
+	linkText = "";
+	linkTitle = "";
+	linkUrl = "";
 	paragraphText = "";
-
-
 	stylesheet = "";
-	dataJsonUrl = "";
+
 
 // ATTRIBUTES GETTER
 /**
@@ -72,25 +76,24 @@ class HomeBillboard extends HTMLElement {
  */
 static get attributes() {
 	const values = {
-		// sub-widget-container attributes
-		"flair-count": "30",
-		"flair-glyph": "○",
-		"flair-on": "true",
-		"link-href": "",
-		"link-rel": "",
-		"link-text": "",
-		"link-title": "",
 		"color-accent": "lightblue",
 		"color-background": "transparent",
 		"color-primary": "currentColor",
 		"color-shadow": "black",
-		"container-padding": "4rem",
+		"flair-count": "30",
+		"flair-glyph": "○",
+		"flair-on": "true",
 		"font-family": "",
+		"heading-font-weight": "900",
 		"heading-text": "",
 		"images-data": "[]",
+		"link-href": "",
+		"link-rel": "",
+		"link-text": "",
+		"link-title": "",
+		"link-url": "",
 		"paragraph-text": "",
 		"stylesheet": "",
-		"data-json-url": "",
 	};
 return values;
 }
@@ -130,7 +133,6 @@ buildImagesHTML(newImagesData) {
 		/** @param {ImageDatum} imageDatum */
 		(imageDatum) => this.buildimageHTML(imageDatum)).join("");
 }
-
 
 buildFlairHTML() {
 	const top = this.c.randomInteger(5, 95);
@@ -176,7 +178,7 @@ buildFlairHTML() {
 	</div>`
 }
 
-/** @param {PointerEvent} e */
+/** @param {MouseEvent} e */
 static handleMouseEnter(e) {
 
 	/** @type {HTMLDivElement | null} t */
@@ -216,7 +218,6 @@ buildFlairsHTML() {
 	return str;
 }
 buildGraphicHTML() {
-
 	return `
 	<div
 		id="billboard-images"
@@ -232,43 +233,29 @@ buildGraphicHTML() {
 		<!-- images -->
 		<div id="images-container">
 			${this.buildImagesHTML()}
-		</div>`
-}
-buildLinkHTML(/** @type {{[key:string]: string;}} [data] */ data) {
-
-	// string for the attributes
-	let attributeString = "";
-
-	// attributes
-	const attributes = "color-background color-primary link-href link-text link-title link-rel".split(" ");
-
-	// iterate over the attributes, if the data has a value for the attribute, update the attribute
-	attributes.forEach((attr) => {
-		const value = data?.[attr] ?? this.getAttribute(attr) ?? "";
-		if (value) {
-			attributeString += ` ${attr}="${value}"`;
-			this.setAttribute(attr, value);
-		}});
-	return `
-	<link-button
-		color-backgroundHover="${this.colorPrimary}"
-		color-primaryHover="${this.colorBackground}"
-		${attributeString}
-		id="button"></link-button>`
+		</div>`.trim();
 }
 
 // ELEMENTS MASTER LAYOUT GETTER
 get els() {
 	return `
 <style id="stylesheet">${this.stylesheet}</style>
-<div id="container" style="--color-accent:${this.colorAccent}; --color-background:${this.colorBackground}; --color-primary:${this.colorPrimary}; --color-shadow:${this.colorShadow}; --font-family:${this.fontFamily}; --flair-glyph:'${this.flairGlyph}';">
+<div id="container" style="
+	--color-accent:${this.colorAccent};
+	--color-background:${this.colorBackground};
+	--color-primary:${this.colorPrimary};
+	--color-shadow:${this.colorShadow};
+	--font-family:${this.fontFamily};
+	--flair-glyph:'${this.flairGlyph}';">
 	<div id="container-inner">
 		<div id="content-container">
-			<h1 id="heading">${this.headingText}</h1>
-			<p id="paragraph">${this.paragraphText}</p>
-			<div id="link-container">
-				${this.buildLinkHTML()}
-			</div>
+			${ this.headingText ? `<h1 id="heading">${this.headingText}</h1>` : ""}
+			${this.paragraphText ? `<p id="paragraph">${this.paragraphText}</p>` : ""}
+			${this.linkText && (this.linkUrl || this.linkHref) ? `<a
+				id="heading-link"
+				${this.linkRel ? `rel="${this.linkRel}"` : ""}
+				${this.linkTitle ? `title="${this.linkTitle}"` : ""}
+				href="${this.linkUrl ? this.linkUrl : this.linkHref ?? ''}">${this.linkText}</a>` : ""}
 		</div>
 		<div id="graphic-container">
 			${this.buildGraphicHTML()}
@@ -278,32 +265,28 @@ get els() {
 </div>`.trim();
 }
 
-get preflight() {
-	return `*,::before,::after {box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor}::before,::after {--tw-content:""}html,:host {line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:theme( "fontFamily.sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" );font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body {margin:0;line-height:inherit}hr {height:0;color:inherit;border-top-width:1px}abbr:where([title]) {text-decoration:underline dotted}h1,h2,h3,h4,h5,h6 {font-size:inherit;font-weight:inherit}a {color:inherit;text-decoration:inherit}b,strong {font-weight:bolder}code,kbd,samp,pre {font-family:theme( "fontFamily.mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace );font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small {font-size:80%}sub,sup {font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub {bottom:-0.25em}sup {top:-0.5em}table {text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea {font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select {text-transform:none}button,[type="button"],[type="reset"],[type="submit"] {-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring {outline:auto}:-moz-ui-invalid {box-shadow:none}progress {vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button {height:auto}[type="search"] {-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration {-webkit-appearance:none}::-webkit-file-upload-button {-webkit-appearance:button;font:inherit}summary {display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre {margin:0}fieldset {margin:0;padding:0}legend {padding:0}ol,ul,menu {list-style:none;margin:0;padding:0}dialog {padding:0}textarea {resize:vertical}input::placeholder,textarea::placeholder {opacity:1;color:theme("colors.gray.400", #9ca3af)}button,[role="button"] {cursor:pointer}:disabled {cursor:default}img,svg,video,canvas,audio,iframe,embed,object {display:block;vertical-align:middle}img,video {max-width:100%;height:auto}[hidden] {display:none}`
-}
-
 // STYLES GETTER
 get styles() {
 	return `
-	<style id="preflight">${this.preflight}</style>
+	${ComponentUtils.preflight}
 	<style id="base">
 		#container {
 			background-color: var(--color-background);
 			color: var(--color-primary, darkblue);
 			overflow:visible;
 		}
+
 		#container-inner {
 			display: grid;
 			grid-template-columns: repeat(1,minmax(0,1fr));
+			place-items: center;
 			height:auto;
-			padding:0 16px 96px;
 			width:100%;
 		}
 		/* container-inner - sm */
 		@media (min-width: 640px) {
 			#container-inner {
 				padding:0 128px 96px;
-				place-items: center;
 			}
 		}
 		/* container-inner - md */
@@ -325,7 +308,7 @@ get styles() {
 		@media (min-width: 1280px) {
 			#container-inner {
 				padding:128px 80px;
-		}
+			}
 		}
 		/* container-inner - 2xl */
 		@media (min-width: 1536px) {
@@ -335,11 +318,17 @@ get styles() {
 		}
 		#content-container {
 			order:1;
+			display:grid;
+			grid-template-columns:repeat(1,minmax(0,1fr));
+			place-items:center;
+			place-content:center;
 		}
 		/* content-container - lg */
 		@media (min-width: 1024px) {
 			#content-container {
 				order:0;
+				place-content:start;
+				place-items:start;
 		}
 	}
 		#heading {
@@ -352,6 +341,23 @@ get styles() {
 			padding-bottom:2rem;
 			text-align:center;
 			text-transform:capitalize;
+		}
+		#heading-link {
+			color: var(--color-primary, currentColor);
+			display:block;
+			font-size: .9rem;
+			border: solid 1px var(--color-primary, currentColor);
+			border-radius:.25rem;
+			margin-bottom:.5rem;
+			max-width: fit-content;
+			padding:.35rem .85rem;
+			transition-property:background-color,color;
+			transition-duration: .15s;
+			transition-timing-function: ease;
+		}
+		#heading-link:hover {
+			background-color:var(--color-primary, currentColor);
+			color:var(--color-background, currentColor);
 		}
 		/* heading - sm */
 		@media (min-width: 640px) {
@@ -517,8 +523,6 @@ get styles() {
 		#billboard-images.animation-reset .billboard-image.spin-in {
 			transform: rotate3d(0, 0, 1, 1turn);
 		}
-
-
 		/* ring */
 		#billboard-images .flair {
 			align-items: center;
@@ -551,7 +555,6 @@ get styles() {
 			scale: 0;
 			opacity: 0!important;
 		}
-
 	</style>`;
 }
 
@@ -590,14 +593,11 @@ connectedCallback() {
 	this.refs = ComponentUtils.getRefs(this.c, this);
 
 	// add event listeners to the rings
-	this.refs.container.querySelectorAll(".flair").forEach((ring) => {
+	this.refs.container.querySelectorAll(".flair").forEach(( /** @type {HTMLDivElement} ring */ ring) => {
 		ring.addEventListener("mouseenter", (e) => {
-			this.c.handleMouseEnter(e);
+			this.c.handleMouseEnter(/** @type {MouseEvent} e */ e);
 		});
 	});
-
-	// if there is a data url, fetch the data
-	if (this.dataJsonUrl) this.fetchData();
 
 	// create and start the observer
 	new IntersectionObserver(this.observerCallback, {
@@ -609,107 +609,8 @@ connectedCallback() {
 // ATTRIBUTE CHANGED CALLBACK
 // attributeChangedCallback() {}
 
-// REBUILDERS -- rebuild elements with new data
-/** @param {*} data */
-rebuildImagesWithNewData(data) {
-	// if there is not valid images data return
-	if (!data || !data['images-data'] || !data['images-data'][0]) return;
-
-	// exiting elements
-	const shadowRoot = this.shadowRoot;
-	const billboardImages = shadowRoot?.getElementById("billboard-images");
-	const imagesContainer = shadowRoot?.getElementById("images-container");
-
-	// new container
-	const newImagesContainer = document.createElement("div");
-	newImagesContainer.id = "images-container";
-
-	// rebuild images with new data
-	const imagesData = data['images-data'];
-
-	newImagesContainer.innerHTML = this.buildImagesHTML(imagesData);
-	if (billboardImages && imagesContainer) {
-		billboardImages?.replaceChild(newImagesContainer, imagesContainer) };
-}
-/** @param {*} data */
-rebuildLinkWithNewData(data) {
-	// button attributes
-	const attributes = "link-href link-text link-title link-rel".split(" ");
-
-	// if no relevant data points, return
-	let hasData = false;
-	attributes.forEach((attr) => {if (data?.[attr]) hasData = true;});
-	if (!hasData) return;
-
-	// existing elements
-	const shadowRoot = this.shadowRoot;
-	const contentContainer = shadowRoot?.getElementById("content-container");
-	const linkContainer = shadowRoot?.getElementById("link-container");
-
-	// new container
-	const newLinkContainer = document.createElement("div");
-	newLinkContainer.id = "link-container";
-
-	// add the new link
-	newLinkContainer.innerHTML = this.buildLinkHTML(data);
-	if (contentContainer && linkContainer) {
-		contentContainer?.replaceChild(newLinkContainer, linkContainer) };
-}
-
-// UPDATERS
-/** @param {*} data */
-updateCSSVariables(data) {
-	const attributes = "color-accent color-background color-primary color-shadow font-family".split(" ");
-
-	// iterate over the attributes, if the data has a value for the attribute, update the attribute
-	attributes.forEach((attr) => {
-		let value = data?.[attr] ?? this.getAttribute(attr);
-		if (value) {
-			if (this.refs.container.style.getPropertyValue(`--${attr}`) != value) this.refs.container.style.setProperty(`--${attr}`, value);
-			if (this.getAttribute(attr) != value) this.setAttribute(attr, value);
-		}
-	});
-
-}
-/** @param {{[key:string]: string;}} [data] */
-updateTextContent(data) {
-	const attributes = "stylesheet heading-text paragraph-text".split(" ");
-
-	// iterate over the attributes, if the data has a value for the attribute, update the attribute
-	attributes.forEach((attr) => {
-		let value = data?.[attr] ?? this.getAttribute(attr);
-		if (value) {
-			if (this.innerHTML != value) this.refs[`${attr.split('-')[0]}`].innerHTML = value;
-			if (this.getAttribute(attr) != value) this.setAttribute(attr, value);
-		}
-	});
-
-}
 
 
-
-// FETCH DATA
-fetchData() {
-	// if no data url or it does not end in .json, return empty string
-	if (!this.dataJsonUrl || !this.dataJsonUrl.includes('.json') ) return "";
-	else {
-  return /** @type {Promise<void>} */(new Promise((res, rej) => {
-    fetch(`${this.dataJsonUrl}`)
-      .then(data => data.json())
-      .then((json) => {
-				if (json) {
-				this.updateCSSVariables(json);
-				this.updateTextContent(json);
-				this.rebuildLinkWithNewData(json);
-				this.rebuildImagesWithNewData(json);
-
-			}
-        res();
-      })
-      .catch((error) => rej(error));
-  }))
-	}
-}
 
 // STATIC HELPERS
 /**
@@ -783,7 +684,6 @@ set isOnScreen(value) {
 	if (typeof value  === "boolean") this.#isOnScreen = value;
 	// when the element is scrolled into view do this
 	if (value === true) {
-		window.console.log(this.refs['billboard-images']);
 		this.refs['billboard-images']?.classList.remove("animation-reset");
 	} else {
 		this.refs['billboard-images']?.classList.add("animation-reset");
@@ -802,12 +702,10 @@ observerCallback(entries) {
 	const isOnScreen = entries[0].isIntersecting;
 	// update variable to match the state of the element
 	if (isOnScreen != this.isOnScreen) {
-		window.console.log(isOnScreen ? "is on screen" : "is off screen");
 		// this.refs.container.classList.toggle("animation-reset", !isOnScreen);
 		this.isOnScreen = isOnScreen;
 	}
 }
-
 }
 
 customElements.define("home-billboard", HomeBillboard);
