@@ -562,6 +562,7 @@ get styles() {
 	/* Heading */
 	#heading {
 		color: var(--color-primary, currentColor);
+		filer:drop-shadow(0 1px 1px rgba(0, 0, 0, .05));
 		font-size: 1.25rem;
 		font-weight: var(--heading-font-weight, bold);
 		margin-bottom: .5rem;

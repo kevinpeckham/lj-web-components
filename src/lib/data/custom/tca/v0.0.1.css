@@ -35,6 +35,7 @@ html,
 }
 body {
 	background-color: hsla(208, 46%, 98%, 1);
+	color: #0b2e7e;
 	margin: 0; /* 1 */
 	line-height: inherit; /* 2 */
 }
