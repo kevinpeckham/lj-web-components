@@ -422,7 +422,7 @@ get els() {
 			<!-- footer -->
 			<footer id="footer">
 				${this.footerLinkLabel ? `<a id="footer-link" href="${this.footerLinkUrl}" title="${this.footerLinkTitle}">${this.footerLinkLabel}</a>` : ""}
-				${this.footerText ? `<span>${this.footerText}</span>` : ""}
+				${this.footerText ? `<span id="footer-text">${this.footerText}</span>` : ""}
 			</footer>` : ""}
 
 
@@ -436,17 +436,19 @@ get els() {
 // STYLES
 get styles() {
   return `
-	<style id="preflight">${ComponentUtils.preflight}</style>
+	${ComponentUtils.preflight}
   <style id="base">
-  :host, *:not(style) { display:block;box-sizing:border-box; margin:0; }
 	#container {
+		background-color:transparent;
 		color: var(--color-primary, currentColor);
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: start;
+		width:100%;
 	}
 	#card {
+		background-color: var(--card-background-color, white);
 		border-radius: var(--card-border-radius, .35em);
 		box-shadow: var(--card-box-shadow, none);
 		display: flex;
@@ -456,7 +458,7 @@ get styles() {
 		position:relative;
 		transition-property: ${this.cardHoverOpacity ? 'opacity,' : ''}, shadow;
 		transition-duration: var(--card-transition-duration, .3s);
-		max-width: var(--card-max-width, none);
+		max-width: 100%;
 		width: 100%;
 	}
 	#card:hover {
@@ -481,6 +483,7 @@ get styles() {
 		height: 100%;
 		min-height: var(--card-min-height, auto);
 		overflow: hidden;
+
 		position:relative;
 		width: var(--card-width, 100%);
 	}
@@ -496,7 +499,7 @@ get styles() {
 		font-weight: var(--header-font-weight, 500);
 		max-height: fit-content;
 		padding: var(--header-padding, .5rem .25rem);
-		width: 100%;
+		max-width: 100%;
 	}
 	#header-text {
 		color: var(--header-color-text, inherit);
@@ -518,6 +521,7 @@ get styles() {
 		font-size: var(--body-font-size, .9rem);
 		font-weight: var(--body-font-weight, 400);
 		color: var(--body-text-color, inherit);
+		width:100%;
 	}
 	#body-text {
 		font-size:.9rem;
@@ -603,6 +607,7 @@ get styles() {
 		padding: var(--footer-padding, .25rem 1rem);
 		max-height:fit-content;
 		min-height: var(--footer-min-height, 2.5rem);
+		max-width:100%;
 		width:100%;
 		z-index:10;
 	}
