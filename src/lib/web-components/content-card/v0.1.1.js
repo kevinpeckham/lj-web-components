@@ -220,7 +220,7 @@ const values = {
 	/* outside */
 	"outside-heading-color": "inherit",
 	"outside-heading-font-size": "1rem",
-	"outside-heading-font-weight": "inherit",
+	"outside-heading-font-weight": "bold",
 	"outside-heading-margin-bottom": ".5rem",
 	"outside-heading-position": "above",
 	"outside-heading-text": "",
