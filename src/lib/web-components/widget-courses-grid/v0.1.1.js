@@ -212,7 +212,7 @@ buildGridHTML(context) {
 
 				${course?.price? `<div class="meta price">${course.price}</div>` : ''}
 
-				<div class="course-link-button">Learn More</div>
+				<div class="link-button">Learn More</div>
 			</a>
 		</div>`
 	}
@@ -496,6 +496,9 @@ get styles() {
 		font-weight:500;
 		margin-right:.5rem;
 		min-width:fit-content;
+	}
+	.course .link-button {
+		display:none;
 	}
 
 </style>`
