@@ -515,7 +515,6 @@ get styles() {
 		bottom: 2rem;
 		color: white;
 		font-size:.8rem;
-		opacity:0;
 		padding: .4rem .85rem;
 		position:absolute;
 		pointer-events:none;
@@ -523,8 +522,15 @@ get styles() {
 		right: 2rem;
 	}
 	.course:hover .link-button {
-		opacity:1;
 		pointer-events:auto;
+	}
+	@media (min-width: 640px) {
+		.course .link-button {
+			opacity: 0;
+		}
+		.course:hover .link-button {
+			opacity:1;
+		}
 	}
 
 </style>`
