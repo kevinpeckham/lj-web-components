@@ -23,7 +23,7 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute body-font-size | 1em | -- | widget text size
  * @attribute body-line-height | 1.33 | -- line height for widget text
  * @attrubute body-margin-bottom | 1rem | -- | marbin below widget text
- * @attribute card-background-color | white | #EAF1F7| background color of the card
+ * @attribute card-background-color | white | #EAF1F7 | background color of the card
  * @attribute card-border-radius | .35rem | -- | border radius of the card
  * @attribute card-box-shadow | none | 0 0 1px 0 rgba(0,0,0,.4); | box shadow of card
  * @attribute card-button-border-radius | .35rem | -- | rounded edges of card button
@@ -486,6 +486,10 @@ get styles() {
 		font-size:var(--card-title-font-size, .9rem);
 		line-height:var(--card-title-line-height, 1.25);
 		margin-bottom:var(--card-title-margin-bottom, 1rem);
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
 	}
 	.course .meta {
 		font-size: .85rem;
