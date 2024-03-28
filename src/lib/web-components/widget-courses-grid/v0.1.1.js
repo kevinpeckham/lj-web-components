@@ -189,7 +189,7 @@ buildGridHTML(context) {
 		const icon = context.getIcon(course.type);
 		return `
 		<div class="course-outer">
-			<a class="course" href="${course.linkUrl}" title="go to course page">
+			<a class="course" href="${course.linkUrl}" target="_blank" title="go to course page">
 				<!-- type -->
 				${course?.type ?
 					`<div class="type-container">
@@ -211,6 +211,8 @@ buildGridHTML(context) {
 				${course?.duration && context.showDuration != "false" ? `<div class="meta-row"><div class="meta label">Duration:</div><div class="meta duration">${course.duration}</div></div>` : ''}
 
 				${course?.price? `<div class="meta price">${course.price}</div>` : ''}
+
+				<div class="course-link-button">Learn More</div>
 			</a>
 		</div>`
 	}
