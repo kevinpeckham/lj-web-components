@@ -2,7 +2,7 @@
 import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
 
 // types
-/** @typedef {{category?: string; disciplines?: string[]; duration?: string; formats?: string[]; imageUrl?: string; level?: string; linkUrl?: string; type?: string; price?: string; title: string; }} Course */
+/** @typedef {{category?: string; disciplines?: string[]; duration?: string; formats?: string[]; imageUrl?: string; level?: string; linkUrl?: string; linkTarget?: string; linkRel?: string; type?: string; price?: string; title: string; }} Course */
 
 /** @copyright 2024 Lightning Jar - "Widget Product Grid" web component - License MIT */
 /** @author Kevin Peckham */
@@ -23,13 +23,13 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute body-font-size | 1em | -- | widget text size
  * @attribute body-line-height | 1.33 | -- line height for widget text
  * @attrubute body-margin-bottom | 1rem | -- | marbin below widget text
- * @attribute card-background-color | white | #F6F7F9 | background color of the card
+ * @attribute card-background-color | white | #EAF1F7| background color of the card
  * @attribute card-border-radius | .35rem | -- | border radius of the card
  * @attribute card-box-shadow | none | 0 0 1px 0 rgba(0,0,0,.4); | box shadow of card
  * @attribute card-button-border-radius | .35rem | -- | rounded edges of card button
  * @attribute card-button-font-size | .8rem | -- | size of card button text
  * @attribute card-button-padding | .45rem 1rem | -- padding in card button
- * @attribute card-hover-background-color | -- | #E8F1FF | background of card on hover
+ * @attribute card-hover-background-color | -- | hsla(179, 60%, 88%, 0.5) | background of card on hover
  * @attribute card-hover-box-shadow | box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); | -- | box shadow of card on hover
  * @attribute card-max-width | 100% | -- | max width of the card
  * @attribute card-meta-font-size | .8rem | -- | size of meta text
@@ -40,7 +40,7 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute card-title-font-weight | 700 | -- | weight of course title
  * @attribute card-title-line-height | 1.33 | -- | line height of course title
  * @attribute card-title-margin-bottom | 1rem | -- | margin below course title
- * @attribute color-accent | lightblue | rgb(0 184 156 / 100%) | color of the text
+ * @attribute color-accent | lightblue | rgb(0 184 156 / 100%); | color of the text
  * @attribute color-background | #F8FAFC | -- | background color of the widget
  * @attribute color-primary | currentColor | #0A2E7E | color of the text
  * @attribute courses-data-json | [] | [{"category":"Energy Transition","disciplines":["Net Zero & Renewables"],"formats":["On-Demand"],"imageUrl":"https://www.petroskills.com/images/disciplines/Renewable_Icon.JPG","level":"Basic","linkUrl":"https://www.petroskills.com/en/training/courses/overview-of-net-zero-and-renewables---ng-2---elearning-course~p13995","type":"Course","price":"","title":"Overview of Net-Zero and Renewables - NG2"},{"category":"Energy Transition","disciplines":["Net Zero & Renewables"],"formats":["In-Classroom"], "imageUrl":"https://www.petroskills.com/images/disciplines/Renewable_Icon.JPG","level":"Basic","linkUrl":"https://www.petroskills.com/en/training/courses/fundamentals-of-net-zero-and-renewables---ng-20~p13513","type":"Course","price":"","title":"Fundamentals of Net-Zero and Renewables - NG20"},{"category":"Energy Transition","disciplines":["Net Zero & Renewables"],"formats":["On-Demand"],"imageUrl":"https://www.petroskills.com/images/disciplines/reliability-engineering.png","level":"Basic","linkUrl":"https://www.petroskills.com/en/training/courses/introduction-to-greenhouse-gas-management--accounting--and-reporting---ng-51---elearning-course~p15759","type":"Course","price":"","title":"Introduction to Greenhouse Gas Management, Accounting, and Reporting - NG51"},{"category":"Energy Transition","disciplines":["Net Zero & Renewables"],"formats":["In-Classroom"],"imageUrl":"https://www.petroskills.com/images/disciplines/reliability-engineering.png","level":"Foundation","linkUrl":"https://petroskills.com/en/training/courses/introduction-to-greenhouse-gas-management--accounting--and-reporting---ng-51~p15630","type":"Course","price":"","title":"Introduction to Greenhouse Gas Management, Accounting, and Reporting - NG-51"},{"category":"Energy Transition","disciplines":["Carbon Capture, Storage, and Sequestration","Process Facilities","Net Zero & Renewables"],"formats":["In-Classroom","Virtual"],"imageUrl":"https://www.petroskills.com/images/disciplines/process-facilities.png","level":"Basic","linkUrl":"https://www.petroskills.com/en/training/courses/carbon-capture-from-stationary-industrial-sources---pf-82~p5072","type":"Course","price":"","title":"Carbon Capture from Stationary Industrial Sources - PF-82"}] | json data for the cards
@@ -52,6 +52,8 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute heading-text | -- | In-Classroom & Virtual Instructor-led Courses | widget heading text
  * @attribute link-url | -- | -- | target url for widget link
  * @attribute link-label | -- | -- | text for widget link
+ * @attribute link-target | -- | _blank | target for widget link
+ * @attribute link-rel | -- | -- | target for widget link
  * @attribute meta-font-size | -- | -- | size of widget meta text
  * @attribute meta-margin-bottom | -- | -- | margin below widget meta text
  * @attribute meta-text | -- | Training | widget meta text
@@ -95,6 +97,8 @@ class WidgetCoursesGrid extends HTMLElement {
 	headingText = "";
 	linkUrl = "";
 	linkLabel = "";
+	linkTarget = ""
+	linkRel = "";
 	metaFontSize = "";
 	metaMarginBottom = "";
 	metaText = "";
@@ -159,6 +163,8 @@ const values = {
 	"heading-text": "",
 	"link-url": "",
 	"link-label": "",
+	"link-target": "",
+	"link-rel": "",
 	"meta-font-size": ".85rem",
 	"meta-margin-bottom": "",
 	"meta-text": "",
@@ -189,7 +195,7 @@ buildGridHTML(context) {
 		const icon = context.getIcon(course.type);
 		return `
 		<div class="course-outer">
-			<a class="course" href="${course.linkUrl}" target="_blank" title="go to course page">
+			<a class="course" ${course.linkTarget ? `target="${course.linkTarget}"` : ''} ${course.linkRel ? `rel="${course.linkRel}"` : ''} href="${course.linkUrl}" target="_blank" title="go to course page">
 				<!-- type -->
 				${course?.type ?
 					`<div class="type-container">
@@ -448,6 +454,7 @@ get styles() {
 		min-height: var(--card-min-height, auto);
 		overflow:visible;
 		padding: var(--card-padding, 1rem);
+		position: relative;
 		transition: background-color .2s ease-in-out, box-shadow .2s ease-in-out;
 		width:100%;
 	}
@@ -498,7 +505,22 @@ get styles() {
 		min-width:fit-content;
 	}
 	.course .link-button {
-		display:none;
+		background-color: var(--color-primary);
+		border: solid 1px var(--color-primary);
+		border-radius: .35em;
+		bottom: 2rem;
+		color: white;
+		font-size:.8rem;
+		opacity:0;
+		padding: .4rem .85rem;
+		position:absolute;
+		pointer-events:none;
+		transition:opacity .2s ease-in-out;
+		right: 2rem;
+	}
+	.course:hover .link-button {
+		opacity:1;
+		pointer-events:auto;
 	}
 
 </style>`
