@@ -1,0 +1,372 @@
+[
+	{
+		"heading": "In-Classroom and Virtual Instructor-led Courses",
+		"subheading": "",
+		"products": [
+			{
+				"category": "Energy Transition",
+				"disciplines": ["Net Zero & Renewables"],
+				"formats": ["On-Demand"],
+				"imageUrl": "https://www.petroskills.com/images/disciplines/Renewable_Icon.JPG",
+				"level": "Basic",
+				"linkUrl": "https://www.petroskills.com/en/training/courses/overview-of-net-zero-and-renewables---ng-2---elearning-course~p13995",
+				"type": "Course",
+				"price": "",
+				"title": "Overview of Net-Zero and Renewables - NG2"
+			},
+			{
+				"category": "Energy Transition",
+				"disciplines": ["Net Zero & Renewables"],
+				"formats": ["In-Classroom"],
+				"imageUrl": "https://www.petroskills.com/images/disciplines/Renewable_Icon.JPG",
+				"level": "Basic",
+				"linkUrl": "https://www.petroskills.com/en/training/courses/fundamentals-of-net-zero-and-renewables---ng-20~p13513",
+				"type": "Course",
+				"price": "",
+				"title": "Fundamentals of Net-Zero and Renewables - NG20"
+			},
+			{
+				"category": "Energy Transition",
+				"disciplines": ["Net Zero & Renewables"],
+				"formats": ["On-Demand"],
+				"imageUrl": "https://www.petroskills.com/images/disciplines/reliability-engineering.png",
+				"level": "Basic",
+				"linkUrl": "https://www.petroskills.com/en/training/courses/introduction-to-greenhouse-gas-management--accounting--and-reporting---ng-51---elearning-course~p15759",
+				"type": "Course",
+				"price": "",
+				"title": "Introduction to Greenhouse Gas Management, Accounting, and Reporting - NG51"
+			},
+			{
+				"category": "Energy Transition",
+				"disciplines": ["Net Zero & Renewables"],
+				"formats": ["In-Classroom"],
+				"imageUrl": "https://www.petroskills.com/images/disciplines/reliability-engineering.png",
+				"level": "Foundation",
+				"linkUrl": "https://petroskills.com/en/training/courses/introduction-to-greenhouse-gas-management--accounting--and-reporting---ng-51~p15630",
+				"type": "Course",
+				"price": "",
+				"title": "Introduction to Greenhouse Gas Management, Accounting, and Reporting - NG-51"
+			},
+			{
+				"category": "Energy Transition",
+				"disciplines": [
+					"Carbon Capture, Storage, and Sequestration",
+					"Process Facilities",
+					"Net Zero & Renewables"
+				],
+				"formats": ["In-Classroom", "Virtual"],
+				"imageUrl": "https://www.petroskills.com/images/disciplines/process-facilities.png",
+				"level": "Basic",
+				"linkUrl": "https://www.petroskills.com/en/training/courses/carbon-capture-from-stationary-industrial-sources---pf-82~p5072",
+				"type": "Course",
+				"price": "",
+				"title": "Carbon Capture from Stationary Industrial Sources - PF-82"
+			}
+		]
+	},
+	{
+		"heading": "Online Learning Modules",
+		"subheading": "Available on-demand",
+		"products": [
+			{
+				"category": "Energy Transition",
+				"duration": "90 minutes",
+				"formats": ["On-Demand"],
+				"imageUrl": "https://www.petroskills.com/images/disciplines/process-facilities.png",
+				"level": "Basic",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/alternative-fuels~p13806",
+				"price": "",
+				"disciplines": ["Net Zero & Renewables"],
+				"title": "Alternative Fuels",
+				"type": "Module"
+			},
+			{
+				"category": "Energy Transition",
+				"duration": "2 hours",
+				"formats": "On-Demand",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/hydrogen.jpg",
+				"level": "Basic",
+				"linkUrl": "https://petroskills.com/en/training/modules/basics-of-electrochemistry~p16108",
+				"price": "",
+				"disciplines": ["Hydrogen", "Net Zero & Renewables"],
+				"title": "Basics of Electrochemistry",
+				"type": "Module"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Business Aspects of Global Warming and Alternative Energies",
+				"duration": "approximately 60 minutes",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/business-aspects-of-global-warming-and-alternative-energies~p13973",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/business%20aspects.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Carbon Capture, Utilization, and Storage",
+				"duration": "approximately 2.5 hours",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/carbon-capture--utilization--and-storage~p14037",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/ccus.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Climate Change Risk and Opportunities Assessment",
+				"duration": "approximately 2 hours",
+				"linkUrl": "/en/training/modules/climate-change-risk-and-opportunities-assessment~p15996",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/coherent%20planning.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Coherent Planning for the Future of Energy",
+				"duration": "approximately 60 minutes",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/coherent-planning-for-the-future-of-energy~p13975",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/coherent%20planning.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Energy Storage",
+				"duration": "approximately 90 minutes",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/energy-storage~p13860",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/energy%20storage.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Existing Power Generation Technologies with Alternative Energies",
+				"duration": "approximately 2 hours",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/existing-power-generation-technologies-with-alternative-energies~p13974",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/existing%20power.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Greenhouse Gas Emissions Inventory Quality Management",
+				"duration": "approximately 90 minutes",
+				"linkUrl": "https://petroskills.com/en/training/modules/greenhouse-gas-emissions-inventory-quality-management~p15980",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/ghg%20emissions.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Greenhouse Gas Emissions Sources and Quantification",
+				"duration": "approximately 2 hours",
+				"linkUrl": "https://petroskills.com/en/training/modules/greenhouse-gas-emissions-sources-and-qualifications~p15981",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/ghg%20emissions.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Greenhouse Gas Emissions Tracking Over Time",
+				"duration": "approximately 60 minutes",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/greenhouse-gas-emissions-tracking-over-time~p15790",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/ghg%20emissions.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Hydrogen Overview",
+				"duration": "approximately 2 hours",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/hydrogen-overview~p15713",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/hydrogen.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Introduction to Greenhouse Gas Emissions",
+				"duration": "approximately 2 hours",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/introduction-to-greenhouse-gas-ghg-emissions~p15787",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/ghg%20emissions.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Operational Boundaries for Greenhouse Gas Inventories",
+				"duration": "approximately 60 minutes",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/operational-boundaries-for-greenhouse-gas-inventories~p15788",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/ghg%20emissions.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Organizational Boundaries for Greenhouse Gas Inventories",
+				"duration": "approximately 1 hour",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/organizational-boundaries-for-greenhouse-gas-inventories~p15789",
+				"imageUrl": "https://www.petroskills.comhttps://www.petroskills.com/images/images/disciplines/ghg%20emissions.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Safety Aspects of Hydrogen",
+				"duration": "approximately 2.5 hours",
+				"linkUrl": "/en/training/modules/safety-aspects-of-hydrogen~p16021",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/hydrogen.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Scope 1 and 2 Greenhouse Gas Emissions - An Introduction",
+				"duration": "1.75 hours",
+				"linkUrl": "/en/training/modules/scope-1-and-2-greenhouse-gas-emissions---an-introduction~p16019",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/ghg%20emissions.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Scope 3 Greenhouse Gas Emissions - An Introduction",
+				"duration": "1.25 hours",
+				"linkUrl": "/en/training/modules/scope-3-greenhouse-gas-emissions---an-introduction~p16020",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/ghg%20emissions.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Solar Power Generation",
+				"duration": "approximately 90 minutes",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/solar-power-generation~p13593",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/solar.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "The Drivers Behind Net Zero",
+				"duration": "approximately 4 hours",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/the-drivers-behind-net-zero~p13679",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/coherent%20planning.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			},
+			{
+				"category": "Energy Transition",
+				"title": "Wind Power Generation",
+				"duration": "approximately 4 hours",
+				"linkUrl": "https://www.petroskills.com/en/training/modules/wind-power-generation~p13678",
+				"imageUrl": "https://www.petroskills.com/images/disciplines/wind.jpg",
+				"imageAlt": "Electrical Engineering Icon"
+			}
+		]
+	},
+	{
+		"content": [
+			{
+				"section": "area-wysiwyg",
+				"title": "Oil & Gas",
+				"description": "We also have hundreds of offerings across Upstream, Midstream, and Downstream petroleum industry - see details",
+				"links": [
+					{
+						"text": "Upstream",
+						"linkUrl": "https://www.petroskills.com/training/categories/upstream",
+						"color": "rgb(41, 128, 185)"
+					},
+					{
+						"text": "Midstream",
+						"linkUrl": "https://www.petroskills.com/training/categories/midstream",
+						"color": "rgb(41, 128, 185)"
+					},
+					{
+						"text": "Downstream",
+						"linkUrl": "https://www.petroskills.com/training/categories/downstream",
+						"color": "rgb(41, 128, 185)"
+					},
+					{
+						"text": "see details",
+						"linkUrl": "https://www.petroskills.com/training",
+						"color": "rgb(41, 128, 185)"
+					}
+				]
+			},
+			{
+				"title": "Contact us to learn more",
+				"iframe": {
+					"src": "https://go.marketing.petroskills.com/l/934903/2023-02-09/8qg9r",
+					"height": "1000",
+					"width": "100%",
+					"style": "border: 0px;"
+				}
+			}
+		]
+	},
+
+	{
+		"content": {
+			"header": {
+				"title": "Latest Content & Resources",
+				"action": {
+					"linkUrl": "/resources",
+					"text": "More resources",
+					"icon": {
+						"class": "ci-arrow-right fs-xs ms-1 me-n1"
+					}
+				}
+			},
+			"resources": [
+				{
+					"type": "Webinars",
+					"description": "Watch Technical Webinars for every discipline",
+					"linkUrl": "/resources/webinars",
+					"image": {
+						"srcset": [
+							{
+								"src": "/resources/image-thumb__970__latestContentResources/webinar-footer.webp",
+								"type": "image/webp",
+								"scale": "1x"
+							},
+							{
+								"src": "/resources/image-thumb__970__latestContentResources/webinar-footer@2x.webp",
+								"type": "image/webp",
+								"scale": "2x"
+							},
+							{
+								"src": "/resources/image-thumb__970__latestContentResources/webinar-footer.jpg",
+								"type": "image/jpeg",
+								"scale": "1x"
+							},
+							{
+								"src": "/resources/image-thumb__970__latestContentResources/webinar-footer@2x.jpg",
+								"type": "image/jpeg",
+								"scale": "2x"
+							}
+						],
+						"width": "384",
+						"height": "215",
+						"alt": "",
+						"loading": "lazy"
+					}
+				},
+				{
+					"type": "Tip of the Month",
+					"description": "Clean Energy Needs an “All of the Above” Approach to Ensure Availability and Reliability",
+					"linkUrl": "/blog",
+					"image": {
+						"srcset": [
+							{
+								"src": "/blog/summaryimages/image-thumb__994__latestContentResources/10.4.webp",
+								"type": "image/webp",
+								"scale": "1x"
+							},
+							{
+								"src": "/blog/summaryimages/image-thumb__994__latestContentResources/10.4@2x.webp",
+								"type": "image/webp",
+								"scale": "2x"
+							},
+							{
+								"src": "/blog/summaryimages/image-thumb__994__latestContentResources/10.4.png",
+								"type": "image/png",
+								"scale": "1x"
+							},
+							{
+								"src": "/blog/summaryimages/image-thumb__994__latestContentResources/10.4@2x.png",
+								"type": "image/png",
+								"scale": "2x"
+							}
+						],
+						"width": "384",
+						"height": "215",
+						"alt": "",
+						"loading": "lazy"
+					}
+				}
+			]
+		}
+	}
+]
