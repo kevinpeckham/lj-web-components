@@ -108,16 +108,26 @@ class WidgetCoursesGrid extends HTMLElement {
 get c() { return WidgetCoursesGrid };
 
 // ICONS
-static get courseIcon() {
-	return `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" style="width:100%;height:auto;"><path d="M88.929 0a8 8 0 0 1 8 8v84a8 8 0 0 1-8 8h-75.07a8 8 0 0 1-8-8V26.338l.22-.226v-.228l4.714-4.606L31.539 0h57.391zm0 8H34.583l.001 21H12.929v64h76V8zM68.5 72a3.5 3.5 0 1 1 0 7h-41a3.5 3.5 0 1 1 0-7h41zm7-17a3.5 3.5 0 1 1 0 7h-48a3.5 3.5 0 1 1 0-7h48zM71 17a8 8 0 0 1 8 8v12a8 8 0 0 1-8 8H59a8 8 0 0 1-8-8V25a8 8 0 0 1 8-8h12zm1 7H59a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V25a1 1 0 0 0-1-1zm-44.435-8.689l-6.528 6.143h6.528v-6.143z" fill-rule="evenodd" fill="currentColor"/></svg>`}
+/** @param {string} path */
+static buildIcon(path) {
+	return `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" style="width:100%;height:auto;"><path d="${path}" fill-rule="evenodd" fill="currentColor"/></svg>`
+
+}
+static get courseIconPath() {
+	return "M88.929 0a8 8 0 0 1 8 8v84a8 8 0 0 1-8 8h-75.07a8 8 0 0 1-8-8V26.338l.22-.226v-.228l4.714-4.606L31.539 0h57.391zm0 8H34.583l.001 21H12.929v64h76V8zM68.5 72a3.5 3.5 0 1 1 0 7h-41a3.5 3.5 0 1 1 0-7h41zm7-17a3.5 3.5 0 1 1 0 7h-48a3.5 3.5 0 1 1 0-7h48zM71 17a8 8 0 0 1 8 8v12a8 8 0 0 1-8 8H59a8 8 0 0 1-8-8V25a8 8 0 0 1 8-8h12zm1 7H59a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V25a1 1 0 0 0-1-1zm-44.435-8.689l-6.528 6.143h6.528v-6.143z"}
+
+static get moduleIconPath() {
+	return "M97 11a2 2 0 0 1 2 2v74a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V13a2 2 0 0 1 2-2h94zm-19 5H23v69h55V16zM18 70H6.5v13.5H18V70zm76.5 0H83v13.5h11.5V70zm0-18H83v13.5h11.5V52zM18 52H6.5v13H18V52zm26.395-15.657a3 3 0 0 1 1.562.438l17.265 10.525a3 3 0 0 1 .065 5.082L46.022 63.534a3 3 0 0 1-4.627-2.52V39.343a3 3 0 0 1 3-3zm2.06 6.579v13.786l10.466-6.893-10.466-6.893zM18 34H6.5v13H18V34zm76.5 0H83v13h11.5V34zm0-18H83v13h11.5V16zM18 16H6.5v12.5H18V16z"}
 
 	/** @param {string} type */
 	getIcon(type) {
 		switch (type) {
 			case "Course":
-				return this.c.courseIcon;
+				return this.c.buildIcon(this.c.courseIconPath);
+			case "Module":
+				return this.c.buildIcon(this.c.moduleIconPath);
 			default:
-				return this.c.courseIcon;
+				return this.c.buildIcon(this.c.courseIconPath);
 		}
 
 	}
