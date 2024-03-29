@@ -205,7 +205,7 @@ buildGridHTML(context) {
 		const icon = context.getIcon(course.type);
 		return `
 		<div class="course-outer">
-			<a class="course" ${course.linkTarget ? `target="${course.linkTarget}"` : ''} ${course.linkRel ? `rel="${course.linkRel}"` : ''} href="${course.linkUrl}" target="_blank" title="go to course page">
+			<a class="course" ${course.linkTarget ? `target="${course.linkTarget}"` : 'target="_self"'} ${course.linkRel ? `rel="${course.linkRel}"` : ''} href="${course.linkUrl}" title="go to course page">
 				<!-- type -->
 				${course?.type ?
 					`<div class="type-container">
