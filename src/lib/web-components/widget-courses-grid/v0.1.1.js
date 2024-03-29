@@ -61,7 +61,9 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute show-duration | true | -- | show course duration
  * @attribute show-format | true | -- | show course format
  * @attribute show-level | true | -- | show course level
+ * @attribute show-tags | false | true | show auto-tags
  * @attribute stylesheet | -- | -- | inject css into inner stylesheet
+ * @attribute tags | -- | Alternative Fuels, Carbon Capture, Climate Change Risk, Energy Storage, Hydrogen, Greenhouse Gas, Global Warming, Net-Zero, Renewables, Solar Power, Wind Power | comma-separated string of tags
  */
 class WidgetCoursesGrid extends HTMLElement {
 	bodyText = "";
@@ -103,6 +105,8 @@ class WidgetCoursesGrid extends HTMLElement {
 	metaMarginBottom = "";
 	metaText = "";
 	stylesheet = "";
+	tags = "";
+	showTags = "";
 
 // reference to class itself
 get c() { return WidgetCoursesGrid };
@@ -181,7 +185,9 @@ const values = {
 	"stylesheet": "",
 	"show-disciplines": "true",
 	"show-format": "true",
-	"show-level": "true"
+	"show-level": "true",
+	"show-tags": "false",
+	"tags": "",
 
 };
 return values;
@@ -201,8 +207,18 @@ static getDefault(attr) { return this.attributes[attr] ?? "" }
 buildGridHTML(context) {
 
 	/** @param {*} context, @param {Course} course */
+	function getTags(context, course) {
+		/** @type {string[]} */
+		const tags = context.tags.split(',').map(/** @param {string} tag */ tag => tag.trim());
+		const text = course?.title + ' ' + course?.disciplines?.join(' ');
+		const result = tags.filter(/** @param {string} tag */ tag => text.toLowerCase().includes(tag.toLowerCase()));
+		return result;
+	}
+
+	/** @param {*} context, @param {Course} course */
 	function buildTile(context, course) {
 		const icon = context.getIcon(course.type);
+		const tags = getTags(context, course);
 		return `
 		<div class="course-outer">
 			<a class="course" ${course.linkTarget ? `target="${course.linkTarget}"` : 'target="_self"'} ${course.linkRel ? `rel="${course.linkRel}"` : ''} href="${course.linkUrl}" title="go to course page">
@@ -225,6 +241,8 @@ buildGridHTML(context) {
 				`<div class="meta-row"><div class="meta label">Discipline:</div><div class="meta disciplines">${course?.disciplines?.join(', ')}</div></div>` : ''}
 
 				${course?.duration && context.showDuration != "false" ? `<div class="meta-row"><div class="meta label">Duration:</div><div class="meta duration">${course.duration}</div></div>` : ''}
+
+				${tags && tags[0] && context.showTags != "false" ? `<div class="tags meta-row">${tags.map(tag => `<div class="tag">${tag}</div>`).join('')}</div>` : ''}
 
 				${course?.price? `<div class="meta price">${course.price}</div>` : ''}
 
@@ -518,6 +536,22 @@ get styles() {
 		margin-right:.5rem;
 		min-width:fit-content;
 	}
+	.course .tags {
+		position:absolute;
+		left:1rem;
+		bottom:1rem;
+	}
+	.course .tag {
+		border: solid 1px var(--color-primary);
+		border-radius:.35rem;
+		font-size: .75rem;
+		font-style: italic;
+		font-weight: 500;
+		margin-right:.5em;
+		padding: .25em .25em;
+		background-color: color-mix(in srgb, var(--color-primary) 5%, transparent);
+		/*color: white;*/
+	}
 	.course .link-button {
 		background-color: var(--color-primary);
 		border: solid 1px var(--color-primary);
@@ -540,6 +574,9 @@ get styles() {
 		}
 		.course:hover .link-button {
 			opacity:1;
+		}
+		.course:hover .tags {
+			opacity:0;
 		}
 	}
 
