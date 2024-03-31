@@ -22,14 +22,8 @@ export const ComponentUtils = {
 		"xxs": {min: "0", max: "419px"
 	}},
 	titleCase: /** @param {S} s */ (s) => s.replace(/\b\w/g, (l) => l.toUpperCase()),
-	/**
-	 * @name kebabToCamel
-	 * @method
-	 * @memberof ComponentUtils
-	 * @param {S} s
-	 * @returns {S}
-	 * */
-  kebabToCamel: (s) => s.replace(/-(\w)/ig, (g) => g[1].toUpperCase()),
+  kebabToCamel: /** @param {S} s */ (s) => s.replace(/-(\w)/ig, (g) => g[1].toUpperCase()),
+	camelToKebab: /** @param {S} s */ (s) => s.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, "$1-$2").toLowerCase(),
   getIds: /** @param {S} s */ (s)=> [...s.matchAll(/id="([^"]+)"/g)].map((m) => m[1]),
 	/** @param {*} xt * @param {S} id */
 	getElAttributesById: (xt, id) => Object.keys(xt.attributes).filter((attr) => attr.includes(`${id}-`)),
@@ -239,23 +233,29 @@ export const ComponentUtils = {
 		return refs;
   },
   /**
-   * Create getters and setters for observed attributes
+   * Create getters for observed attributes
    * @param {*} clazz
    * @param {*} context
    * */
-  createOAGS(clazz, context) {
-    for (let attr of clazz.observedAttributes) {
-      const def = clazz.getDefault(attr);
-      Object.defineProperty(context, this.kebabToCamel(attr), {
+  createOAGS(clazz, context) { return this.createGetters(clazz, context) },
+	 /**
+   * Create getters for observed attributes
+   * @param {*} clazz
+   * @param {*} context
+   * */
+	createGetters(clazz, context) {
+		for (let attr of Object.keys(clazz.attributes)) {
+			const def = clazz.attributes[attr] ?? "";
+			const kebab = attr.includes("-") ? attr : this.camelToKebab(attr);
+			const camel =  attr.includes("-") ? this.kebabToCamel(attr) : attr;
+
+      Object.defineProperty(context, camel, {
         get: function () {
-          return context.getAttribute(attr) ?? def;
-        },
-        // set: function (value) {
-        //   if (typeof value === 'string' && !attr.includes('data')) context.setAttribute(attr, value)
-        // },
+          return context.getAttribute(kebab) ?? def;
+        }
       });
     }
-  }
+	}
 }
 
 
