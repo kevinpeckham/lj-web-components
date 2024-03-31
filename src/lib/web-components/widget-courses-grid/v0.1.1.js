@@ -8,7 +8,7 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://www.lj-cdn.dev/web-components/widget-courses-grid} */
+/** {@link https://cdn.lj.dev/web-components/widget-courses-grid} */
 
 /**
  * Widget Card Grid Web Component
@@ -18,17 +18,16 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @published 2024-02-09
  * @extends HTMLElement
  * @classdesc A web component for displaying a grid of cards.
- *
  * @attribute body-text | -- | Lorem ipsum dolor sit amet. | widget text
  * @attribute body-font-size | 1em | -- | widget text size
- * @attribute body-line-height | 1.33 | -- line height for widget text
- * @attrubute body-margin-bottom | 1rem | -- | marbin below widget text
+ * @attribute body-line-height | 1.33 | -- | line height for widget text
+ * @attribute body-margin-bottom | 1rem | -- | margin below widget text
  * @attribute card-background-color | white | #EAF1F7 | background color of the card
  * @attribute card-border-radius | .35rem | -- | border radius of the card
- * @attribute card-box-shadow | none | 0 0 1px 0 rgba(0,0,0,.4); | box shadow of card
+ * @attribute card-box-shadow | none | 0 0 1px 0 rgba(0,0,0,.4) | box shadow of card
  * @attribute card-button-border-radius | .35rem | -- | rounded edges of card button
  * @attribute card-button-font-size | .8rem | -- | size of card button text
- * @attribute card-button-padding | .45rem 1rem | -- padding in card button
+ * @attribute card-button-padding | .45rem 1rem | -- | padding in card button
  * @attribute card-hover-background-color | -- | hsla(179, 60%, 88%, 0.5) | background of card on hover
  * @attribute card-hover-box-shadow | box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); | -- | box shadow of card on hover
  * @attribute card-max-width | 100% | -- | max width of the card
@@ -55,58 +54,18 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute link-target | -- | _blank | target for widget link
  * @attribute link-rel | -- | -- | target for widget link
  * @attribute meta-font-size | -- | -- | size of widget meta text
- * @attribute meta-margin-bottom | -- | -- | margin below widget meta text
+ * @attribute meta-margin-bottom | 1.5rem | -- | margin below widget meta text
  * @attribute meta-text | -- | Training | widget meta text
  * @attribute show-disciplines | true | false | show course disciplines
  * @attribute show-duration | true | -- | show course duration
  * @attribute show-format | true | -- | show course format
  * @attribute show-level | true | -- | show course level
+ * @attribute show-price | false | -- | show course price
  * @attribute show-tags | false | true | show auto-tags
  * @attribute stylesheet | -- | -- | inject css into inner stylesheet
  * @attribute tags | -- | Alternative Fuels, Carbon Capture, Climate Change Risk, Energy Storage, Hydrogen, Greenhouse Gas, Global Warming, Net-Zero, Renewables, Solar Power, Wind Power | comma-separated string of tags
  */
 class WidgetCoursesGrid extends HTMLElement {
-	bodyText = "";
-	bodyFontSize = "";
-	bodyLineHeight = "";
-	bodyMarginBottom = "";
-	cardBackgroundColor = "";
-	cardBorderRadius = "";
-	cardBoxShadow = "";
-	cardButtonBorderRadius = "";
-	cardButtonFontSize = "";
-	cardButtonPadding = "";
-	cardHoverBackgroundColor = "";
-	cardHoverBoxShadow = "";
-	cardMaxWidth = "";
-	cardMetaFontSize = "";
-	cardMetaLineHeight = "";
-	cardMinHeight = "";
-	cardPadding = "";
-	cardTitleFontSize = "";
-	cardTitleFontWeight = "";
-	cardTitleLineHeight = "";
-	cardTitleMarginBottom = "";
-	colorAccent = "";
-	colorBackground = "";
-	colorPrimary = "";
-	coursesDataJson = "[]";
-	fontFamily = "";
-	headingFontSize = "";
-	headingFontWeight = "";
-	headingLineHeight = "";
-	headingMarginBottom = "";
-	headingText = "";
-	linkUrl = "";
-	linkLabel = "";
-	linkTarget = ""
-	linkRel = "";
-	metaFontSize = "";
-	metaMarginBottom = "";
-	metaText = "";
-	stylesheet = "";
-	tags = "";
-	showTags = "";
 
 // reference to class itself
 get c() { return WidgetCoursesGrid };
@@ -124,14 +83,14 @@ static get moduleIconPath() {
 	return "M97 11a2 2 0 0 1 2 2v74a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V13a2 2 0 0 1 2-2h94zm-19 5H23v69h55V16zM18 70H6.5v13.5H18V70zm76.5 0H83v13.5h11.5V70zm0-18H83v13.5h11.5V52zM18 52H6.5v13H18V52zm26.395-15.657a3 3 0 0 1 1.562.438l17.265 10.525a3 3 0 0 1 .065 5.082L46.022 63.534a3 3 0 0 1-4.627-2.52V39.343a3 3 0 0 1 3-3zm2.06 6.579v13.786l10.466-6.893-10.466-6.893zM18 34H6.5v13H18V34zm76.5 0H83v13h11.5V34zm0-18H83v13h11.5V16zM18 16H6.5v12.5H18V16z"}
 
 	/** @param {string} type */
-	getIcon(type) {
+	static getIcon(type) {
 		switch (type) {
 			case "Course":
-				return this.c.buildIcon(this.c.courseIconPath);
+				return this.buildIcon(this.courseIconPath);
 			case "Module":
-				return this.c.buildIcon(this.c.moduleIconPath);
+				return this.buildIcon(this.moduleIconPath);
 			default:
-				return this.c.buildIcon(this.c.courseIconPath);
+				return this.buildIcon(this.courseIconPath);
 		}
 
 	}
@@ -172,20 +131,21 @@ const values = {
 	"font-family": "inherit",
 	"heading-font-size": "1.5rem",
 	"heading-font-weight": "700",
-	"heading-line-height": "",
-	"heading-margin-bottom": "",
+	"heading-line-height": "1.25",
+	"heading-margin-bottom": "1.5rem",
 	"heading-text": "",
 	"link-url": "",
 	"link-label": "",
 	"link-target": "",
 	"link-rel": "",
 	"meta-font-size": ".85rem",
-	"meta-margin-bottom": "",
+	"meta-margin-bottom": "1.25rem",
 	"meta-text": "",
 	"stylesheet": "",
 	"show-disciplines": "true",
 	"show-format": "true",
 	"show-level": "true",
+	"show-price": "false",
 	"show-tags": "false",
 	"tags": "",
 
@@ -202,130 +162,86 @@ static getDefault(attr) { return this.attributes[attr] ?? "" }
 
 /** @typedef {{[key:string]: string}} card */
 
+/** @param {Course} course */
+getTags(course) {
+	/** @type {string[]} */
+	const tags = this.attValue('tags').split(',').map(/** @param {string} tag */ tag => tag.trim());
+	const text = course?.title + ' ' + course?.disciplines?.join(' ');
+	const result = tags.filter(/** @param {string} tag */ tag => text.toLowerCase().includes(tag.toLowerCase()));
+	return result;
+}
+
+static hasValue = (/** @type {string | string[] | undefined} */ value) => value && (value[0]) ? true : false;
+/** @param {string | string[] | undefined} value, @param {string} markup, @param {boolean} [condition] */
+static htmlIfValue = ( value, markup, condition) => this.hasValue(value) && (condition || condition === undefined)  ? markup : '';
+
 // HTML BUILDERS
-/** @param {*} context */
-buildGridHTML(context) {
+/**  @param {Course} course */
+buildTile(course) {
+	const icon = this.c.getIcon(course?.type ?? 'Course');
+	const tags = this.getTags(course);
+	const { disciplines, duration, formats, level, price, linkRel, linkTarget, linkUrl , title, type} = course;
+	const showDisciplines = this.attValue('show-disciplines') != "false";
+	const showDuration = this.attValue('show-duration') != "false";
+	const showTags = this.attValue('show-tags') != "false";
+	const showPrice = this.attValue('show-price') != "false";
+	const html = this.c.htmlIfValue;
+	return `
+	<div class="course-outer">
+		<a class="course" ${linkTarget ? `target="${linkTarget}"` : 'target="_self"'} ${linkRel ? `rel="${linkRel}"` : ''} href="${linkUrl}" title="go to course page">
+			${html(type, `<div class="type-container"><div class="type-icon">${icon}</div><div class="type">${type}</div></div>`)}
+			${html(title, `<h3 class="title" >${title?.replace('and','&')}</h3>`)}
+			${html(formats, `<div class="meta-row"><div class="meta label">Format:</div><div class="meta formats">${formats?.join(', ')}</div></div>`)}
+			${html(level, `<div class="meta-row"><div class="meta label">Level:</div><div class="meta level">${level}</div></div>`)}
+			${html(disciplines, `<div class="meta-row"><div class="meta label">Discipline:</div><div class="meta disciplines">${disciplines?.join(', ')}</div></div>`, showDisciplines)}
+			${html(duration, `<div class="meta-row"><div class="meta label">Duration:</div><div class="meta duration">${duration}</div></div>`, showDuration)}
+			${html(tags, `<div class="tags meta-row">${tags.map(tag => `<div class="tag">${tag}</div>`).join('')}</div>`, showTags)}
+			${html(price, `<div class="meta price${price}</div>`, showPrice)}
+			<div class="link-button">Learn More</div>
+		</a>
+	</div>`
+}
 
-	/** @param {*} context, @param {Course} course */
-	function getTags(context, course) {
-		/** @type {string[]} */
-		const tags = context.tags.split(',').map(/** @param {string} tag */ tag => tag.trim());
-		const text = course?.title + ' ' + course?.disciplines?.join(' ');
-		const result = tags.filter(/** @param {string} tag */ tag => text.toLowerCase().includes(tag.toLowerCase()));
-		return result;
-	}
-
-	/** @param {*} context, @param {Course} course */
-	function buildTile(context, course) {
-		const icon = context.getIcon(course.type);
-		const tags = getTags(context, course);
-		return `
-		<div class="course-outer">
-			<a class="course" ${course.linkTarget ? `target="${course.linkTarget}"` : 'target="_self"'} ${course.linkRel ? `rel="${course.linkRel}"` : ''} href="${course.linkUrl}" title="go to course page">
-				<!-- type -->
-				${course?.type ?
-					`<div class="type-container">
-						<div class="type-icon">${icon}</div>
-						<div class="type">${course.type}</div>
-						</div>` :
-					 ''}
-
-				<h3 class="title" >${course.title?.replace('and','&')}</h3>
-
-				${course?.formats && course.formats[0]  ?
-				`<div class="meta-row"><div class="meta label">Format:</div><div class="meta formats">${course?.formats?.join(', ')}</div></div>` : ''}
-
-				${course?.level? `<div class="meta-row"><div class="meta label">Level:</div><div class="meta level">${course.level}</div></div>` : ''}
-
-				${course?.disciplines && course.disciplines[0] && context.showDisciplines != "false" ?
-				`<div class="meta-row"><div class="meta label">Discipline:</div><div class="meta disciplines">${course?.disciplines?.join(', ')}</div></div>` : ''}
-
-				${course?.duration && context.showDuration != "false" ? `<div class="meta-row"><div class="meta label">Duration:</div><div class="meta duration">${course.duration}</div></div>` : ''}
-
-				${tags && tags[0] && context.showTags != "false" ? `<div class="tags meta-row">${tags.map(tag => `<div class="tag">${tag}</div>`).join('')}</div>` : ''}
-
-				${course?.price? `<div class="meta price">${course.price}</div>` : ''}
-
-				<div class="link-button">Learn More</div>
-			</a>
-		</div>`
-	}
-
+buildGridHTML() {
 	let result = '';
-	this.data.forEach(/** @param { Course } course */ course => result += buildTile(this, course));
+	const data = JSON.parse(this.attValue('courses-data-json') ?? "[]");
+	data.forEach(/** @param { Course } course */ course => result += this.buildTile(course));
 	return result ? result : '';
 }
 
-// DATA
-get data() {
-	const result = JSON.parse(this.coursesDataJson) ?? "[]";
-	return result;
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
 }
 
 
 // ELEMENTS
 get els() {
+
+// helper function to create a list of attributes from which to generate css variables
+const atts = Object.keys(this.c.attributes).filter((att) => !att.includes('stylesheet') && !att.includes('text') && !att.includes('show') && !att.includes('data') && !att.includes('link'));
+// create css variables
+const cssVars = atts.map(att => `--${att}: ${this.attValue(att)};`).join('\n');
+
+
+const html = this.c.htmlIfValue;
   return `
-<style id="stylesheet">${this.stylesheet}</style>
-<div
-	id="container"
-	style="
-		--body-font-size:${this.bodyFontSize};
-		--body-line-height:${this.bodyLineHeight};
-		--body-margin-bottom:${this.bodyMarginBottom};
-		--card-background-color:${this.cardBackgroundColor};
-		--card-border-radius:${this.cardBorderRadius};
-		--card-box-shadow:${this.cardBoxShadow};
-		--card-button-border-radius:${this.cardButtonBorderRadius};
-		--card-button-font-size:${this.cardButtonFontSize};
-		--card-button-padding:${this.cardButtonPadding};
-		--card-hover-background-color:${this.cardHoverBackgroundColor};
-		--card-hover-box-shadow:${this.cardHoverBoxShadow};
-		--card-max-width:${this.cardMaxWidth};
-		--card-meta-font-size:${this.cardMetaFontSize};
-		--card-meta-line-height:${this.cardMetaLineHeight};
-		--card-min-height:${this.cardMinHeight};
-		--card-padding:${this.cardPadding};
-		--card-title-font-size:${this.cardTitleFontSize};
-		--card-title-font-weight:${this.cardTitleFontWeight};
-		--card-title-line-height:${this.cardTitleLineHeight};
-		--card-title-margin-bottom:${this.cardTitleMarginBottom};
-		--color-accent:${this.colorAccent};
-		--color-background:${this.colorBackground};
-		--color-primary:${this.colorPrimary};
-		--font-family:${this.fontFamily};
-		--heading-font-size:${this.headingFontSize};
-		--heading-font-weight:${this.headingFontWeight};
-		--heading-line-height:${this.headingLineHeight};
-		--heading-margin-bottom:${this.headingMarginBottom};
-		--meta-font-size:${this.metaFontSize};
-		--meta-margin-bottom:${this.metaMarginBottom};
->
+<style id="stylesheet">${this.attValue('stylesheet')}</style>
+<div id="container" style="${cssVars}>
 		<div id="container-inner">
-
-			${this.metaText ? `<div id="meta" style="">${this.metaText}</div>` : ''}
-
-
-			${this.headingText ? `<div id="heading-row">
-
-				${this.headingText && this.headingText?.[0] ?
-				`<h2 id="heading">${this.headingText}</h2>` : ''
-			}
-				${this.linkUrl ? `<a href="${this.linkUrl}" id="link">${this.linkLabel}</a>` : ''}
-			</div>` : '' }
-
-			${this.bodyText ? `<p id="text">${this.bodyText ?? ""}</p>` : '' }
-
-			<div id="grid">${this.buildGridHTML(this)}</div>
-
+			${html('meta-text', `<div id="meta" style="">${this.attValue('meta-text')}</div>`)}
+			<div id="heading-row">
+				${html('heading-text',`<h2 id="heading">${this.attValue('heading-text')}</h2>`)}
+				${html('link-url', `<a href="${this.attValue('link-url')}" id="link">${this.attValue('link-label')}</a>`)}
+			</div>
+			${html('body-text', `<p id="text">${this.attValue('body-text')}</p>`)}
+			<div id="grid">${this.buildGridHTML()}</div>
 		</div>
 </div>`.trim();
 }
 
-
 // STYLES
-get styles() {
-	const pageXPadding = ComponentUtils.pageXPadding;
+static get styles() {
+	const p = ComponentUtils.pageXPadding;
   return `
 	${ComponentUtils.preflight}
   <style id="base">
@@ -334,40 +250,39 @@ get styles() {
 		color: var(--color-primary);
 		display:grid;
 		align-items:start;
-		padding:64px ${pageXPadding.xxs} 96px;
+		padding:64px ${p.xxs} 96px;
 		max-width:100%;
 	}
 	@media (min-width: 420px) {
 		#container {
-			padding:64px ${pageXPadding.xs} 96px;
+			padding:64px ${p.xs} 96px;
 		}
 	}
 	@media (min-width: 640px) {
 		#container {
-			padding:64px ${pageXPadding.sm} 96px;
+			padding:64px ${p.sm} 96px;
 		}
 	}
 	@media (min-width: 760px) {
 		#container {
-			padding:64px ${pageXPadding.md} 96px;
+			padding:64px ${p.md} 96px;
 		}
 	}
 	@media (min-width: 1024px) {
 		#container {
-			padding:48px ${pageXPadding.lg} 76px;
+			padding:48px ${p.lg} 76px;
 		}
 	}
 	@media (min-width: 1280px) {
 		#container {
-			padding:64px ${pageXPadding.xl} 96px;
+			padding:64px ${p.xl} 96px;
 		}
 	}
 	@media (min-width: 1536px) {
 		#container {
-			padding:64px ${pageXPadding['2xl']} 96px;
+			padding:64px ${p['2xl']} 96px;
 		}
 	}
-	/* Meta */
 	#meta {
 		color: var(--color-accent, currentColor);
 		font-size: var(--font-size, .85rem);
@@ -375,7 +290,7 @@ get styles() {
 		opacity:1;
 		text-transform:uppercase;
 	}
-	/* Heading */
+	#heading-row:empty { display: none; }
 	#heading {
 		color: inherit;
 		filer:drop-shadow(0 1px 1px rgba(0, 0, 0, .05));
@@ -471,8 +386,6 @@ get styles() {
 			grid-template-columns: repeat(5,minmax(0,1fr));
 			}
 	}
-
-	/* Courses */
 	.course {
 		background-color: var(--card-background-color, white);
 		border: solid .5px color-mix(in srgb, var(--color-primary, lightblue) 30%, transparent);
@@ -579,40 +492,25 @@ get styles() {
 			opacity:0;
 		}
 	}
-
-</style>`
+</style>`.trim();
 }
 // TEMPLATE
 get template() {
   const template = document.createElement("template");
-  template.innerHTML = `${this.styles}${this.els}`.trim();
+  template.innerHTML = `${this.c.styles}${this.els}`.trim();
   return template;
-}
-// IDS
-get ids() {
-  return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 }
 
 // CONSTRUCTOR
 constructor() {
 	super();
-
-	// programattically create getters and setters for each observed attribute
-	ComponentUtils.createOAGS(this.c, this);
-
-	// create a shadow root
 	this.attachShadow({ mode: "open" });
-
 }
 
-// LIFECYCLE CALLBACKS
-
+// CONNECTED CALLBACK
 connectedCallback() {
 	// append the template content to the shadow DOM
 	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
-
-	// define refs elements
-	this.refs = ComponentUtils.getRefs(this.c, this);
 }
 
 }
