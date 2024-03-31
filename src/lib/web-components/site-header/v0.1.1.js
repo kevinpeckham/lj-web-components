@@ -151,7 +151,6 @@ static get styles() {
 ${ComponentUtils.preflight}
 <style>
 #container {
-	display: block;
 	background-color: var(--color-background, #fff);
 	color: var(--color-primary, #000);
 	font-family: var(--font-family, inherit);
@@ -175,8 +174,6 @@ ${ComponentUtils.preflight}
 	display: grid;
 	grid-template-columns: repeat(1, minmax(0, 1fr));
 	height: 100%;
-	transition: opacity 0.15s ease 0.15s;
-	opacity: 1 !important;
 	padding: 0;
 	position: relative;
 	width: 100%;
@@ -346,7 +343,6 @@ ${ComponentUtils.preflight}
 #main-nav .menu {
 	overflow: visible;
 	position: relative;
-	opacity: 1;
 }
 #main-nav .menu .menu-heading-button {
 	display: none;
