@@ -59,6 +59,7 @@ static get attributes() {
 		"color-background": "#f8fafc",
 		"color-primary": "darkblue",
 		"container-height": "70px",
+		"container-border-bottom": "1px solid #273B4B",
 		"font-family": "inherit",
 		"menus-data": "[]",
 		"stylesheet": ""
@@ -152,6 +153,7 @@ ${ComponentUtils.preflight}
 <style>
 #container {
 	background-color: var(--color-background, #fff);
+	border-bottom: var(--container-border-bottom, 1px solid #273B4B);
 	color: var(--color-primary, #000);
 	font-family: var(--font-family, inherit);
 	height: var(--container-height, 70px);
