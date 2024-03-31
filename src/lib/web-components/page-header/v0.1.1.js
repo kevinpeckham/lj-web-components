@@ -5,7 +5,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 /** @copyright 2024 Lightning Jar - "Page Header" web component - License MIT */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://lj-cdn.dev/web-components/page-header} */
+/** {@link https://cdn.lj.dev/web-components/page-header} */
 
 /**
  * Page Header Web Component
@@ -52,50 +52,13 @@ class PageHeader extends HTMLElement {
 // reference to class itself
 get c() { return PageHeader };
 
-// initialize variables
-colorAccent = "";
-colorBackground = "";
-colorBorder = "";
-colorPrimary = "";
-containerBorderWidth = "";
-containerPaddingXXs = "";
-containerPaddingXSm = "";
-containerPaddingXMd = "";
-containerPaddingXLg = "";
-containerPaddingXXl = "";
-containerPaddingX2xl = "";
-containerPaddingYXs = "";
-containerPaddingYSm = "";
-containerPaddingYMd = "";
-containerPaddingYLg = "";
-containerPaddingYXl = "";
-containerPaddingY2xl = "";
-fontFamily = "";
-headingFontSizeXs = "";
-headingFontSizeSm = "";
-headingFontSizeMd = "";
-headingFontSizeLg = "";
-headingFontSizeXl = "";
-headingFontSize2xl = "";
-headingFontWeight = "";
-headingMarginBottom = "";
-headingText = "";
-subheadingFontSize = "";
-subheadingFontWeight = "";
-subheadingLineHeight = "";
-subheadingMarginBottom = "";
-subheadingOpacity = "";
-subheadingText = "";
-stylesheetText = "";
-
 // ATTRIBUTES
 	/**
 	 * Returns an object. The keys are prop names. The values are the default values for the props.
 	 * @returns { { [key:string]: string } }
 	 */
 static get attributes() {
-  // attribute, default
-  const values = {
+  return {
 		"color-accent": "currentColor",
     "color-background": "transparent",
     "color-border": "currentColor",
@@ -131,73 +94,44 @@ static get attributes() {
     "subheading-text": "",
     "stylesheet-text": "",
 	};
-  return values;
 }
 
-// OBSERVED ATTRIBUTES
-static get observedAttributes() { return Object.keys(this.attributes) }
-
-// GET DEFAULT VALUE FOR AN ATTRIBUTE
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
+}
 
 
 // ELEMENTS
 get els() {
+
+// helper function to create a single css variable
+const cssVar = (/** @type {string} att */ att) => `--${att}: ${this.attValue(att)};`;
+// helper function to create a list of css variables from which to generate css variables
+const atts = Object.keys(this.c.attributes).filter((att) => !att.includes('stylesheet') && !att.includes('text'));
+// create a list of css variables
+const cssVars = atts.map(cssVar).join('\n');
+
+
 return `
+<style id="stylesheet">${this.attValue('stylesheet')}}</style>
 <div
 	id="container"
 	style="
-		--color-accent: ${this.colorAccent};
-		--color-background: ${this.colorBackground};
-		--color-border: ${this.colorBorder};
-		--color-primary: ${this.colorPrimary};
-		--font-family: ${this.fontFamily};
-		--container-border-width: ${this.containerBorderWidth};
-		--container-padding-x-xs: ${this.containerPaddingXXs};
-		--container-padding-x-sm: ${this.containerPaddingXSm};
-		--container-padding-x-md: ${this.containerPaddingXMd};
-		--container-padding-x-lg: ${this.containerPaddingXLg};
-		--container-padding-x-xl: ${this.containerPaddingXXl};
-		--container-padding-x-2xl: ${this.containerPaddingX2xl};
-		--container-padding-y-xs: ${this.containerPaddingYXs};
-		--container-padding-y-sm: ${this.containerPaddingYSm};
-		--container-padding-y-md: ${this.containerPaddingYMd};
-		--container-padding-y-lg: ${this.containerPaddingYLg};
-		--container-padding-y-xl: ${this.containerPaddingYXl};
-		--container-padding-y-2xl: ${this.containerPaddingY2xl};
-		--heading-font-size-xs: ${this.headingFontSizeXs};
-		--heading-font-size-sm: ${this.headingFontSizeSm};
-		--heading-font-size-md: ${this.headingFontSizeMd};
-		--heading-font-size-lg: ${this.headingFontSizeLg};
-		--heading-font-size-xl: ${this.headingFontSizeXl};
-		--heading-font-size-2xl: ${this.headingFontSize2xl};
-		--heading-font-weight: ${this.headingFontWeight};
-		--heading-margin-bottom: ${this.headingMarginBottom};
-		--subheading-font-size: ${this.subheadingFontSize};
-		--subheading-font-weight: ${this.subheadingFontWeight};
-		--subheading-line-height: ${this.subheadingLineHeight};
-		--subheading-margin-bottom: ${this.subheadingMarginBottom};
-		--subheading-opacity: ${this.subheadingOpacity};"
+		${cssVars}
 	>
 	<div id="inner">
-  	<h1 id="heading">${this.headingText}</h1>
-  	<div id="subheading">${this.subheadingText}</div>
+  	<h1 id="heading">${this.attValue('heading-text')}</h1>
+  	<div id="subheading">${this.attValue('subheading-text')}</div>
  	 <slot></slot>
 	</div>
 </div>
 `.trim();
 }
 
-// PREFLIGHT
-get preflight() {
-	return `*,::before,::after {box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor} html,:host {line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body {margin:0;line-height:inherit}hr {height:0;color:inherit;border-top-width:1px}abbr:where([title]) {text-decoration:underline dotted}h1,h2,h3,h4,h5,h6 {font-size:inherit;font-weight:inherit}a {color:inherit;text-decoration:inherit}b,strong {font-weight:bolder} button,select {text-transform:none}button,[type="button"],[type="reset"],[type="submit"] {-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring {outline:auto}:-moz-ui-invalid {box-shadow:none}progress {vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button {height:auto}[type="search"] {-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration {-webkit-appearance:none}::-webkit-file-upload-button {-webkit-appearance:button;font:inherit}summary {display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre {margin:0}fieldset {margin:0;padding:0}legend {padding:0}ol,ul,menu {list-style:none;margin:0;padding:0}dialog {padding:0}textarea {resize:vertical}input::placeholder,textarea::placeholder {opacity:1;color:theme("colors.gray.400", #9ca3af)}button,[role="button"] {cursor:pointer}:disabled {cursor:default}img,svg,video,canvas,audio,iframe,embed,object {display:block;vertical-align:middle}img,video {max-width:100%;height:auto}[hidden] {display:none}`
-}
-
 // STYLES
-get styles() {
+static get styles() {
 return `
-<style id="preflight">${this.preflight}</style>
+${ComponentUtils.preflight}
 <style id="base">
 host:, * { margin:0; box-sizing:border-box ; }
 #container {
@@ -275,42 +209,27 @@ border-bottom-color: var(--color-border, currentColor);
 	margin-bottom: var(--subheading-margin-bottom, 1rem);
   opacity:var(--subheading-opacity, .9);
 }
-</style><style id="stylesheet"></style>`
+</style>`.trim()
 };
 
 // TEMPLATE
 get template() {
 	const template = document.createElement("template");
-	template.innerHTML = `${this.styles}${this.els}`.trim();
+	template.innerHTML = `${this.c.styles}${this.els}`.trim();
 	return template;
-}
-
-// IDS
-get ids() {
-	return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 }
 
 // CONSTRUCTOR
 constructor() {
   super();
-
-  // programattically create getters and setters for each observed attribute
-	ComponentUtils.createOAGS(this.c, this);
-
 	// create a shadow root
 	this.attachShadow({ mode: "open" });
-
-	// binding the parent context to the methods
-	this.connectedCallback = this.connectedCallback.bind(this);
+;
 }
-
 // CONNECTED CALLBACK
 connectedCallback() {
 	// append the template content to the shadow DOM
 	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
-
-	// define refs elements
-	this.refs = ComponentUtils.getRefs(this.c, this);
 }
 
 }
