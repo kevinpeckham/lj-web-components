@@ -15,7 +15,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://www.lj-cdn.dev/web-components/site-header} */
+/** {@link https://cdn.lj.dev/web-components/site-header} */
 
 /**
  * Copyright Statement Web Component
@@ -34,46 +34,20 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute color-accent | lightblue | #02C6C7 | color of the accent
  * @attribute color-background | white | #f8fafc | color of the site header background
  * @attribute color-primary | darkblue | #0A2F7E | color of the primary text
- * @attribute color-shadow | rgb(0 0 0 / 0.1) | -- | color of the shadow
  * @attribute container-height | 70px | 100px | text content of the copy button
  * @attribute font-family | inherit | -- | font family
  * @attribute menus-data | [] | [{"link":{"label":"About","url":"/about"}},{"link":{"label":"Solutions","url":"/solutions"}},{"link":{ "label":"Training","url":"/training"}}] | json data for the menus
- * @attribute data-json-url | -- | -- | fetch data from a remote json file if preferred
  * @attribute stylesheet | -- | -- | custom stylesheet content
- * @note Data fetched via data-json-url prop will override attribute values
  */
 class SiteHeader extends HTMLElement {
-	brandImageAlt = "";
-	brandImageUrl = "";
-	brandLinkTitle = "";
-	brandLinkUrl = "";
-	buttonLinkUrl = "";
-	buttonLinkLabel = "";
-	buttonLinkTitle = "";
-	colorAccent = "";
-	colorBackground = "";
-	colorPrimary = "";
-	colorShadow = "";
-	dataJson = "";
-	dataJsonUrl = "";
-	fontFamily = "";
-	containerHeight = "";
-	menusData = "";
-	stylesheet= "";
 
 // reference to class itself
 get c() { return SiteHeader };
 
-
 // ATTRIBUTES
-/**
- * Returns an object. The keys are prop names. The values are the default values for the props.
- * @returns { { [key:string]: string } }
- */
+/** @returns { { [key:string]: string } } */
 static get attributes() {
-	const values = {
-		"data-json": "",
-		"data-json-url": "",
+	return {
 		"brand-image-alt": "logo",
 		"brand-image-url": "",
 		"brand-link-title": "website home",
@@ -84,48 +58,33 @@ static get attributes() {
 		"color-accent": "lightblue",
 		"color-background": "#f8fafc",
 		"color-primary": "darkblue",
-		"color-shadow": "rgb(0 0 0 / 0.1)",
 		"container-height": "70px",
 		"font-family": "inherit",
 		"menus-data": "[]",
 		"stylesheet": ""
-	};
-return values;
+	}
 }
 
-// OBSERVED ATTRIBUTES GETTER
-static get observedAttributes() { return Object.keys(this.attributes) }
-
-// ATTRIBUTE DEFAULT VALUE GETTER
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
-
-// PARSE DATA JSON - REMOTE DATA
-/** @returns {NavData} */
-get parsedData() {
-return this.dataJson ? JSON.parse(this.dataJson) : {};
-}
-
-// PARSE DATA JSON - MENUS
-get parsedMenusData() {
-	return JSON.parse(this.menusData ?? "") ?? [];
+// VALUE METHOD
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
 }
 
 // HTML BUILDERS
-
 buildBrandHTML() {
 	return `
 	<a
 		id="brand-link"
-		href="${this.brandLinkUrl}"
-		title="${this.brandLinkTitle}">
+		href="${this.attValue('brand-link-url')}"
+		title="${this.attValue('brand-link-title')}">
 		<img
+			alt="${this.attValue('brand-image-alt')}"
 			id="brand-image"
-			alt="${this.brandImageAlt}"
-			src="${this.brandImageUrl}" />
+			loading="lazy"
+			src="${this.attValue('brand-image-url')}" />
 	</a>`;
 }
-buildHamburgerHTML() {
+static buildHamburgerHTML() {
 	return `
 	<!-- hamburger -->
 	<input
@@ -139,29 +98,20 @@ buildHamburgerHTML() {
 		<span
 			id="hamburger-sr-label"
 			class="sr-only">Toggle menu</span>
-	</label>
-	`
+	</label>`
 }
-/** @param {Link} link */
-buildMainNavLink(link) {
+static buildMainNavLink( /** @type {Link} link */ link) {
 	return link.url && link.label ? `
-	<div class="menu">
-		<a
-			class="menu-heading-link"
-			href="${link.url}">
-			${link.label}
-		</a>
-	</div>` : "";
+	<div class="menu"><a class="menu-heading-link" href="${link.url}">${link.label}</a></div>` : "";
 }
-/** @param {NavMenu[]} [menusData] */
-buildNavHTML(menusData) {
+buildNavHTML(/** @type {NavMenu[]} [menusData] */ menusData) {
 	let navContents = '';
-	/** @type {NavMenu[]} data */
-	const data = menusData ?? this.parsedMenusData ?? [];
+
+	const /** @type {NavMenu[]} data */ data  = JSON.parse(this.attValue('menus-data')) ?? [];
 	data.forEach((menu) => {
 		// if menu is just a link and has no sections
 		if (menu.link) {
-			navContents += this.buildMainNavLink(menu.link);
+			navContents += this.c.buildMainNavLink(menu.link);
 		}
 	});
 	return `
@@ -169,78 +119,57 @@ buildNavHTML(menusData) {
 		${navContents}
 		<a
 			id="button-link"
-			href="${this.buttonLinkUrl}"
-			title="${this.buttonLinkTitle}">${this.buttonLinkLabel}</a>
-	</nav>
-	`
+			href="${this.attValue('button-link-url')}"
+			title="${this.attValue('button-link-title')}">
+			${this.attValue('button-link-label')}</a>
+	</nav>`
 }
 
-
-// ELEMENTS MASTER LAYOUT GETTER
+// ELEMENTS
 get els() {
 	return `
-<style id="stylesheet">${this.stylesheet}</style>
+<style id="stylesheet">${this.attValue('stylesheet')}}</style>
 <header
 	id="container"
 	style="
-		--color-accent: ${this.colorAccent};
-		--color-background: ${this.colorBackground};
-		--color-primary: ${this.colorPrimary};
-		--color-shadow: ${this.colorShadow};
-		--container-height: ${this.containerHeight};
-		--font-family: ${this.fontFamily};
-		background-color:var(--color-background);
-		color:var(--color-primary);
-		font-family:var(--font-family);
-		height:var(--container-height, 70px);
-		width:100%;
-		z-index:999;">
-		<div id="container-inner" class="hide-before-load" >
-			${this.buildHamburgerHTML()}
+		--color-accent: ${this.attValue('color-accent')};
+		--color-background: ${this.attValue('color-background')};
+		--color-primary: ${this.attValue('color-primary')};
+		--container-height: ${this.attValue('container-height')};
+		--font-family: ${this.attValue('font-family')};">
+		<div id="container-inner">
+			${this.c.buildHamburgerHTML()}
 			${this.buildNavHTML()}
 			${this.buildBrandHTML()}
 		</div>
 </header>`.trim();
 }
 
-
-
-get styles() {
+// STYLES
+static get styles() {
 	return `
 ${ComponentUtils.preflight}
 <style>
-	/* stylesheet for site header web component */
-:host {
-	box-sizing: border-box; /* 1 */
-	border-width: 0; /* 2 */
-	border-style: solid; /* 2 */
-}
-
-/* -- 1.0 GLOBAL NAV  -- */
-/* global nav - default */
 #container {
 	display: block;
 	background-color: var(--color-background, #fff);
 	color: var(--color-primary, #000);
+	font-family: var(--font-family, inherit);
 	height: var(--container-height, 70px);
 	width: 100%;
+	z-index:999;
 }
-/* global nav - mobile nav open state */
 @media (max-width: 1023px) {
 	#container:has(input#hamburger-toggle:checked) {
 		min-height: 100vh;
 		overflow-y: hidden;
 	}
 }
-/* global nav - lg */
 @media (min-width: 1024px) {
 	#container {
 		overflow: visible;
 	}
 }
-
-/* -- 2.0 INNER CONTAINER  -- */
-/* inner - default */
 #container-inner {
 	align-items: center;
 	display: grid;
@@ -252,7 +181,6 @@ ${ComponentUtils.preflight}
 	position: relative;
 	width: 100%;
 }
-/* inner - lg */
 @media (min-width: 1024px) {
 	#container-inner {
 		display: flex;
@@ -262,31 +190,24 @@ ${ComponentUtils.preflight}
 		padding: 0 32px;
 	}
 }
-/* inner - xl */
 @media (min-width: 1280px) {
 	#container-inner {
 		padding: 0 48px;
 	}
 }
-/* inner - 2xl */
 @media (min-width: 1536px) {
 	#container-inner {
 		padding: 0 64px;
 	}
 }
-
-/* -- 3.0 HAMBURGER  -- */
-/* hamburger - default */
 #hamburger-toggle {
 	opacity: 0;
 }
-/* hamburger - lg */
 @media (min-width: 1024px) {
 	#hamburger-toggle {
 		display: none;
 	}
 }
-/* hamburger label - default */
 #hamburger-toggle + label {
 	display: flex;
 	padding: 0.5em;
@@ -296,7 +217,6 @@ ${ComponentUtils.preflight}
 	height: 1.875em;
 	width: 3em;
 }
-/* hamburger label -- hamburger focused */
 #hamburger-toggle:focus-visible + label {
 	outline: 0.125em solid #fff;
 	background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
@@ -306,7 +226,6 @@ ${ComponentUtils.preflight}
 		background-color: rgba(255, 255, 255, 15%);
 	}
 }
-/* hamburger label -- hamburger hover */
 #hamburger-toggle + label:hover {
 	background: color-mix(in srgb, var(--color-secondary, #fff) 5%, transparent);
 }
@@ -315,19 +234,16 @@ ${ComponentUtils.preflight}
 		background-color: rgba(255, 255, 255, 0.05);
 	}
 }
-/* hamburger label - md */
 @media (min-width: 768px) {
 	#hamburger-toggle + label {
 		right: 24px;
 	}
 }
-/* hamburger label - lg */
 @media (min-width: 1024px) {
 	#hamburger-toggle + label {
 		display: none;
 	}
 }
-/* hamburger icon bars */
 #hamburger-toggle + label:before,
 #hamburger-toggle + label:after {
 	content: "";
@@ -352,8 +268,6 @@ ${ComponentUtils.preflight}
 	rotate: -45deg;
 	transform: translate(-4px, 4px);
 }
-
-/* -- MAIN NAV-- */
 #main-nav {
 	align-items: start;
 	border-top: 1px solid color-mix(in srgb, currentColor 20%, transparent);
@@ -374,27 +288,21 @@ ${ComponentUtils.preflight}
 		border-top: 1px solid rgba(255, 255, 255, 0.2);
 	}
 }
-
-/* main nav - xs */
 @media (min-width: 420px) {
 	#main-nav {
 		padding: 1.75em 1.25em 8em;
 	}
 }
-/* main nav - sm */
 @media (min-width: 640px) {
 	#main-nav {
 		padding: 1.75em 1.75em 8em;
 	}
 }
-/* main nav - md */
 @media (min-width: 768px) {
 	#main-nav {
 		padding: 1.75em 2em 8em;
 	}
 }
-
-/* main nav - lg */
 @media (min-width: 1024px) {
 	#main-nav {
 		align-items: center;
@@ -412,21 +320,17 @@ ${ComponentUtils.preflight}
 		display: none;
 	}
 }
-/* main nav - xl */
 @media (min-width: 1280px) {
 	#main-nav {
 		font-size: 17px;
 		min-height: 3.5em;
 	}
 }
-/* main nav - xl */
 @media (min-width: 1536px) {
 	#main-nav {
 		font-size: 18px;
 	}
 }
-
-/* main nav - after -- scroll mask */
 @media (max-width: 1023px) {
 	#main-nav:after {
 		background-color: var(--color-background, #ea0026);
@@ -439,22 +343,17 @@ ${ComponentUtils.preflight}
 		z-index: 100;
 	}
 }
-
-/* -- MENU -- */
 #main-nav .menu {
 	overflow: visible;
 	position: relative;
 	opacity: 1;
 }
-/* menu heading button */
 #main-nav .menu .menu-heading-button {
 	display: none;
 }
-/* menu heading link */
 #main-nav .menu .menu-heading-link {
 	font-size: 18px;
 }
-/* menu heading button - lg */
 @media (min-width: 1024px) {
 	#main-nav .menu .menu-heading-button,
 	#main-nav .menu .menu-heading-link {
@@ -467,7 +366,6 @@ ${ComponentUtils.preflight}
 		transition: opacity 0.15s;
 		text-underline-offset: 0.25em;
 	}
-
 	#main-nav .menu .menu-heading-button:focus-within,
 	#main-nav .menu .menu-heading-link:focus {
 		opacity: 1;
@@ -499,8 +397,6 @@ ${ComponentUtils.preflight}
 		}
 	}
 }
-
-/* menu heading */
 #main-nav .menu .menu-heading {
 	text-align: center;
 	font-size: 18px;
@@ -519,9 +415,6 @@ ${ComponentUtils.preflight}
 		display: none;
 	}
 }
-
-/* -- BUTTON -- */
-
 #button-link {
 	border-radius: 0.5em;
 	border: solid 0.1em var(--color-primary, #fff);
@@ -533,7 +426,6 @@ ${ComponentUtils.preflight}
 	white-space: nowrap;
 	text-decoration: none;
 }
-/* button - lg */
 @media (min-width: 1024px) {
 	#button-link {
 		border-color: color-mix(
@@ -568,8 +460,6 @@ ${ComponentUtils.preflight}
 		}
 	}
 }
-
-/* -- BRAND -- */
 #brand-link {
 	display: block;
 	height: auto;
@@ -607,9 +497,6 @@ ${ComponentUtils.preflight}
 		top: unset;
 	}
 }
-
-/* -- XX UTILITIES  -- */
-
 .rounded-md {
 	border-radius: 0.375em /* 6px */;
 }
@@ -624,7 +511,6 @@ ${ComponentUtils.preflight}
 	white-space: nowrap;
 	border-width: 0;
 }
-
 @media (max-width: 1023px) {
 	:global(html:has(#hamburger-toggle:checked)) {
 		overflow-y: hidden;
@@ -644,168 +530,17 @@ ${ComponentUtils.preflight}
 }
 </style>`.trim();
 }
-
-// TEMPLATE GETTER
 get template() {
 	const template = document.createElement("template");
-	template.innerHTML = `${this.styles}${this.els}`.trim();
+	template.innerHTML = `${this.c.styles}${this.els}`.trim();
 	return template;
 }
-
-// IDS
-get ids() {
- const ids = [...`${this.styles}${this.els}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
- return ids;
-}
-
-// CONSTRUCTOR
 constructor() {
 	super();
-	// programattically create getters and setters for each observed attribute
-	ComponentUtils.createOAGS(this.c, this);
-
-	// create a shadow root
 	this.attachShadow({ mode: "open" });
-
-	// append the template content to the shadow DOM
-	// this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
-
-	// define refs elements
-	// this.refs = ComponentUtils.getRefs(this.c, this);
-
 }
-
-// CONNECTED CALLBACK
 connectedCallback() {
-		// append the template content to the shadow DOM
-		this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
-
-		// define refs elements
-		this.refs = ComponentUtils.getRefs(this.c, this);
-
-		if (this.dataJsonUrl) this.fetchData();
-}
-
-// ATTRIBUTE CHANGED CALLBACK
-// attributeChangedCallback() {
-
-// }
-
-// METHODS
-fetchData() {
-	// if no data url or it does not end in .json, return empty string
-	if (!this.dataJsonUrl || !this.dataJsonUrl.includes('.json') ) return "";
-	else {
-  return /** @type {Promise<void>} */(new Promise((res, rej) => {
-    fetch(`${this.dataJsonUrl}`)
-      .then(data => data.json())
-      .then((json) => {
-        this.updateCSSVariables(json);
-				this.updateTextContent(json);
-				this.updateLinkButton(json);
-				this.updateBrand(json);
-        res();
-      })
-      .catch((error) => rej(error));
-  }))
-	}
-}
-
-/** @param {*} data */
-updateCSSVariables(data) {
-	const attributes = "color-accent color-background color-primary color-shadow font-family".split(" ");
-
-	// iterate over the attributes, if the data has a value for the attribute, update the attribute
-	attributes.forEach((attr) => {
-		let value = data?.[attr] ?? this.getAttribute(attr);
-		if (value) {
-			if (this.refs.container.style.getPropertyValue(`--${attr}`) != value) this.refs.container.style.setProperty(`--${attr}`, value);
-			if (this.getAttribute(attr) != value) this.setAttribute(attr, value);
-		}
-	});
-}
-/** @param {*} data */
-updateTextContent(data) {
-	// if data does not include 'stylesheet', return
-	const stringifiedData = JSON.stringify(data);
-	if (!stringifiedData.includes("stylesheet")) return;
-
-	const attr = "stylesheet";
-	let value = data?.[attr] ?? this.getAttribute(attr);
-	if (value) {
-		if (this.innerHTML != value) this.refs[`${attr.split('-')[0]}`].innerHTML = value;
-		if (this.getAttribute(attr) != value) this.setAttribute(attr, value);
-	}
-}
-/** @param {*} data */
-updateLinkButton(data) {
-	// if data does not include button-link, return
-	const stringifiedData = JSON.stringify(data);
-	if (!stringifiedData.includes("button-link")) return;
-
-	// create array of attributes
-	const id = "button-link";
-	const attributes = "label url title rel".split(" ").map((attr) => `${id}-${attr}`);
-
-	// get button ref
-	const button = this.refs[id];
-
-	//iterate over the attributes, if the data has a value for the attribute, update the attribute
-	attributes.forEach((attr) => {
-		// if attribute is "button-link-label", update the text content of the button
-		if (attr === "button-link-label") {
-			let value = data[attr] ?? this.getAttribute(attr);
-			if (value) {
-				if (button.textContent != value) button.textContent = value;
-				if (this.getAttribute(attr) != value) this.setAttribute(attr, value);
-			}
-		}
-		// else update the relevant attribute
-		else {
-			let value = data[attr] ?? this.getAttribute(attr);
-			if (value) {
-				const buttonAttr = attr.replace(`${id}-`, '') === "url" ? "href" : attr.replace(`${id}-`, '');
-				if (button.getAttribute(buttonAttr) != value) button.setAttribute(buttonAttr, value);
-				if (this.getAttribute(attr) != value) this.setAttribute(attr, value);
-			}
-		}
-	});
-}
-/** @param {*} data */
-updateBrand(data) {
-	// if data does not include button-link, return
-	const stringifiedData = JSON.stringify(data);
-	if (!stringifiedData.includes("brand")) return;
-
-	// create array of attributes
-	const idRoot = "brand";
-	const brandLinkAttributes = "title url".split(" ").map((attr) => `brand-link-${attr}`);
-	const brandImageAttributes = "alt url".split(" ").map((attr) => `brand-image-${attr}`);
-
-	// get refs
-	const brandLink = this.refs['brand-link'];
-	const brandImage = this.refs['brand-image'];
-
-
-	//iterate over the attributes, if the data has a value for the attribute, update the attribute
-	brandLinkAttributes.forEach((attr) => {
-			let value = data[attr] ?? this.getAttribute(attr);
-			if (value) {
-				const id = 'brand-link'
-				const _attr = attr.replace(`${id}-`, '') === "url" ? "href" : attr.replace(`${id}-`, '');
-				if (brandLink.getAttribute(_attr) != value) brandLink.setAttribute(_attr, value);
-				if (this.getAttribute(attr) != value) this.setAttribute(attr, value);
-			}
-	});
-	brandImageAttributes.forEach((attr) => {
-		let value = data[attr] ?? this.getAttribute(attr);
-		if (value) {
-			const id = 'brand-image'
-			const _attr = attr.replace(`${id}-`, '') === "url" ? "src" : attr.replace(`${id}-`, '');
-			if (brandImage.getAttribute(_attr) != value) brandImage.setAttribute(_attr, value);
-			if (this.getAttribute(attr) != value) this.setAttribute(attr, value);
-		}
-});
+	this.shadowRoot?.appendChild(this.template.content.cloneNode(true));
 }
 }
 customElements.define("site-header", SiteHeader);
