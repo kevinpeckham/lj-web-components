@@ -147,7 +147,6 @@ buildStatHTML(/** @type {Stat} item */ stat) {
 buildGridHTML() {
 	const /** @type {Stat[]} */ data = JSON.parse(this.attValue("stats-data-json")) ?? [];
 	const grid = data.map((stat) => this.buildStatHTML(stat)).join("");
-	window.console.log(grid);
 	return grid;
 }
 
