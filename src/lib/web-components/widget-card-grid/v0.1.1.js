@@ -499,7 +499,7 @@ static get styles() {
 	.card-inner .card-body-bullets .li:before {
 		display:inline-block;
 		position:absolute;
-		scale:1.5;
+		scale:1.1;
 		transform-origin:50% 50%;
 		transform:translateX(-.5rem);
 		content:"•";
