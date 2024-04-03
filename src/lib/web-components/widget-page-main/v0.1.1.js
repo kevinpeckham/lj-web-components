@@ -1,5 +1,5 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
+import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 
 // TYPE
 /** @typedef {string | string[] | undefined} Value */
