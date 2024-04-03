@@ -87,7 +87,7 @@ ${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
 }
 
 // STYLES
-get styles() {
+static get styles() {
 	return `
 	${ComponentUtils.preflight}
 	<style id="base">
@@ -132,7 +132,7 @@ get styles() {
 // TEMPLATE
 get template() {
 	const template = document.createElement("template");
-	template.innerHTML = `${this.styles}${this.els}`.trim();
+	template.innerHTML = `${this.c.styles}${this.els}`.trim();
 	return template;
 }
 
