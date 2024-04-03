@@ -1,11 +1,15 @@
 // @ts-expect-error - type defs not available
 import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
 
+// TYPE
+/** @typedef {string | string[] | undefined} Value */
+/** @typedef {{[key:string]: Value; "link-label": string | undefined; "link-url": string | undefined; "section-heading": string | undefined; "section-text": string[] | undefined }} SectionDatum */
+
 /** @copyright 2024 Lightning Jar - "Widget Page Main" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://www.lj-cdn.dev/web-components/widget-page-main} */
+/** {@link https://cdn.lj.dev/web-components/widget-page-main} */
 
 /**
  * Widget Card Grid Web Component
@@ -40,36 +44,11 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  */
 class WidgetPageMain extends HTMLElement {
 
-  bodyText = "";
-  colorAccent = "";
-  colorPrimary = "";
-  colorBackground = "";
-  headingFontSize = "";
-  headingFontWeight = "";
-  headingMarginBottom = "";
-  headingMarginTop = "";
-  headingText = "";
-	includeSidebar = true;
-  linkUrl = "";
-  linkLabel = "";
-  sectionsDataJson = "[]";
-
-  // stylesheet
-  stylesheet = "";
-
-// reference to class itself
 get c() { return WidgetPageMain };
 
-
-
-// ATTRIBUTES
-/**
- * Returns an object. The keys are prop names. The values are the default values for the props.
- * @returns { { [key:string]: string | null } }
- */
+/** @returns { { [key:string]: string | null } } */
 static get attributes() {
 const values = {
-
   "body-text": "",
   "color-accent": "currentColor",
   "color-background": "#0B2E7E",
@@ -83,121 +62,61 @@ const values = {
   "link-url": "",
   "link-label": "",
   "sections-data-json": '[]',
-
-  /* stylesheet */
   "stylesheet": "",
-
 };
 return values;
 }
 
-// OBSERVED ATTRIBUTES GETTER
-static get observedAttributes() { return Object.keys(this.attributes) }
-
-// ATTRIBUTE DEFAULT VALUE GETTER
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
-
-/** @typedef {{[key:string]: unknown; sectionText: string[] | undefined }} sectionDatum */
+static buildSection(/** @type {SectionDatum} */ item) {
+	const html = ComponentUtils.stringIfValue;
+	const sectionHeading = item?.['section-heading'] ?? '';
+	const sectionText = item?.['section-text'] ?? [];
+	const linkLabel = item?.['link-label'] ?? '';
+	const linkUrl = item?.['link-url'] ?? '';
+	return `
+		<section class="tile">
+			${html(sectionHeading, `<h3 class="section-heading">${sectionHeading}</h3>`)}
+			${html(sectionText, sectionText.map((item) => `<p class="section-text">${item}</p>`).join(""))}
+			${html(linkLabel, `<a class="section-link" href="${linkUrl}">${linkLabel}</a>`)}
+		</section>`
+}
 
 // HTML BUILDERS
 buildSectionsHTML() {
-  /** @param {sectionDatum} item */
-  const buildSection = (item) => {
-    return `
-      <section
-        class="tile">
-
-        <!-- section heading -->
-        ${item?.['section-heading'] ? `<h3 class="section-heading">${item?.['section-heading'] ?? ""}</h3>` : ""}
-
-        <!-- section text -->
-        ${item?.['section-text']?.map((
-          /** @type {string} item */
-          item) => `<p class="section-text">${item}</p>`).join("")}
-
-        <!-- section link -->
-        ${item?.['link-label'] ? `<a class="section-link" href="${item?.['link-url'] ?? ''}">${item?.['link-label'] ?? ""}</a>` : ""}
-
-      </section>`
-  }
-
-  const buildSections = () => {
-    return this.sectionsData.map((
-      /** @type {sectionDatum} item */
-      item) => buildSection(item)).join("");
-  }
-
-
-  return buildSections() ;
+	const /** @type {SectionDatum[]} */ data = JSON.parse(this.attValue('sections-data-json')) ?? "[]";
+  return data.map((item) => this.c.buildSection(item)).join("");
 }
 
-
-// DATA
-get sectionsData() {
-  const result = JSON.parse(this.sectionsDataJson) ?? "[]";
-  return result;
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
 }
-
-
 
 // ELEMENTS
 get els() {
+	const cssVars = ComponentUtils.cssVars(this.c.attributes, this);
+	const html = ComponentUtils.stringIfValue;
+	const stylesheet = this.attValue('stylesheet');
+	const heading = this.attValue('heading-text');
+	const sections = this.buildSectionsHTML();
   return `
-<style id="stylesheet">${this.stylesheet}</style>
-<div
-  id="container"
-  style="
-    --color-accent:${this.colorAccent};
-    --color-background:${this.colorBackground};
-    --color-primary:${this.colorPrimary};
-    --heading-font-size:${this.headingFontSize};
-    --heading-font-weight:${this.headingFontWeight};
-    --heading-margin-bottom:${this.headingMarginBottom};
-    --heading-margin-top:${this.headingMarginTop};"
-  >
-
-
-  <!-- main column -->
+	${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
+<div id="container" style="${cssVars}">
   <main id="main">
-
-    <!-- main heading -->
-    <h2 id="main-heading">${this.headingText}</h2>
-
-    <!-- section -->
-    ${this.buildSectionsHTML()}
-
-	<slot name="main"></slot>
+    ${html(heading, `<h2 id="main-heading">${heading}</h2>`)}
+    ${html(sections, sections)}
+		<slot name="main"></slot>
   </main>
-
-  <!-- sidebar column -->
   <aside id="sidebar">
 		<slot name="sidebar"></slot>
   </aside>
-
-
-
-
 </div>`.trim();
 }
 
-get preflight() {
-  return `*,::before,::after {box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor}::before,::after {--tw-content:""}html,:host {line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:theme( "fontFamily.sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" );font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body {margin:0;line-height:inherit}hr {height:0;color:inherit;border-top-width:1px}abbr:where([title]) {text-decoration:underline dotted}h1,h2,h3,h4,h5,h6 {font-size:inherit;font-weight:inherit}a {color:inherit;text-decoration:inherit}b,strong {font-weight:bolder}code,kbd,samp,pre {font-family:theme( "fontFamily.mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace );font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small {font-size:80%}sub,sup {font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub {bottom:-0.25em}sup {top:-0.5em}table {text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea {font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select {text-transform:none}button,[type="button"],[type="reset"],[type="submit"] {-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring {outline:auto}:-moz-ui-invalid {box-shadow:none}progress {vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button {height:auto}[type="search"] {-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration {-webkit-appearance:none}::-webkit-file-upload-button {-webkit-appearance:button;font:inherit}summary {display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre {margin:0}fieldset {margin:0;padding:0}legend {padding:0}ol,ul,menu {list-style:none;margin:0;padding:0}dialog {padding:0}textarea {resize:vertical}input::placeholder,textarea::placeholder {opacity:1;color:theme("colors.gray.400", #9ca3af)}button,[role="button"] {cursor:pointer}:disabled {cursor:default}img,svg,video,canvas,audio,iframe,embed,object {display:block;vertical-align:middle}img,video {max-width:100%;height:auto}[hidden] {display:none}`
-}
-
 // STYLES
-get styles() {
+static get styles() {
   return `
-  <style id="preflight">${this.preflight}</style>
+  ${ComponentUtils.preflight}
   <style id="base">
-  :host, *:not(style) {
-    display:block;
-    box-sizing:border-box;
-    margin:0;	-
-    webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale; }
-
-  /* container */
   #container {
     align-items:start;
     background-color: var(--color-background, transparent);
@@ -225,18 +144,11 @@ get styles() {
       padding:64px 80px 96px;
     }
   }
-
-  /* main */
-  #main {
-
-  }
   @media (min-width: 1024px) {
     #main {
       grid-column: span 2 / span 2;
     }
   }
-
-  /* main heading */
   #main-heading {
     color: var(--color-primary, currentColor);
     font-size: 1.25rem;
@@ -265,24 +177,16 @@ get styles() {
       color:var(--color-primary, currentColor);
     }
   }
-
-  /* section */
   #main section {
     margin-bottom: 2rem;
   }
-
-  /* section heading */
   #main section .section-heading {
     font-size: 1rem;
     font-weight: 700;
     margin-bottom: 1rem;
     max-width: 576px;
     opacity:.95;
-
   }
-
-  /* section text */
-
   #main section .section-text {
     color: var(--color-primary, currentColor);
     display:block;
@@ -312,8 +216,6 @@ get styles() {
       max-width:576px;
       }
     }
-
-  /* section links */
   #main section .section-link {
     color: var(--color-primary, currentColor);
     display:inline-block;
@@ -328,47 +230,26 @@ get styles() {
       background-color:var(--color-primary, currentColor);
       color:var(--color-background, currentColor);
   }
-
-  /* sidebar */
-  #sidebar {
-  }
-
 </style>`
 }
 // TEMPLATE
 get template() {
   const template = document.createElement("template");
-  template.innerHTML = `${this.styles}${this.els}`.trim();
+  template.innerHTML = `${this.c.styles}${this.els}`.trim();
   return template;
-}
-// IDS
-get ids() {
-  return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 }
 
 // CONSTRUCTOR
 constructor() {
   super();
-
-  // programattically create getters and setters for each observed attribute
-  ComponentUtils.createOAGS(this.c, this);
-
-  // create a shadow root
   this.attachShadow({ mode: "open" });
-
 }
 
 // LIFECYCLE CALLBACKS
-
 connectedCallback() {
   // append the template content to the shadow DOM
   this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
-
-  // define refs elements
-  this.refs = ComponentUtils.getRefs(this.c, this);
 }
-
-// METHODS
 }
 
 customElements.define("widget-page-main", WidgetPageMain);
