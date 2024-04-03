@@ -1,11 +1,10 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
-
+import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 
 /** @copyright 2024 Lightning Jar - "Quote Tout" web component - License MIT */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://lj-cdn.dev/web-components/cta-tout} */
+/** {@link https://cdn.lj.dev/web-components/cta-tout} */
 
 /**
  * Quote Tout Web Component
@@ -25,60 +24,30 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute heading-text           | --           | Competency Solutions | heading text
  * @attribute heading-font-size      | 1.15rem         | --                | font size of the heading
  * @attribute heading-font-weight    | 700          | --                | font weight of the heading
- * @attribute headingLineHeight      | 1.3          | --                | line height of the heading
+ * @attribute heading-line-height      | 1.3          | --                | line height of the heading
+ * @attribute heading-margin-bottom  | .35rem       | --                | margin bottom of the heading
  * @attribute subheading-text        | --           | Improve Individual & Organizational Capabilities | subheading text
  * @attribute subheading-font-size   | .95rem         | --                | font size of the subheading
  * @attribute subheading-font-weight | 600          | --                | font weight of the subheading
  * @attribute subheading-line-height | 1.3          | --                | line height of the subheading
+ * @attribute subheading-margin-bottom | .8rem       | --                | margin bottom of the subheading
  * @attribute body-text              | --           | A variety of solutions to help companies improve individual and organizational capabilities through the development and assurance of individual and organizational competence. | text of the body
  * @attribute body-font-size         | 1rem         | --                | font size of the body
  * @attribute body-line-height       | 1.3          | --                | line height of the body
- * @attribute link-font-size         | .8rem      | -- | font-size of the link
+ * @attribute body-margin-bottom     | 1.35rem      | --                | margin bottom of the body
  * @attribute link-text							| --           | Learn More | text of the link
  * @attribute link-url							| --           | / | href of the link
  * @attribute attribution-text       | --           | -- | caption displayed after number
- * @attribute stylesheet-text        | --           | --                | inject css into stylesheet
+ * @attribute stylesheet        | --           | --                | inject css into stylesheet
  */
 class CtaTout extends HTMLElement {
-// reference to class itself
+
 get c() { return CtaTout };
 
-// initialize variables
-colorBackground = "";
-colorBorder = "";
-colorPrimary = "";
-colorSecondary = "";
-containerBorderWidth = "";
-containerHeight = "";
-containerWidth = "";
-containerMaxWidth = "";
-containerPadding = "";
-fontFamily = "";
-headingText = "";
-headingFontSize = "";
-headingFontWeight = "";
-headingLineHeight = "";
-subheadingText = "";
-subheadingFontSize = "";
-subheadingFontWeight = "";
-subheadingLineHeight = "";
-bodyText = "";
-bodyFontSize = "";
-bodyLineHeight = "";
-linkFontSize = "";
-linkText = "";
-linkUrl = "";
-stylesheetText = "";
-
-
 // ATTRIBUTES
-	/**
-	 * Returns an object. The keys are prop names. The values are the default values for the props.
-	 * @returns { { [key:string]: string } }
-	 */
+	/** @returns { { [key:string]: string } } */
 static get attributes() {
-  // attribute, default
-  const values = {
+  return {
     "color-background": "transparent",
     "color-border": "transparent",
     "color-primary": "currentColor",
@@ -91,80 +60,60 @@ static get attributes() {
     "heading-text": "",
 		"heading-font-size": "1.15rem",
 		"heading-font-weight": "700",
-		"headingLineHeight": "1.3",
+		"heading-line-height": "1.3",
+		"heading-margin-bottom": ".35rem",
     "subheading-text": "",
 		"subheading-font-size": "1rem",
 		"subheading-font-weight": "500",
 		"subheading-line-height": "1.2",
+		"subheading-margin-bottom": ".8rem",
 		"body-text": "",
 		"body-font-size": "1rem",
 		"body-line-height": "1.3",
-		"link-font-size": ".8rem",
+		"body-margin-bottom": "1.35rem",
 		"link-text": "",
 		"link-url": "/",
-    "stylesheet-text": "",
+    "stylesheet": "",
 	};
-  return values;
 }
 
-// OBSERVED ATTRIBUTES
-static get observedAttributes() { return Object.keys(this.attributes) }
-
-// GET DEFAULT VALUE FOR AN ATTRIBUTE
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
-
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
+}
 
 // ELEMENTS
 get els() {
+const cssVars = ComponentUtils.cssVars(this.c.attributes, this);
+const html = ComponentUtils.stringIfValue;
+const stylesheet = this.attValue('stylesheet');
+const heading = this.attValue('heading-text');
+const subheading = this.attValue('subheading-text');
+const body = this.attValue('body-text');
+const link = this.attValue('link-text');
+const linkUrl = this.attValue('link-url');
 return `
-<div
-	id="container"
-	style="
-		--color-background: ${this.colorBackground};
-		--color-border: ${this.colorBorder};
-		--color-primary: ${this.colorPrimary};
-		--font-family: ${this.fontFamily};
-		--container-border-width: ${this.containerBorderWidth};
-		--container-height: ${this.containerHeight};
-		--container-width: ${this.containerWidth};
-		--container-max-width: ${this.containerMaxWidth};
-		--container-padding: ${this.containerPadding};
-		--heading-font-size: ${this.headingFontSize};
-		--heading-font-weight: 700;
-		--headingLineHeight: ${this.headingLineHeight};
-		--subheading-font-size: ${this.subheadingFontSize};
-		--subheading-font-weight: 500;
-		--subheading-line-height: ${this.subheadingLineHeight};
-		--body-font-size: ${this.bodyFontSize};
-		--body-line-height: ${this.bodyLineHeight};
-		--link-font-size: ${this.linkFontSize};
-		"
-	>
-	<div id="heading">${this.headingText}</div>
-  <div id="subheading">${this.subheadingText}</div>
-	<div id="body">${this.bodyText}</div>
-	<a id="link" href="${this.linkUrl}">${this.linkText}</a>
+${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
+<div id="container" style="${cssVars}">
+	${html(heading, `<div id="heading">${heading}</div>`)}
+	${html(subheading, `<div id="subheading">${subheading}</div>`)}
+	${html(body, `<div id="body">${body}</div>`)}
+	${html(link, `<a id="link" href="${linkUrl}">${link}</a>`, linkUrl)}
 </div>
 `.trim();
-}
-
-// PREFLIGHT
-get preflight() {
-	return `*,::before,::after {box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor} html,:host {line-height:1.2;} a {color:inherit;text-decoration:inherit}`
 }
 
 // STYLES
 get styles() {
 return `
-<style id="preflight">${this.preflight}</style>
+${ComponentUtils.preflight}
 <style id="base">
-host:, * { margin:0; box-sizing:border-box ; }
+*:empty {display:none;}
 #container {
   background: var(--color-background, transparent);
 	border: var(--container-border-width, 0) solid var(--color-border, transparent);
   border-radius: .3em;
   color: var(--color-primary, currentColor);
+	font-size: var(--body-font-size, 1rem);
 	font-family:var(--font-family, inherit);
   line-height: 1.2;
 	outline: 1px solid var(--color-border, transparent);
@@ -188,7 +137,7 @@ host:, * { margin:0; box-sizing:border-box ; }
 	font-size:var(--heading-font-size, 1rem);
 	font-weight:700;
 	line-height:var(--headingLineHeight, 1.3);
-	margin-bottom:.5rem;
+	margin-bottom:var(--heading-margin-bottom, .35rem);
 }
 #subheading {
   color: var(--color-secondary, currentColor);
@@ -196,13 +145,13 @@ host:, * { margin:0; box-sizing:border-box ; }
   font-style:italic;
   font-weight:var(--subheading-font-weight, 500);
   line-height:1.3;
-	margin-bottom:.8rem;
+	margin-bottom:var(--subheading-margin-bottom, .8rem);
   opacity:1;
 }
 #body {
 	font-size:var(--body-font-size, .85rem);
 	line-height:var(--body-line-height, 1.3);
-	margin-bottom:1.35rem;
+	margin-bottom:var(--body-margin-bottom, 1.35rem);
 	opacity:.9;
 }
 #link {
@@ -210,7 +159,7 @@ host:, * { margin:0; box-sizing:border-box ; }
 	border-radius:.35em;
 	border:1px solid var(--color-border, transparent);
 	color:var(--color-background, transparent);
-	font-size:var(--link-font-size, .8rem);
+	font-size:.8em;
 	padding:.5em 1em;
 	transition:background-color .15s, color .15s;
 	width:fit-content;
@@ -218,8 +167,7 @@ host:, * { margin:0; box-sizing:border-box ; }
 #link:hover {
 	background-color:var(--color-background, transparent);
 	color:var(--color-primary, currentColor);
-}
-</style><style id="stylesheet"></style>`
+}</style>`
 };
 
 // TEMPLATE
@@ -229,34 +177,11 @@ get template() {
 	return template;
 }
 
-// IDS
-get ids() {
-	return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
-}
-
 // CONSTRUCTOR
-constructor() {
-  super();
-
-  // programattically create getters and setters for each observed attribute
-	ComponentUtils.createOAGS(this.c, this);
-
-	// create a shadow root
-	this.attachShadow({ mode: "open" });
-
-	// binding the parent context to the methods
-	this.connectedCallback = this.connectedCallback.bind(this);
-}
+constructor() { super(); this.attachShadow({ mode: "open" }); }
 
 // CONNECTED CALLBACK
-connectedCallback() {
-	// append the template content to the shadow DOM
-	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
-
-	// define refs elements
-	this.refs = ComponentUtils.getRefs(this.c, this);
-}
-
+connectedCallback() { this.shadowRoot?.appendChild(this.template.content.cloneNode(true)) }
 }
 customElements.define("cta-tout", CtaTout);
 export default CtaTout;
