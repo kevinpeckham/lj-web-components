@@ -1,13 +1,16 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
-// @ts-expect-error yep got it
-import ContentCard from "/e/wc/content-card.0.1.1.min.js";
+import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
+
+// TYPES
+/** @typedef {string} S */
+/** @typedef {string | undefined} Su */
+/** @typedef {{[key:string]: unknown; cardBackgroundImageAlt: Su; cardBackgroundImageUrl: Su; cardBodyBullets: S[]; cardBodyText: Su; cardFeatureImageUrl: Su; cardFooterLinkLabel: Su; cardFooterLinkUrl: Su; cardFooterLinkTitle: Su; cardFooterText: Su; cardHeaderLogoAlt: Su; cardHeaderLogoUrl: Su; cardHeaderText: Su; cardOutsideHeadingText: Su; }} Card */
 
 /** @copyright 2024 Lightning Jar - "Widget Card Grid" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://www.lj-cdn.dev/web-components/widget-card-grid} */
+/** {@link https:/cdn.lj.dev/web-components/widget-card-grid} */
 
 /**
  * Widget Card Grid Web Component
@@ -19,85 +22,30 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @classdesc A web component for displaying a grid of cards.
  *
  * WIDGET META
- * @attribute widget-meta-font-size | .75rem | -- | font size of the meta text
- * @attribute widget-meta-margin-bottom | 1.5rem | -- | margin bottom of the meta text
- * @attribute widget-meta-text | -- | Challenges
+ * @attribute meta-font-size | .75rem | -- | font size of the meta text
+ * @attribute meta-margin-bottom | 1.5rem | -- | margin bottom of the meta text
+ * @attribute meta-text | -- | Challenges
  *
  * WIDGET HEADING
- * @attribute heading-font-size | 1.25rem | -- | font size of the heading
- * @attribute heading-font-weight | bold | -- | font weight of the heading
- * @attribute heading-margin-bottom | 1.5rem | -- | margin bottom of the heading
- * @attribute heading-text | -- | Expertise that Spans the Energy Value Chain.
+
  *
  * WIDGET TEXT
- * @attribute body-text | -- | Energy companies are typically focused on their core businesses, rather than developing, executing, and maintaining competency development processes, programs, and systems. | text of the widget
-*
-* Widget CONTAINER
-* @attribute color-background | #F8FAFC | -- | background color of the widget
-* @attribute color-primary | currentColor | #0A2E7E | color of the text
-* @attribute color-accent | lightblue | rgb(0 184 156 / 100%) | color of the text
-
-* CARD
+ * @attribute body-text | -- | In partnership with our members, The Competency Alliance has established the NetZero and Renewables divisions, following the PetroSkills model used to form an industry benchmark in the Oil and Gas sector 20 years ago. | text of the widget
  * @attribute card-background-color | white | #EAF1F7 | background color of the card
- * @attribute card-border-radius | .35rem | .5rem | border radius of the card
- * @attribute card-box-shadow | none | 0 0 1px 0 rgba(0,0,0,.4); | box shadow of the card
- * @attribute card-height | auto | -- | height of the card
- * @attribute card-hover-opacity | -- | -- | opacity of the card on hover
- * @attribute card-hover-background-color | -- | -- | background color of the card on hover
- * @attribute card-max-width | 100% | -- | max width of the card
- * @attribute card-min-height | auto | 20rem | min height of the card
- * @attribute card-opacity | 100% | -- | opacity of the card
- * @attribute card-transition-property | opacity | -- | transition property of the card
- * @attribute card-transition-duration | .3s | -- | transition duration of the card
- * @attribute card-width | 100% | -- | width of the card
-
- *
- * OUTSIDE HEADING
- * @attribute card-outside-heading-color | inherit | -- | color of the outside heading
- * @attribute card-outside-heading-font-size | inherit | -- | font size of the outside heading
- * @attribute card-outside-heading-font-weight | inherit | -- | font weight of the outside
- heading
- * @attribute card-outside-heading-margin-bottom | .5rem | -- | margin of the outside heading
- * @attribute card-outside-heading-position | above | -- | position of the outside heading
- *
- * BACKGROUND IMAGE
- * @attribute card-background-image-position | bottom | -- | position of the background image
- *
- * CARD HEADER
- * @attribute card-header-border-bottom | 1px solid #e2e8f0 | -- | border bottom of the card header
- * @attribute card-header-background | white | #F9FDFF | background color of the card header
- * @attribute card-header-color-text | inherit | -- | text color of the card header
- * @attribute card-header-font-size | 1rem | -- | font size of the card header
- * @attribute card-header-font-weight | bold | -- | font weight of the card header
- * @attribute card-header-padding | .25rem 1rem | -- | padding of the card header
- * @attribute card-header-logo-width | auto | -- | width of the logo
- * @attribute card-header-logo-height | 2.5rem | -- | height of the logo
- *
- * BODY CONTAINER
+ * @attribute card-background-image-position | -- | -- | position of the background image
+ * @attribute card-body-color | inherit | -- | color of the body text
+ * @attribute card-body-font-size | .95rem | -- | font size of the body text
+ * @attribute card-body-font-weight | inherit | -- | font weight of the body text
  * @attribute card-body-padding | .75rem | -- | padding of the body container
- *
- * BODY TEXT & BULLETS
- * @attribute card-body-font-size | .9rem | -- | font size of the body text
- * @attribute card-body-font-weight | 400 | -- | font weight of the body text
- * @attribute card-body-text-color | inherit | -- | color of the body text
- *
- * DATA
- * _attribute cards-data-json | [] | [{"cardFeatureImageUrl":"/images/custom/petro/ocean-turbines.webp","cardBodyText":"Energy companies are increasingly moving towards diversification beyond traditional hydrocarbons.","cardOutsideHeadingText":"New Skills"},{"cardFeatureImageUrl":"/images/custom/petro/solar-worker.webp","cardBodyText":"The transition to clean energy is expected to generate > 10M net new jobs by 2030.","cardOutsideHeadingText":"New People"},{"cardFeatureImageUrl":"/images/custom/petro/solar-farm.webp","cardBodyText":"In the office, field, or board room, energy workers will require up-skilling and digital dexterity to adapt.","cardOutsideHeadingText":"New Demands"},{"cardFeatureImageUrl":"/images/custom/petro/business-person.webp","cardBodyText":"Significant investment is required to deliver knowledge to the right person, at the right time, in the right format.","cardOutsideHeadingText":"New Investments"}] | json data for the cards
- * @attribute cards-data-json | [] | [{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_petroskills.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-petroskills.svg","cardHeaderText":"PetroSkills","cardBodyBullets":["Upstream","Midstream","Downstream"],"cardFooterLinkUrl":"https://petroskills.com","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_netzeroskills.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-net-zero-skills.svg","cardHeaderText":"NetZeroSkills","cardBodyBullets":["Green House Gas Management","Carbon Capture, Utilization & Storage","Hydrogen"],"cardFooterLinkUrl":"https://netzeroskills.com","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_renewableskills.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-renewable-skills.svg","cardHeaderText":"RenewableSkills","cardBodyBullets":["Geothermal","Wind"],"cardFooterLinkUrl":"https://renewableskills.com","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_ability.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-ability.svg","cardHeaderText":"Ability","cardBodyBullets":["Competency Engine & LMS","Competency Consulting","Economics & PM","Organizational Effectiveness"],"cardFooterLinkUrl":"https://www.petroskills.com/ability","cardFooterLinkLabel":"Learn More"}] | json data for the cards
- *
- *
- * FOOTER
+ * @attribute card-border | solid .5px hsla(206, 32%, 22%, 0.3) | -- | border of the card
+ * @attribute card-border-radius | .35rem | .5rem | border radius of the card
+ * @attribute card-box-shadow | 0 0 1px 0 rgba(0,0,0,.4) |  -- | box shadow of the card
  * @attribute card-footer-backdrop-filter | blur(8px) | -- | backdrop filter of the card header
  * @attribute card-footer-border-top | 1px solid #e2e8f0 | --| border bottom of the card header
  * @attribute card-footer-background | rgb(255 255 255 / 40%) | -- | background color of the card header
  * @attribute card-footer-color | inherit | -- | text color of the card header
  * @attribute card-footer-font-size | .85rem | -- | font size of the card header
  * @attribute card-footer-font-weight | 400 | -- | font weight of the card header
- * @attribute card-footer-min-height | 2.5rem | -- | min height of the card header
- * @attribute card-footer-padding | .25rem 1rem | -- | padding of the card header
-
- *
- * FOOTER LINK
  * @attribute card-footer-link-background | rgb(255 255 255 / 30%) | -- | background color of the footer link (button style)
  * @attribute card-footer-link-border | 1px solid currentColor | -- | border of the footer link (button style)
  * @attribute card-footer-link-border-radius | .25rem; | -- | border radius of the footer link (button style)
@@ -107,218 +55,63 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @attribute card-footer-link-hover-color | currentColor | -- | text color of the footer link on hover (button style)
  * @attribute card-footer-link-hover-background | rgb(255 255 255 / 80%) | -- | background color of the footer link on hover (button style)
  * @attribute card-footer-link-padding | .25rem .5rem; | -- | padding of the footer link (button style)
- *
- * STYLESHEET
+ * @attribute card-footer-min-height | 2.5rem | -- | min height of the card header
+ * @attribute card-footer-padding | .25rem 1rem | -- | padding of the card header
+ * @attribute card-header-border-bottom | 1px solid #e2e8f0 | -- | border bottom of the card header
+ * @attribute card-header-background | white | #F9FDFF | background color of the card header
+ * @attribute card-header-color | inherit | -- | text color of the card header
+ * @attribute card-header-font-size | 1rem | -- | font size of the card header
+ * @attribute card-header-font-weight | 900 | -- | font weight of the card header
+ * @attribute card-header-padding | .25rem 1rem | -- | padding of the card header
+ * @attribute card-header-logo-width | auto | -- | width of the logo
+ * @attribute card-header-logo-height | 2.5rem | -- | height of the logo
+* @attribute card-height | auto | -- | height of the card
+ * @attribute card-hover-opacity | -- | -- | opacity of the card on hover
+ * @attribute card-hover-background-color | -- | -- | background color of the card on hover
+ * @attribute card-max-width | 100% | -- | max width of the card
+ * @attribute card-min-height | auto | 24rem | min height of the card
+ * @attribute card-opacity | 100% | -- | opacity of the card
+ * @attribute card-outside-heading-color | inherit | -- | color of the outside heading
+ * @attribute card-outside-heading-font-size | inherit | -- | font size of the outside heading
+ * @attribute card-outside-heading-font-weight | inherit | -- | font weight of the outside
+ * @attribute card-outside-heading-margin-bottom | .5rem | -- | margin of the outside heading
+ * @attribute card-outside-heading-position | above | -- | position of the outside heading
+ * @attribute card-width | 100% | -- | width of the card
+ * @attribute cards-data-json | [] | [{"cardFeatureImageUrl":"https://petroskills.com/microsite/TCA/grid-images/ocean-turbines.webp","cardOutsideHeadingText":"New Skills","cardBodyText":"Energy companies are increasingly moving towards diversification beyond traditional hydrocarbons."},{"cardFeatureImageUrl":"https://petroskills.com/microsite/TCA/grid-images/solar-worker.webp","cardOutsideHeadingText":"New People","cardBodyText":"The transition to clean energy is expected to generate > 10M net new jobs by 2030."},{"cardFeatureImageUrl":"https://petroskills.com/microsite/TCA/grid-images/solar-farm.webp","cardOutsideHeadingText":"New Demands","cardBodyText":"In the office, field, or board room, energy workers will require up-skilling and digital dexterity to adapt."},{"cardFeatureImageUrl":"https://petroskills.com/microsite/TCA/grid-images/business-person.webp","cardOutsideHeadingText":"New Investments","cardBodyText":"Significant investment is required to deliver knowledge to the right person, at the right time, in the right format."}] | json data for the cards
+ * _attribute cards-data-json | [] | [{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_petroskills.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-petroskills.svg","cardHeaderText":"PetroSkills","cardBodyBullets":["Upstream","Midstream","Downstream"],"cardFooterLinkUrl":"https://petroskills.com","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_netzeroskills.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-net-zero-skills.svg","cardHeaderText":"NetZeroSkills","cardBodyBullets":["Green House Gas Management","Carbon Capture, Utilization & Storage","Hydrogen"],"cardFooterLinkUrl":"https://netzeroskills.com","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_renewableskills.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-renewable-skills.svg","cardHeaderText":"RenewableSkills","cardBodyBullets":["Geothermal","Wind"],"cardFooterLinkUrl":"https://renewableskills.com","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_ability.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-ability.svg","cardHeaderText":"Ability","cardBodyBullets":["Competency Engine & LMS","Competency Consulting","Economics & PM","Organizational Effectiveness"],"cardFooterLinkUrl":"https://www.petroskills.com/ability","cardFooterLinkLabel":"Learn More"}] | json data for the cards
+ * @attribute color-background | #F8FAFC | -- | background color of the widget
+ * @attribute color-primary | currentColor | #0A2E7E | color of the text
+ * @attribute color-accent | lightblue | rgb(0 184 156 / 100%) | color of the text
+ * @attribute heading-font-size | 1.25rem | -- | font size of the heading
+ * @attribute heading-font-weight | bold | -- | font weight of the heading
+ * @attribute heading-margin-bottom | 1.5rem | -- | margin bottom of the heading
+ * @attribute heading-text | -- | Expertise that Spans the Energy Value Chain.
  * @attribute stylesheet | -- | #container { color:#0b2e7e; } | inject css into the inner stylesheet
- * @attribute style | -- | -- | regular inline style on the component
-
  */
 class WidgetCardGrid extends HTMLElement {
 
-	// widget
-	colorAccent = "";
-	colorBackground = "";
-	colorPrimary = "";
-
-	// Meta
-	widgetMetaFontSize = "";
-	widgetMetaMarginBottom = "";
-	widgetMetaText = "";
-
-	// Widget heading
-	headingFontSize = "";
-	headingFontWeight = "";
-	headingMarginBottom = "";
-	headingText = "";
-
-	// Body
-	bodyText = "";
-
-	// Outside Heading
-	cardOutsideHeadingColor = "";
-	cardOutsideHeadingFontSize = "";
-	cardOutsideHeadingFontWeight = "";
-	cardOutsideHeadingMarginBottom = "";
-	cardOutsideHeadingPosition = "";
-	cardOutsideHeadingText = "";
-
-	// Card
-	cardBackgroundColor = "";
-	cardBorderRadius = "";
-	cardBoxShadow = "";
-	cardHeight = "";
-	cardHoverOpacity = "";
-	cardHoverBackgroundColor = "";
-	cardMaxWidth = "";
-	cardMinHeight = "";
-	cardOpacity = "";
-	cardTransitionProperty = "";
-	cardTransitionDuration = "";
-	cardWidth = "";
-
-	// Background Image
-	cardBackgroundImageAlt = "";
-	cardBackgroundImagePosition = "";
-	cardBackgroundImageUrl = "";
-
-	// Card Header
-	cardHeaderBorderBottom = "";
-	cardHeaderBackground = "";
-	cardHeaderColorText = "";
-	cardHeaderFontSize = "";
-	cardHeaderFontWeight = "";
-	cardHeaderPadding = "";
-	cardHeaderLogoUrl = "";
-	cardHeaderLogoAlt = "";
-	cardHeaderLogoWidth = "";
-	cardHeaderLogoHeight = "";
-	cardHeaderText = "";
-
-	// Body Container
-	cardBodyPadding = "";
-
-	// Body Text & Bullets
-	cardBodyBullets = "[]";
-	cardBodyFontSize = "";
-	cardBodyFontWeight = "";
-	cardBodyTextColor = "";
-	cardBodyText = "";
-
-	// Footer
-	cardFooterBackdropFilter = "";
-	cardFooterBorderTop = "";
-	cardFooterBackground = "";
-	cardFooterColorText = "";
-	cardFooterFontSize = "";
-	cardFooterFontWeight = "";
-	cardFooterMinHeight = "";
-	cardFooterPadding = "";
-	cardFooterText = "";
-
-	// Footer Link
-	cardFooterLinkUrl = "";
-	cardFooterLinkRel = "";
-	cardFooterLinkTitle = "";
-	cardFooterLinkLabel = "";
-	cardFooterLinkBackground = "";
-	cardFooterLinkBorder = "";
-	cardFooterLinkBorderRadius = "";
-	cardFooterLinkColor = "";
-	cardFooterLinkFontSize = "";
-	cardFooterLinkFontWeight = "";
-	cardFooterLinkHoverColor = "";
-	cardFooterLinkHoverBackground = "";
-	cardFooterLinkPadding = "";
-
-	// Data
-	cardsDataJson = "[]";
-
-	// stylesheet
-	stylesheet = "";
-
-// reference to class itself
 get c() { return WidgetCardGrid };
 
-
-
 // ATTRIBUTES
-/**
- * Returns an object. The keys are prop names. The values are the default values for the props.
- * @returns { { [key:string]: string | null } }
- */
+/** @returns { { [key:string]: string | null } } */
 static get attributes() {
-const values = {
-
-	/* container */
-	"widget-background": "white",
-	"color-background": "#F8FAFC",
-	"color-primary": "currentColor",
-	"color-accent": "currentColor",
-
-	/* meta */
-	"widget-meta-font-size": ".75rem",
-	"widget-meta-margin-bottom": ".5rem",
-	"widget-meta-text": "",
-
-	/* heading */
-	"heading-font-size": "1.25rem",
-	"heading-font-weight": "bold",
-	"heading-margin-bottom": "1.5rem",
-	"heading-text": "",
-
-	/* body */
+return {
 	"body-text": "",
-
-	/* outside */
-	"card-outside-heading-color": "inherit",
-	"card-outside-heading-font-size": "1rem",
-	"card-outside-heading-font-weight": "bold",
-	"card-outside-heading-margin-bottom": ".5rem",
-	"card-outside-heading-position": "top",
-	"card-outside-heading-text": "",
-
-	/* card */
 	"card-background-color": "white",
-	"card-border-radius": ".35rem",
-	"card-box-shadow": "none",
-	"card-height": "auto",
-	"card-hover-opacity": "",
-	"card-hover-background-color": "",
-	"card-max-width": "100%",
-	"card-min-height": "auto",
-	"card-opacity": "100%",
-	"card-transition-property": "opacity",
-	"card-transition-duration": "0.3s",
-	"card-width": "100%",
-
-	/* card link */
-	"card-link-url": "",
-	"card-link-rel": "",
-	"card-link-title": "",
-
-	/* background image */
-	"card-background-image-alt": "",
 	"card-background-image-position": "bottom",
-	"card-background-image-url": "",
-
-	/* header */
-	"card-header-border-bottom": "1px solid #e2e8f0",
-	"card-header-background": "white",
-	"card-header-color-text": "",
-	"card-header-font-size": "1rem",
-	"card-header-font-weight": "500",
-	"card-header-padding": ".25rem .75rem",
-	"card-header-logo-url": "",
-	"card-header-logo-alt": "",
-	"card-header-logo-width": "auto",
-	"card-header-logo-height": "2.5rem",
-	"card-header-text": "",
-
-	/* body container */
-	"card-body-padding": ".75rem",
-	"card-body-text-color": "inherit",
-	"card-body-font-size": "100%",
+	"card-body-color": "inherit",
+	"card-body-font-size": ".95rem",
 	"card-body-font-weight": "inherit",
-
-	/* body text & bullets */
-	"card-body-text": "",
-
-	/* footer */
+	"card-border": "solid .5px hsla(206, 32%, 22%, 0.3)",
+	"card-body-padding": ".5rem .75rem",
+	"card-border-radius": ".5rem",
+	"card-box-shadow": "0 0 1px 0 rgba(0,0,0,.4)",
 	"card-footer-backdrop-filter": "blur(8px)",
 	"card-footer-border-top": "1px solid #e2e8f0",
 	"card-footer-background": "rgb(255 255 255 / 40%)",
-	"card-footer-color-text": "inherit",
-	"card-footer-font-size": ".85rem",
-	"card-footer-font-weight": "400",
-	"card-footer-min-height": "2.5rem",
-	"card-footer-padding": ".5rem 1rem",
-	"card-footer-text": "",
-
-	/* footer link */
-  "card-footer-link-url": "/",
-	"card-footer-link-rel": "",
-  "card-footer-link-title": "",
-	"card-footer-link-label": "",
+	"card-footer-color": "inherit",
+	"card-footer-font-size": ".95rem",
+	"card-footer-font-weight": "500",
 	"card-footer-link-background": "rgb(255 255 255 / 30%)",
 	"card-footer-link-border": "1px solid currentColor",
 	"card-footer-link-border-radius": ".25rem",
@@ -327,237 +120,177 @@ const values = {
 	"card-footer-link-font-weight": "400",
 	"card-footer-link-hover-color": "currentColor",
 	"card-footer-link-hover-background": "rgb(255 255 255 / 80%)",
-	"card-footer-link-padding": ".25rem .5rem",
-
-	/* data */
+	"card-footer-link-padding": ".25rem .25rem",
+	"card-footer-min-height": "2.5rem",
+	"card-footer-padding": ".5rem 1rem",
+	"card-header-border-bottom": "1px solid #e2e8f0",
+	"card-header-background": "white",
+	"card-header-color": "inherit",
+	"card-header-font-size": "1rem",
+	"card-header-font-weight": "900",
+	"card-header-padding": ".25rem .75rem",
+	"card-header-logo-width": "auto",
+	"card-header-logo-height": "2.5rem",
+	"card-height": "auto",
+	"card-hover-opacity": "1",
+	"card-hover-background-color": "var(--card-background-color)",
+	"card-hover-box-shadow": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+	"card-max-width": "none",
+	"card-min-height": "auto",
+	"card-opacity": "1",
+	"card-outside-heading-color": "inherit",
+	"card-outside-heading-font-size": "1rem",
+	"card-outside-heading-font-weight": "700",
+	"card-outside-heading-margin-bottom": ".5rem",
+	"card-outside-heading-position": "top",
+	"card-width": "100%",
+	"card-stylesheet": "",
 	"cards-data-json": "[]",
-
-	/* stylesheet */
-  "card-stylesheet": "",
+	"color-background": "#F8FAFC",
+	"color-primary": "currentColor",
+	"color-accent": "currentColor",
+	"heading-font-size": "1.25rem",
+	"heading-font-weight": "bold",
+	"heading-margin-bottom": "1.5rem",
+	"heading-text": "",
+	"meta-text": "", // replaces "widget-meta-text"
+	"meta-font-size": ".75rem", // replaces "widget-meta-font-size"
+	"meta-margin-bottom": ".5rem", // replaces "widget-meta-margin-bottom"
 	"stylesheet": "",
+	"widget-background": "var(--color-background)", // deprecated
+	"widget-meta-text": "", // deprecated
 
-};
-return values;
-}
+}}
 
-// OBSERVED ATTRIBUTES GETTER
-static get observedAttributes() { return Object.keys(this.attributes) }
+buildCardHTML(/** @type {Card} */ card) {
+	const html = ComponentUtils.stringIfValue;
+	const backgroundImageAlt = card?.cardBackgroundImageAlt ?? "";
+	const backgroundImageUrl = card?.cardBackgroundImageUrl ?? "";
+	const bodyBullets = card?.cardBodyBullets ?? [];
+	const bodyText = card?.cardBodyText ?? "";
+	const bullets = this.buildBulletsHTML(bodyBullets);
+	const featureImageAlt = card?.cardBackgroundImageAlt ?? "";
+	const featureImageUrl = card?.cardFeatureImageUrl ?? "";
+	const footerLinkLabel = card?.cardFooterLinkLabel ?? "";
+	const footerLinkUrl = card?.cardFooterLinkUrl ?? "";
+	const footerLinkTitle = card?.cardFooterLinkTitle ?? "";
+	const footerText = card?.cardFooterText ?? "";
+	const headerLogoAlt = card?.cardHeaderLogoAlt ?? "";
+	const headerLogoHeight = this.attValue('header-logo-height');
+	const headerLogoWidth = this.attValue('header-logo-width');
+	const headerLogoUrl = card?.cardHeaderLogoUrl ?? "";
+	const headerText = card?.cardHeaderText ?? "";
+	const outsideHeadingText = card?.cardOutsideHeadingText ?? "";
+	const stylesheet = this.attValue('card-stylesheet');
 
-// ATTRIBUTE DEFAULT VALUE GETTER
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
-
-/** @typedef {{[key:string]: string}} card */
-
-// HTML BUILDERS
-buildGridHTML() {
-
-	// list attributes
-	const attributes = [
-		"outside-heading-color",
-		"outside-heading-font-size",
-		"outside-heading-font-weight",
-		"outside-heading-margin-bottom",
-		"outside-heading-position",
-		"outside-heading-text",
-		"card-background-color",
-		"card-border-radius",
-		"card-box-shadow",
-		"card-height",
-		"card-hover-opacity",
-		"card-hover-background-color",
-		"card-max-width",
-		"card-min-height",
-		"card-opacity",
-		"card-transition-property",
-		"card-transition-duration",
-		"card-width",
-		"card-link-url",
-		"card-link-rel",
-		"card-link-title",
-		"background-image-alt",
-		"background-image-position",
-		"background-image-url",
-		"feature-image-url",
-		"feature-image-alt",
-		"feature-image-position",
-		"body-bullets",
-		"body-text",
-		"header-border-bottom",
-		"header-background",
-		"header-color-text",
-		"header-font-size",
-		"header-font-weight",
-		"header-padding",
-		"header-logo-url",
-		"header-logo-alt",
-		"header-logo-width",
-		"header-logo-height",
-		"header-text",
-		"body-padding",
-		"body-text-color",
-		"body-font-size",
-		"body-font-weight",
-		"body-text",
-		"footer-backdrop-filter",
-		"footer-border-top",
-		"footer-background",
-		"footer-color-text",
-		"footer-font-size",
-		"footer-font-weight",
-		"footer-min-height",
-		"footer-padding",
-		"footer-text",
-		"footer-link-url",
-		"footer-link-rel",
-		"footer-link-title",
-		"footer-link-label",
-		"footer-link-background",
-		"footer-link-border",
-		"footer-link-border-radius",
-		"footer-link-color",
-		"footer-link-font-size",
-		"footer-link-font-weight",
-		"footer-link-hover-color",
-		"footer-link-hover-background",
-		"footer-link-padding",
-		"stylesheet"
-	]
-
-		// helper function
-	/** @param {string} attName, @param {card} item */
-	const buildAttributeString = (item, attName) => {
-		// if attName does not begin with 'card-', add it
-		const adjustedName  = (!attName.startsWith("card-")) ? `card-${attName}` : attName;
-
-
-		// get camel case version of attName
-		/** @type { string } camelCase */
-		const camelCase = ComponentUtils.kebabToCamel(adjustedName);
-
-		if (attName === "body-bullets" && item['cardBodyBullets']) { return `${attName}='${JSON.stringify(item['cardBodyBullets'])}'`}
-
-		// if item has a matching value, return it
-		else if (item[camelCase]) return `${attName}='${item[camelCase]}'`
-
-		// else if this has a matching value, return it
-		// @ts-expect-error - this is a class
-		else if (this?.[camelCase] && this[camelCase] != this.c.getDefault(adjustedName)) return `${attName}="${this?.[camelCase]}"`
-
-		// else return an empty string
-		else return "";
-
-	}
-
-	// build attributes
-	/** @param {card} item */
-	const buildAttributesString = (item) => {
-		// return a string of all attributes
-		const str = attributes.map(att => buildAttributeString(item, att)).join(`\n`);
-		return str;
-	}
-
-	const data = this.data;
-
-	const html =  data.map((
-		/** @type {card} item */
-		item) => {
-			return `<content-card ${buildAttributesString(item)}></content-card>`
-	}).join("");
-
-	return html;
-}
-
-// DATA
-get data() {
-	const result = JSON.parse(this.cardsDataJson) ?? "[]";
-	return result;
-}
-
-
-// ELEMENTS
-get els() {
-  return `
-<style id="stylesheet">${this.stylesheet}</style>
-<div
-	id="container"
-	style="
-		--color-background:${this.colorBackground};
-		--color-primary:${this.colorPrimary};
-		--color-accent:${this.colorAccent};
-		--heading-font-size:${this.headingFontSize};
-		--heading-font-weight:${this.headingFontWeight};
-		--heading-margin-bottom:${this.headingMarginBottom};
-		--font-size:${this.widgetMetaFontSize};
-		--margin-bottom:${this.widgetMetaMarginBottom};"
->
-		<div
-			id="container-inner"
-			>
-
-			<!-- meta -->
-			${this.widgetMetaText ? `<div id="meta" style="">${this.widgetMetaText}</div>` : ''}
-
-			<!-- heading row -->
-			<h2 id="heading">${this.headingText[0].toUpperCase() + this.headingText.substring(1).toLowerCase()}</h2>
-
-			<!-- text -->
-			<p id="text">${this.bodyText ?? ""}</p>
-
-			<!-- card grid -->
-			<div id="grid">${this.buildGridHTML()}</div>\
-
+	return `<div class="card-outer">
+	${html(outsideHeadingText, `<h3 class="card-outside-heading">${outsideHeadingText}</h3>`)}
+	<div class="card">
+		<div class="card-inner">
+			${html('test', `<header class="card-header">
+				${html(headerLogoUrl, `<img class="card-header-image"
+					${html(headerLogoAlt, `alt="${headerLogoAlt}" `)}
+					${html(headerLogoHeight, `height="${headerLogoHeight}" `)}
+					${html(headerLogoWidth, `width="${headerLogoWidth}" `)}
+					${html(headerLogoUrl, `src="${headerLogoUrl}" `)}
+					loading="lazy" />`)}
+				${html(headerText, `<div class="card-header-text">${headerText}</div>`)}
+			</header>`, headerLogoUrl || headerText)}
+			<div class="card-body">
+				${html(bodyText, `<p class="card-body-text">${bodyText}</p>`)}
+				${html(bullets, bullets)}
+				${html(featureImageUrl, `<div class="card-feature-image-container"><figure class="card-feature-image-figure"><img role="presentation" ${html(featureImageAlt, `alt="${featureImageAlt}"`)} class="card-feature-image" src="${featureImageUrl}" /></figure></div>`)}
+			</div>
+			${html('test', `<footer class="card-footer">
+				${html(footerLinkLabel, `<a class="card-footer-link" href="${footerLinkUrl}" title="${footerLinkTitle}">${footerLinkLabel}</a>`)}
+				${html(footerText, `<span class="card-footer-text">${footerText}</span>`)}
+			</footer>`, footerLinkLabel || footerText)}
+			${html(backgroundImageUrl, `<img role="presentation" alt="${backgroundImageAlt ?? ''}" class="card-background-image" src="${backgroundImageUrl}" />`)}
 		</div>
-
-
+	</div>
 </div>`.trim();
 }
 
+// HTML BUILDERS
+buildGridHTML() {
+	const /** @type {Card[]} item */ data = JSON.parse(this.attValue('cards-data-json')) ?? "[]";
+	return data.map((card) => this.buildCardHTML(card)).join("");
+}
+
+buildBulletsHTML(/** @type {string[]} */ bullets) {
+	const result = bullets.map((bullet) => `<div class="li">${bullet}</div>`).join("");
+	return `<div class="card-body-bullets">${result}</div>`;
+}
+
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
+}
+
+// ELEMENTS
+get els() {
+	const containerVars = ComponentUtils.cssVars(this.c.attributes, this);
+	const html = ComponentUtils.stringIfValue;
+	const stylesheet = this.attValue('stylesheet');
+	const bodyText = this.attValue('body-text');
+	const headingText = this.attValue('heading-text');
+	const widgetMetaText = this.attValue('widget-meta-text') ? this.attValue('widget-meta-text') : this.attValue('meta-text') ?? "";
+	const grid = this.buildGridHTML();
+  return `
+	${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
+	<div id="container" style="${containerVars}">
+		<div id="container-inner">
+			${html(widgetMetaText, `<div id="meta" style="">${widgetMetaText}</div>`)}
+			${html(headingText, `<h2 id="heading">${headingText[0].toUpperCase() + headingText.substring(1).toLowerCase()}</h2>`)}
+			${html(bodyText, `<p id="text">${bodyText}</p>`)}
+			${html(grid, `<div id="grid">${grid}</div>`)}
+		</div>
+</div>`.trim();
+}
 
 // STYLES
-get styles() {
-	const pageXPadding = ComponentUtils.pageXPadding;
+static get styles() {
   return `
 	${ComponentUtils.preflight}
   <style id="base">
 	#container {
+		align-items:start;
 		background-color: var(--color-background);
 		display:grid;
-		align-items:start;
-		padding:64px ${pageXPadding.xxs} 96px;
+		color: var(--color-primary);
+		padding-block:64px 96px;
 		max-width:100%;
 	}
 	@media (min-width: 420px) {
 		#container {
-			padding:64px ${pageXPadding.xs} 96px;
+			padding-block:64px 96px;
 		}
 	}
 	@media (min-width: 640px) {
 		#container {
-			padding:64px ${pageXPadding.sm} 96px;
+			padding-block:64px 96px;
 		}
 	}
 	@media (min-width: 760px) {
 		#container {
-			padding:64px ${pageXPadding.md} 96px;
+			padding-block:64px 96px;
 		}
 	}
 	@media (min-width: 1024px) {
 		#container {
-			padding:48px ${pageXPadding.lg} 76px;
+			padding-block:48px 76px;
 		}
 	}
 	@media (min-width: 1280px) {
 		#container {
-			padding:64px ${pageXPadding.xl} 96px;
+			padding-block:64px 96px;
 		}
 	}
 	@media (min-width: 1536px) {
 		#container {
-			padding:64px ${pageXPadding['2xl']} 96px;
+			padding-block:64px 96px;
 		}
 	}
-	/* Meta */
+	${ComponentUtils.paddingXStyles()}
 	#meta {
 		color: var(--color-accent, currentColor);
 		font-size: var(--font-size, .85rem);
@@ -565,7 +298,6 @@ get styles() {
 		opacity:1;
 		text-transform:uppercase;
 	}
-	/* Heading */
 	#heading {
 		color: inherit;
 		filer:drop-shadow(0 1px 1px rgba(0, 0, 0, .05));
@@ -648,10 +380,10 @@ get styles() {
 			grid-template-columns: repeat(4,minmax(0,1fr));
 			place-content:center;
 		}
-		#grid content-card:nth-child(1), #grid content-card:nth-child(3) {
+		#grid .card-outer:nth-child(1), #grid .card-outer:nth-child(3) {
 			transform:translateY(-1rem);
 		}
-		#grid content-card:nth-child(2), #grid content-card:nth-child(4) {
+		#grid .card-outer:nth-child(2), #grid .card-outer:nth-child(4) {
 			transform:translateY(1rem);
 		}
 	}
@@ -661,42 +393,206 @@ get styles() {
 	@media (min-width: 1536px) {
 		#grid { column-gap:48px; }
 	}
-
+	.card-outer {
+		background-color:transparent;
+		color: var(--card-body-color);
+		width:100%;
+	}
+	.card {
+		background-color: transparent;
+		display: block;
+		outline:transparent;
+		position:relative;
+		max-width: 100%;
+	}
+	.card-outer .card-outside-heading {
+		color: var(--card-outside-heading-color, inherit);
+		font-size: var(--card-outside-heading-font-size, 1rem);
+		font-weight: var(--card-outside-heading-font-weight, 700);
+		margin-bottom: var(--card-outside-heading-margin-bottom, 0);
+	}
+	.card-inner {
+		background-color: var(--card-background-color, white);
+		border-radius: var(--card-border-radius, .35em);
+		border: var(--card-border, none);
+		box-shadow: var(--card-box-shadow, none);
+		display:grid;
+		place-content:start;
+		place-items:stretch;
+		grid-template-rows: minmax(max-content, auto) 1fr minmax(max-content, auto);
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+		height: 100%;
+		min-height: var(--card-min-height, auto);
+		overflow: hidden;
+		position:relative;
+		transition-property: background-color, box-shadow, opacity;
+		transition:duration: .35s;
+		transition-timing-function: ease-in-out;
+		width: var(--card-width, 100%);
+	}
+	.card-inner:hover {
+		background-color:var(--card-hover-background-color, white);
+		box-shadow: var(--card-hover-box-shadow, 0 25px 50px -12px rgb(0 0 0 / 0.25));
+		opacity: var(--card-hover-opacity, 100%);
+	}
+	.card-inner .card-header {
+		border-bottom: var(--card-header-border-bottom, 1px solid #e2e8f0);
+		background-color: var(--card-header-background);
+		color: var(--card-header-color);
+		display:flex;
+		font-size: var(--card-header-font-size, 1rem);
+		font-weight: var(--card-header-font-weight, 700);
+		max-width: 100%;
+		overflow:hidden;
+		padding: var(--card-header-padding, .5rem .25rem);
+		z-index:3;
+	}
+	.card-inner .card-header .card-header-text {
+		color: var(--card-header-color, inherit);
+		font-size: var(--card-header-font-size, 1rem);
+		font-weight: var(--card-header-font-weight, 900);
+		max-height: fit-content;
+		padding: var(--card-header-padding, .5rem .25rem);
+		width: 100%;
+		text-align: left;
+	}
+	.card-inner .card-header .card-header-image {
+		display:flex;
+		width: var(--card-header-logo-width, auto);
+		height: var(--card-header-logo-height, auto);
+	}
+	.card-inner .card-body {
+		color: var(--card-body-color);
+		display:grid;
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+		height:auto;
+		font-size: var(--card-body-font-size);
+		font-weight: var(--card-body-font-weight, 400);
+		padding: var(--card-body-padding);
+		width:100%;
+	}
+	.card-inner .card-body-text {
+		font-size:.95rem;
+		margin-bottom: .5rem;
+		opacity:.9;
+		padding: var(--card-body-padding, 1rem);
+	}
+	.card-inner .card-body-bullets {
+		display: grid;
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+		padding: var(--card-body-padding, 1rem);
+		place-items-start;
+		place-content:start;
+		row-gap:0.5rem;
+		z-index:2;
+	}
+	.card-inner .card-body-bullets .li {
+		background-color:var(--card-background-color);
+		background-color:color-mix(in srgb, var(--card-background-color, transparent) 95%, transparent);
+		border-radius:.25rem;
+		font-size: .95em;
+		position:relative;
+		max-width:fit-content;
+		padding-left:.25rem;
+		padding-right:.5rem;
+	}
+	.card-inner .card-body-bullets .li:before {
+		display:inline-block;
+		position:absolute;
+		scale:1.5;
+		transform-origin:50% 50%;
+		transform:translateX(-.5rem);
+		content:"•";
+	}
+	.card-feature-image-container {
+		bottom:0;
+		right:0;
+		display: flex;
+		justify-content: flex-end;
+		position: absolute;
+		width:100%;
+		max-width:400px;
+	}
+	.card-feature-image-figure {
+		align-items: center;
+		aspect-ratio:1;
+		border-top-left-radius:9999px;
+		background:#CFF3F3;
+		display: flex;
+		height:auto;
+		items-center;
+		justify-content: flex-end;
+		width:80%;
+	}
+	.card-feature-image {
+		aspect-ratio:1;
+		bottom:0;
+		display:flex;
+		height:auto;
+		position:absolute;
+		opacity:1;
+		overflow:hidden;
+		pointer-events:none;
+		transform:translate(33%, 33%);
+		width:100%;
+		scale:1.2;
+		z-index:0;
+	}
+	.card-background-image {
+		bottom:0;
+		display:flex;
+		height:auto;
+		position:absolute;
+		object-fit:contain;
+		object-position: end;
+		pointer-events:none;
+		width:100%;
+		z-index:0;
+	}
+	.card-footer {
+		align-items: center;
+		background: var(--card-footer-background, transparent);
+		backdrop-filter: var(--card-footer-backdrop-filter, none);
+		border-top: var(--card-footer-border-top, 1px solid #e2e8f0);
+		color: var(--card-footer-color, inherit);
+		column-gap:1rem;
+		font-size: var(--card-footer-font-size, 1rem);
+		font-weight: var(--card-footer-font-weight, 500);
+		justify-self: end;
+		padding: var(--card-footer-padding, .25rem 1rem);
+		min-height: var(--card-footer-min-height, 2.5rem);
+		max-width:100%;
+		width:100%;
+		z-index:10;
+	}
+	.card-footer-link {
+		background: var(--card-footer-link-background, transparent);
+		border: 1px solid currentColor;
+		border-radius: .25rem;
+		color: var(--card-footer-color, inherit);
+		font-size: .85em;
+		padding: var(--card-footer-link-padding, .25rem .5rem);
+		text-decoration: none;
+		box-shadow: 0 0 0 0px currentColor;
+		transition-property: background, color, border;
+		transition-duration: .1s;
+	}
+	.card-footer-link:hover {
+		background: var(--card-footer-link-hover-background, transparent);
+		border: 1px solid transparent;
+		color: var(--card-footer-link-hover-color, currentColor);
+	}
 </style>`
 }
 // TEMPLATE
 get template() {
   const template = document.createElement("template");
-  template.innerHTML = `${this.styles}${this.els}`.trim();
+  template.innerHTML = `${this.c.styles}${this.els}`.trim();
   return template;
 }
-// IDS
-get ids() {
-  return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
-}
 
-// CONSTRUCTOR
-constructor() {
-	super();
-
-	// programattically create getters and setters for each observed attribute
-	ComponentUtils.createOAGS(this.c, this);
-
-	// create a shadow root
-	this.attachShadow({ mode: "open" });
-
-}
-
-// LIFECYCLE CALLBACKS
-
-connectedCallback() {
-	// append the template content to the shadow DOM
-	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
-
-	// define refs elements
-	this.refs = ComponentUtils.getRefs(this.c, this);
-}
-
+constructor() { super(); this.attachShadow({ mode: "open" }); }
+connectedCallback() {	this.shadowRoot?.appendChild(this.template.content.cloneNode(true)) }
 }
 
 customElements.define("widget-card-grid", WidgetCardGrid);
