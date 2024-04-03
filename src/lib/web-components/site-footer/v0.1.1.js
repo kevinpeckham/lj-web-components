@@ -45,12 +45,11 @@ get c() { return SiteFooter };
 /** @returns { { [key:string]: string } } */
 static get attributes() {
 	const values = {
-		"data-json": "",
-		"data-json-url": "",
 		"brand-image-alt": "logo",
 		"brand-image-url": "",
 		"brand-link-title": "website home",
 		"brand-link-url": "/",
+		"brand-width": "100px",
 		"button-link-label": "Contact Us",
 		"button-link-title": "get in touch",
 		"button-link-url": "",
@@ -72,64 +71,72 @@ attValue(/** @type {string} att */ att) {
 	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
 }
 
-
 // ELEMENTS
 get els() {
+
+	const html = ComponentUtils.stringIfValue;
+
+	// get list of attributes for css vars
+	const atts = Object.keys(this.c.attributes).filter((att) => !att.includes('stylesheet') && !att.includes('text') && !att.includes('data') && !att.includes('link') && !att.includes('image'));
+
+	// create a list of css variables
+	const cssVars = atts.map(att => `--${att}: ${this.attValue(att)};`).join('\n');
+
+	// nav links
+	/** @type {string} navLinks */
+	const navLinks = JSON.parse(this.attValue('nav-links-data')).map((
+		/** @type {Link} link*/
+		link) => `<a class="nav-link" href="${link.url}">${link.label}</a>`).join("");
+
+	// legal links
+	/** @type {string} navLinks */
+	const legalLinks = JSON.parse(this.attValue('legal-links-data')).map((
+		/** @type {Link} link*/
+		link) => `<a href="${link.url}">${link.label}</a>`).join("");
+
+	// values
+	const brandImageAlt = this.attValue('brand-image-alt');
+	const brandImageUrl = this.attValue('brand-image-url');
+	const brandLinkUrl = this.attValue('brand-link-url');
+	const brandLinkTitle = this.attValue('brand-link-title');
+	const buttonLinkLabel = this.attValue('button-link-label');
+	const buttonLinkUrl = this.attValue('button-link-url');
+	const copyright = this.attValue('copyright-text');
+	const stylesheet = this.attValue('stylesheet');
 	return `
-	<style id="stylesheet">${this.attValue('stylesheet')}}</style>
-<footer
-	id="container"
-	style="
-		--color-accent: ${this.attValue('color-accent')};
-		--color-background: ${this.attValue('color-background')};
-		--color-primary: ${this.attValue('color-primary')};
-		--color-shadow: ${this.attValue('color-shadow')};
-		--container-height: ${this.attValue('container-height')};
-		--font-family: ${this.attValue('font-family')};">
-		<div id="top-section">
-			<a
-				id="brand-link"
-				href="${this.attValue('brand-link-url')}"
-				title="${this.attValue('brand-link-title')}">
-				<img
-					id="brand-image"
-					alt="${this.attValue('brand-image-alt')}"
-					src="${this.attValue('brand-image-url')}"
-					loading="lazy" />
-			</a>
-			<div id="nav-links">
-			${JSON.parse(this.attValue('nav-links-data')).map((
-				/** @type {Link} link*/
-				link) => `<a class="nav-link" href="${link.url}">${link.label}</a>`).join("")}
-			</div>
-			<a
-				id="button-link"
-				href="${this.attValue('button-link-url')}">${this.attValue('button-link-label')}
-			</a>
-		</div>
+${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
+<footer id="container" style="${cssVars}">
+	<div id="top-section">
+		${html(brandImageUrl, `<a
+			id="brand-link"
+			href="${brandLinkUrl}"
+			title="${brandLinkTitle}">
+			<img
+				id="brand-image"
+				alt="${brandImageAlt}"
+				role="presentation"
+				src="${brandImageUrl}"
+				title="back to home"
+				loading="lazy" />
+		</a>`)}
 
-		<!-- bottom section: legal and attribution -->
-		<div id="bottom-section">
-			<div id="copyright-statement">${this.attValue('copyright-text')}</div>
-			<div id="legal-links">
-			${JSON.parse(this.attValue('legal-links-data')).map((
-				/** @type {Link} link*/
-				link) => `<a href="${link.url}" rel="noopener noreferrer">${link.label}</a>`).join("")}
+			${html(navLinks, `<div id="nav-links">${navLinks}</div>`)}
+			${html(buttonLinkLabel, `<a id="button-link" href="${buttonLinkUrl}">${buttonLinkLabel}</a>`)}
+	</div>
 
-
-			</div>
-		</div>
+	<div id="bottom-section">
+		${html(copyright, `<div id="copyright-statement">${copyright}</div>`)}
+		${html(legalLinks, `<div id="legal-links">${legalLinks}</div>`)}
+	</div>
 </footer>`.trim();
 }
 
 get styles() {
 	return `
-<style id="preflight">${ComponentUtils.preflight}</style>
+${ComponentUtils.preflight}
 <style id="base">
-	:host {
-		box-sizing: border-box;
-		border-width: 0;
-		border-style: solid;
+	*:empty {
+		display: none;
 	}
 	#container {
 		align-items: start;
@@ -139,7 +146,7 @@ get styles() {
 		height:auto;
 		padding: 32px 16px;
 		position: relative;
-		width: 100%;
+		max-width: 100%;
 		z-index:999;"
 	}
 	@media (min-width: 640px) {
@@ -307,7 +314,6 @@ constructor() {
 connectedCallback() {
 		this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
 }
-
 
 }
 customElements.define("site-footer", SiteFooter);
