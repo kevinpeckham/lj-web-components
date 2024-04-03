@@ -1,5 +1,5 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
+import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 
 // types
 /** @typedef {{category?: string; disciplines?: string[]; duration?: string; formats?: string[]; imageUrl?: string; level?: string; linkUrl?: string; linkTarget?: string; linkRel?: string; type?: string; price?: string; title: string; }} Course */
@@ -49,6 +49,7 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute heading-line-height | 1.25 | -- | line height of widget heading
  * @attribute heading-margin-bottom | 1.5rem | -- | margin bottom of widget heading
  * @attribute heading-text | -- | In-Classroom & Virtual Instructor-led Courses | widget heading text
+ * @attribute icons | [{"type":"Course", "iconUrl":"/icons/source.svg"},{"type":"Module", "iconUrl":"/icons/module.svg"}] | -- | specify icons for different course types
  * @attribute link-url | -- | -- | target url for widget link
  * @attribute link-label | -- | -- | text for widget link
  * @attribute link-target | -- | _blank | target for widget link
@@ -70,37 +71,8 @@ class WidgetCoursesGrid extends HTMLElement {
 // reference to class itself
 get c() { return WidgetCoursesGrid };
 
-// ICONS
-/** @param {string} path */
-static buildIcon(path) {
-	return `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" style="width:100%;height:auto;"><path d="${path}" fill-rule="evenodd" fill="currentColor"/></svg>`
-
-}
-static get courseIconPath() {
-	return "M88.929 0a8 8 0 0 1 8 8v84a8 8 0 0 1-8 8h-75.07a8 8 0 0 1-8-8V26.338l.22-.226v-.228l4.714-4.606L31.539 0h57.391zm0 8H34.583l.001 21H12.929v64h76V8zM68.5 72a3.5 3.5 0 1 1 0 7h-41a3.5 3.5 0 1 1 0-7h41zm7-17a3.5 3.5 0 1 1 0 7h-48a3.5 3.5 0 1 1 0-7h48zM71 17a8 8 0 0 1 8 8v12a8 8 0 0 1-8 8H59a8 8 0 0 1-8-8V25a8 8 0 0 1 8-8h12zm1 7H59a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V25a1 1 0 0 0-1-1zm-44.435-8.689l-6.528 6.143h6.528v-6.143z"}
-
-static get moduleIconPath() {
-	return "M97 11a2 2 0 0 1 2 2v74a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V13a2 2 0 0 1 2-2h94zm-19 5H23v69h55V16zM18 70H6.5v13.5H18V70zm76.5 0H83v13.5h11.5V70zm0-18H83v13.5h11.5V52zM18 52H6.5v13H18V52zm26.395-15.657a3 3 0 0 1 1.562.438l17.265 10.525a3 3 0 0 1 .065 5.082L46.022 63.534a3 3 0 0 1-4.627-2.52V39.343a3 3 0 0 1 3-3zm2.06 6.579v13.786l10.466-6.893-10.466-6.893zM18 34H6.5v13H18V34zm76.5 0H83v13h11.5V34zm0-18H83v13h11.5V16zM18 16H6.5v12.5H18V16z"}
-
-	/** @param {string} type */
-	static getIcon(type) {
-		switch (type) {
-			case "Course":
-				return this.buildIcon(this.courseIconPath);
-			case "Module":
-				return this.buildIcon(this.moduleIconPath);
-			default:
-				return this.buildIcon(this.courseIconPath);
-		}
-
-	}
-
-
 // ATTRIBUTES
-/**
- * Returns an object. The keys are prop names. The values are the default values for the props.
- * @returns { { [key:string]: string | null } }
- */
+/** @returns { { [key:string]: string | null } } */
 static get attributes() {
 const values = {
 	"body-text": "",
@@ -134,6 +106,7 @@ const values = {
 	"heading-line-height": "1.25",
 	"heading-margin-bottom": "1.5rem",
 	"heading-text": "",
+	"icons": '[{"type":"Course","iconUrl":"/icons/course.svg"},{"type":"Module","iconUrl":"/icons/module.svg"}]',
 	"link-url": "",
 	"link-label": "",
 	"link-target": "",
@@ -148,19 +121,20 @@ const values = {
 	"show-price": "false",
 	"show-tags": "false",
 	"tags": "",
-
 };
 return values;
 }
 
-// OBSERVED ATTRIBUTES GETTER
-static get observedAttributes() { return Object.keys(this.attributes) }
-
-// ATTRIBUTE DEFAULT VALUE GETTER
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
-
-/** @typedef {{[key:string]: string}} card */
+/** @param {Course} course */
+getIcon(course) {
+	const courseType = course?.type ?? 'Course';
+	/** @typedef {{type:string, iconUrl: string}} Icon */
+	const /** @type {Icon[]} */ icons  =  JSON.parse(this.attValue('icons') ?? "[]");
+	const def = '';
+	const getIconUrl = () => icons.find(icon => icon.type === courseType)?.iconUrl ?? def;
+	const buildIcon = () => getIconUrl() ? `<img class="icon" src="${getIconUrl()}" loading="lazy"/>` : ''
+	return buildIcon();
+}
 
 /** @param {Course} course */
 getTags(course) {
@@ -171,21 +145,17 @@ getTags(course) {
 	return result;
 }
 
-static hasValue = (/** @type {string | string[] | undefined} */ value) => value && (value[0]) ? true : false;
-/** @param {string | string[] | undefined} value, @param {string} markup, @param {boolean} [condition] */
-static htmlIfValue = ( value, markup, condition) => this.hasValue(value) && (condition || condition === undefined)  ? markup : '';
-
 // HTML BUILDERS
 /**  @param {Course} course */
 buildTile(course) {
-	const icon = this.c.getIcon(course?.type ?? 'Course');
+	const icon = this.getIcon(course) ? this.getIcon(course) : '';
 	const tags = this.getTags(course);
 	const { disciplines, duration, formats, level, price, linkRel, linkTarget, linkUrl , title, type} = course;
 	const showDisciplines = this.attValue('show-disciplines') != "false";
 	const showDuration = this.attValue('show-duration') != "false";
 	const showTags = this.attValue('show-tags') != "false";
 	const showPrice = this.attValue('show-price') != "false";
-	const html = this.c.htmlIfValue;
+	const html = ComponentUtils.stringIfValue;
 	return `
 	<div class="course-outer">
 		<a class="course" ${linkTarget ? `target="${linkTarget}"` : 'target="_self"'} ${linkRel ? `rel="${linkRel}"` : ''} href="${linkUrl}" title="go to course page">
@@ -217,16 +187,12 @@ attValue(/** @type {string} att */ att) {
 // ELEMENTS
 get els() {
 
-// helper function to create a list of attributes from which to generate css variables
-const atts = Object.keys(this.c.attributes).filter((att) => !att.includes('stylesheet') && !att.includes('text') && !att.includes('show') && !att.includes('data') && !att.includes('link'));
-// create css variables
-const cssVars = atts.map(att => `--${att}: ${this.attValue(att)};`).join('\n');
-
-
-const html = this.c.htmlIfValue;
+const cssVars = ComponentUtils.cssVars(this.c.attributes, this);
+const html = ComponentUtils.stringIfValue;
+const stylesheet = this.attValue('stylesheet');
   return `
-<style id="stylesheet">${this.attValue('stylesheet')}</style>
-<div id="container" style="${cssVars}>
+${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
+<div id="container" style="${cssVars}">
 		<div id="container-inner">
 			${html('meta-text', `<div id="meta" style="">${this.attValue('meta-text')}</div>`)}
 			<div id="heading-row">
@@ -250,39 +216,13 @@ static get styles() {
 		color: var(--color-primary);
 		display:grid;
 		align-items:start;
-		padding:64px ${p.xxs} 96px;
+		padding-block:64px 96px;
 		max-width:100%;
 	}
-	@media (min-width: 420px) {
-		#container {
-			padding:64px ${p.xs} 96px;
-		}
-	}
-	@media (min-width: 640px) {
-		#container {
-			padding:64px ${p.sm} 96px;
-		}
-	}
-	@media (min-width: 760px) {
-		#container {
-			padding:64px ${p.md} 96px;
-		}
-	}
-	@media (min-width: 1024px) {
-		#container {
-			padding:48px ${p.lg} 76px;
-		}
-	}
-	@media (min-width: 1280px) {
-		#container {
-			padding:64px ${p.xl} 96px;
-		}
-	}
-	@media (min-width: 1536px) {
-		#container {
-			padding:64px ${p['2xl']} 96px;
-		}
-	}
+	@media (min-width: 420px) { #container { padding-block:64px 96px; }}
+	@media (min-width: 1024px) { #container { padding-block:48px 76px; }}
+	@media (min-width: 1280px) { #container { padding-block:64px 96px; }}
+	${ComponentUtils.paddingXStyles()}
 	#meta {
 		color: var(--color-accent, currentColor);
 		font-size: var(--font-size, .85rem);
@@ -308,7 +248,6 @@ static get styles() {
 	}
 	@media (min-width: 768px) {
 		#heading {
-			font-size: 1.5em;
 			margin-bottom: .825rem;
 		}
 	}
