@@ -1,18 +1,16 @@
 // @ts-expect-error - type defs not available
 import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 
-
-// types
+// TYPES
 /** @typedef {{url?:string; alt?:string; left?:string; top?:string; width?:string; }} ImageDatum */
-
 /** @copyright 2024 Lightning Jar - "HomeBillboard" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://www.lj-cdn.dev/web-components/home-billboard} */
+/** {@link https://cdn.lj.dev/web-components/home-billboard} */
 
-/**
- * Widget Heading Web Component
+ /**
+	* Widget Heading Web Component
  * @name HomeBillboard
  * @classduration of the transition effect
  * @published 2024-02-14
@@ -29,51 +27,24 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute heading-font-weight | 900 | -- | font weight for the heading
  * @attribute heading-text | -- | Robust Training & <br> Competency Solutions <br> For The Energy Industry. | text for the heading
  * @attribute images-data | -- | [{"url":"https://www.competencyalliance.dev/images/wind.webp","alt":"wind power","left":"20%","top":"16%","width":"30%"},{"url":"https://www.competencyalliance.dev/images/solar.webp","alt":"solar power","left":"55%","top":"15%","width":"15%"},{"url":"https://www.competencyalliance.dev/images/hardhat.webp","alt":"hardhat","left":"65%","top":"30%","width":"20%"},{"url":"https://www.competencyalliance.dev/images/refinery.webp","alt":"refinery","left":"50%","top":"52%","width":"40%"},{"url":"https://www.competencyalliance.dev/images/offshore.webp","alt":"offshore oil platform","left":"20%","top":"52%","width":"25%"}] | json data for the images
- * @attribute link-href | -- | /contact | DEPRECATED url for the link
-	* @attribute link-url | -- | -- | url for the link
-
-* @attribute link-rel | -- | contact | rel for the link
+ * @attribute link-url | -- | -- | url for the link
+ * @attribute link-rel | -- | contact | rel for the link
  * @attribute link-text | -- | Get Started | text for the link
  * @attribute link-title | -- | contact us to learn more | title for the link
  * @attribute paragraph-text | -- | We cater to the evolving needs of the industry and its customers including: digital learning, certification, assessment, data analytics, and competency consulting. | text for the paragraph
  * @attribute stylesheet | -- | #container { border-bottom: solid 1px rgb(229 231 235 / 40% )  } | inject css into the inner stylesheet
  * @attribute data-json-url | -- | -- | url of remote json data
- * @note
  */
+
 class HomeBillboard extends HTMLElement {
 
-	// reference to class itself
-	get c() { return HomeBillboard };
+get c() { return HomeBillboard };
 
-	// PRIVATE VARIABLES
-	#isOnScreen = false;
+// PRIVATE VARIABLES
+#isOnScreen = false;
 
-	// PROPERTIES
-	colorAccent = "";
-	colorBackground = "";
-	colorPrimary = "";
-	colorShadow = "";
-	flairCount = "30";
-	flairGlyph = ""
-	flairOn = "true";
-	fontFamily = "";
-	headingFontWeight = "";
-	headingText = "";
-	imagesData = "[]";
-	linkHref = "";
-	linkRel = "";
-	linkText = "";
-	linkTitle = "";
-	linkUrl = "";
-	paragraphText = "";
-	stylesheet = "";
-
-
-// ATTRIBUTES GETTER
-/**
- * Returns an object. The keys are prop names. The values are the default values for the props.
- * @returns { { [key:string]: string } }
- */
+// ATTRIBUTES
+/** @returns { { [key:string]: string } } */
 static get attributes() {
 	const values = {
 		"color-accent": "lightblue",
@@ -83,7 +54,7 @@ static get attributes() {
 		"flair-count": "30",
 		"flair-glyph": "○",
 		"flair-on": "true",
-		"font-family": "",
+		"font-family": "inherit",
 		"heading-font-weight": "900",
 		"heading-text": "",
 		"images-data": "[]",
@@ -98,22 +69,9 @@ static get attributes() {
 return values;
 }
 
-// OBSERVED ATTRIBUTES GETTER
-static get observedAttributes() { return Object.keys(this.attributes) }
-
-// ATTRIBUTE DEFAULT VALUE GETTER
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
-
-// PARSE DATA JSON
-/** @returns {ImageDatum[]} */
-get parsedImagesData() {
-	return JSON.parse(this.imagesData) ?? []
-}
-
 // HTML BUILDERS
 /** @param {ImageDatum} imageDatum */
-buildimageHTML(imageDatum) {
+static buildimageHTML(imageDatum) {
 	if (!imageDatum || !imageDatum?.url ) return "";
 	return `
 	<img
@@ -126,12 +84,10 @@ buildimageHTML(imageDatum) {
 			style="left: ${imageDatum?.left ?? '0' }; top: ${imageDatum?.top ?? '0'}; width: ${imageDatum?.width ?? '100%'}"
 			width="600" />`
 }
-/** @param {ImageDatum[]} [newImagesData] */
-buildImagesHTML(newImagesData) {
-	const imagesData = newImagesData && newImagesData[0] ? newImagesData : this.parsedImagesData;
-	return imagesData.map(
-		/** @param {ImageDatum} imageDatum */
-		(imageDatum) => this.buildimageHTML(imageDatum)).join("");
+
+buildImagesHTML() {
+	const /** @type {ImageDatum[]} */ imagesData  = JSON.parse(this.attValue('images-data')) ?? []
+	return imagesData.map((imageDatum) => this.c.buildimageHTML(imageDatum)).join("");
 }
 
 buildFlairHTML() {
@@ -144,18 +100,16 @@ buildFlairHTML() {
 	const shadowY = 1;
 	const shadowBlur = (size * 0.01).toFixed(2);
 	const shadowOpacity = (size * 0.004).toFixed(2);
-	const shadowColor = `color-mix(in srgb, ${this.colorShadow} ${Number(Number(shadowOpacity)?.toFixed(2) ?? '.16') * 100}%, transparent)`;
+	const shadowColor = `color-mix(in srgb, ${this.attValue('color-shadow')} ${Number(Number(shadowOpacity)?.toFixed(2) ?? '.16') * 100}%, transparent)`;
 	const shadow = `drop-shadow(${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowColor})`;
 	const timing = "ease-in-out";
 	const translateX = 0;
 	const translateY = 0;
 	const duration = 0.3;
 	const delay = 0;
-	const color = this.colorPrimary ?? 'currentColor';
+	const color = this.attValue('color-primary') ?? 'currentColor';
 	const pointerEvents = "auto";
-
-
-	let style = `
+	const style = `
 		color: ${color};
 		left: ${left}%;
 		top: ${top}%;
@@ -167,8 +121,6 @@ buildFlairHTML() {
 		transition-duration: ${duration}s;
 		transition-timing-function: ${timing};
 		transition-delay: ${delay}s;`
-
-		let lastValue = 0;
 	return `
 	<div
 		class="flair"
@@ -180,7 +132,6 @@ buildFlairHTML() {
 
 /** @param {MouseEvent} e */
 static handleMouseEnter(e) {
-
 	/** @type {HTMLDivElement | null} t */
 	const t = e.target instanceof HTMLDivElement ? e.target : null;
 	if (t) {
@@ -197,6 +148,7 @@ static handleMouseEnter(e) {
 	}, 300);
 }
 }
+
 /** @param {HTMLDivElement} t, @param {string} lastScaleValue */
 static jump(t, lastScaleValue) {
 	// bind this to the function
@@ -210,7 +162,8 @@ static jump(t, lastScaleValue) {
 		t.style.scale = lastScaleValue;
 }
 buildFlairsHTML() {
-	const count = this.flairCount ? Number(this.flairCount) : 30;
+	const flairCount = this.attValue('flair-count');
+	const count = flairCount ? Number(flairCount) : 30;
  	let str= "";
 	for (let i = 0; i < count; i++) {
 		str += this.buildFlairHTML();
@@ -218,369 +171,340 @@ buildFlairsHTML() {
 	return str;
 }
 buildGraphicHTML() {
-	return `
-	<div
-		id="billboard-images"
-		class="animation-reset"
-		aria-hidden="true">
+	const html = ComponentUtils.stringIfValue;
+	const flairs = this.buildFlairsHTML();
+	const images = this.buildImagesHTML();
+return `
+<div
+	id="billboard-images"
+	class="animation-reset"
+	aria-hidden="true">
+	<div id="base-circle"></div>
+	${html(flairs, flairs)}
+	${html(images, `<div id="images-container">${images}</div>`)}`.trim();
+}
 
-		<!-- base circle -->
-		<div id="base-circle"></div>
-
-		<!-- flairs -->
-		${this.buildFlairsHTML()}
-
-		<!-- images -->
-		<div id="images-container">
-			${this.buildImagesHTML()}
-		</div>`.trim();
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
 }
 
 // ELEMENTS MASTER LAYOUT GETTER
 get els() {
-	return `
-<style id="stylesheet">${this.stylesheet}</style>
-<div id="container" style="
-	--color-accent:${this.colorAccent};
-	--color-background:${this.colorBackground};
-	--color-primary:${this.colorPrimary};
-	--color-shadow:${this.colorShadow};
-	--font-family:${this.fontFamily};
-	--flair-glyph:'${this.flairGlyph}';">
+const cssVars = ComponentUtils.cssVars(this.c.attributes, this, ["flair"]);
+const glyph = this.attValue('flair-glyph');
+const graphic = this.buildGraphicHTML();
+const heading = this.attValue('heading-text');
+const link = this.attValue('link-text');
+const linkUrl = this.attValue('link-url') ?? this.attValue('link-href');
+const linkRel = this.attValue('link-rel');
+const linkTitle = this.attValue('link-title');
+const paragraph = this.attValue('paragraph-text');
+const html = ComponentUtils.stringIfValue;
+const slotContents = this.innerText;
+const stylesheet = this.attValue('stylesheet');
+return `
+${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
+<div id="container" style="${cssVars} --flair-glyph:'${glyph}';">
 	<div id="container-inner">
 		<div id="content-container">
-			${ this.headingText ? `<h1 id="heading">${this.headingText}</h1>` : ""}
-			${this.paragraphText ? `<p id="paragraph">${this.paragraphText}</p>` : ""}
-			${this.linkText && (this.linkUrl || this.linkHref) ? `<a
+			${html(heading, `<h1 id="heading">${heading}</h1>`)}
+			${html(paragraph, `<p id="paragraph">${paragraph}</p>`)}
+			${html(link, `<a
 				id="heading-link"
-				${this.linkRel ? `rel="${this.linkRel}"` : ""}
-				${this.linkTitle ? `title="${this.linkTitle}"` : ""}
-				href="${this.linkUrl ? this.linkUrl : this.linkHref ?? ''}">${this.linkText}</a>` : ""}
+				${html(linkRel, `rel="${linkRel}" `)}
+				${html(linkTitle, `title="${linkTitle}" `)}
+				href="${linkUrl}">${link}</a>`,linkUrl)}
 		</div>
 		<div id="graphic-container">
-			${this.buildGraphicHTML()}
-			<slot id="slot"></slot>
+			${html(graphic, graphic)}
+			${html(slotContents, `<slot id="slot">${slotContents}</slot>`)}
 		</div>
 	</div>
 </div>`.trim();
 }
 
 // STYLES GETTER
-get styles() {
-	return `
-	${ComponentUtils.preflight}
-	<style id="base">
-		#container {
-			background-color: var(--color-background);
-			color: var(--color-primary, darkblue);
-			overflow:visible;
-		}
-
+static get styles() {
+return `
+${ComponentUtils.preflight}
+<style id="base">
+	*:empty { display:none; }
+	#container {
+		background-color: var(--color-background);
+		color: var(--color-primary, darkblue);
+		overflow:visible;
+	}
+	#container-inner {
+		display: grid;
+		grid-template-columns: repeat(1,minmax(0,1fr));
+		place-items: center;
+		height:auto;
+		width:100%;
+	}
+	@media (min-width: 640px) {
 		#container-inner {
-			display: grid;
-			grid-template-columns: repeat(1,minmax(0,1fr));
-			place-items: center;
-			height:auto;
-			width:100%;
+			padding:0 128px 96px;
 		}
-		/* container-inner - sm */
-		@media (min-width: 640px) {
-			#container-inner {
-				padding:0 128px 96px;
-			}
+	}
+	@media (min-width: 768px) {
+		#container-inner {
+			padding:0 224px 96px;
 		}
-		/* container-inner - md */
-		@media (min-width: 768px) {
-			#container-inner {
-				padding:0 224px 96px;
-			}
-		}
-		/* container-inner - lg */
-		@media (min-width: 1024px) {
-			#container-inner {
-				column-gap:64px;
-				grid-template-columns: repeat(2,minmax(0,1fr));
-				padding:96px 64px;
-				place-content:center;
-			}
-		}
-		/* container - xl */
-		@media (min-width: 1280px) {
-			#container-inner {
-				padding:128px 80px;
-			}
-		}
-		/* container-inner - 2xl */
-		@media (min-width: 1536px) {
-			#container-inner {
-				padding:160px 96px;
-			}
-		}
-		#content-container {
-			order:1;
-			display:grid;
-			grid-template-columns:repeat(1,minmax(0,1fr));
-			place-items:center;
+	}
+	@media (min-width: 1024px) {
+		#container-inner {
+			column-gap:64px;
+			grid-template-columns: repeat(2,minmax(0,1fr));
+			padding:96px 64px;
 			place-content:center;
 		}
-		/* content-container - lg */
-		@media (min-width: 1024px) {
-			#content-container {
-				order:0;
-				place-content:start;
-				place-items:start;
+	}
+	@media (min-width: 1280px) {
+		#container-inner {
+			padding:128px 80px;
 		}
 	}
-		#heading {
-			display:block;
-			filter: drop-shadow(0 1px 1px rgba(0,0,0,.05));
-			font-family: var(--font-family, inherit);
-			font-weight:900;
-			font-size:1.25rem;
-			line-height:1.25;
-			padding-bottom:2rem;
-			text-align:center;
-			text-transform:capitalize;
+	@media (min-width: 1536px) {
+		#container-inner {
+			padding:160px 96px;
 		}
-		#heading-link {
-			color: var(--color-primary, currentColor);
-			display:block;
-			font-size: .9rem;
-			border: solid 1px var(--color-primary, currentColor);
-			border-radius:.25rem;
-			margin-bottom:.5rem;
-			max-width: fit-content;
-			padding:.35rem .85rem;
-			transition-property:background-color,color;
-			transition-duration: .15s;
-			transition-timing-function: ease;
-		}
-		#heading-link:hover {
-			background-color:var(--color-primary, currentColor);
-			color:var(--color-background, currentColor);
-		}
-		/* heading - sm */
-		@media (min-width: 640px) {
-			#heading {
-				font-size:1.65rem;
-				padding:1rem 0;
-			}
-		}
-		/* heading - lg */
-		@media (min-width: 1024px) {
-			#heading {
-				text-align:start;
-				font-size:1.75rem;
-			}
-		}
-		#paragraph {
-			display:none;
-			font-weight:500;
-			margin-bottom:1.5rem;
-			opacity:.95;
-			text-align:center;
-		}
-		/* text - sm */
-		@media (min-width: 640px) {
-			#paragraph {
-				display:block;
-			}
-		}
-		/* text - lg */
-		@media (min-width: 1024px) {
-			#paragraph {
-				text-align:start;
-			}
-		}
-		/* link-container */
-		#link-container {
-			display:flex;
-			justify-content:center;
-		}
-		/* link-container - lg */
-		@media (min-width: 1024px) {
-			#link-container {
-				justify-content:start;
-			}
-		}
-		#graphic-container {
-			background-color:rgb(10 46 126 / 0%);
-			user-select:none;
-			aspect-ratio:1;
+	}
+	#content-container {
+		order:1;
+		display:grid;
+		grid-template-columns:repeat(1,minmax(0,1fr));
+		place-items:center;
+		place-content:center;
+	}
+	@media (min-width: 1024px) {
+		#content-container {
 			order:0;
-			width:100%;
-		}
-		/* graphic-container - lg */
-		@media (min-width: 1024px) {
-			#graphic-container {
-				order:0;
+			place-content:start;
+			place-items:start;
+	}
+}
+	#heading {
+		display:block;
+		filter: drop-shadow(0 1px 1px rgba(0,0,0,.05));
+		font-family: var(--font-family, inherit);
+		font-weight:900;
+		font-size:1.25rem;
+		line-height:1.25;
+		padding-bottom:2rem;
+		text-align:center;
+		text-transform:capitalize;
+	}
+	#heading-link {
+		color: var(--color-primary, currentColor);
+		display:block;
+		font-size: .9rem;
+		border: solid 1px var(--color-primary, currentColor);
+		border-radius:.25rem;
+		margin-bottom:.5rem;
+		max-width: fit-content;
+		padding:.35rem .85rem;
+		transition-property:background-color,color;
+		transition-duration: .15s;
+		transition-timing-function: ease;
+	}
+	#heading-link:hover {
+		background-color:var(--color-primary, currentColor);
+		color:var(--color-background, currentColor);
+	}
+	@media (min-width: 640px) {
+		#heading {
+			font-size:1.65rem;
+			padding:1rem 0;
 		}
 	}
-		/* billboard images */
-		#billboard-images {
-			aspect-ratio:1;
-			display:flex;
-			justify-content:center;
-			overflow:visible;
-			position:relative;
-			user-select:none;
-			width:100%;
+	@media (min-width: 1024px) {
+		#heading {
+			text-align:start;
+			font-size:1.75rem;
 		}
-		/* billboard images - sm */
-		@media (min-width: 640px) {
-			#billboard-images {
-				display:block;
-			}
+	}
+	#paragraph {
+		display:none;
+		font-weight:500;
+		margin-bottom:1.5rem;
+		opacity:.95;
+		text-align:center;
+	}
+	@media (min-width: 640px) {
+		#paragraph {
+			display:block;
 		}
-		/* billboard images - md */
-		@media (min-width: 768px) {
-			#billboard-images {
-				font-size:11px;
-				max-width:32rem;
-			}
+	}
+	@media (min-width: 1024px) {
+		#paragraph {
+			text-align:start;
 		}
-		/* billboard images - lg */
-		@media (min-width: 1024px) {
-			#billboard-images {
-				align-items:center;
-				font-size:16px;
-				max-width:none;
-				width:100%;
-			}
+	}
+	#link-container {
+		display:flex;
+		justify-content:center;
+	}
+	@media (min-width: 1024px) {
+		#link-container {
+			justify-content:start;
 		}
-		/* base circle */
-		#billboard-images #base-circle {
-			aspect-ratio:1;
-			align-items:center;
-			background-color:transparent;
-			display:flex;
-			filter:drop-shadow(0 1px 2px rgb(0 0 0 / .1));
-			height:auto;
-			justify-content:center;
-			opacity:1;
-			transition: opacity 0.3s ease-in;
-			position:relative;
-			width:100%;
-		}
-		/* base circe - after */
-		#billboard-images #base-circle::after {
-			aspect-ratio:1;
-			background-color:var(--color-accent, lightblue);
-			content:"";
-			position:absolute;
-			border-radius: 9999px;
-			width:50%;
-		}
-		#billboard-images.animation-reset #base-circle {
-			opacity:0;
-		}
-		/* image */
-		#billboard-images .billboard-image {
-			aspect-ratio:1;
-			box-shadow: 0 4px 6px -1px color-mix(in srgb, rgb(11 46 126) 40%, transparent), 0 2px 4px -2px color-mix(in srgb, rgb(11 46 126) 10%, transparent);
-			border-radius: 9999px;
-			background: transparent;
-			display:flex;
-			font-size: 10px;
-			items-align:center;
-			justify-content:center;
-			overflow-clip-margin: content-box;
-			overflow-x: clip;
-			overflow-y: clip;
-			position:absolute;
-			scale: 1;
-			transition-duration: 0.3s;
-			transition-property: transform, scale;
-			transition-timing-function: ease-out;
-			transform: rotate3d(0, 0, 0, 0);
-			opacity: 1;
-		}
-		@supports not (box-shadow: color-mix(in srgb, rgb(11 46 126) 40%)) {
-			#billboard-images .billboard-image { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .4) }
-		}
-		/* image hover */
-		#billboard-images .billboard-image:hover {
-			transform: scale(1.1);
-		}
-		#billboard-images.animation-reset .billboard-image {
-			transform: rotate3d(0, 0, 0, 0);
-			scale: 0;
-		}
-		/* flip-in-xy */
-		#billboard-images.animation-reset .billboard-image.flip-in:first-child,
-		#billboard-images.animation-reset .billboard-image.flip-in:nth-child(4) {
-			transform: rotate3d(1, 1, 0, 1turn);
-		}
-		/* flip-in-y */
-		#billboard-images.animation-reset .billboard-image.flip-in:nth-child(2){
-			transform: rotate3d(0, 1, 0, 1turn);
-		}
-		/* flip-in-x */
-		#billboard-images.animation-reset .billboard-image.flip-in:nth-child(3),
-		#billboard-images.animation-reset .billboard-image.flip-in:nth-child(5) {
-			transform: rotate3d(1, 0, 0, 1turn);
-		}
-		#billboard-images.animation-reset .billboard-image.spin-in {
-			transform: rotate3d(0, 0, 1, 1turn);
-		}
-		/* ring */
-		#billboard-images .flair {
-			align-items: center;
-			aspect-ratio: 1 / 1;
-			border-radius: 50%;
-			font-size: 2em;
-			font-weight: 600;
-			justify-items: center;
-			line-height: 1;
-			position: absolute;
-			text-align: center;
-			transform-origin: center;
-			transition-duration: 3s;
-			transition-timing-function: ease-out;
-			transition-property: scale, opacity;
-		}
-		#billboard-images .flair::after {
-			background-clip: text;
-			background-size: 100%;
-			border-radius: 50%;
-			content: var(--flair-glyph, "○");
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			vertical-align: middle;
-			pointer-events: none;
-			line-height: 1;
-		}
-		#billboard-images.animation-reset .flair {
-			scale: 0;
-			opacity: 0!important;
-		}
-	</style>`;
+	}
+	#graphic-container {
+		background-color:rgb(10 46 126 / 0%);
+		user-select:none;
+		aspect-ratio:1;
+		order:0;
+		width:100%;
+	}
+	@media (min-width: 1024px) {
+		#graphic-container {
+			order:0;
+	}
+}
+#billboard-images {
+	aspect-ratio:1;
+	display:flex;
+	justify-content:center;
+	overflow:visible;
+	position:relative;
+	user-select:none;
+	width:100%;
+}
+@media (min-width: 640px) {
+	#billboard-images {
+		display:block;
+	}
+}
+@media (min-width: 768px) {
+	#billboard-images {
+		font-size:11px;
+		max-width:32rem;
+	}
+}
+@media (min-width: 1024px) {
+	#billboard-images {
+		align-items:center;
+		font-size:16px;
+		max-width:none;
+		width:100%;
+	}
+}
+#billboard-images #base-circle {
+	aspect-ratio:1;
+	align-items:center;
+	background-color:transparent;
+	display:flex;
+	filter:drop-shadow(0 1px 2px rgb(0 0 0 / .1));
+	height:auto;
+	justify-content:center;
+	opacity:1;
+	transition: opacity 0.3s ease-in;
+	position:relative;
+	width:100%;
+}
+#billboard-images #base-circle::after {
+	aspect-ratio:1;
+	background-color:var(--color-accent, lightblue);
+	content:"";
+	position:absolute;
+	border-radius: 9999px;
+	width:50%;
+}
+#billboard-images.animation-reset #base-circle {
+	opacity:0;
+}
+#billboard-images .billboard-image {
+	aspect-ratio:1;
+	box-shadow: 0 4px 6px -1px color-mix(in srgb, rgb(11 46 126) 40%, transparent), 0 2px 4px -2px color-mix(in srgb, rgb(11 46 126) 10%, transparent);
+	border-radius: 9999px;
+	background: transparent;
+	display:flex;
+	font-size: 10px;
+	items-align:center;
+	justify-content:center;
+	overflow-clip-margin: content-box;
+	overflow-x: clip;
+	overflow-y: clip;
+	position:absolute;
+	scale: 1;
+	transition-duration: 0.3s;
+	transition-property: transform, scale;
+	transition-timing-function: ease-out;
+	transform: rotate3d(0, 0, 0, 0);
+	opacity: 1;
+}
+@supports not (box-shadow: color-mix(in srgb, rgb(11 46 126) 40%)) {
+	#billboard-images .billboard-image { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .4) }
+}
+#billboard-images .billboard-image:hover {
+	transform: scale(1.1);
+}
+#billboard-images.animation-reset .billboard-image {
+	transform: rotate3d(0, 0, 0, 0);
+	scale: 0;
+}
+/* flip-in-xy */
+#billboard-images.animation-reset .billboard-image.flip-in:first-child,
+#billboard-images.animation-reset .billboard-image.flip-in:nth-child(4) {
+	transform: rotate3d(1, 1, 0, 1turn);
+}
+/* flip-in-y */
+#billboard-images.animation-reset .billboard-image.flip-in:nth-child(2){
+	transform: rotate3d(0, 1, 0, 1turn);
+}
+/* flip-in-x */
+#billboard-images.animation-reset .billboard-image.flip-in:nth-child(3),
+#billboard-images.animation-reset .billboard-image.flip-in:nth-child(5) {
+	transform: rotate3d(1, 0, 0, 1turn);
+}
+#billboard-images.animation-reset .billboard-image.spin-in {
+	transform: rotate3d(0, 0, 1, 1turn);
+}
+#billboard-images .flair {
+	align-items: center;
+	aspect-ratio: 1 / 1;
+	border-radius: 50%;
+	font-size: 2em;
+	font-weight: 600;
+	justify-items: center;
+	line-height: 1;
+	position: absolute;
+	text-align: center;
+	transform-origin: center;
+	transition-duration: 3s;
+	transition-timing-function: ease-out;
+	transition-property: scale, opacity;
+}
+#billboard-images .flair::after {
+	background-clip: text;
+	background-size: 100%;
+	border-radius: 50%;
+	content: var(--flair-glyph, "○");
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	vertical-align: middle;
+	pointer-events: none;
+	line-height: 1;
+}
+#billboard-images.animation-reset .flair {
+	scale: 0;
+	opacity: 0!important;
+}
+</style>`;
 }
 
 // TEMPLATE GETTER
 get template() {
 	const template = document.createElement("template");
-	template.innerHTML = `${this.styles}${this.els}`.trim();
+	template.innerHTML = `${this.c.styles}${this.els}`.trim();
 	return template;
-}
-
-// IDS GETTER
-get ids() {
-	return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 }
 
 // CONSTRUCTOR
 constructor() {
 	super();
-
-	// programattically create getters and setters for each observed attribute
-	ComponentUtils.createOAGS(this.c, this);
-
-	// create a shadow root
 	this.attachShadow({ mode: "open" });
-
-	// bind observer callback to the class
 	this.observerCallback = this.observerCallback.bind(this);
 }
 
@@ -589,27 +513,26 @@ connectedCallback() {
 	// append the template content to the shadow DOM
 	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
 
-	// define refs elements
-	this.refs = ComponentUtils.getRefs(this.c, this);
+	// ref flair elements & container
+	const flairs = this.shadowRoot?.querySelectorAll(".flair")
+	const container = this.shadowRoot?.getElementById("container");
 
-	// add event listeners to the rings
-	this.refs.container.querySelectorAll(".flair").forEach(( /** @type {HTMLDivElement} ring */ ring) => {
-		ring.addEventListener("mouseenter", (e) => {
+	// add event listeners to the flair elements
+	flairs?.forEach((flair) => {
+		const div = flair instanceof HTMLDivElement ? flair : null;
+		div?.addEventListener("mouseenter", (e) => {
 			this.c.handleMouseEnter(/** @type {MouseEvent} e */ e);
 		});
 	});
 
 	// create and start the observer
-	new IntersectionObserver(this.observerCallback, {
+	const observer = new IntersectionObserver(this.observerCallback, {
 		rootMargin: "0%",
 		threshold: 0.5,
-	}).observe(this.refs.container);
+	})
+
+	if (container ) observer.observe(container);
 }
-
-// ATTRIBUTE CHANGED CALLBACK
-// attributeChangedCallback() {}
-
-
 
 
 // STATIC HELPERS
@@ -680,13 +603,14 @@ get isOnScreen() {
 }
 /** @param {boolean} value */
 set isOnScreen(value) {
+	const imagesContainer = this.shadowRoot?.getElementById("billboard-images");
 
 	if (typeof value  === "boolean") this.#isOnScreen = value;
 	// when the element is scrolled into view do this
 	if (value === true) {
-		this.refs['billboard-images']?.classList.remove("animation-reset");
+		imagesContainer?.classList.remove("animation-reset");
 	} else {
-		this.refs['billboard-images']?.classList.add("animation-reset");
+		imagesContainer?.classList.add("animation-reset");
 	}
 
 }
