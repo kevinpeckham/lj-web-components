@@ -3,7 +3,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 // @ts-expect-error - type defs not available
 import ScrollingStat  from "/e/wc/scrolling-stat@0.1.1.min.js";
 // @ts-expect-error - type defs not available
-import QuickGrid from "/e/wc/quick-grid.@0.1.1.min.js";
+import QuickGrid from "/e/wc/quick-grid@0.1.1.min.js";
 // @ts-expect-error - type defs not available
 import PageHeader from "/e/wc/page-header@0.1.1.min.js";
 
