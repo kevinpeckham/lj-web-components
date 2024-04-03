@@ -1,11 +1,13 @@
 // @ts-expect-error - type defs not available
 import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
 
+// TYPE DEFS
+/** @typedef {{[key:string]: unknown; "heading": string | undefined; "subheading": string | undefined;"phone":string | undefined; "email": string | undefined; "address": string[] | undefined; "link-url": string | undefined;}} Contact */
 
 /** @copyright 2024 Lightning Jar - "Contact Info" web component - License MIT */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://lj-cdn.dev/web-components/contact-info} */
+/** {@link https://lj.cdn.dev/web-components/contact-info} */
 
 /**
  * Contact Info Web Component
@@ -26,27 +28,11 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute heading-text           | --           | Customer Service                | characters displayed after number
  * @attribute body-text              | --           | General customer service is available from 8:00 a.m. - 4:30 p.m., Monday through Friday CST (-6:00 GMT). Emergency assistance is available 24 hours a day.
  * @attribute contacts-data-json      | --           | [{"heading":"General","subheading":"Registration & Support","phone":"+1 918-828-2504"},{"heading":"Toll Free","subheading":"North America","phone":"+1 800-821-5933"},{"heading":"24 Hour","subheading":"Emergency Only","phone":"+1 918-221-8049"}]                | json data for contact info
- * @attribute stylesheet-text        | --           | --                | inject css into stylesheet
+ * @attribute stylesheet        | --           | --                | inject css into stylesheet
  */
 class ContactInfo extends HTMLElement {
 // reference to class itself
 get c() { return ContactInfo };
-
-// initialize variables
-colorBackground = "";
-colorBorder = "";
-colorPrimary = "";
-colorSecondary = "";
-containerBorderWidth = "";
-containerHeight = "";
-containerWidth = "";
-containerMaxWidth = "";
-containerPadding = "";
-contactsDataJson = "";
-fontFamily = "";
-headingText = "";
-bodyText = "";
-stylesheetText = "";
 
 // ATTRIBUTES
 	/**
@@ -69,99 +55,73 @@ static get attributes() {
 		"font-family": "inherit",
 		"heading-text": "",
 		"body-text": "",
-		"stylesheet-text": "",
+		"stylesheet": "",
 	};
 	return values;
 }
 
-// OBSERVED ATTRIBUTES
-static get observedAttributes() { return Object.keys(this.attributes) }
-
-// GET DEFAULT VALUE FOR AN ATTRIBUTE
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
-
-/** @typedef {{[key:string]: unknown; "heading": [string]; "subheading": [string];"phone":string | undefined; "email":[string]; "address": string[] | undefined; "link-url": [string];}} Contact */
-
-buildContactsHTML() {
-	/** @param {Contact} contact */
-	const buildContact = (contact) => {
-		const phone = contact?.phone ?? '';
-		const tel = phone ? phone.replace(/[+ -]/ig,'') : '' ;
-		return `
-				<!-- section icon list -->
-				<div class="contact">
-
-					<!-- Heading & Phone# row -->
-					<div class="contact-heading-row">
-						<div>${contact?.heading ?? ''}</div>
-						${phone ? `<a href="tel:${tel}" title="call ${phone}">${phone}</a>` : ''}
-						${!contact?.phone && contact?.email ? `<div>${contact?.email ?? ''}</div>` : ''}
-					</div>
-
-					<!-- subheading -->
-					<div class="contact-subheading">${contact?.subheading ?? ''}</div>
-
-					<!-- address -->
-					<div class="contact-address">
-						${contact?.address?.[0] ? `<div class="address-line">${contact?.address?.[0] ?? ''}</div>` : ''}
-						${contact?.address?.[1] ? `<div class="address-line">${contact?.address?.[1] ?? ''}</div>` : ''}
-						${contact?.address?.[2] ? `<div class="address-line">${contact?.address?.[2] ?? ''}</div>` : ''}
-					</div>
-				</div>`
-	}
-
-	const buildContacts = () => {
-		return this.contactsData.map((
-			/** @type {Contact} contact */
-			contact) => buildContact(contact)).join("");
-	}
-
-
-	return buildContacts() ;
+// HELPER METHODS
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
 }
 
-// DATA
-get contactsData() {
-	const result = JSON.parse(this.contactsDataJson) ?? "[]";
-	return result;
+static buildContact(/** @type {Contact} contact */ contact) {
+	const html = ComponentUtils.stringIfValue;
+	const {address, email, heading, phone, subheading} = contact;
+	const tel = phone ? phone.replace(/[+ -]/ig,'') : '' ;
+	return `
+			<div class="contact">
+				<div class="contact-heading">
+					${html(heading,`<div>${heading}</div>`)}
+					${html(phone,`<a href="tel:${tel}" title="call ${phone}">${phone}</a>`)}
+					${html(email,`<div>${contact?.email ?? ''}</div>`)}
+				</div>
+				${subheading ? `<div class="contact-subheading">${subheading}</div>` : ''}
+				<div class="contact-address">
+					${html(address?.[0],`<div class="address-line">${address?.[0]}</div>`)}
+					${html(address?.[1], `<div class="address-line">${address?.[1]}</div>`)}
+					${html(address?.[2],`<div class="address-line">${address?.[2]}</div>`)}
+				</div>
+			</div>`
 }
 
 // ELEMENTS
 get els() {
+
+// helper function shortcut
+const html = ComponentUtils.stringIfValue;
+
+// generate css vars
+const atts = Object.keys(this.c.attributes).filter((att) => !att.includes('stylesheet') && !att.includes('text') && !att.includes('data') && !att.includes('link'));
+const cssVars = atts.map(att => `--${att}: ${this.attValue(att)};`).join('\n');
+
+// build contacts html
+/** @type {Contact[]} data  */
+const data = JSON.parse(this.attValue('contacts-data-json')) ?? "[]";
+const contacts = data.map((contact) => this.c.buildContact(contact)).join("");
+
+// values
+const body = this.attValue('body-text');
+const heading = this.attValue('heading-text');
+const stylesheet = this.attValue('stylesheet');
+
 return `
-<div
-	id="container"
-	style="
-		--color-background: ${this.colorBackground};
-		--color-border: ${this.colorBorder};
-		--color-primary: ${this.colorPrimary};
-		--color-secondary: ${this.colorSecondary};
-		--font-family: ${this.fontFamily};
-		--container-height: ${this.containerHeight};
-		--container-border-width: ${this.containerBorderWidth};
-		--container-width: ${this.containerWidth};
-		--container-max-width: ${this.containerMaxWidth};
-		--container-padding: ${this.containerPadding};"
-	>
-	<div id="heading">${this.headingText}</div>
-	<div id="info-grid">${this.buildContactsHTML()}</div>
-	<div id="body">${this.bodyText}</div>
+${html(stylesheet, `<style id="stylesheet">${this.attValue(stylesheet)}</style>`)}
+<div id="container style="${cssVars}>
+	${html(heading, `<div id="heading">${heading}</div>`)}
+	<div id="info-grid">${contacts}</div>
+	${html(body, `<div id="body">${body}</div>`)}
 </div>
 `.trim();
 }
 
-// PREFLIGHT
-get preflight() {
-	return `*,::before,::after {box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor} html,:host {line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body {margin:0;line-height:inherit}hr {height:0;color:inherit;border-top-width:1px}abbr:where([title]) {text-decoration:underline dotted}h1,h2,h3,h4,h5,h6 {font-size:inherit;font-weight:inherit}a {color:inherit;text-decoration:inherit}b,strong {font-weight:bolder} button,select {text-transform:none}button,[type="button"],[type="reset"],[type="submit"] {-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring {outline:auto}:-moz-ui-invalid {box-shadow:none}progress {vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button {height:auto}[type="search"] {-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration {-webkit-appearance:none}::-webkit-file-upload-button {-webkit-appearance:button;font:inherit}summary {display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre {margin:0}fieldset {margin:0;padding:0}legend {padding:0}ol,ul,menu {list-style:none;margin:0;padding:0}dialog {padding:0}textarea {resize:vertical}input::placeholder,textarea::placeholder {opacity:1;color:theme("colors.gray.400", #9ca3af)}button,[role="button"] {cursor:pointer}:disabled {cursor:default}img,svg,video,canvas,audio,iframe,embed,object {display:block;vertical-align:middle}img,video {max-width:100%;height:auto}[hidden] {display:none}`
-}
-
 // STYLES
-get styles() {
+static get styles() {
 return `
-<style id="preflight">${this.preflight}</style>
+${ComponentUtils.preflight}
 <style id="base">
 host:, * { margin:0; box-sizing:border-box ; }
+*:empty { display: none; }
 #container {
 	background: var(--color-background, transparent);
 	border-radius: .3em;
@@ -190,7 +150,7 @@ host:, * { margin:0; box-sizing:border-box ; }
 	border-left: 1px solid var(--color-border, currentColor);
 	border-right: 1px solid var(--color-border, currentColor);
 	padding: .75rem 1rem;
-	width:100%;
+	max-width:100%;
 }
 .contact:first-child {
 	border-top: 1px solid var(--color-border, currentColor);
@@ -203,7 +163,7 @@ host:, * { margin:0; box-sizing:border-box ; }
 	border-bottom-right-radius: .325em;
 	padding-bottom: 1rem;
 }
-.contact-heading-row {
+.contact-heading {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: .5em;
@@ -229,40 +189,25 @@ host:, * { margin:0; box-sizing:border-box ; }
 	line-height:1.3;
 	opacity:.85;
 }
-</style><style id="stylesheet"></style>`
+</style>`
 };
 
 // TEMPLATE
 get template() {
 	const template = document.createElement("template");
-	template.innerHTML = `${this.styles}${this.els}`.trim();
+	template.innerHTML = `${this.c.styles}${this.els}`.trim();
 	return template;
-}
-
-// IDS
-get ids() {
-	return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 }
 
 // CONSTRUCTOR
 constructor() {
 	super();
-
-	// programattically create getters and setters for each observed attribute
-	ComponentUtils.createOAGS(this.c, this);
-
-	// create a shadow root
 	this.attachShadow({ mode: "open" });
-
 }
 
-// LIFECYCLE CALLBACKS
+// CONNECTED CALLBACK
 connectedCallback() {
-	// append the template content to the shadow DOM
 	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
-
-	// define refs elements
-	this.refs = ComponentUtils.getRefs(this.c, this);
 }}
 
 customElements.define("contact-info", ContactInfo);
