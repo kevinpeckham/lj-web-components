@@ -1,11 +1,11 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
+import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 
 /** @copyright 2024 Lightning Jar - "Content Card" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://www.lj-cdn.dev/web-components/content-card} */
+/** {@link https://cdn.lj.dev/web-components/content-card} */
 
 /**
  * Logo Block Web Component
@@ -16,83 +16,40 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @extends HTMLElement
  * @classdesc A web component for displaying a linked tile with a single full bleed image-- for typical use in a grid of products.
  *
- * CONTAINER
- * @attribute color-primary | currentColor | #0A2E7E | primary text color
- *
- * CARD
- * @attribute card-background-color | white | #EAF1F7 | background color of the card
- * @attribute card-border-radius | .35rem | -- | border radius of the card
- * @attribute card-box-shadow | none | 0 0 1px 0 rgba(0,0,0,.2) | box shadow of the card
+ * @attribute background-image-alt | -- | -- | alt text of the background image
+ * @attribute background-image-position | bottom | -- | position of the background image
+ * @attribute background-image-url | -- | -- | url of the background image
+ * @attribute body-bullets-data | [] | -- | array of bullet points
+ * @attribute body-font-size | .95rem | -- | font size of the body text
+ * @attribute body-font-weight | 400 | -- | font weight of the body text
+ * @attribute body-image-url | -- | -- | url of the image
+ * @attribute body-padding | .75rem | -- | padding of the body container
+ * @attribute body-color | inherit | -- | color of the body text
+ * @attribute body-text | -- | Energy companies are increasingly moving towards diversification beyond traditional hydrocarbons. | text of the body
+ * @attribute card-background-color | white | #F7FAFC | background color of the card
+ * @attribute card-border-radius | .35rem | .5rem | border radius of the card
+ * @attribute card-box-shadow | none | 0 0 1px 0 rgba(0,0,0,.4) | box shadow of the card
  * @attribute card-height | auto | -- | height of the card
  * @attribute card-hover-opacity | -- | -- | opacity of the card on hover
  * @attribute card-hover-background-color | -- | -- | background color of the card on hover
- * @attribute card-max-width | none | 16rem | max width of the card
+ * @attribute card-link-url | -- | -- | url of a link for the entire card
+ * @attribute card-link-rel | -- | -- | rel of a link for the entire card
+ * @attribute card-max-width | none | 24rem | max width of the card
  * @attribute card-min-height | auto | 20rem | min height of the card
  * @attribute card-opacity | 100% | -- | opacity of the card
  * @attribute card-transition-property | opacity | -- | transition property of the card
  * @attribute card-transition-duration | .3s | -- | transition duration of the card
  * @attribute card-width | 100% | -- | width of the card
- *
- * CARD LINK
- * @attribute card-link-url | -- | -- | url of a link for the entire card
- * @attribute card-link-rel | -- | -- | rel of a link for the entire card
- *
- * OUTSIDE HEADING
- * @attribute outside-heading-color | inherit | -- | color of the outside heading
- * @attribute outside-heading-font-size | inherit | -- | font size of the outside heading
- * @attribute outside-heading-font-weight | inherit | -- | font weight of the outside
- heading
- * @attribute outside-heading-margin-bottom | .5rem | -- | margin of the outside heading
- * @attribute outside-heading-text | -- | New Skills | text of the outside heading
- * @attribute outside-heading-position | above | -- | position of the outside heading
- *
- * BACKGROUND IMAGE
- * @attribute background-image-alt | -- | -- | alt text of the background image
- * @attribute background-image-position | bottom | -- | position of the background image
- * @attribute background-image-url | -- | -- | url of the background image
- *
- * FEATURE IMAGE
+ * @attribute color-primary | currentColor | #0A2E7E | primary text color
  * @attribute feature-image-alt | -- | -- | alt text of the feature image
  * @attribute feature-image-position | bottom-right | -- | position of the feature image
- * @attribute feature-image-url | -- | /images/custom/petro/ocean-turbines.webp | url of the feature image
- *
- * CARD HEADER
- * @attribute header-border-bottom | 1px solid #e2e8f0 | -- | border bottom of the card header
- * @attribute header-background | white | -- | background color of the card header
- * @attribute header-color-text | inherit | -- | text color of the card header
- * @attribute header-font-size | 1rem | -- | font size of the card header
- * @attribute header-font-weight | 500 | 900 | font weight of the card header
- * @attribute header-padding | .25rem 1rem | -- | padding of the card header
- * @attribute header-logo-url | -- | -- | url of the logo
- * @attribute header-logo-alt | -- | -- | alt text of the logo
- * @attribute header-logo-width | auto | -- | width of the logo
- * @attribute header-logo-height | 2.5rem | -- | height of the logo
- * @attribute header-text | -- | -- | text of the card header
- *
- * BODY CONTAINER
- * @attribute body-padding | .75rem | -- | padding of the body container
- *
- * BODY TEXT & BULLETS
- * @attribute body-bullets | [] | -- | array of bullet points
- * @attribute body-font-size | .9rem | -- | font size of the body text
- * @attribute body-font-weight | 400 | -- | font weight of the body text
- * @attribute body-text-color | inherit | -- | color of the body text
- * @attribute body-text | -- | Energy companies are increasingly moving towards diversification beyond traditional hydrocarbons. | text of the body
- *
- * @attribute body-image-url | -- | -- | url of the image
- *
- * FOOTER
+ * @attribute feature-image-url | -- | https://cdn.lj.dev/images/custom/petro/ocean-turbines.webp | url of the feature image
  * @attribute footer-backdrop-filter | blur(8px) | -- | backdrop filter of the card header
  * @attribute footer-border-top | 1px solid #e2e8f0 | --| border bottom of the card header
  * @attribute footer-background | rgb(255 255 255 / 40%) | -- | background color of the card header
- * @attribute footer-color-text | inherit | -- | text color of the card header
+ * @attribute footer-color | inherit | -- | text color of the card header
  * @attribute footer-font-size | .85rem | -- | font size of the card header
  * @attribute footer-font-weight | 400 | -- | font weight of the card header
- * @attribute footer-min-height | 2.5rem | -- | min height of the card header
- * @attribute footer-padding | .25rem 1rem | -- | padding of the card header
- * @attribute footer-text | -- | -- | text of the card footer
- *
- * FOOTER LINK
  * @attribute footer-link-url | -- | -- | url of the footer link
  * @attribute footer-link-rel | -- | -- | rel of the footer link
  * @attribute footer-link-title | -- | -- | title of the footer link
@@ -106,190 +63,74 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute footer-link-hover-color | currentColor | -- | text color of the footer link on hover (button style)
  * @attribute footer-link-hover-background | rgb(255 255 255 / 80%) | -- | background color of the footer link on hover (button style)
  * @attribute footer-link-padding | .25rem .5rem; | -- | padding of the footer link (button style)
- *
+ * @attribute footer-min-height | 2.5rem | -- | min height of the card header
+ * @attribute footer-padding | .25rem 1rem | -- | padding of the card header
+ * @attribute footer-text | -- | -- | text of the card footer
+ * @attribute header-border-bottom | 1px solid #e2e8f0 | -- | border bottom of the card header
+ * @attribute header-background | white | -- | background color of the card header
+ * @attribute header-color | inherit | -- | text color of the card header
+ * @attribute header-font-size | 1rem | -- | font size of the card header
+ * @attribute header-font-weight | 500 | 900 | font weight of the card header
+ * @attribute header-padding | .25rem 1rem | -- | padding of the card header
+ * @attribute header-logo-url | -- | -- | url of the logo
+ * @attribute header-logo-alt | -- | -- | alt text of the logo
+ * @attribute header-logo-width | auto | -- | width of the logo
+ * @attribute header-logo-height | 2.5rem | -- | height of the logo
+ * @attribute header-text | -- | -- | text of the card header
+ * @attribute outside-heading-color | inherit | -- | color of the outside heading
+ * @attribute outside-heading-font-size | inherit | -- | font size of the outside heading
+ * @attribute outside-heading-font-weight | inherit | -- | font weight of the outside heading
+ * @attribute outside-heading-margin-bottom | .5rem | -- | margin of the outside heading
+ * @attribute outside-heading-text | -- | New Skills | text of the outside heading
+ * @attribute outside-heading-position | above | -- | position of the outside heading
  * @attribute stylesheet | -- | #container { color:#042373; } | inject css into the inner stylesheet
- * @attribute style | -- | -- | regular inline style on the component
- * @attribute transition-property | opacity | -- | duration of the transition effect
- * @attribute transition-duration | .3s | -- | duration of the transition effect
- * @attribute translate-x | -- | -- | move tile on x axis
  */
+
 class ContentCard extends HTMLElement {
 
-	// Container
-	colorPrimary = "currentColor";
-
-	// Outside Heading
-	outsideHeadingColor = "";
-	outsideHeadingFontSize = "";
-	outsideHeadingFontWeight = "";
-	outsideHeadingMarginBottom = "";
-	outsideHeadingPosition = "";
-	outsideHeadingText = "";
-
-	// Card
-	cardBackgroundColor = "";
-	cardBorderRadius = "";
-	cardBoxShadow = "";
-	cardHeight = "";
-	cardHoverOpacity = "";
-	cardHoverBackgroundColor = "";
-	cardMaxWidth = "";
-	cardMinHeight = "";
-	cardOpacity = "";
-	cardTransitionProperty = "";
-	cardTransitionDuration = "";
-	cardWidth = "";
-
-	// Background Image
-	backgroundImageAlt = "";
-	backgroundImagePosition = "";
-	backgroundImageUrl = "";
-
-	// Feature Image
-	featureImageAlt = "";
-	featureImagePosition = "";
-	featureImageUrl = "";
-
-	// Card Header
-	headerBorderBottom = "";
-	headerBackground = "";
-	headerColorText = "";
-	headerFontSize = "";
-	headerFontWeight = "";
-	headerPadding = "";
-	headerLogoUrl = "";
-	headerLogoAlt = "";
-	headerLogoWidth = "";
-	headerLogoHeight = "";
-	headerText = "";
-
-	// Body Container
-	bodyPadding = "";
-
-	// Body Text & Bullets
-	bodyBullets = "[]";
-	bodyFontSize = "";
-	bodyFontWeight = "";
-	bodyTextColor = "";
-	bodyText = "";
-
-	// Footer
-	footerBackdropFilter = "";
-	footerBorderTop = "";
-	footerBackground = "";
-	footerColorText = "";
-	footerFontSize = "";
-	footerFontWeight = "";
-	footerMinHeight = "";
-	footerPadding = "";
-	footerText = "";
-
-	// Footer Link
-	footerLinkUrl = "";
-	footerLinkRel = "";
-	footerLinkTitle = "";
-	footerLinkLabel = "";
-	footerLinkBackground = "";
-	footerLinkBorder = "";
-	footerLinkBorderRadius = "";
-	footerLinkColor = "";
-	footerLinkFontSize = "";
-	footerLinkFontWeight = "";
-	footerLinkHoverColor = "";
-	footerLinkHoverBackground = "";
-	footerLinkPadding = "";
-
-	// stylesheet
-	stylesheet = "";
-
-// reference to class itself
 get c() { return ContentCard };
 
 
 // ATTRIBUTES
-/**
- * Returns an object. The keys are prop names. The values are the default values for the props.
- * @returns { { [key:string]: string | null } }
- */
+/** @returns { { [key:string]: string | null } }*/
 static get attributes() {
-const values = {
-	/* container */
-	"color-primary": "currentColor",
-
-
-	/* outside */
-	"outside-heading-color": "inherit",
-	"outside-heading-font-size": "1rem",
-	"outside-heading-font-weight": "bold",
-	"outside-heading-margin-bottom": ".5rem",
-	"outside-heading-position": "above",
-	"outside-heading-text": "",
-
-	/* card */
+return {
+	"background-image-alt": "",
+	"background-image-position": "bottom",
+	"background-image-url": "",
+	"body-bullets": "[]", // deprecated
+	"body-bullets-data": "[]",
+	"body-text": "",
+	"body-color": "inherit",
+	"body-font-size": ".95rem",
+	"body-font-weight": "inherit",
+	"body-padding": ".75rem",
 	"card-background-color": "white",
 	"card-border-radius": ".35rem",
 	"card-box-shadow": "none",
 	"card-height": "auto",
-	"card-hover-opacity": "",
-	"card-hover-background-color": "",
+	"card-hover-opacity": "1",
+	"card-hover-background-color": "var(--card-background-color)",
+	"card-link-url": "",
+	"card-link-rel": "",
+	"card-link-title": "",
 	"card-max-width": "none",
 	"card-min-height": "auto",
 	"card-opacity": "100%",
 	"card-transition-property": "opacity",
 	"card-transition-duration": "0.3s",
 	"card-width": "100%",
-
-	/* card link */
-	"card-link-url": "",
-	"card-link-rel": "",
-	"card-link-title": "",
-
-	/* background image */
-	"background-image-alt": "",
-	"background-image-position": "bottom",
-	"background-image-url": "",
-
-	/* feature image */
+	"color-primary": "currentColor",
 	"feature-image-alt": "",
 	"feature-image-position": "bottom-right",
 	"feature-image-url": "",
-
-	/* header */
-	"header-border-bottom": "1px solid #e2e8f0",
-	"header-background": "white",
-	"header-color-text": "",
-	"header-font-size": "1rem",
-	"header-font-weight": "500",
-	"header-padding": ".25rem .75rem",
-	"header-logo-url": "",
-	"header-logo-alt": "",
-	"header-logo-width": "auto",
-	"header-logo-height": "2.5rem",
-	"header-text": "",
-
-	/* body container */
-	"body-padding": ".75rem",
-	"body-text-color": "inherit",
-	"body-font-size": "100%",
-	"body-font-weight": "inherit",
-
-	/* body text & bullets */
-	"body-bullets": "[]",
-	"body-text": "",
-
-	/* footer */
 	"footer-backdrop-filter": "blur(8px)",
 	"footer-border-top": "1px solid #e2e8f0",
 	"footer-background": "rgb(255 255 255 / 40%)",
-	"footer-color-text": "inherit",
+	"footer-color": "inherit",
 	"footer-font-size": ".85rem",
 	"footer-font-weight": "400",
-	"footer-min-height": "2.5rem",
-	"footer-padding": ".5rem 1rem",
-	"footer-text": "",
-
-	/* footer link */
-  "footer-link-url": "/",
+	"footer-link-url": "",
 	"footer-link-rel": "",
   "footer-link-title": "",
 	"footer-link-label": "",
@@ -302,142 +143,102 @@ const values = {
 	"footer-link-hover-color": "currentColor",
 	"footer-link-hover-background": "rgb(255 255 255 / 80%)",
 	"footer-link-padding": ".25rem .5rem",
-
-	/* stylesheet */
-  "stylesheet": "",
-
-};
-return values;
-}
-
-// OBSERVED ATTRIBUTES GETTER
-static get observedAttributes() { return Object.keys(this.attributes) }
-
-// ATTRIBUTE DEFAULT VALUE GETTER
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
+	"footer-min-height": "2.5rem",
+	"footer-padding": ".5rem 1rem",
+	"footer-text": "",
+	"header-border-bottom": "1px solid #e2e8f0",
+	"header-background": "white",
+	"header-color": "inherit",
+	"header-font-size": "1rem",
+	"header-font-weight": "500",
+	"header-padding": ".25rem .75rem",
+	"header-logo-url": "",
+	"header-logo-alt": "",
+	"header-logo-width": "auto",
+	"header-logo-height": "2.5rem",
+	"header-text": "",
+	"outside-heading-color": "inherit",
+	"outside-heading-font-size": "1rem",
+	"outside-heading-font-weight": "bold",
+	"outside-heading-margin-bottom": ".5rem",
+	"outside-heading-position": "above",
+	"outside-heading-text": "",
+  "stylesheet": ""
+}}
 
 // HTML BUILDERS
 buildBulletsHTML() {
 	/** @type {string[]} bulletsData */
-	const bulletsData = JSON.parse(this.bodyBullets);
-	const bullets = bulletsData.map((bullet) => `<li>${bullet}</li>`).join("");
-	return `<ul id="body-bullets">${bullets ?? 'test'}</ul>`;
+	const data = JSON.parse(this.attValue('body-bullets-data')) ?? JSON.parse(this.attValue('body-bullets')) ?? [];
+	const bullets = data.map((bullet) => `<li>${bullet}</li>`).join("");
+	return `<ul id="body-bullets">${bullets}</ul>`;
 }
 
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
+}
 
 // ELEMENTS
 get els() {
-  return `
-<style id="stylesheet">${this.stylesheet}</style>
-<div
-	id="container"
-	style="
-		--color-primary: ${this.colorPrimary};
-		--outside-heading-color: ${this.outsideHeadingColor};
-		--outside-heading-font-size: ${this.outsideHeadingFontSize};
-		--outside-heading-font-weight: ${this.outsideHeadingFontWeight};
-		--outside-heading-margin-bottom: ${this.outsideHeadingMarginBottom};
-		--outside-heading-position: ${this.outsideHeadingPosition};
-		--card-background-color: ${this.cardBackgroundColor};
-		--card-border-radius: ${this.cardBorderRadius};
-		--card-box-shadow: ${this.cardBoxShadow};
-		--card-height: ${this.cardHeight};
-		--card-hover-opacity: ${this.cardHoverOpacity};
-		--card-hover-background-color: ${this.cardHoverBackgroundColor};
-		--card-max-width: ${this.cardMaxWidth};
-		--card-min-height: ${this.cardMinHeight};
-		--card-opacity: ${this.cardOpacity};
-		--card-transition-property: ${this.cardTransitionProperty};
-		--card-transition-duration: ${this.cardTransitionDuration};
-		--card-width: ${this.cardWidth};
-		--background-image-alt: ${this.backgroundImageAlt};
-		--background-image-position: ${this.backgroundImagePosition};
-		--header-border-bottom: ${this.headerBorderBottom};
-		--header-background: ${this.headerBackground};
-		--header-color-text: ${this.headerColorText};
-		--header-font-size: ${this.headerFontSize};
-		--header-font-weight: ${this.headerFontWeight};
-		--header-padding: ${this.headerPadding};
-		--header-logo-url: ${this.headerLogoUrl};
-		--header-logo-alt: ${this.headerLogoAlt};
-		--header-logo-width: ${this.headerLogoWidth};
-		--header-logo-height: ${this.headerLogoHeight};
-		--header-text: ${this.headerText};
-		--body-padding: ${this.bodyPadding};
-		--body-font-size: ${this.bodyFontSize};
-		--body-font-weight: ${this.bodyFontWeight};
-		--body-text-color: ${this.bodyTextColor};
-		--footer-backdrop-filter: ${this.footerBackdropFilter};
-		--footer-border-top: ${this.footerBorderTop};
-		--footer-background: ${this.footerBackground};
-		--footer-color-text: ${this.footerColorText};
-		--footer-font-size: ${this.footerFontSize};
-		--footer-font-weight: ${this.footerFontWeight};
-		--footer-min-height: ${this.footerMinHeight};
-		--footer-padding: ${this.footerPadding};
-		--footer-link-background: ${this.footerLinkBackground};
-		--footer-link-border: ${this.footerLinkBorder};
-		--footer-link-border-radius: ${this.footerLinkBorderRadius};
-		--footer-link-color: ${this.footerLinkColor};
-		--footer-link-font-size: ${this.footerLinkFontSize};
-		--footer-link-font-weight: ${this.footerLinkFontWeight};
-		--footer-link-hover-color: ${this.footerLinkHoverColor};
-		--footer-link-hover-background: ${this.footerLinkHoverBackground};
-		--footer-link-padding: ${this.footerLinkPadding};
-	">
+const exclude = ['body-bullets'];
+const cssVars = ComponentUtils.cssVars(this.c.attributes, this, exclude);
+const html = ComponentUtils.stringIfValue;
 
-	<!-- outside heading -->
-	${this.outsideHeadingText ? `<h3 style="--outside-heading-color: ${this.outsideHeadingColor};" id="outside-heading">${this.outsideHeadingText}</h3>` : ''}
+// values
+const backgroundImageAlt = this.attValue('background-image-alt');
+const backgroundImageUrl = this.attValue('background-image-url');
+const bodyBullets = this.buildBulletsHTML()
+const bodyText = this.attValue('body-text');
+const featureImageAlt = this.attValue('feature-image-alt');
+const featureImageUrl = this.attValue('feature-image-url');
+const footerLinkLabel = this.attValue('footer-link-label');
+const footerLinkUrl = this.attValue('footer-link-url');
+const footerLinkTitle = this.attValue('footer-link-title');
+const footerText = this.attValue('footer-text');
+const headerLogoAlt = this.attValue('header-logo-alt');
+const headerLogoHeight = this.attValue('header-logo-height');
+const headerLogoWidth = this.attValue('header-logo-width');
+const headerLogoUrl = this.attValue('header-logo-url');
+const headerText = this.attValue('header-text');
+const outsideHeadingText = this.attValue('outside-heading-text');
+const stylesheet = this.attValue('stylesheet');
 
-	<!-- card -->
+return `
+${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
+<div id="container" style="${cssVars}">
+	${html(outsideHeadingText, `<h3 id="outside-heading">${outsideHeadingText}</h3>`)}
 	<div id="card">
-
-		<!-- card-inner -->
 		<div id="card-inner">
-
-			<!-- header -->
-			<header id="header">
-				<img id="header-image" src="${this.headerLogoUrl}" alt="${this.headerLogoAlt}" width="${this.headerLogoWidth}" height="${this.headerLogoHeight}" loading="lazy" />
-				<span id="header-text">${this.headerText}</span>
-			</header>
-
-			<!-- body -->
+			${html('test', `<header id="header">
+				${html(headerLogoUrl, `<img id="header-image"
+					${html(headerLogoAlt, `alt="${headerLogoAlt}" `)}
+					${html(headerLogoHeight, `height="${headerLogoHeight}" `)}
+					${html(headerLogoWidth, `width="${headerLogoWidth}" `)}
+					${html(headerLogoUrl, `src="${headerLogoUrl}" `)}
+					loading="lazy" />`)}
+				${html(headerText, `<span id="header-text">${headerText}</span>`)}
+			</header>`, headerLogoUrl || headerText)}
 			<div id="body">
-				<!-- body text -->
-				<p id="body-text">${this.bodyText}</p>
-
-				<!-- body bullets -->
-				${this.buildBulletsHTML()}
-
-				<!-- feature-image -->
-				<div id="feature-image-container">
-					<figure id="feature-image-figure">
-						<img role="presentation" alt="${this.featureImageAlt ?? ''}" id="feature-image" src="${this.featureImageUrl}" />
-					</figure>
-				</div>
-
-
-			${this.footerText || this.footerLinkLabel ? `
-			<!-- footer -->
-			<footer id="footer">
-				${this.footerLinkLabel ? `<a id="footer-link" href="${this.footerLinkUrl}" title="${this.footerLinkTitle}">${this.footerLinkLabel}</a>` : ""}
-				${this.footerText ? `<span id="footer-text">${this.footerText}</span>` : ""}
-			</footer>` : ""}
-
-
-			<!-- background-image -->
-			<img role="presentation" alt="${this.backgroundImageAlt ?? ''}" id="background-image" src="${this.backgroundImageUrl}" />
+				${html(bodyText, `<p id="body-text">${bodyText}</p>`)}
+				${html(bodyBullets, bodyBullets)}
+				${html(featureImageUrl, `<div id="feature-image-container"><figure id="feature-image-figure"><img role="presentation" ${html(featureImageAlt, `alt="${featureImageAlt}"`)} id="feature-image" src="${featureImageUrl}" /></figure></div>`)}
+			</div>
+			${html('test', `<footer id="footer">
+				${html(footerLinkLabel, `<a id="footer-link" href="${footerLinkUrl}" title="${footerLinkTitle}">${footerLinkLabel}</a>`)}
+				${html(footerText, `<span id="footer-text">${footerText}</span>`)}
+			</footer>`, footerLinkLabel || footerText)}
+			${html(backgroundImageUrl, `<img role="presentation" alt="${backgroundImageAlt ?? ''}" id="background-image" src="${backgroundImageUrl}" />`)}
 		</div>
 	</div>
 </div>`.trim();
 }
 
 // STYLES
-get styles() {
-  return `
+static get styles() {
+return `
 	${ComponentUtils.preflight}
   <style id="base">
+	*:empty { display:none; }
 	#container {
 		background-color:transparent;
 		color: var(--color-primary, currentColor);
@@ -452,27 +253,23 @@ get styles() {
 		border-radius: var(--card-border-radius, .35em);
 		box-shadow: var(--card-box-shadow, none);
 		display: flex;
-		order:${this.outsideHeadingPosition === "below" ? "1" : "2"};
 		opacity: var(--card-opacity, 100%);
 		outline:transparent;
 		position:relative;
-		transition-property: ${this.cardHoverOpacity ? 'opacity,' : ''}, shadow;
+		transition-property: opacity, shadow;
 		transition-duration: var(--card-transition-duration, .3s);
 		max-width: 100%;
 		width: 100%;
 	}
 	#card:hover {
 		box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+		opacity: var(--card-hover-opacity, 100%);
 	}
 	#container #outside-heading {
 		color: var(--outside-heading-color, inherit);
 		font-size: var(--outside-heading-font-size, 1rem);
 		font-weight: var(--outside-heading-font-weight, 500);
 		margin-bottom: var(--outside-heading-margin-bottom, 0);
-		order: ${this.outsideHeadingPosition === "below" ? "2" : "1"};
-	}
-	#container #outside-heading:hover {
-		opacity: ${this.cardHoverOpacity};
 	}
 	#card-inner {
 		background: var(--card-background-color, white);
@@ -483,18 +280,17 @@ get styles() {
 		height: 100%;
 		min-height: var(--card-min-height, auto);
 		overflow: hidden;
-
 		position:relative;
+		transition: background-color .3s ease-in-out;
 		width: var(--card-width, 100%);
 	}
 	#card-inner:hover {
-		${this.cardHoverBackgroundColor ? `background: var(--card-hover-background-color, white);` : ''}
+		background-color:var(--card-hover-background-color, white);
 	}
 	#header {
 		border-bottom: var(--header-border-bottom, 1px solid #e2e8f0);
 		background: var(--header-background, transparent);
-		color: var(--header-color-text, inherit);
-		display:${this.headerText || this.headerLogoUrl ? 'flex' : 'none'};
+		color: var(--header-color, inherit);
 		font-size: var(--header-font-size, 1rem);
 		font-weight: var(--header-font-weight, 500);
 		max-height: fit-content;
@@ -502,7 +298,7 @@ get styles() {
 		max-width: 100%;
 	}
 	#header-text {
-		color: var(--header-color-text, inherit);
+		color: var(--header-color, inherit);
 		font-size: var(--header-font-size, 1rem);
 		font-weight: var(--header-font-weight, 500);
 		padding: var(--header-padding, .5rem .25rem);
@@ -524,7 +320,7 @@ get styles() {
 		width:100%;
 	}
 	#body-text {
-		font-size:.9rem;
+		font-size:.95rem;
 		margin-bottom: .5rem;
 		opacity:.9;
 		padding: var(--body-padding, 1rem);
@@ -567,18 +363,15 @@ get styles() {
 	#feature-image {
 		aspect-ratio:1;
 		bottom:0;
-		display:${this.featureImageUrl ? 'flex' : 'none'};
+		display:flex;
 		height:auto;
 		position:absolute;
 		object-fit:contain;
-
 		overflow:hidden;
 		pointer-events:none;
 		scale:1.5;
 		transform:translate(24%, 24%);
 		object-position: 60% 0%;
-
-
 		width:100%;
 		z-index:0;
 	}
@@ -598,9 +391,8 @@ get styles() {
 		background: var(--footer-background, transparent);
 		backdrop-filter: var(--footer-backdrop-filter, none);
 		border-top: var(--footer-border-top, 1px solid #e2e8f0);
-		color: var(--footer-color-text, inherit);
+		color: var(--footer-color, inherit);
 		column-gap:1rem;
-		display:${this.footerLinkLabel || this.footerText ? 'flex' : 'none'};
 		font-size: var(--footer-font-size, 1rem);
 		font-weight: var(--footer-font-weight, 500);
 		justify-self: end;
@@ -615,7 +407,7 @@ get styles() {
 		background: var(--footer-link-background, transparent);
 		border: 1px solid currentColor;
 		border-radius: .25rem;
-		color: var(--footer-color-text, inherit);
+		color: var(--footer-color, inherit);
 		font-size: .85em;
 		padding: var(--footer-link-padding, .25rem .5rem);
 		text-decoration: none;
@@ -633,37 +425,12 @@ get styles() {
 // TEMPLATE
 get template() {
   const template = document.createElement("template");
-  template.innerHTML = `${this.styles}${this.els}`.trim();
+  template.innerHTML = `${this.c.styles}${this.els}`.trim();
   return template;
 }
-// IDS
-get ids() {
-  return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
-}
 
-// CONSTRUCTOR
-constructor() {
-	super();
-
-	// programattically create getters and setters for each observed attribute
-	ComponentUtils.createOAGS(this.c, this);
-
-	// create a shadow root
-	this.attachShadow({ mode: "open" });
-
-}
-
-// LIFECYCLE CALLBACKS
-
-connectedCallback() {
-	// append the template content to the shadow DOM
-	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
-
-	// define refs elements
-	this.refs = ComponentUtils.getRefs(this.c, this);
-}
-
-// METHODS
+constructor() { super(); this.attachShadow({ mode: "open" }); }
+connectedCallback() { this.shadowRoot?.appendChild(this.template.content.cloneNode(true)) }
 }
 
 customElements.define("content-card", ContentCard);
