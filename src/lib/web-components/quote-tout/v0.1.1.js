@@ -1,11 +1,11 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
+import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 
 
 /** @copyright 2024 Lightning Jar - "Quote Tout" web component - License MIT */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://lj-cdn.dev/web-components/quote-tout} */
+/** {@link https://cdn.lj.dev/web-components/quote-tout} */
 
 /**
  * Quote Tout Web Component
@@ -26,100 +26,60 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute quote-font-size        | 1rem         | --                | font size of the quote
  * @attribute quote-line-height			| 1.3          | --                | line height of the quote
  * @attribute attribution-text       | --           | -- | attribution for the quote
- * @attribute stylesheet-text        | --           | --                | inject css into stylesheet
+ * @attribute stylesheet        | --           | --                | inject css into stylesheet
  */
 class QuoteTout extends HTMLElement {
-// reference to class itself
-get c() { return QuoteTout };
 
-// initialize variables
-colorBackground = "";
-colorBorder = "";
-colorPrimary = "";
-colorSecondary = "";
-containerBorderWidth = "";
-containerHeight = "";
-containerWidth = "";
-containerMaxWidth = "";
-containerPadding = "";
-fontFamily = "";
-quoteText = "";
-quoteFontSize = "";
-quoteLineHeight = "";
-attributionText = "";
-stylesheetText = "";
+get c() { return QuoteTout };
 
 
 // ATTRIBUTES
-	/**
-	 * Returns an object. The keys are prop names. The values are the default values for the props.
-	 * @returns { { [key:string]: string } }
-	 */
+	/** @returns { { [key:string]: string } } */
 static get attributes() {
-  // attribute, default
-  const values = {
-    "color-background": "transparent",
-    "color-border": "transparent",
-    "color-primary": "currentColor",
-		"container-border-width": "0",
-		"container-height": "auto",
-		"container-width": "100%",
-		"container-max-width": "none",
-		"container-padding": "1.5em",
-		"font-family": "inherit",
-    "quote-text": "",
-		"quote-font-size": "1rem",
-		"quote-line-height": "1.3",
-    "attribution-text": "",
-    "stylesheet-text": "",
-	};
-  return values;
+return {
+	"color-background": "transparent",
+	"color-border": "transparent",
+	"color-primary": "currentColor",
+	"container-border-width": "0",
+	"container-height": "auto",
+	"container-width": "100%",
+	"container-max-width": "none",
+	"container-padding": "1.5em",
+	"font-family": "inherit",
+	"quote-text": "",
+	"quote-font-size": "1.15rem",
+	"quote-line-height": "1.3",
+	"attribution-text": "",
+	"stylesheet": "",
+};
 }
 
-// OBSERVED ATTRIBUTES
-static get observedAttributes() { return Object.keys(this.attributes) }
-
-// GET DEFAULT VALUE FOR AN ATTRIBUTE
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
-
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
+}
 
 // ELEMENTS
 get els() {
+const cssVars = ComponentUtils.cssVars(this.c.attributes, this);
+const html = ComponentUtils.stringIfValue;
+const stylesheet = this.attValue('stylesheet');
+const quote = this.attValue('quote-text');
+const attribution = this.attValue('attribution-text');
 return `
-<div
-	id="container"
-	style="
-		--color-background: ${this.colorBackground};
-		--color-border: ${this.colorBorder};
-		--color-primary: ${this.colorPrimary};
-		--font-family: ${this.fontFamily};
-		--container-border-width: ${this.containerBorderWidth};
-		--container-height: ${this.containerHeight};
-		--container-width: ${this.containerWidth};
-		--container-max-width: ${this.containerMaxWidth};
-		--container-padding: ${this.containerPadding};
-		--quote-font-size: ${this.quoteFontSize};
-		--quote-line-height: ${this.quoteLineHeight};"
-	>
-	<div id="mark-container">
-		<div id="mark">“</div>
-	</div>
-  <i id="quote">${this.quoteText}</i>
-  ${this.attributionText ? `<div id="attribution">${this.attributionText}</div>` : ""}
+${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
+<div id="container" style="${cssVars}">
+	<div id="mark-container"><div id="mark">“</div></div>
+  ${html(quote, `<i id="quote">${quote}</i>`)}
+	${html(attribution, `<div id="attribution">${attribution}</div>`)}
 </div>
 `.trim();
 }
 
-// PREFLIGHT
-get preflight() {
-	return `*,::before,::after {box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor} html,:host {line-height:1.2;}`
-}
 
 // STYLES
 get styles() {
 return `
-<style id="preflight">${this.preflight}</style>
+${ComponentUtils.preflight}
 <style id="base">
 host:, * { margin:0; box-sizing:border-box ; }
 #container {
@@ -156,8 +116,8 @@ host:, * { margin:0; box-sizing:border-box ; }
 }
 #quote {
 	display:block;
-	font-size:var(--quote-font-size, 1rem);
-	line-height:var(--quote-line-height, 1.3);
+	font-size:var(--quote-font-size);
+	line-height:var(--quote-line-height);
 	margin-bottom:1rem;
 	text-style:italic;
 }
@@ -169,8 +129,7 @@ host:, * { margin:0; box-sizing:border-box ; }
   line-height:1.3;
 	margin-bottom:1rem;
   opacity:.85;
-}
-</style><style id="stylesheet"></style>`
+}</style>`
 };
 
 // TEMPLATE

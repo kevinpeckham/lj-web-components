@@ -186,7 +186,6 @@ attValue(/** @type {string} att */ att) {
 
 // ELEMENTS
 get els() {
-
 const cssVars = ComponentUtils.cssVars(this.c.attributes, this);
 const html = ComponentUtils.stringIfValue;
 const stylesheet = this.attValue('stylesheet');
