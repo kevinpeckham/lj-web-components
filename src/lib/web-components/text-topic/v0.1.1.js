@@ -5,7 +5,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://www.lj-cdn.dev/web-components/text-topic} */
+/** {@link https://cdn.lj.dev/web-components/text-topic} */
 
 /**
  * Text Topic Web Component
@@ -22,7 +22,8 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute heading-text | -- | The Energy Industry Faces New Challenges | text for the heading
  * @attribute link-padding | .75rem 1.33rem | -- | padding around the text in the button button
  * @attribute link-rel | -- | external | selector for the target element
- * @attribute link-text | -- | -- | button text
+ * @attribute link-text | -- | Learn More | button text
+ * @attribute link-target | -- | -- | button link target
  * @attribute link-title | -- | -- | selector for the target element
  * @attribute link-url | -- | https://cdn.lj.dev/web-components | text appears on hover
  * @attribute transition-duration | .3s| .4s | transition duration for hover effect on link
@@ -30,104 +31,67 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute stylesheet | -- | -- | injects css into custom stylesheet
  */
 class TextTopic extends HTMLElement {
-	bodyText = "";
-	colorPrimary = "";
-	colorSecondary = "";
-	fontFamily = "";
-	headingText = "";
-	linkPadding = "";
-	linkRel = "";
-	linkText = "";
-	linkTitle = "";
-	linkUrl = "";
-	transitionDuration = "";
-	transitionProperty = "";
-	stylesheet = "";
 
-	// reference to class itself
-	get c() { return TextTopic };
+get c() { return TextTopic };
 
 
-	// ATTRIBUTES
-	/**
-	 * Returns an object. The keys are prop names. The values are the default values for the props.
-	 * @returns { { [key:string]: string } }
-	 */
-	static get attributes() {
-		const values = {
-			"body-text": "",
-			"color-primary": "currentColor",
-			"color-secondary": "darkblue",
-			"font-family": "inherit",
-			"heading-text": "",
-			"link-padding": ".55rem 1.2rem",
-			"link-rel": "external",
-			"link-text": "",
-			"link-title": "",
-			"link-url": "",
-			"transition-duration": ".15s",
-			"transition-property": "background-color, color, opacity",
-			"stylesheet": ""
-		};
-	return values;
+// ATTRIBUTES
+/** @returns { { [key:string]: string } }  */
+static get attributes() {
+	const values = {
+		"body-text": "",
+		"color-primary": "currentColor",
+		"color-secondary": "darkblue",
+		"font-family": "inherit",
+		"heading-text": "",
+		"link-padding": ".55rem 1.2rem",
+		"link-rel": "external",
+		"link-text": "",
+		"link-target": "",
+		"link-title": "",
+		"link-url": "",
+		"transition-duration": ".15s",
+		"transition-property": "background-color, color, opacity",
+		"stylesheet": ""
+	};
+return values;
+}
+
+	attValue(/** @type {string} att */ att) {
+		return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
 	}
-
-	// get observed attributes
-	static get observedAttributes() { return Object.keys(this.attributes) }
-
-	// get default value for an attribute
-	/** @param {string} attr */
-	static getDefault(attr) { return this.attributes[attr] ?? "" }
 
 // ELEMENTS MASTER LAYOUT GETTER
 get els() {
+	const cssVars = ComponentUtils.cssVars(this.c.attributes, this);
+	const html = ComponentUtils.stringIfValue;
+	const stylesheet = this.attValue('stylesheet');
+	const heading = this.attValue('heading-text');
+	const body = this.attValue('body-text');
+	const link = this.attValue('link-text');
+	const linkUrl = this.attValue('link-url');
+	const linkRel = this.attValue('link-rel');
+	const linkTarget = this.attValue('link-target');
+	const linkTitle = this.attValue('link-title');
 	return `
-<style id="stylesheet"></style>
-<div
-	id="container"
-	style="
-		--color-primary: ${this.colorPrimary};
-		--color-secondary: ${this.colorSecondary};
-		--font-family: ${this.fontFamily};
-		--link-padding: ${this.linkPadding};
-		--transition-duration: ${this.transitionDuration};
-		--transition-property: ${this.transitionProperty};">
-	<h3 id="heading">${this.headingText}</h3>
-	<div id="text">${this.bodyText}</div>
-	${this.linkText && this.linkUrl ? `<a
-		href="${this.linkUrl}"
-		${(this.linkRel) ? `rel="${this.linkRel}"` : ''}
-		${this.linkTitle ? `title="${this.linkTitle}"` : ''}
-		id="link">${this.linkText}</a>` : ''}
+${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
+<div id="container" style="${cssVars}">
+	${html(heading, `<h3 id="heading">${heading}</h3>`)}
+	${html(body, `<div id="text">${body}</div>`)}
+	${html(link, `<a id="link" href="${linkUrl}"
+		${html(linkTarget, `target="${linkTarget}" `)}
+		${html(linkRel, `rel="${linkRel}" `)}
+		${html(linkTitle, `title="${linkTitle}" `)}
+		>${link}</a>`, linkUrl)}
 </div>`.trim();
-}
-
-get preflight() {
-	return `
-	*,::before,::after {box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor}
-	html,:host {line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}
-	body {margin:0;line-height:inherit}
-	hr {height:0;color:inherit;border-top-width:1px}
-	abbr:where([title]) {text-decoration:underline dotted}
-	h1,h2,h3,h4,h5,h6 {font-size:inherit;font-weight:inherit}
-	a {color:inherit;text-decoration:inherit}
-	b,strong {font-weight:bold}
-	button,select {text-transform:none}
-	:-moz-ui-invalid {box-shadow:none}
-	blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre {margin:0}
-	ol,ul,menu {list-style:none;margin:0;padding:0}
-	:disabled {cursor:default}
-	img,svg,video,canvas,audio,iframe,embed,object {display:block;vertical-align:middle}
-	img,video {max-width:100%;height:auto}
-	[hidden] {display:none}`
 }
 
 // STYLES
 get styles() {
 	return `
-	<style id="preflight">${this.preflight}</style>
+	${ComponentUtils.preflight}
 	<style id="base">
-	:host, * { box-sizing:border-box;margin:0; }
+	*:empty {display:none;}
 	#container {
 		color: var(--color-primary, currentColor);
 		font-size:1rem;
@@ -165,42 +129,18 @@ get styles() {
 </style>`.trim();
 }
 
-	// TEMPLATE
-	get template() {
-		const template = document.createElement("template");
-		template.innerHTML = `${this.styles}${this.els}`.trim();
-		return template;
-	}
+// TEMPLATE
+get template() {
+	const template = document.createElement("template");
+	template.innerHTML = `${this.styles}${this.els}`.trim();
+	return template;
+}
 
-	// IDS
-	get ids() {
-		return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
-	}
+// CONSTRUCTOR
+constructor() { super(); this.attachShadow({ mode: "open" });}
 
-	// constructor
-	constructor() {
-		super();
-
-		// programattically create getters for each observed attribute
-    ComponentUtils.createOAGS(this.c, this);
-
-		// create a shadow root
-		this.attachShadow({ mode: "open" });
-
-	}
-
-	 // CONNECTED CALLBACK
-	connectedCallback() {
-		// append the template content to the shadow DOM
-		this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
-
-		// define refs elements
-		this.refs = ComponentUtils.getRefs(this.c, this);
-	}
-
-	// ATTRIBUTE CHANGED CALLBACK
-	attributeChangedCallback() {
-	}
+// CONNECTED CALLBACK
+connectedCallback() { this.shadowRoot?.appendChild(this.template.content.cloneNode(true))}
 }
 
 customElements.define("text-topic", TextTopic);
