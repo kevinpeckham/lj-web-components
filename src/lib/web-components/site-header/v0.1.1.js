@@ -87,7 +87,6 @@ buildBrandHTML() {
 }
 static buildHamburgerHTML() {
 	return `
-	<!-- hamburger -->
 	<input
 		style="opacity:0;"
 		type="checkbox"
@@ -105,31 +104,43 @@ static buildMainNavLink( /** @type {Link} link */ link) {
 	return link.url && link.label ? `
 	<div class="menu"><a class="menu-heading-link" href="${link.url}">${link.label}</a></div>` : "";
 }
-buildNavHTML(/** @type {NavMenu[]} [menusData] */ menusData) {
-	let navContents = '';
-
-	const /** @type {NavMenu[]} data */ data  = JSON.parse(this.attValue('menus-data')) ?? [];
-	data.forEach((menu) => {
-		// if menu is just a link and has no sections
-		if (menu.link) {
-			navContents += this.c.buildMainNavLink(menu.link);
-		}
-	});
-	return `
-	<nav id="main-nav">
-		${navContents}
-		<a
+buildNavButton() {
+	const label = this.attValue('button-link-label');
+	const title = this.attValue('button-link-title');
+	const titleAtt = title ? `title="${title}"` : "";
+	const url = this.attValue('button-link-url');
+	return label && url ?
+		`<a
 			id="button-link"
-			href="${this.attValue('button-link-url')}"
-			title="${this.attValue('button-link-title')}">
-			${this.attValue('button-link-label')}</a>
-	</nav>`
+			href="${url}"
+			${titleAtt}">
+			${label}</a>` : "";
+}
+
+buildNavHTML(/** @type {NavMenu[]} [menusData] */ menusData) {
+
+	// get the data
+	const /** @type {NavMenu[]} data */ data  = JSON.parse(this.attValue('menus-data')) ?? [];
+
+	// build the nav
+	const nav = data.map((menu) => (menu.link) ? this.c.buildMainNavLink(menu.link) : '' ).join("").trim();
+
+	// build button
+	const button = this.buildNavButton();
+	return `
+	<nav id="main-nav">${nav}${button}</nav>`
 }
 
 // ELEMENTS
 get els() {
+	const html = ComponentUtils.stringIfValue;
+	const stylesheet = this.attValue('stylesheet');
+	const atts = Object.keys(this.c.attributes).filter((att) => !att.includes('stylesheet') && !att.includes('text') && !att.includes('image') && !att.includes('data') && !att.includes('link'));
+// create css variables
+const cssVars = atts.map(att => `--${att}: ${this.attValue(att)};`).join('\n');
+window.console.log(cssVars);
 	return `
-<style id="stylesheet">${this.attValue('stylesheet')}}</style>
+${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
 <header
 	id="container"
 	style="
