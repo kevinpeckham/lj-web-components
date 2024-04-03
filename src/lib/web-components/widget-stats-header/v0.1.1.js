@@ -1,17 +1,20 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
+import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 // @ts-expect-error - type defs not available
-import ScrollingStat  from "/e/wc/scrolling-stat.0.1.1.min.js";
+import ScrollingStat  from "/e/wc/scrolling-stat@0.1.1.min.js";
 // @ts-expect-error - type defs not available
-import QuickGrid from "/e/wc/quick-grid.0.1.1.min.js";
+import QuickGrid from "/e/wc/quick-grid.@0.1.1.min.js";
 // @ts-expect-error - type defs not available
-import PageHeader from "/e/wc/page-header.0.1.1.min.js";
+import PageHeader from "/e/wc/page-header@0.1.1.min.js";
+
+// TYPES
+/** @typedef {{[key:string]: string | undefined; "value": string; "suffix": string | undefined; "caption": string | undefined; }} Stat */
 
 /** @copyright 2024 Lightning Jar - "Widget Stats Header" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://www.lj-cdn.dev/web-components/widget-stats-header} */
+/** {@link https://cdn.lj.dev/web-components/widget-stats-header} */
 
 /**
  * Widget Card Grid Web Component
@@ -65,58 +68,8 @@ import PageHeader from "/e/wc/page-header.0.1.1.min.js";
  */
 class WidgetStatsHeader extends HTMLElement {
 
-	alignContent = "";
-	alignItems = "";
-	colorAccent = "";
-	colorBackground = "";
-	colorBorder = "";
-	colorPrimary = "";
-	containerBorderWidth = "";
-	containerPaddingXXs = "";
-	containerPaddingXSm = "";
-	containerPaddingXMd = "";
-	containerPaddingXLg = "";
-	containerPaddingXXl = "";
-	containerPaddingX2xl = "";
-	containerPaddingYXs = "";
-	containerPaddingYSm = "";
-	containerPaddingYMd = "";
-	containerPaddingYLg = "";
-	containerPaddingYXl = "";
-	containerPaddingY2xl = "";
-	fontFamily = "";
-	headingText = "";
-	headingFontSizeXs = "";
-	headingFontSizeSm = "";
-	headingFontSizeMd = "";
-	headingFontSizeLg = "";
-	headingFontSizeXl = "";
-	headingFontSize2xl = "";
-	headingFontWeight = "";
-	headingMarginBottom = "";
-	justifyContent = "";
-	justifyItems = "";
-	subheadingFontSize = "";
-	subheadingFontWeight = "";
-	subheadingLineHeight = "";
-	subheadingMarginBottom = "";
-	subheadingText = "";
-	subheadingOpacity = "";
-	statAnimationDuration = "";
-	statColorBackground = "";
-	statColorPrimary = "";
-	statColorBorder = "";
-	statPadding = "";
-	statMaxWidth = "";
-	statsDataJson = "[]";
-	headerStylesheet = "";
-	gridStylesheet = "";
-	statStylesheet = "";
-	stylesheet = "";
-
 // reference to class itself
 get c() { return WidgetStatsHeader };
-
 
 
 // ATTRIBUTES
@@ -147,6 +100,8 @@ const values = {
 	"container-padding-y-xl": "96px",
 	"container-padding-y-2xl": "96px",
 	"font-family": "inherit",
+	"grid-stylesheet": "",
+	"header-stylesheet": "",
 	"heading-text": "",
 	"heading-font-size-xs": "2.25rem",
 	"heading-font-size-sm": "2.25rem",
@@ -171,146 +126,118 @@ const values = {
 	"stat-padding": "",
 	"stat-max-width": "",
 	"stats-data-json": "[]",
-
-	/* stylesheet */
-	"header-stylesheet": "",
-	"grid-stylesheet": "",
 	"stat-stylesheet": "",
 	"stylesheet": "",
-
 };
 return values;
 }
 
-// OBSERVED ATTRIBUTES GETTER
-static get observedAttributes() { return Object.keys(this.attributes) }
-
-// ATTRIBUTE DEFAULT VALUE GETTER
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
-
-/** @typedef {{[key:string]: string}} card */
+buildStatHTML(/** @type {Stat} item */ stat) {
+	const colorBackground = this.attValue("stat-color-background");
+	const colorBorder = this.attValue("stat-color-border");
+	const statMaxWidth = this.attValue("stat-max-width");
+	const statPadding = this.attValue("stat-padding");
+	const html = ComponentUtils.stringIfValue;
+	return `
+		<scrolling-stat animation-duration="600" animation-value-end="${stat.value}" ${html(colorBackground, `color-background="${colorBackground}" `)}${html(colorBorder, `color-border="${colorBorder}" `)}${html(statMaxWidth, `container-max-width="${statMaxWidth}" `)}${html(statPadding, `container-padding="${statPadding}" `)}${html(stat.caption, `caption-text="${stat.caption}" `)}${html(stat.suffix, `suffix-text="${stat.suffix}" `)}
+		></scrolling-stat>`;
+}
 
 // HTML BUILDERS
 buildGridHTML() {
-
-	/** @param {card} item */
-	const buildStatHTML = (item) => {
-		return `
-			<scrolling-stat
-				animation-duration="600",
-				animation-value-end="${item.value}",
-				${this.colorBackground ? `color-background="${this.statColorBackground}"` : ""},
-				${this.colorBorder ? `color-border="${this.statColorBorder}"` : ""},
-				${this.statMaxWidth ? `container-max-width="${this.statMaxWidth}"` : ""},
-				${this.statPadding ? `container-padding="${this.statPadding}"` : ""},
-				${item.caption ? `caption-text="${item.caption}"` : ""},
-				${item.suffix ? `suffix-text="${item.suffix}"` : ""}
-			>
-			</scrolling-stat>`
-	}
-
-	const buildStatsHTML = () => {
-		return this.data.map((
-			/** @type {card} item */
-			item) => buildStatHTML(item)).join("");
-	}
-
-	return buildStatsHTML() ;
+	const /** @type {Stat[]} */ data = JSON.parse(this.attValue("stats-data-json")) ?? [];
+	const grid = data.map((stat) => this.buildStatHTML(stat)).join("");
+	window.console.log(grid);
+	return grid;
 }
 
-// DATA
-get data() {
-	const result = JSON.parse(this.statsDataJson) ?? "[]";
-	return result;
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
 }
 
 
 // ELEMENTS
 get els() {
+	const html = ComponentUtils.stringIfValue;
+	const stylesheet = this.attValue('stylesheet');
+	const colorBackground = this.attValue('color-background');
+	const colorBorder = this.attValue('color-border');
+	const colorPrimary = this.attValue('color-primary');
+	const fontFamily = this.attValue('font-family');
+	const headingFontSizeXS = this.attValue('heading-font-size-xs');
+	const headingFontSizeSm = this.attValue('heading-font-size-sm');
+	const headingFontSizeMd = this.attValue('heading-font-size-md');
+	const headingFontSizeLg = this.attValue('heading-font-size-lg');
+	const headingFontSizeXl = this.attValue('heading-font-size-xl');
+	const headingFontSize2xl = this.attValue('heading-font-size-2xl');
+	const headingFontWeight = this.attValue('heading-font-weight');
+	const headingMarginBottom = this.attValue('heading-margin-bottom');
+	const headingText = this.attValue('heading-text');
+	const subheadingFontSize = this.attValue('subheading-font-size');
+	const subheadingFontWeight = this.attValue('subheading-font-weight');
+	const subheadingMarginBottom = this.attValue('subheading-margin-bottom');
+	const subheadingOpacity = this.attValue('subheading-opacity');
+	const subheadingText = this.attValue('subheading-text');
+	const headerStylesheet = this.attValue('header-stylesheet');
+
   return `
-<style id="stylesheet">${this.stylesheet}</style>
+	${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
 <div
 	id="container"
 	style="
-		--color-primary: ${this.colorPrimary};
-		--font-family: ${this.fontFamily};
+		${html(colorPrimary, `--color-primary: ${colorPrimary}`)};
+		${html(fontFamily, `--font-family: ${fontFamily}`)};
 		">
-	<!-- PageHeader -->
 	<page-header
-		color-background="${this.colorBackground}"
-		color-border="${this.colorBorder}"
-		${this.colorPrimary ? `color-primary="${this.colorPrimary}"` : ""}
-		${this.headingFontSizeXs ? `heading-font-size-xs="${this.headingFontSizeXs}"` : ""}
-		${this.headingFontSizeSm ? `heading-font-size-sm="${this.headingFontSizeSm}"` : ""}
-		${this.headingFontSizeMd ? `heading-font-size-md="${this.headingFontSizeMd}"` : ""}
-		${this.headingFontSizeLg ? `heading-font-size-lg="${this.headingFontSizeLg}"` : ""}
-		${this.headingFontSizeXl ? `heading-font-size-xl="${this.headingFontSizeXl}"` : ""}
-		${this.headingFontSize2xl ? `heading-font-size-2xl="${this.headingFontSize2xl}"` : ""}
-		${this.headingFontWeight ? `heading-font-weight="${this.headingFontWeight}"` : ""}
-		${this.headingMarginBottom ? `heading-margin-bottom="${this.headingMarginBottom}"` : ""}
-		${this.headingText ? `heading-text="${this.headingText}"` : ""}
-		${this.subheadingFontSize ? `subheading-font-size="${this.subheadingFontSize}"` : ""}
-		${this.subheadingFontWeight ? `subheading-font-weight="${this.subheadingFontWeight}"` : ""}
-		${this.subheadingMarginBottom ? `subheading-margin-bottom="${this.subheadingMarginBottom}"` : ""}
-		${this.subheadingOpacity ? `subheading-opacity="${this.subheadingOpacity}"` : ""}
-		${this.subheadingText ? `subheading-text="${this.subheadingText}"` : ""}
-		${this.headerStylesheet ? `stylesheet-text="${this.headerStylesheet}"` : ""}
-		>
+		${html(colorBackground, `color-background="${colorBackground}"`)}
+		${html(colorBorder, `color-border="${colorBorder}"`)}
+		${html(colorPrimary, `color-primary="${colorPrimary}"`)}
+		${html(headingFontSizeXS, `heading-font-size-xs="${headingFontSizeXS}"`)}
+		${html(headingFontSizeSm, `heading-font-size-sm="${headingFontSizeSm}"`)}
+		${html(headingFontSizeMd, `heading-font-size-md="${headingFontSizeMd}"`)}
+		${html(headingFontSizeLg, `heading-font-size-lg="${headingFontSizeLg}"`)}
+		${html(headingFontSizeXl, `heading-font-size-xl="${headingFontSizeXl}"`)}
+		${html(headingFontSize2xl, `heading-font-size-2xl="${headingFontSize2xl}"`)}
+		${html(headingFontWeight, `heading-font-weight="${headingFontWeight}"`)}
+		${html(headingMarginBottom, `heading-margin-bottom="${headingMarginBottom}"`)}
+		${html(headingText, `heading-text="${headingText}"`)}
+		${html(subheadingFontSize, `subheading-font-size="${subheadingFontSize}"`)}
+		${html(subheadingFontWeight, `subheading-font-weight="${subheadingFontWeight}"`)}
+		${html(subheadingMarginBottom, `subheading-margin-bottom="${subheadingMarginBottom}"`)}
+		${html(subheadingOpacity, `subheading-opacity="${subheadingOpacity}"`)}
+		${html(subheadingText, `subheading-text="${subheadingText}"`)}
+		${html(headerStylesheet, `stylesheet-text="${headerStylesheet}"`)}>
 		<quick-grid>${this.buildGridHTML()}</quick-grid>
-		</page-header>
+	</page-header>
 </div>`.trim();
 }
 
-get preflight() {
-	return `*,::before,::after {box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor}`
-}
-
 // STYLES
-get styles() {
-  return `
-	<style id="preflight">${this.preflight}</style>
-  <style id="base">
-  :host, *:not(style) {
-		display:block;
-		box-sizing:border-box;
-	}
+static get styles() {
+return `
+${ComponentUtils.preflight}
+<style id="base">
 	#container {
 		color: var(--color-primary, currentColor);
 		font-family: var(--font-family, inherit);
-	}
-</style>`
+	}</style>`
 }
 // TEMPLATE
 get template() {
   const template = document.createElement("template");
-  template.innerHTML = `${this.styles}${this.els}`.trim();
+  template.innerHTML = `${this.c.styles}${this.els}`.trim();
   return template;
-}
-// IDS
-get ids() {
-  return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 }
 
 // CONSTRUCTOR
 constructor() {
 	super();
-
-	// programattically create getters and setters for each observed attribute
-	ComponentUtils.createOAGS(this.c, this);
-
-	// create a shadow root
 	this.attachShadow({ mode: "open" });
-
 }
 
 // LIFECYCLE CALLBACKS
 connectedCallback() {
-	// append the template content to the shadow DOM
 	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
-
-	// define refs elements
-	this.refs = ComponentUtils.getRefs(this.c, this);
 }
 }
 
