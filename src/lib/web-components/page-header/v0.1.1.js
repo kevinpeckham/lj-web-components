@@ -1,7 +1,6 @@
 // @ts-expect-error - type defs not available
 import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 
-
 /** @copyright 2024 Lightning Jar - "Page Header" web component - License MIT */
 /** @license MIT */
 /** @version 0.1.1 */
@@ -53,10 +52,7 @@ class PageHeader extends HTMLElement {
 get c() { return PageHeader };
 
 // ATTRIBUTES
-	/**
-	 * Returns an object. The keys are prop names. The values are the default values for the props.
-	 * @returns { { [key:string]: string } }
-	 */
+/** @returns { { [key:string]: string } } */
 static get attributes() {
   return {
 		"color-accent": "currentColor",
@@ -100,7 +96,6 @@ attValue(/** @type {string} att */ att) {
 	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
 }
 
-
 // ELEMENTS
 get els() {
 
@@ -111,18 +106,16 @@ const atts = Object.keys(this.c.attributes).filter((att) => !att.includes('style
 // create a list of css variables
 const cssVars = atts.map(cssVar).join('\n');
 
-
 return `
 <style id="stylesheet">${this.attValue('stylesheet')}}</style>
 <div
 	id="container"
-	style="
-		${cssVars}
+	style="${cssVars}"
 	>
 	<div id="inner">
   	<h1 id="heading">${this.attValue('heading-text')}</h1>
   	<div id="subheading">${this.attValue('subheading-text')}</div>
- 	 <slot></slot>
+ 	 <slot>${this.innerHTML}</slot>
 	</div>
 </div>
 `.trim();
@@ -134,6 +127,7 @@ return `
 ${ComponentUtils.preflight}
 <style id="base">
 host:, * { margin:0; box-sizing:border-box ; }
+*:empty { display: none; }
 #container {
 	align-items: center;
   background: var(--color-background, transparent);
