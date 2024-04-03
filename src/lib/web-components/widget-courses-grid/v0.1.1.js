@@ -106,7 +106,7 @@ const values = {
 	"heading-line-height": "1.25",
 	"heading-margin-bottom": "1.5rem",
 	"heading-text": "",
-	"icons": '[{"type":"Course","iconUrl":"/icons/course.svg"},{"type":"Module","iconUrl":"/icons/module.svg"}]',
+	"icons": '[{"type":"Course","iconUrl":"https://cdn.lj.dev/icons/course.svg"},{"type":"Module","iconUrl":"https://cdn.lj.dev/icons/module.svg"}]',
 	"link-url": "",
 	"link-label": "",
 	"link-target": "",
