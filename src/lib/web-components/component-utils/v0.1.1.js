@@ -27,8 +27,12 @@ export const ComponentUtils = {
 	}},
 	camelToKebab: /** @param {S} s */ (s) => s.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, "$1-$2").toLowerCase(),
 	nonCssAttKeywords: ["data", "link", "image", "show", "stylesheet", "tags", "text","value"],
-	cssAtts: /** @param {*} atts */ (atts) => Object.keys(atts).filter((attr) => ComponentUtils.nonCssAttKeywords.every((kw) => !attr.includes(kw))),
-	cssVars: /** @param {*} atts, @param {*} xt */ (atts, xt) => ComponentUtils.cssAtts(atts).map((att) => `--${att}: ${xt.attValue(att)};`).join('\n'),
+	/** @param {*} atts, @param {S[]} [exc] */
+	cssAtts(atts, exc) {
+		const nonCssAtts = [...this.nonCssAttKeywords, ...(exc ?? [])];
+		return Object.keys(atts).filter((attr) => nonCssAtts.every((kw) => !attr.includes(kw)))
+	},
+	cssVars: /** @param {*} atts, @param {*} xt, @param {S[] } [exc]} */ (atts, xt, exc) => ComponentUtils.cssAtts(atts, exc).map((att) => `--${att}: ${xt.attValue(att)};`).join('\n'),
 	getElAttributesById: ( /** @type {*} xt */ xt, /** @type {S} */ id) => Object.keys(xt.attributes).filter((attr) => attr.includes(`${id}-`)),
 	getIds: /** @param {S} s */ (s)=> [...s.matchAll(/id="([^"]+)"/g)].map((m) => m[1]),
 	hasValue: /** @param {V} val */ (val) => val && (val[0]) ? true : false,
