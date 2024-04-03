@@ -18,24 +18,25 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  *
  * @attribute background-image-alt | -- | -- | alt text of the background image
  * @attribute background-image-position | bottom | -- | position of the background image
- * @attribute background-image-url | -- | -- | url of the background image
+ * @attribute background-image-url | -- | https://petroskills.com/microsite/TCA/grid-images/company_graphic_petroskills.png | url of the background image
  * @attribute body-bullets-data | [] | -- | array of bullet points
+ * @attribute body-bullets | [] | [&quot;Upstream&quot;,&quot;Midstream&quot;,&quot;Downstream&quot;] | array of bullet points [deprecated]
  * @attribute body-font-size | .95rem | -- | font size of the body text
  * @attribute body-font-weight | 400 | -- | font weight of the body text
  * @attribute body-image-url | -- | -- | url of the image
  * @attribute body-padding | .75rem | -- | padding of the body container
  * @attribute body-color | inherit | -- | color of the body text
- * @attribute body-text | -- | Energy companies are increasingly moving towards diversification beyond traditional hydrocarbons. | text of the body
- * @attribute card-background-color | white | #F7FAFC | background color of the card
+ * @attribute body-text | -- | -- | text of the body
+ * @attribute card-background-color | white | #EAF1F7 | background color of the card
  * @attribute card-border-radius | .35rem | .5rem | border radius of the card
- * @attribute card-box-shadow | none | 0 0 1px 0 rgba(0,0,0,.4) | box shadow of the card
+ * @attribute card-box-shadow | 0 0 1px 0 rgba(0,0,0,.4) | -- | box shadow of the card
  * @attribute card-height | auto | -- | height of the card
  * @attribute card-hover-opacity | -- | -- | opacity of the card on hover
  * @attribute card-hover-background-color | -- | -- | background color of the card on hover
  * @attribute card-link-url | -- | -- | url of a link for the entire card
  * @attribute card-link-rel | -- | -- | rel of a link for the entire card
  * @attribute card-max-width | none | 24rem | max width of the card
- * @attribute card-min-height | auto | 20rem | min height of the card
+ * @attribute card-min-height | auto | 24rem | min height of the card
  * @attribute card-opacity | 100% | -- | opacity of the card
  * @attribute card-transition-property | opacity | -- | transition property of the card
  * @attribute card-transition-duration | .3s | -- | transition duration of the card
@@ -50,10 +51,10 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute footer-color | inherit | -- | text color of the card header
  * @attribute footer-font-size | .85rem | -- | font size of the card header
  * @attribute footer-font-weight | 400 | -- | font weight of the card header
- * @attribute footer-link-url | -- | -- | url of the footer link
+ * @attribute footer-link-url | -- | https://petroskills.com | url of the footer link
  * @attribute footer-link-rel | -- | -- | rel of the footer link
  * @attribute footer-link-title | -- | -- | title of the footer link
- * @attribute footer-link-label | -- | -- | label of the footer link;
+ * @attribute footer-link-label | -- | Learn More | label of the footer link;
  * @attribute footer-link-background | rgb(255 255 255 / 30%) | -- | background color of the footer link (button style)
  * @attribute footer-link-border | 1px solid currentColor | -- | border of the footer link (button style)
  * @attribute footer-link-border-radius | .25rem; | -- | border radius of the footer link (button style)
@@ -67,16 +68,16 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute footer-padding | .25rem 1rem | -- | padding of the card header
  * @attribute footer-text | -- | -- | text of the card footer
  * @attribute header-border-bottom | 1px solid #e2e8f0 | -- | border bottom of the card header
- * @attribute header-background | white | -- | background color of the card header
+ * @attribute header-background | white | #F9FDFF | background color of the card header
  * @attribute header-color | inherit | -- | text color of the card header
  * @attribute header-font-size | 1rem | -- | font size of the card header
  * @attribute header-font-weight | 500 | 900 | font weight of the card header
  * @attribute header-padding | .25rem 1rem | -- | padding of the card header
- * @attribute header-logo-url | -- | -- | url of the logo
+ * @attribute header-logo-url | -- | https://petroskills.com/microsite/TCA/grid-icons/mark-petroskills.svg | url of the logo
  * @attribute header-logo-alt | -- | -- | alt text of the logo
  * @attribute header-logo-width | auto | -- | width of the logo
  * @attribute header-logo-height | 2.5rem | -- | height of the logo
- * @attribute header-text | -- | -- | text of the card header
+ * @attribute header-text | -- | Petroskills | text of the card header
  * @attribute outside-heading-color | inherit | -- | color of the outside heading
  * @attribute outside-heading-font-size | inherit | -- | font size of the outside heading
  * @attribute outside-heading-font-weight | inherit | -- | font weight of the outside heading
@@ -107,7 +108,7 @@ return {
 	"body-padding": ".75rem",
 	"card-background-color": "white",
 	"card-border-radius": ".35rem",
-	"card-box-shadow": "none",
+	"card-box-shadow": "0 0 1px 0 rgba(0,0,0,.4)",
 	"card-height": "auto",
 	"card-hover-opacity": "1",
 	"card-hover-background-color": "var(--card-background-color)",
@@ -169,7 +170,7 @@ return {
 // HTML BUILDERS
 buildBulletsHTML() {
 	/** @type {string[]} bulletsData */
-	const data = JSON.parse(this.attValue('body-bullets-data')) ?? JSON.parse(this.attValue('body-bullets')) ?? [];
+	const data = JSON.parse(this.attValue('body-bullets')) ?? JSON.parse(this.attValue('body-bullets-data')) ?? [];
 	const bullets = data.map((bullet) => `<li>${bullet}</li>`).join("");
 	return `<ul id="body-bullets">${bullets}</ul>`;
 }
@@ -291,6 +292,7 @@ return `
 		border-bottom: var(--header-border-bottom, 1px solid #e2e8f0);
 		background: var(--header-background, transparent);
 		color: var(--header-color, inherit);
+		display:flex;
 		font-size: var(--header-font-size, 1rem);
 		font-weight: var(--header-font-weight, 500);
 		max-height: fit-content;
