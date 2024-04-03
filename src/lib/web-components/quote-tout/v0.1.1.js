@@ -1,7 +1,6 @@
 // @ts-expect-error - type defs not available
 import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 
-
 /** @copyright 2024 Lightning Jar - "Quote Tout" web component - License MIT */
 /** @license MIT */
 /** @version 0.1.1 */
@@ -23,8 +22,8 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute container-padding      | 1.5em        | --                | padding of the container
  * @attribute font-family            | inherit      | --                | font family
  * @attribute quote-text             | --           | The Alliance model has been very successful for over 20 years. We are now leveraging our proven capabilities and processes to develop and deliver high-quality competency management and training solutions to new energy sectors. | text of the quote
- * @attribute quote-font-size        | 1rem         | --                | font size of the quote
- * @attribute quote-line-height			| 1.3          | --                | line height of the quote
+ * @attribute quote-font-size        | 1.15rem         | --                | font size of the quote
+ * @attribute quote-line-height			| 1.35          | --                | line height of the quote
  * @attribute attribution-text       | --           | -- | attribution for the quote
  * @attribute stylesheet        | --           | --                | inject css into stylesheet
  */
@@ -32,9 +31,8 @@ class QuoteTout extends HTMLElement {
 
 get c() { return QuoteTout };
 
-
 // ATTRIBUTES
-	/** @returns { { [key:string]: string } } */
+/** @returns { { [key:string]: string } } */
 static get attributes() {
 return {
 	"color-background": "transparent",
@@ -48,7 +46,7 @@ return {
 	"font-family": "inherit",
 	"quote-text": "",
 	"quote-font-size": "1.15rem",
-	"quote-line-height": "1.3",
+	"quote-line-height": "1.35",
 	"attribution-text": "",
 	"stylesheet": "",
 };
@@ -75,9 +73,8 @@ ${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
 `.trim();
 }
 
-
 // STYLES
-get styles() {
+static get styles() {
 return `
 ${ComponentUtils.preflight}
 <style id="base">
@@ -135,38 +132,15 @@ host:, * { margin:0; box-sizing:border-box ; }
 // TEMPLATE
 get template() {
 	const template = document.createElement("template");
-	template.innerHTML = `${this.styles}${this.els}`.trim();
+	template.innerHTML = `${this.c.styles}${this.els}`.trim();
 	return template;
 }
 
-// IDS
-get ids() {
-	return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
-}
-
 // CONSTRUCTOR
-constructor() {
-  super();
-
-  // programattically create getters and setters for each observed attribute
-	ComponentUtils.createOAGS(this.c, this);
-
-	// create a shadow root
-	this.attachShadow({ mode: "open" });
-
-	// binding the parent context to the methods
-	this.connectedCallback = this.connectedCallback.bind(this);
-}
+constructor() { super(); this.attachShadow({ mode: "open" }) }
 
 // CONNECTED CALLBACK
-connectedCallback() {
-	// append the template content to the shadow DOM
-	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
-
-	// define refs elements
-	this.refs = ComponentUtils.getRefs(this.c, this);
-}
-
+connectedCallback() { this.shadowRoot?.appendChild(this.template.content.cloneNode(true)) }
 }
 customElements.define("quote-tout", QuoteTout);
 export default QuoteTout;
