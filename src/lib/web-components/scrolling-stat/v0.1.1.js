@@ -5,7 +5,7 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
 /** @copyright 2024 Lightning Jar - "Scrolling Stat" web component - License MIT */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://lj-cdn.dev/web-components/scrolling-stat} */
+/** {@link https://cdn.lj.dev/web-components/scrolling-stat} */
 
 /**
  * Scrolling Stat Web Component
@@ -28,29 +28,11 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @attribute font-family            | inherit      | --                | font family
  * @attribute suffix-text     | --           | %                 | characters displayed after number
  * @attribute caption-text    | --           | widgets per lorem | caption displayed after number
- * @attribute stylesheet-text | --           | --                | inject css into stylesheet
+ * @attribute stylesheet | --           | --                | inject css into stylesheet
  */
 class ScrollingStat extends HTMLElement {
 // reference to class itself
 get c() { return ScrollingStat };
-
-// initialize variables
-animationDuration = "0";
-animationValueEnd = "0";
-animationValueStart = "0";
-colorBackground = "";
-colorBorder = "";
-colorPrimary = "";
-colorSecondary = "";
-containerBorderWidth = "";
-containerHeight = "";
-containerWidth = "";
-containerMaxWidth = "";
-containerPadding = "";
-fontFamily = "";
-suffixText = "";
-captionText = "";
-stylesheetText = "";
 
 // initialize private variables
 #isOnScreen = false;
@@ -83,7 +65,7 @@ static get attributes() {
 		"font-family": "inherit",
     "suffix-text": "",
     "caption-text": "",
-    "stylesheet-text": "",
+    "stylesheet": "",
 	};
   return values;
 }
@@ -91,46 +73,35 @@ static get attributes() {
 // OBSERVED ATTRIBUTES
 static get observedAttributes() { return Object.keys(this.attributes) }
 
-// GET DEFAULT VALUE FOR AN ATTRIBUTE
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
 
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
+}
 
 // ELEMENTS
 get els() {
+const cssVars = ComponentUtils.cssVars(this.c.attributes, this);
+const html = ComponentUtils.stringIfValue;
+const start = this.attValue("animation-value-start");
+const caption = this.attValue("caption-text");
+const suffix = this.attValue("suffix-text");
+const stylesheet = this.attValue('stylesheet');
 return `
-<span
-	id="container"
-	style="
-		--color-background: ${this.colorBackground};
-		--color-border: ${this.colorBorder};
-		--color-primary: ${this.colorPrimary};
-		--color-secondary: ${this.colorSecondary};
-		--font-family: ${this.fontFamily};
-		--container-height: ${this.containerHeight};
-		--container-border-width: ${this.containerBorderWidth};
-		--container-width: ${this.containerWidth};
-		--container-max-width: ${this.containerMaxWidth};
-		--container-padding: ${this.containerPadding};"
-	>
-  <span id="animation">${this.animationValueStart}</span>
-  <span id="suffix">${this.suffixText}</span>
-  <span id="caption">${this.captionText}</span>
+${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
+<span id="container" style="${cssVars}">
+  ${html(start, `<span id="animation">${start}</span>`)}
+  ${html(suffix, `<span id="suffix">${suffix}</span>`)}
+  ${html(caption, `<span id="caption">${caption}</span>`)}
 </span>
 `.trim();
 }
 
-// PREFLIGHT
-get preflight() {
-	return `*,::before,::after {box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor} html,:host {line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body {margin:0;line-height:inherit}hr {height:0;color:inherit;border-top-width:1px}abbr:where([title]) {text-decoration:underline dotted}h1,h2,h3,h4,h5,h6 {font-size:inherit;font-weight:inherit}a {color:inherit;text-decoration:inherit}b,strong {font-weight:bolder} button,select {text-transform:none}button,[type="button"],[type="reset"],[type="submit"] {-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring {outline:auto}:-moz-ui-invalid {box-shadow:none}progress {vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button {height:auto}[type="search"] {-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration {-webkit-appearance:none}::-webkit-file-upload-button {-webkit-appearance:button;font:inherit}summary {display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre {margin:0}fieldset {margin:0;padding:0}legend {padding:0}ol,ul,menu {list-style:none;margin:0;padding:0}dialog {padding:0}textarea {resize:vertical}input::placeholder,textarea::placeholder {opacity:1;color:theme("colors.gray.400", #9ca3af)}button,[role="button"] {cursor:pointer}:disabled {cursor:default}img,svg,video,canvas,audio,iframe,embed,object {display:block;vertical-align:middle}img,video {max-width:100%;height:auto}[hidden] {display:none}`
-}
 
 // STYLES
-get styles() {
+static get styles() {
 return `
-<style id="preflight">${this.preflight}</style>
+${ComponentUtils.preflight}
 <style id="base">
-host:, * { margin:0; box-sizing:border-box ; }
 #container {
   align-items: baseline;
   background: var(--color-background, transparent);
@@ -167,21 +138,15 @@ host:, * { margin:0; box-sizing:border-box ; }
   line-height:1.3;
   opacity:.9;
 }
-</style><style id="stylesheet"></style>`
+</style>`
 };
 
 // TEMPLATE
 get template() {
 	const template = document.createElement("template");
-	template.innerHTML = `${this.styles}${this.els}`.trim();
+	template.innerHTML = `${this.c.styles}${this.els}`.trim();
 	return template;
 }
-
-// IDS
-get ids() {
-	return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
-}
-
 
 // TWEEN
 /**
@@ -255,9 +220,6 @@ static tween(x) {
 constructor() {
   super();
 
-  // programattically create getters and setters for each observed attribute
-	ComponentUtils.createOAGS(this.c, this);
-
 	// create a shadow root
 	this.attachShadow({ mode: "open" });
 
@@ -271,18 +233,20 @@ connectedCallback() {
 	// append the template content to the shadow DOM
 	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
 
-	// define refs elements
-	this.refs = ComponentUtils.getRefs(this.c, this);
-
 	// reset values
 	this.resetAnimation();
-		// this.updateAttributes();
+
+	// ref container
+	const container = this.shadowRoot?.getElementById("container");
 
 	// create and start the observer
-	new IntersectionObserver(this.observerCallback, {
+	const observer = new IntersectionObserver(this.observerCallback, {
 		rootMargin: "0%",
 		threshold: 0.5,
-	}).observe(this.refs.container);
+	})
+
+	// observe the container
+	if (container) observer.observe(container);
 }
 
 // GETTERS, SETTERS AND UPDATERS FOR PRIVATE VARIABLES
@@ -319,8 +283,8 @@ set end(value) {
 	if (typeof value === "number") this.#end = value;
 }
 updateEnd() {
-	const fallback = this.c.getDefault("animation-value-end");
-	this.end = this.start = parseFloat(this.c.scrubNumberString(this.animationValueEnd, `${fallback}`, 2));
+	const fallback = this.attValue("animation-value-end");
+	this.end = this.start = parseFloat(this.c.scrubNumberString(fallback, `${fallback}`, 2));
 }
 
 // PRIVATE VARIABLE - #start
@@ -331,8 +295,8 @@ set start(value) {
 	if (typeof value === "number") this.#start = value;
 }
 updateStart() {
-	const fallback = this.c.getDefault("animation-value-start");
-	this.start = parseFloat(this.c.scrubNumberString(this.animationValueStart, `${fallback}`, 2));
+	const fallback = this.attValue("animation-value-start");
+	this.start = parseFloat(this.c.scrubNumberString(fallback, `${fallback}`, 2));
 }
 
 // PRIVATE VARIABLE - #duration
@@ -343,8 +307,8 @@ set duration(value) {
 	if (typeof value === "number") this.#duration = value;
 }
 updateDuration() {
-	const fallback = this.c.getDefault("animation-duration");
-	this.duration = Math.abs(parseInt(this.c.scrubNumberString(this.animationDuration, `${fallback}`, 0)));
+	const fallback = this.attValue("animation-duration");
+	this.duration = Math.abs(parseInt(this.c.scrubNumberString(this.attValue('animation-duration'), `${fallback}`, 0)));
 }
 
 // PRIVATE VARIABLE - #places
@@ -356,13 +320,12 @@ set places(value) {
 	if (typeof value === "number") this.#places = value;
 }
 updatePlaces() {
-	this.places = this.c.places(this.animationValueEnd);
+	this.places = this.c.places(this.attValue("animation-value-end"), 2);
 }
 
 // ATTRIBUTE CHANGED CALLBACK
 attributeChangedCallback() {
 	this.resetAnimation();
-	this.updateAttributes();
 }
 
 
@@ -381,16 +344,11 @@ observerCallback(entries) {
 	}
 }
 
-// METHOD - UPDATE ATTRIBUTES
-updateAttributes() {
-	// ComponentUtils.updateManyElAttributes(this.c, this, this.ids);
-	// ComponentUtils.updateColorAttributes(this.c, this);
-}
-
 // METHOD - UPDATE ANIMATION TEXT
 /** @param {string} str */
 updateAnimationText(str) {
-	this.refs.animation.textContent = str ?? "";
+	const ref = this.shadowRoot?.getElementById("animation");
+	if (ref) ref.textContent = str ?? "";
 }
 
 // METHOD - RESET ANIMATION
