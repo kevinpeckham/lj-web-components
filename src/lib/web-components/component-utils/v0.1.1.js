@@ -9,9 +9,13 @@
  * @private
  */
 
+/** @typedef {string} S */
+/** @typedef {string | string[] | undefined} V */
+/** @typedef {{[key:string]: string; min:string, max:string }} BPMapDatum */
 export const ComponentUtils = {
-	/** @typedef {string} S */
+
 	breakpoints: ["2xl", "xl", "lg", "md", "sm", "xs", "xxs"],
+	/** @type {{[key:string]: BPMapDatum;}} */
 	breakpointMap: {
 		"2xl": {min: "1440px", max: "9999px"},
 		"xl": {min: "1280px", max: "1439px"},
@@ -21,21 +25,31 @@ export const ComponentUtils = {
 		"xs": {min: "420px", max: "639px"},
 		"xxs": {min: "0", max: "419px"
 	}},
-	titleCase: /** @param {S} s */ (s) => s.replace(/\b\w/g, (l) => l.toUpperCase()),
-  kebabToCamel: /** @param {S} s */ (s) => s.replace(/-(\w)/ig, (g) => g[1].toUpperCase()),
 	camelToKebab: /** @param {S} s */ (s) => s.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, "$1-$2").toLowerCase(),
-  getIds: /** @param {S} s */ (s)=> [...s.matchAll(/id="([^"]+)"/g)].map((m) => m[1]),
-	/** @param {*} xt * @param {S} id */
-	getElAttributesById: (xt, id) => Object.keys(xt.attributes).filter((attr) => attr.includes(`${id}-`)),
-	pageXPadding: {
-		"2xl": "6rem",
-		"xl": "5rem",
-		"lg": "4rem",
-		"md": "3rem",
-		"sm": "2.5rem",
-		"xs": "1rem",
-		"xxs": ".75rem"
+	nonCssAttKeywords: ["data", "link", "image", "show", "stylesheet", "tags", "text","value"],
+	cssAtts: /** @param {*} atts */ (atts) => Object.keys(atts).filter((attr) => ComponentUtils.nonCssAttKeywords.every((kw) => !attr.includes(kw))),
+	cssVars: /** @param {*} atts, @param {*} xt */ (atts, xt) => ComponentUtils.cssAtts(atts).map((att) => `--${att}: ${xt.attValue(att)};`).join('\n'),
+	getElAttributesById: ( /** @type {*} xt */ xt, /** @type {S} */ id) => Object.keys(xt.attributes).filter((attr) => attr.includes(`${id}-`)),
+	getIds: /** @param {S} s */ (s)=> [...s.matchAll(/id="([^"]+)"/g)].map((m) => m[1]),
+	hasValue: /** @param {V} val */ (val) => val && (val[0]) ? true : false,
+	stringIfValue: ( /** @type {V} val */ val, /** @type {S} string */ string, /** @type {boolean} condition */
+	condition) => ComponentUtils.hasValue(val) && (condition || condition === undefined) ? string : '',
+	kebabToCamel: /** @param {S} s */ (s) => s.replace(/-(\w)/ig, (g) => g[1].toUpperCase()),
+	/** @type {{[key:string]: string}} */
+	pageXPadding:  {"2xl": "6rem","xl": "5rem","lg": "4rem","md": "3rem","sm": "2.5rem","xs": "1rem","xxs": ".75rem"},
+	titleCase: /** @param {S} s */ (s) => s.replace(/\b\w/g, (l) => l.toUpperCase()),
+
+
+	paddingXStyles() {
+		const selector = "#container, .container";
+		const media = (/** @type {S} */ bp) => `@media (min-width: ${ComponentUtils.breakpointMap[bp].min})`
+		const rule = (/** @type {S} */ bp) => `padding-inline:${ComponentUtils.pageXPadding[bp]};`
+		const /** @type {string[]} */ bps =  ['xs','sm','md','lg','xl','2xl']
+		const xxs = `${ selector } { padding-inline:${this.pageXPadding.xxs}; }`
+		const styles = xxs + ' ' + bps.map((bp) => `${media(bp)} { ${selector} { ${rule(bp)} }}`).join(' ');
+		return styles
 	},
+
 	/** @param {string} [selector] */
 	widgetPaddingStyles(selector) {
 		selector = selector ?? "#container";
