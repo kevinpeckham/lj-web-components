@@ -1,13 +1,16 @@
 // @ts-expect-error - type defs not available
-import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
-// @ts-expect-error - type defs not available
-import ContentCard from "/e/wc/content-card.0.1.1.min.js";
+import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
+
+// TYPES
+/** @typedef {string | undefined } Su */
+/** @typedef {{[key:string]: unknown; "heading": Su; "text": Su;}} CardContentDatum */
+/** @typedef {{[key:string]: unknown; name: string; type: Su; contents: CardContentDatum[]; }} Card */
 
 /** @copyright 2024 Lightning Jar - "Widget Accordions" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://www.lj-cdn.dev/web-components/widget-accordions} */
+/** {@link https://cdn.lj.dev/web-components/widget-accordions} */
 
 /**
  * Widget Card Grid Web Component
@@ -17,41 +20,7 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @published 2024-02-09
  * @extends HTMLElement
  * @classdesc A web component for displaying a grid of image tiles.
- *
- * WIDGET CONTAINER
- * @attribute color-accent | lightblue | rgb(0 184 156 / 100%) | color of the text
- * @attribute color-background | white | #F8FAFC | background color of the widget
- * @attribute color-primary | currentColor | #24418A | color of the text
-
- *
- * WIDGET META
- * @attribute meta-font-size | .75rem | -- | font size of the meta text
- * @attribute meta-margin-bottom | 1.5rem | -- | margin bottom of the meta text
- * @attribute meta-text | -- | Our Approach | meta text of the widget
- *
- * WIDGET HEADING
- * @attribute heading-font-size | 1.25rem | -- | font size of the heading
- * @attribute heading-font-weight | 600 | -- | font weight of the heading
- * @attribute heading-margin-bottom | 1.5rem | -- | margin bottom of the heading
- * @attribute heading-margin-top | 1.5rem | -- | margin top of the heading
- * @attribute heading-text | -- | How Do We Solve These Issues? | widget heading text
- *
- * WIDGET HEADING LINK
- * @attribute heading-link-url | -- | -- | url of the heading link
- * @attribute heading-link-label | -- | -- | label of the heading link
- *
- * WIDGET BODY TEXT
  * @attribute body-text | -- | We provide technology-driven, expert-authored training content in various formats to help companies overcome competency challenges. | text of the widget
- *
- * CARD HEADING
- * @attribute card-label-color | inherit | -- | color of the outside heading
- * @attribute card-label-font-size | inherit | -- | font size of the outside heading
- * @attribute card-label-font-weight | inherit | -- | font weight of the outside
- * @attribute card-label-margin-bottom | .5rem | -- | margin of the outside heading
- * @attribute card-label-margin-top | .5rem | -- | margin of the outside heading
- * @attribute card-label-position | below | -- | position of the outside heading
-
-* CARD
  * @attribute card-aspect-ratio | 1/1 | -- | aspect ratio of the card
  * @attribute card-background-color | white | "#EAF1F7" | background color of the card
  * @attribute card-border-radius | .35rem | .5rem | border radius of the card
@@ -61,72 +30,42 @@ import ContentCard from "/e/wc/content-card.0.1.1.min.js";
  * @attribute card-height | auto | -- | height of the card
  * @attribute card-hover-opacity | -- | -- | opacity of the card on hover
  * @attribute card-hover-background-color | -- | -- | background color of the card on hover
+ * @attribute card-label-color | inherit | -- | color of the outside heading
+ * @attribute card-label-font-size | inherit | -- | font size of the outside heading
+ * @attribute card-label-font-weight | inherit | -- | font weight of the outside
+ * @attribute card-label-margin-bottom | .5rem | -- | margin of the outside heading
+ * @attribute card-label-margin-top | .5rem | -- | margin of the outside heading
+ * @attribute card-label-position | below | -- | position of the outside heading
  * @attribute card-max-width | none | 24rem | max width of the card
  * @attribute card-min-height | auto | 20rem | min height of the card
  * @attribute card-opacity | 100% | -- | opacity of the card
  * @attribute card-transition-property | opacity | -- | transition property of the card
  * @attribute card-transition-duration | .3s | -- | transition duration of the card
  * @attribute card-width | 100% | -- | width of the card
- *
- * DATA
  * @attribute cards-data-json | [] | [{"name":"High-quality Content","type":"boxes","contents":[{"heading":"Benchmarks", "text":"Industry benchmarks for technical courses"},{"heading":"Programs","text":"Pre-packaged learning programs"},{"heading":"Levels","text":"Content for all skill levels, from awareness to expert"},{"heading":"Assessment","text":"Competency maps and other tools to assess skills and gaps"}]},{"name": "Powered by Technology", "type":"circles","contents":[{"heading":"eLearning Libraries", "text":""},{"heading":"Training Simulators","text":""},{"heading":"Learning Management (LMS)","text":""},{"heading":"Skill Tracking Software","text":""}]},{"name": "Authored by Industry Experts", "type":"stats","contents":[{"heading":"150+", "text":"instructors, recognized experts in their fields"},{"heading":"31+","text":"average years of experience"},{"heading":"99%","text":"would recommend course to a colleague"}]},{"name":"Available in Multiple Formats","type":"boxes","contents":[{"heading":"In-classroom", "text":"public instructor-led training at locations all over the globe"},{"heading":"In-house","text":"private in-classroom or virtual training anywhere in the world"},{"heading":"Remote","text":"virtual, instructor-led sessions, with or without eLearning components"},{"heading":"On-Demand","text":"a diverse catalog of self-guided eLearning courses and libraries"}]}] | json data for the cards
- *
- * STYLESHEET
- * @attribute card-stylesheet | -- | #container { color:#042373; } | inject css into the inner stylesheet
- * @attribute style | -- | -- | regular inline style on the component
-
+ * @attribute color-accent | lightblue | rgb(0 184 156 / 100%) | color of the text
+ * @attribute color-background | white | #F8FAFC | background color of the widget
+ * @attribute color-primary | currentColor | #24418A | color of the text
+ * @attribute heading-font-size | 1.25rem | -- | font size of the heading
+ * @attribute heading-font-weight | 600 | -- | font weight of the heading
+ * @attribute heading-link-url | -- | -- | url of the heading link
+ * @attribute heading-link-label | -- | -- | label of the heading link
+ * @attribute heading-margin-bottom | 1.5rem | -- | margin bottom of the heading
+ * @attribute heading-margin-top | 1.5rem | -- | margin top of the heading
+ * @attribute heading-text | -- | How Do We Solve These Issues? | widget heading text
+ * @attribute meta-font-size | .75rem | -- | font size of the meta text
+ * @attribute meta-margin-bottom | 1.5rem | -- | margin bottom of the meta text
+ * @attribute meta-text | -- | Our Approach | meta text of the widget
+ * @attribute stylesheet | -- | #container { color:#042373; } | inject css into the inner stylesheet
  */
 class WidgetAccordions extends HTMLElement {
-	colorAccent = "";
-	colorPrimary = "";
-	colorBackground = "";
-	metaFontSize = "";
-	metaMarginBottom = "";
-	metaText = "";
-	headingFontSize = "";
-	headingFontWeight = "";
-	headingMarginBottom = "";
-	headingMarginTop = "";
-	headingText = "";
-	headingLinkUrl = "";
-	headingLinkLabel = "";
-	bodyText = "";
-	cardLabelColor = "";
-	cardLabelFontSize = "";
-	cardLabelFontWeight = "";
-	cardLabelMarginBottom = "";
-	cardLabelMarginTop = "";
-	cardLabelPosition = "";
-	cardAspectRatio = "";
-	cardBackgroundColor = "";
-	cardBorderRadius = "";
-	cardBoxShadow = "";
-	cardFontSize = "";
-	cardFontWeight = "";
-	cardHeight = "";
-	cardHoverOpacity = "";
-	cardHoverBackgroundColor = "";
-	cardMaxWidth = "";
-	cardMinHeight = "";
-	cardOpacity = "";
-	cardTransitionProperty = "";
-	cardTransitionDuration = "";
-	cardWidth = "";
-	cardsDataJson = "[]";
-	stylesheet = "";
 
-// reference to class itself
 get c() { return WidgetAccordions };
 
-
-
 // ATTRIBUTES
-/**
- * Returns an object. The keys are prop names. The values are the default values for the props.
- * @returns { { [key:string]: string | null } }
- */
+/** @returns {{ [key:string]: string | null }} */
 static get attributes() {
-const values = {
+return {
 	"body-text": "",
 	"card-aspect-ratio": "1/1",
 	"card-background-color": "white",
@@ -164,133 +103,85 @@ const values = {
 	"meta-margin-bottom": ".5rem",
 	"meta-text": "",
 	"stylesheet": "",
-};
-return values;
-}
+}}
 
-// OBSERVED ATTRIBUTES GETTER
-static get observedAttributes() { return Object.keys(this.attributes) }
-
-// ATTRIBUTE DEFAULT VALUE GETTER
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
-
-/** @typedef {{[key:string]: string}} card */
+static html = ComponentUtils.stringIfValue;
 
 // HTML BUILDERS
-buildGridHTML() {
-	/** @param {card} item */
-	const buildTileHTML = (item) => {
-		return `
-			<div
-				class="tile">
-				<div class="card-heading">${item?.heading ?? ""}</div>
-				<div class="card-text">${item?.text ?? ''}</div>
-			</div>`
-	}
-	/** @param {card[]} items */
-	const buildTilesHTML = (items) => {
-		return items.map((
-			/** @type {card} item */
-			item) => buildTileHTML(item)).join("");
-	}
-
-	const buildAccordionsHTML = () => {
-		return this.data.map((
-			/** @type {*} item */
-			items) => `
-			<div class="accordion ${items.type ?? ''}">
-				<div class="accordion-header">
-					<span>${items.name}</span>
-					<label>
-						<div class="sr-only">close accordion drawer</div>
-						<input type="checkbox" />
-						<div class="icon-chevron">
-						</div>
-					</label>
-
-				</div>
-				<div class="accordion-drawer">${buildTilesHTML(items.contents)}</div>
-			</div>`).join("") ;
-	}
-
-
-	return buildAccordionsHTML() ;
+static buildTileHTML(/** @type {CardContentDatum} */ content) {
+const heading = content.heading ?? "";
+const text = content.text ?? "";
+return `
+	<div class="tile">
+		${this.html(heading, `<div class="card-heading">${heading}</div>`)}
+		${this.html(text, `<div class="card-text">${text}</div>`)}
+	</div>`
 }
 
-// DATA
-get data() {
-	const result = JSON.parse(this.cardsDataJson) ?? "[]";
-	return result;
+static buildTilesHTML(/** @type {CardContentDatum[]} */ contents) {
+	return contents.map((content) => this.buildTileHTML(content)).join("");
+}
+
+buildGridHTML() {
+/** @type {Card[]} data */
+const data = JSON.parse(this.attValue('cards-data-json')) ?? "[]";
+const grid = data.map((card) => {
+	const accordion = this.c.buildTilesHTML(card.contents ?? [])
+	const name = card.name ?? "";
+	const type = card.type ?? "";
+	return accordion === "" ? "" : `
+	<div class="accordion ${type}">
+		<div class="accordion-header">
+			${this.c.html(name, `<span>${name}</span>`)}
+			<label>
+				<div class="sr-only">close accordion drawer</div>
+				<input type="checkbox" />
+				<div class="icon-chevron">
+				</div>
+			</label>
+		</div>
+		${this.c.html(accordion, `<div class="accordion-drawer">${accordion}</div>`)}
+	</div>`
+}).join("") ;
+return grid;
+}
+
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
 }
 
 // ELEMENTS
 get els() {
+	const cssVars = ComponentUtils.cssVars(this.c.attributes, this);
+	const html = this.c.html;
+	const stylesheet = this.attValue('stylesheet');
+
+	// values
+	const bodyText = this.attValue('body-text');
+	const grid = this.buildGridHTML();
+	const headingText = this.attValue('heading-text')[0] + this.attValue('heading-text').substring(1).toLowerCase();
+	const headingLinkUrl = this.attValue('heading-link-url');
+	const headingLinkLabel = this.attValue('heading-link-label');
+	const metaText = this.attValue('meta-text');
   return `
-<style id="stylesheet">${this.stylesheet}</style>
-<div
-	id="container"
-	style="
-		--color-accent:${this.colorAccent};
-		--color-background:${this.colorBackground};
-		--color-primary:${this.colorPrimary};
-		--meta-font-size:${this.metaFontSize};
-		--meta-margin-bottom:${this.metaMarginBottom};
-		--heading-font-size:${this.headingFontSize};
-		--heading-font-weight:${this.headingFontWeight};
-		--heading-margin-bottom:${this.headingMarginBottom};
-		--heading-margin-top:${this.headingMarginTop};
-		--card-label-color:${this.cardLabelColor};
-		--card-label-font-size:${this.cardLabelFontSize};
-		--card-label-font-weight:${this.cardLabelFontWeight};
-		--card-label-margin-bottom:${this.cardLabelMarginBottom};
-		--card-label-margin-top:${this.cardLabelMarginTop};
-		--card-label-position:${this.cardLabelPosition};
-		--card-aspect-ratio:${this.cardAspectRatio};
-		--card-background-color:${this.cardBackgroundColor};
-		--card-border-radius:${this.cardBorderRadius};
-		--card-box-shadow:${this.cardBoxShadow};
-		--card-font-size:${this.cardFontSize};
-		--card-font-weight:${this.cardFontWeight};
-		--card-height:${this.cardHeight};
-		--card-hover-opacity:${this.cardHoverOpacity};
-		--card-hover-background-color:${this.cardHoverBackgroundColor};
-		--card-max-width:${this.cardMaxWidth};
-		--card-min-height:${this.cardMinHeight};
-		--card-opacity:${this.cardOpacity};
-		--card-transition-property:${this.cardTransitionProperty};
-		--card-transition-duration:${this.cardTransitionDuration};
-		--card-width:${this.cardWidth};"
->
-		<div
-			id="container-inner"
-			>
-			<!-- meta -->
-			${this.metaText ? `<div id="meta" style="">${this.metaText}</div>` : ''}
-
-			<!-- heading row -->
-			<div id="heading-row">
-				<h2 id="heading">${this.headingText[0].toUpperCase() + this.headingText.substring(1).toLowerCase()}</h2>
-				<a
-					id="heading-link"
-					href="${this.headingLinkUrl}">${this.headingLinkLabel}</a>
-			</div>
-
-			<!-- text -->
-			<p id="text">${this.bodyText ?? ""}</p>
-
-			<!-- accordions -->
-			<div id="accordions">${this.buildGridHTML()}</div>
-		</div>
-</div>`.trim().replace(/[\n\t\s]*?<!--.*?-->[\n\t\s]*?/g, "");
+${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
+<div id="container" style="${cssVars}"><div id="container-inner">
+	${html(metaText,`<div id="meta" style="">${metaText}</div>`)}
+	<div id="heading-row">
+		${html(headingText, `<h2 id="heading">${headingText}</h2>`)}
+		${html(headingLinkLabel, `<a id="heading-link" href="${headingLinkUrl}">${headingLinkLabel}</a>`, headingLinkUrl)}
+	</div>
+	${html(bodyText, `<p id="text">${bodyText}</p>`)}
+	${html(grid, `<div id="accordions">${grid}</div>`)}
+</div></div>`.trim();
 }
 
-
 // STYLES
-get styles() {
+static get styles() {
   return `
 	${ComponentUtils.preflight}
   <style id="base">
+	*:empty { display:none; }
 	#container {
 		background-color: var(--color-background, transparent);
 		color: var(--color-primary, currentColor);
@@ -299,7 +190,6 @@ get styles() {
 		width:100%;
 	}
 	${ComponentUtils.widgetPaddingStyles()}
-	/* Meta */
 	#meta {
 		color: var(--color-accent, currentColor);
 		font-size: var(--font-size, .85rem);
@@ -307,7 +197,6 @@ get styles() {
 		opacity:1;
 		text-transform:uppercase;
 	}
-	/* Heading */
 	#heading-row {
 		align-items:center;
 		display:flex;
@@ -329,7 +218,7 @@ get styles() {
 		font-size: .8rem;
 		border: solid 1px var(--color-accent, currentColor);
 		border-radius:.25rem;
-		display:${this.headingLinkLabel? "inline-block" : "none"};
+		display:"inline-block";
 		margin-bottom:.5rem;
 		padding:.35rem .85rem;
 		transition:background-color .15s ease;
@@ -387,7 +276,6 @@ get styles() {
 			margin-bottom:64px;
 			}
 		}
-	/* Accordions */
 	#accordions {
 		background:#CBD5E1;
 		border-radius:.35rem;
@@ -455,9 +343,6 @@ get styles() {
 		position:absolute;
 		inset-0;
 		width:30px;
-	}
-	#accordions .accordion .accordion-header label input:checked ~ .icon-chevron:before {
-
 	}
 	#accordions .accordion-drawer {
 		background:#CBD5E1;
@@ -593,7 +478,6 @@ get styles() {
 			scale:1.2;
 		}
 	}
-	/* utilities */
 	.sr-only {
 		border:0;
 		clip:rect(0 0 0 0);
@@ -609,37 +493,12 @@ get styles() {
 // TEMPLATE
 get template() {
   const template = document.createElement("template");
-  template.innerHTML = `${this.styles}${this.els}`.trim();
+  template.innerHTML = `${this.c.styles}${this.els}`.trim();
   return template;
 }
-// IDS
-get ids() {
-  return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
-}
 
-// CONSTRUCTOR
-constructor() {
-	super();
-
-	// programattically create getters and setters for each observed attribute
-	ComponentUtils.createOAGS(this.c, this);
-
-	// create a shadow root
-	this.attachShadow({ mode: "open" });
-
-}
-
-// LIFECYCLE CALLBACKS
-
-connectedCallback() {
-	// append the template content to the shadow DOM
-	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
-
-	// define refs elements
-	this.refs = ComponentUtils.getRefs(this.c, this);
-}
-
-// METHODS
+constructor() { super(); this.attachShadow({ mode: "open" }) }
+connectedCallback() { this.shadowRoot?.appendChild(this.template.content.cloneNode(true)) }
 }
 
 customElements.define("widget-accordions", WidgetAccordions);
