@@ -1,21 +1,18 @@
 // @ts-expect-error - type defs not available
 import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 
-/**
- * @typedef BreakpointSize
- * @type {"2xl" | "xl" | "lg" | "md" | "sm" | "xs" | "xxs"}
- * */
+// TYPES
+/** @typedef {string | undefined } Su */
+/** @typedef {"2xl" | "xl" | "lg" | "md" | "sm" | "xs" | "xxs"} BreakpointSize */
+/** @typedef {{[key: string]: string; min: string; max: string}} Breakpoint */
+/** @typedef {{[key:string]: unknown; name: Su; "image-src": Su; "link-href": Su; "link-title": Su; }} Tile */
 
-	/**
- * @typedef Breakpoint
- * @type {{[key: string]: string; min: string; max: string}}
- */
 
 /** @copyright 2024 Lightning Jar - "WidgetLogoGrid" web component - License MIT */
 /** @author Kevin Peckham */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://www.lj-cdn.dev/web-components/widget-logo-grid} */
+/** {@link https://cdn.lj.dev/web-components/widget-logo-grid} */
 
 /**
  * Widget Heading Web Component
@@ -86,7 +83,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute tile-transition-duration | 0.3s | -- | duration of the transition effect
  * @attribute tile-transition-property | opacity | -- | transition property to animate
  * @attribute tile-stylesheet | -- | -- | inject css into the inner stylesheet
- * @attribute tiles-data | [] | [{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/01-bp.jpg","link-href":"https://bp.com"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/02-shell.jpg","link-href":"https://shell.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/03-halliburton.svg","link-href":"https://www.halliburton.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/04-saudi-aramco.jpg","link-href":"https://www.aramco.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/05-oxy.jpg","link-href":"https://oxy.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/06-chevron.jpg","link-href":"https://www.chevron.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/07-molgroup.jpg","link-href":"https://molgroup.info/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/08-sabic.jpg","link-href":"https://sabic.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/09-woodside-energy.webp","link-href":"https://www.woodside.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/10-ecopetrol.jpg","link-href":"https://www.ecopetrol-usa.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/11-omv.jpg","link-href":"https://www.omv.com/en"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/12-plains.jpg","link-href":"https://www.plainsallamerican.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/13-cheniere.jpg","link-href":"https://www.cheniere.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/14-oneok.jpg","link-href":"https://www.oneok.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/15-conoco-phillips.jpg","link-href":"https://www.conocophillips.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/16-methanex.jpg","link-href":"https://www.methanex.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/17-santos.svg","link-href":"https://www.santos.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/18-repsol.jpg","link-href":"https://www.repsol.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/19-heritage.jpg","link-href":"https://heritage.co.tt/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/20-ogci.jpg","link-href":"https://www.petroskills.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/21-ttg.svg","link-href":"https://www.petroskills.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/22-john-m-campbell.svg","link-href":"https://www.jmcampbell.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/23-utt.svg","link-href":"https://utt.edu.tt/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/24-rdc.jpg","link-href":"https://www.petroskills.com/"},{"name":"title","image-src":"https://thecompetencyalliance.com/microsite/TCA/alliance-logos/25-simulation-solutions.jpg","link-href":"https://simulation-solutions.com/"}] | json data for the logo grid
+ * @attribute tiles-data | [] | [{"name":"BP","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/01-bp.jpg","link-href":"https://bp.com"},{"name":"Shell","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/02-shell.jpg","link-href":"https://shell.com/"},{"name":"Halliburton","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/03-halliburton.svg","link-href":"https://www.halliburton.com/"},{"name":"Aramco","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/04-saudi-aramco.jpg","link-href":"https://www.aramco.com/"},{"name":"Oxy","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/05-oxy.jpg","link-href":"https://oxy.com/"},{"name":"Chevron","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/06-chevron.jpg","link-href":"https://www.chevron.com/"},{"name":"MOL Group","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/07-molgroup.jpg","link-href":"https://molgroup.info/"},{"name":"Sabic","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/08-sabic.jpg","link-href":"https://sabic.com/"},{"name":"Woodside_Energy","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/09-woodside-energy.webp","link-href":"https://www.woodside.com/"},{"name":"Eco_Petrol","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/10-ecopetrol.jpg","link-href":"https://www.ecopetrol-usa.com/"},{"name":"OMV","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/11-omv.jpg","link-href":"https://www.omv.com/en"},{"name":"Plains","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/12-plains.jpg","link-href":"https://www.plainsallamerican.com/"},{"name":"Cheniere","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/13-cheniere.jpg","link-href":"https://www.cheniere.com/"},{"name":"ONEOK","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/14-oneok.jpg","link-href":"https://www.oneok.com/"},{"name":"Conoco_Phillips","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/15-conoco-phillips.jpg","link-href":"https://www.conocophillips.com/"},{"name":"Methanex","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/16-methanex.jpg","link-href":"https://www.methanex.com/"},{"name":"Santos","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/17-santos.svg","link-href":"https://www.santos.com/"},{"name":"title","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/18-repsol.jpg","link-href":"https://www.repsol.com/"},{"name":"Heritage_Petroleum","image-src":"https://petroskills.com/microsite/TCA/alliance-logos/19-heritage.jpg","link-href":"https://heritage.co.tt/"}] | json data for the logo grid
  * @attribute widget-text | -- | -- | text for the widget
  * @attribute stylesheet | -- | -- | inject css into the inner stylesheet
  * @attribute data-json-url | -- | -- | url of remote json data
@@ -94,83 +91,12 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  */
 class WidgetLogoGrid extends HTMLElement {
 
-	// reference to class itself
-	get c() { return WidgetLogoGrid };
-
-	// PROPERTIES
-	bodyText = "";
-	buttonHref = "";
-	buttonText = "";
-	buttonTitle = "";
-	colorAccent = "";
-	colorBackground = "";
-	colorPrimary = "";
-	colorSecondary = "";
-	containerPadding = "";
-	gridColumnGapXxs = "";
-	gridColumnGapXs = "";
-	gridColumnGapSm = "";
-	gridColumnGapMd = "";
-	gridColumnGapLg = "";
-	gridColumnGapXl = "";
-	gridColumnGap2xl = "";
-	gridColumnsXxs = "";
-	gridColumnsXs = "";
-	gridColumnsSm = "";
-	gridColumnsMd = "";
-	gridColumnsLg = "";
-	gridColumnsXl = "";
-	gridColumns2xl = "";
-	gridRowGapXxs = "";
-	gridRowGapXs = "";
-	gridRowGapSm = "";
-	gridRowGapMd = "";
-	gridRowGapLg = "";
-	gridRowGapXl = "";
-	gridRowGap2xl = "";
-	gridStagger = "";
-	gridStaggerXxs = "";
-	gridStaggerXs = "";
-	gridStaggerSm = "";
-	gridStaggerMd = "";
-	gridStaggerLg = "";
-	gridStaggerXl = "";
-	gridStagger2xl = "";
-	gridStylesheet = "";
-	headingFontWeight = "";
-	headingMarginTop = "";
-	headingText = "";
-	linkText = "";
-	linkTitle = "";
-	linkUrl = "";
-	metaMarginBottom = "";
-	metaFontSize = "";
-	metaFontWeight = "";
-	metaText = "";
-	tileAspectRatio = "";
-	tileBorderRadius = "";
-	tileBoxShadow = "";
-	tileBoxShadowHover = "";
-	tileColorBackground = "";
-	tileOpacity = "";
-	tileOpacityHover = "";
-	tilePadding = "";
-	tileTransitionDuration = "";
-	tileTransitionProperty = "";
-	tileStylesheet = "";
-	tilesData = "";
-	widgetText = "";
-	stylesheet = "";
-	dataJsonUrl = "";
+get c() { return WidgetLogoGrid };
 
 // ATTRIBUTES
-/**
- * Returns an object. The keys are prop names. The values are the default values for the props.
- * @returns { { [key:string]: string } }
- */
+/** @returns {{ [key:string]: string }} */
 static get attributes() {
-	const values = {
-		// sub-widget-container attributes
+	return {
 		"body-text": "",
 		"button-href": "", // !! deprecated
 		"button-text": "", // !! deprecated
@@ -233,138 +159,82 @@ static get attributes() {
 		"tiles-data": "[]",
 		"widget-text": "", // !! deprecated
 		"stylesheet": "",
-	};
-return values;
-}
+	}}
 
-// get observed attributes
-static get observedAttributes() { return Object.keys(this.attributes) }
-
-// get default value for an attribute
-/** @param {string} attr */
-static getDefault(attr) { return this.attributes[attr] ?? "" }
 
 // HTML BUILDERS
+/** @param {Tile} tile, @param {number} index */
+buildTileHTML(tile, index) {
+	const /** @type {BreakpointSize[]} */ bps = ComponentUtils.breakpoints;
+	const staggerClasses = bps.map((bp) => this.attValue('grid-stagger') && this.isTileInEvenRow(index, bp) ? `stagger-${bp} ` : '' ).join("");
+	const html = this.c.html;
+
+	// values
+	const name = tile.name ?? '';
+	const imageSrc = tile['image-src'] ?? '';
+	const linkHref = tile['link-href'] ?? '';
+	const linkTitle = tile['link-title'] ?? '';
+	const tag = linkHref ? 'a' : 'div';
+
+	// return
+	return !imageSrc ? '' : `
+		<${tag} class="tile${html(staggerClasses, ` ${staggerClasses}`)}"
+			${html(linkHref, `href="${linkHref}"`)}
+			${html(linkTitle, `title="${linkTitle}"`)}>
+			<img class="tile-image"
+				${html(name, `alt="${name} logo"`) }
+				${html(imageSrc, `src="${imageSrc}"`)}
+				loading="lazy" />
+		</${tag}>`
+}
 buildGridHTML() {
-
-	/** @typedef {{[key:string]: unknown; name: string | undefined; "link-href": string | undefined; "link-title": string | undefined; "image-src": string | unknown;  }} Tile */
-
-	/** @param {Tile} tile, @param {number} index */
-	const buildTileHTML = (tile, index) => {
-		let staggerClasses = "";
-		ComponentUtils.breakpoints.forEach((/** @type {BreakpointSize} bp  */  bp) => {
-			if (this.gridStagger && this.isTileInEvenRow(index, bp)) {  staggerClasses += `stagger-${bp} ` }
-		});
-		return `
-			<a
-				class="tile ${staggerClasses}"
-				href="${tile['link-href']}"
-				${tile['link-title'] ? `title="${tile['link-title']}"` : ''}
-				>
-				<img class="tile-image" src="${tile['image-src']}" ${ tile.name ? `alt="${tile.name}"` : ''} loading="lazy"/>
-			</a>`
-	}
-
-	const buildTilesHTML = () => {
-		let index = -1;
-		return this.data.map((
-			/** @type {Tile} tile */
-			tile) => {
-				index++;
-				return buildTileHTML(tile, index)
-			}).join("");
-	}
-
-
-	return buildTilesHTML() ;
+	// data
+	const /** @type {Tile[]} */ data = JSON.parse(this.attValue('tiles-data')) ?? "[]";
+	let index = -1;
+	return data.map((tile) => {
+		index++;
+		return this.buildTileHTML(tile, index)
+		}).join("");
 }
 
-// DATA
-get data() {
-	const result = JSON.parse(this.tilesData) ?? "[]";
-	return result;
+
+static html = ComponentUtils.stringIfValue;
+
+attValue(/** @type {string} att */ att) {
+	return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
 }
 
 // ELEMENTS
 // in this case just for documentation - not used in the code
 get els() {
+	const cssVars = ComponentUtils.cssVars(this.c.attributes, this);
+	const html = this.c.html;
+	const stylesheet = this.attValue('stylesheet');
+
+	// values
+	const meta = this.attValue('meta-text');
+	const heading = this.attValue('heading-text');
+	const buttonTitle = this.attValue('button-title');
+	const linkTitle = buttonTitle ? buttonTitle : this.attValue('link-title') ?? '';
+	const buttonHref = this.attValue('button-href');
+	const linkUrl = buttonHref ? buttonHref : this.attValue('link-url') ?? '';
+	const buttonText = this.attValue('button-text');
+	const linkText = buttonText ? buttonText : this.attValue('link-text') ?? '';
+	const widgetText = this.attValue('widget-text');
+	const body = widgetText ? widgetText : this.attValue('body-text') ?? '';
+
+	const grid = this.buildGridHTML();
 	return `
-<style id="stylesheet"></style>
-<div
-	id="container"
-	style="
-	--color-accent:${this.colorAccent};
-	--color-background:${this.colorBackground};
-	--color-primary:${this.colorPrimary};
-	--color-secondary:${this.colorSecondary};
-	--container-padding:${this.containerPadding};
-	--grid-column-gap-xxs:${this.gridColumnGapXxs};
-	--grid-column-gap-xs:${this.gridColumnGapXs};
-	--grid-column-gap-sm:${this.gridColumnGapSm};
-	--grid-column-gap-md:${this.gridColumnGapMd};
-	--grid-column-gap-lg:${this.gridColumnGapLg};
-	--grid-column-gap-xl:${this.gridColumnGapXl};
-  --grid-column-gap-2xl:${this.gridColumnGap2xl};
-	--grid-columns-xxs:${this.gridColumnsXxs};
-	--grid-columns-xs:${this.gridColumnsXs};
-	--grid-columns-sm:${this.gridColumnsSm};
-	--grid-columns-md:${this.gridColumnsMd};
-	--grid-columns-lg:${this.gridColumnsLg};
-	--grid-columns-xl:${this.gridColumnsXl};
-	--grid-columns-2xl:${this.gridColumns2xl};
-	--grid-row-gap-xxs:${this.gridRowGapXxs};
-	--grid-row-gap-xs:${this.gridRowGapXs};
-	--grid-row-gap-sm:${this.gridRowGapSm};
-	--grid-row-gap-md:${this.gridRowGapMd};
-	--grid-row-gap-lg:${this.gridRowGapLg};
-	--grid-row-gap-xl:${this.gridRowGapXl};
-	--grid-row-gap-2xl:${this.gridRowGap2xl};
-	--grid-stagger:${this.gridStagger};
-	--grid-stagger-xxs:${this.gridStaggerXxs};
-	--grid-stagger-xs:${this.gridStaggerXs};
-	--grid-stagger-sm:${this.gridStaggerSm};
-	--grid-stagger-md:${this.gridStaggerMd};
-	--grid-stagger-lg:${this.gridStaggerLg};
-	--grid-stagger-xl:${this.gridStaggerXl};
-	--grid-stagger-2xl:${this.gridStagger2xl};
-	--grid-stylesheet:${this.gridStylesheet};
-	--heading-font-weight:${this.headingFontWeight};
-	--heading-margin-top:${this.headingMarginTop};
-	--meta-font-size:${this.metaFontSize};
-	--meta-margin-bottom:${this.metaMarginBottom};
-	--meta-text:${this.metaText};
-	--tile-aspect-ratio:${this.tileAspectRatio};
-	--tile-border-radius:${this.tileBorderRadius};
-	--tile-box-shadow:${this.tileBoxShadow};
-	--tile-box-shadow-hover:${this.tileBoxShadowHover};
-	--tile-color-background:${this.tileColorBackground};
-	--tile-opacity:${this.tileOpacity};
-	--tile-opacity-hover:${this.tileOpacityHover};
-	--tile-padding:${this.tilePadding};
-	--tile-transition-duration:${this.tileTransitionDuration};
-	--tile-transition-property:${this.tileTransitionProperty};
-	>
+${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
+<div id="container" style="${cssVars}">
 	<div id="container-inner">
-
-
-	<!-- meta -->
-	${this.metaText ? `<div id="meta" style="">${this.metaText}</div>` : ''}
-
-	<!-- heading row -->
-	${this.headingText || this.linkText || this.buttonText ? `<div id="heading-row">
-		${ this.headingText ? `<h2 id="heading">${this.headingText}</h2>` : '' }
-		${ (this.linkText || this.buttonText) && (this.linkUrl || this.buttonHref) ? `<a
-			id="heading-link"
-			title="${this.linkTitle ? this.linkTitle : this.buttonTitle ?? ''}"
-			href="${this.linkUrl ? this.linkUrl : this.buttonHref}">${this.linkText ? this.linkText : this.buttonText ?? ''}</a>` : '' }
-	</div>` : ''}
-
-	<!-- text -->
-	${this.bodyText || this.widgetText ? `<p id="text">${this.bodyText ? this.bodyText : this.widgetText ?? ""}</p>` : ''}
-
-	<!-- tile grid -->
-	<div id="grid">${this.buildGridHTML()}</div>
-
+		${html(meta, `<div id="meta" style="">${meta}</div>`)}
+		${html(heading, `<div id="heading-row">
+			${html(heading, `<h2 id="heading">${heading}</h2>`)}
+			${html(linkUrl, `<a id="heading-link" ${html( `title="${linkTitle}" `)} ${html( `href="${linkUrl}"`)}>${linkText}</a>`, buttonText)}
+		</div>`)}
+		${html(body, `<p id="text">${body}</p>`)}
+		${html(grid, `<div id="grid">${grid}</div>`)}
 	</div>
 </div>`.trim();
 }
@@ -372,9 +242,9 @@ get els() {
 get styles() {
 	const pageXPadding = ComponentUtils.pageXPadding;
 	return `
-	<style id="preflight">${ComponentUtils.preflight}</style>
+	${ComponentUtils.preflight}
   <style id="base">
-	/* CONTAINER */
+	*:empty:not(img) {display:none}
 	#container {
 		background-color: var(--color-background, transparent);
 		color: var(--color-primary, currentColor);
@@ -413,7 +283,6 @@ get styles() {
 			padding:64px ${pageXPadding['2xl']} 96px;
 		}
 	}
-	/* Meta */
 	#meta {
 		color: var(--color-accent, currentColor);
 		font-size: 1rem;
@@ -522,15 +391,11 @@ get styles() {
 			max-width:100%;
 	}
 	${this.allBreakPointsStyles()}
-
-
-
 	@media (min-width: 1024px) {
 		#grid {
 			place-content:center;
 		}
 	}
-
 	#grid .tile {
 		aspect-ratio:var(--tile-aspect-ratio, 290 / 128);
 		background-color:var(--tile-color-background, transparent);
@@ -549,7 +414,6 @@ get styles() {
 		object-position:center;
 		overflow:hidden;
 	}
-
 	</style>`
 }
 
@@ -560,93 +424,27 @@ get template() {
   return template;
 }
 
-// IDS
-get ids() {
-	return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
-}
-
-// CONSTRUCTOR
-constructor() {
-	super();
-
-	// programattically create getters and setters for each observed attribute
-	ComponentUtils.createOAGS(this.c, this);
-
-	// create a shadow root
-	this.attachShadow({ mode: "open" });
-
-}
-
-// CONNECTED CALLBACK
-connectedCallback() {
-
-// append template to shadow root
-this.shadowRoot?.appendChild(this.template.content.cloneNode(true));
-
-// define refs elements
-this.refs = ComponentUtils.getRefs(this.c, this);
-
-}
-
-// ATTRIBUTE CHANGED CALLBACK
-attributeChangedCallback() {}
+constructor() { super(); this.attachShadow({ mode: "open" }) }
+connectedCallback() { this.shadowRoot?.appendChild(this.template.content.cloneNode(true)) }
 
 
-	/**
- * Get the number of columns for a given breakpoint
- * @param {BreakpointSize} bp
- * @returns {number}
- */
-getcolsNum(bp) {
-	/** @type {"2xl" |  "Xl" | "Lg" | "Md" | "Sm" | "Xs" | "Xxs"} tc */
-	const tc = ComponentUtils.titleCase(bp);
-	/** @type { "gridColumns2xl" | "gridColumnsXl" | "gridColumnsLg" | "gridColumnsMd" | "gridColumnsSm" | "gridColumnsXs" | "gridColumnsXxs" } prop */
-	const prop = `gridColumns${tc}`;
-	return Number(this?.[prop] ?? "0") ?? 0;
-}
+// Get the number of columns for a given breakpoint
+getcolsNum(/** @type {BreakpointSize} */ bp) { return Number(this.attValue(`grid-columns-${bp}`) ?? "0") ?? 0; }
 
-/**
- * Get the number of columns for a given breakpoint
- * @param {number} tileIndex
- * @param {BreakpointSize} breakpoint
- * @returns {number}
- */
-getTileColumn(tileIndex, breakpoint) {
-	const colsNum = this.getcolsNum(breakpoint);
-	return (tileIndex % colsNum) + 1;
-}
-/**
- * Get the number of columns for a given breakpoint
- * @param {number} tileIndex
- * @param {BreakpointSize} breakpoint
- * @returns {number}
- */
-getTileRow(tileIndex, breakpoint) {
-	const colsNum = this.getcolsNum(breakpoint);
-	return Math.floor(tileIndex / colsNum) + 1;
-}
-/**
- * Get the number of columns for a given breakpoint
- * @param {number} tileIndex
- * @param {BreakpointSize} breakpoint
- * @returns {boolean}
- */
-isTileInEvenRow(tileIndex, breakpoint) {
-	// const colsNum = this.getcolsNum(breakpoint);
-  const row = this.getTileRow(tileIndex, breakpoint);
-  return (row % 2) === 0;
-}
+// Get the column for a given tile index at a given breakpoint
+getTileColumn(/** @type {number} */ tileIndex, /** @type {BreakpointSize} */ bp) { return (tileIndex % this.getcolsNum(bp)) + 1 }
+
+// Get the number of columns for a given breakpoint
+getTileRow(/** @type {number} */ tileIndex, /** @type {BreakpointSize} */ bp) { return Math.floor(tileIndex / this.getcolsNum(bp)) + 1 }
+
+//Get the number of columns for a given breakpoint
+isTileInEvenRow(/** @type {number} */ tileIndex, /** @type {BreakpointSize} */ bp) { return (this.getTileRow(tileIndex, bp) % 2) === 0 }
 /** @param {BreakpointSize} bp */
+
 breakPointStyle(bp) {
-
-	const lc = bp.toLowerCase();
-	/** @type {Breakpoint} map */
-	const breakpoint = ComponentUtils.breakpointMap[bp];
-
-	const min = breakpoint.min;
-	const max = breakpoint.max;
+	const /** @type {Breakpoint} */ bkp = ComponentUtils.breakpointMap[bp];
 	return `
-	@media (min-width: ${min}) and (max-width: ${max}) {
+	@media (min-width: ${bkp.min}) and (max-width: ${bkp.max}) {
 		#grid {
 			column-gap: var(--grid-column-gap-${bp});
 			grid-template-columns: repeat(var(--grid-columns-${bp}), minmax(0,1fr));
@@ -663,12 +461,9 @@ breakPointStyle(bp) {
 `};
 
 allBreakPointsStyles() {
-	let str = '';
-	ComponentUtils.breakpoints.forEach(( /** @type {BreakpointSize} bp */ bp) => str += this.breakPointStyle(bp))
-	return str;
-
+	const /** @type {BreakpointSize[]} */ bps = ComponentUtils.breakpoints;
+	return bps.map((bp) => this.breakPointStyle(bp)).join("");
 }
-
 }
 
 customElements.define("widget-logo-grid", WidgetLogoGrid);
