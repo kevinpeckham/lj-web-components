@@ -29,7 +29,7 @@ import LogoTile from "/e/wc/logo-tile@0.1.1.min.js";
  * @class
  * @classdesc A web component for displaying a grid of linked tiles with logos. At present this uses media queries and not container queries. So breakpoints are screen width based.
  * @requires ComponentUtils
- * @published 2024-02-09
+ * @unpublished
  * @extends HTMLElement
  * @attribute data-json-url | -- | /e/wc/logo-grid.min.json | fetch data from a remote json file if preferred
  * @attribute grid-columns-2xl | 7 | -- | # of columns @ 2xl (>= 1536px)

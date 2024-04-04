@@ -11,7 +11,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * Widget Heading Web Component
  * @name SubWidgetHeading
  * @class
- * @published 2024-02-09
+ * @unpublished
  * @requires ComponentUtils
  * @extends HTMLHeadingElement | h2
  * @classdesc Defines web component that renders a text heading.

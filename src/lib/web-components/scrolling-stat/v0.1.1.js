@@ -11,7 +11,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * Scrolling Stat Web Component
  * @class
  * @extends HTMLElement
- * @published 2024-02-09
+ * @unpublished
  * @classdesc Web component that displays a number that counts up or down to another number when the element is scrolled into view.
  * @attribute animation-duration     | 800          | 600               | duration of animation in ms
  * @attribute animation-value-end    | 99           | 98.99             | the number to animate from

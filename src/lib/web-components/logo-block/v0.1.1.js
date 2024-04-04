@@ -12,7 +12,7 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * @name LogoBlock
  * @class
  * @requires ComponentUtils
- * @published 2024-02-09
+ * @unpublished
  * @extends HTMLElement
  * @classdesc A web component for displaying a logo with a link. For typical use in the header of a website.
  * @attribute image-alt | -- | -- | alt text for the image

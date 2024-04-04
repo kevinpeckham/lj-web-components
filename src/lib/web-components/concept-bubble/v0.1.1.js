@@ -11,7 +11,7 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * Scrolling Stat Web Component
  * @class
  * @requires ComponentUtils
- * @published 2024-02-09
+ * @unpublished
  * @extends HTMLElement
  * @classdesc Defines web component that displays a number that counts up when it is scrolled into view.
  * @attribute color-accent | lightblue | lightblue | color of icon hover state

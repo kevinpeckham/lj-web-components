@@ -7,7 +7,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 /** @copyright 2024 Lightning Jar - "Contact Info" web component - License MIT */
 /** @license MIT */
 /** @version 0.1.1 */
-/** {@link https://lj.cdn.dev/web-components/contact-info} */
+/** {@link https://cdn.lj.dev/web-components/contact-info} */
 
 /**
  * Contact Info Web Component

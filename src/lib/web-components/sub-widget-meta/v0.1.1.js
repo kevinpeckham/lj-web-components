@@ -11,7 +11,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * Widget Heading Web Component
  * @name SubWidgetMeta
  * @class
- * @published 2024-02-09
+ * @unpublished
  * @requires ComponentUtils
  * @extends HTMLDivElement | div
  * @classdesc Defines web component that renders a smaller text heading. For typical use in a widget above the heading.

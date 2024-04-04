@@ -11,7 +11,7 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * Copyright Statement Web Component
  * @name CopyrightStatement
  * @class
- * @published 2024-02-09
+ * @unpublished
  * @extends HTMLElement
  * @classdesc Defines web component that renders a button that copies text to the clipboard.
 	* @attribute copyright-textContent | Copyright © | -- | text content of the copyright

@@ -11,7 +11,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * Widget text Web Component
  * @name SubWidgetText
  * @class
- * @published 2024-02-09
+ * @unpublished
  * @requires ComponentUtils
  * @extends HTMLParagraphElement | p
  * @classdesc Defines web component that renders a text. Meant to be used inside widget components.

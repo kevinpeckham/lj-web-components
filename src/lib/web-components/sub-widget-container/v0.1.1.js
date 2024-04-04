@@ -17,7 +17,7 @@ import LogoGrid from "/e/wc/logo-grid@0.1.1.min.js";
  * Widget Heading Web Component
  * @name SubWidgetContainer
  * @class
- * @published 2024-02-09
+ * @unpublished
  * @requires ComponentUtils
  * @requires SubWidgetHeader
  * @requires SubWidgetText

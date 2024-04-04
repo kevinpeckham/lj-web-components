@@ -11,7 +11,7 @@ import { ComponentUtils } from "/e/wc/component-utils.0.1.1.min.js";
  * Copy Button Web Component
  * @name CopyButton
  * @class
- * @published 2024-02-09
+ * @unpublished
  * @requires ComponentUtils
  * @extends HTMLElement
  * @classdesc Defines web component that renders a button that copies text to the user's clipboard. The text to be copied is specified by the data-target-selector attribute.  All of the text content of the target element will be copied to the clipboard.
