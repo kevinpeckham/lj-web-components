@@ -24,6 +24,9 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @published 2024-24-09
  * @extends HTMLElement
  * @classdesc Defines web component that renders a simple responsive site header with logo, nav and button. Does not yet support drop-down menus only simple links.
+ * @attribute border-bottom-color | var(--color-primary) | -- | color of the border bottom
+ * @attribute border-bottom-size | 1px | -- | size of the border bottom
+ * @attribute border-bottom-opacity | 20% | -- | opacity of the border bottom
  * @attribute brand-image-alt | logo | The Competency Alliance logo | alt text of the brand image
  * @attribute brand-image-url | -- | https://res.cloudinary.com/dn0pqjjbq/image/upload/v1708788768/petro/tca-logo-light_asvseu.svg | url of the brand image
  * @attribute brand-link-url | / | -- | url of the brand link
@@ -59,7 +62,9 @@ static get attributes() {
 		"color-background": "#f8fafc",
 		"color-primary": "darkblue",
 		"container-height": "70px",
-		"container-border-bottom": "1px solid #273B4B",
+		"border-bottom-color": "var(--color-primary, #000)",
+		"border-bottom-size": "1px",
+		"border-bottom-opacity": "20%",
 		"font-family": "inherit",
 		"menus-data": "[]",
 		"stylesheet": ""
@@ -143,12 +148,7 @@ window.console.log(cssVars);
 ${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
 <header
 	id="container"
-	style="
-		--color-accent: ${this.attValue('color-accent')};
-		--color-background: ${this.attValue('color-background')};
-		--color-primary: ${this.attValue('color-primary')};
-		--container-height: ${this.attValue('container-height')};
-		--font-family: ${this.attValue('font-family')};">
+	style="${cssVars}">
 		<div id="container-inner">
 			${this.c.buildHamburgerHTML()}
 			${this.buildNavHTML()}
@@ -164,7 +164,8 @@ ${ComponentUtils.preflight}
 <style>
 #container {
 	background-color: var(--color-background, #fff);
-	border-bottom: var(--container-border-bottom, 1px solid #273B4B);
+	border-bottom: solid 1px lightgray;
+	border-bottom: solid var(--border-bottom-size) color-mix(in srgb, var(--border-bottom-color) var(--border-bottom-opacity), transparent);
 	color: var(--color-primary, #000);
 	font-family: var(--font-family, inherit);
 	height: var(--container-height, 70px);
