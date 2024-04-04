@@ -21,7 +21,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute color-primary | currentColor | #0b2e7e | color of the primary text
  * @attribute color-shadow | black | rgb(11 46 126) | color of the shadow
  * @attribute flair-count | 30 | -- | number of flairs
- * @attribute flair-glyph | ○ | -- | glyph for the flairs
+ * @attribute flair-glyph | -- | -- | glyph for the flairs
  * @attribute flair-on | true | -- | boolean to turn flairs on or off
  * @attribute font-family | inherit | -- | font family for the text
  * @attribute heading-font-weight | 900 | -- | font weight for the heading
@@ -52,7 +52,7 @@ static get attributes() {
 		"color-primary": "currentColor",
 		"color-shadow": "black",
 		"flair-count": "30",
-		"flair-glyph": "○",
+		"flair-glyph": "&#9675;",
 		"flair-on": "true",
 		"font-family": "inherit",
 		"heading-font-weight": "900",
