@@ -16,6 +16,9 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @published 2024-02-14
  * @requires ComponentUtils
  * @classdesc Defines web component that displays a billboard with a headline, text, button and slotted content
+ * @attribute border-bottom-color | var(--color-primary) | -- | color of the border bottom
+ * @attribute border-bottom-size | 1px | -- | size of the border bottom
+ * @attribute border-bottom-opacity | 10% | -- | opacity of the border bottom
  * @attribute color-accent | lightblue | #ceede9 | color of the accent
  * @attribute color-background | transparent | #F8FAFC | color of the background
  * @attribute color-primary | currentColor | #0b2e7e | color of the primary text
@@ -32,7 +35,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute link-text | -- | Get Started | text for the link
  * @attribute link-title | -- | contact us to learn more | title for the link
  * @attribute paragraph-text | -- | We cater to the evolving needs of the industry and its customers including: digital learning, certification, assessment, data analytics, and competency consulting. | text for the paragraph
- * @attribute stylesheet | -- | #container { border-bottom: solid 1px rgb(229 231 235 / 40% )  } | inject css into the inner stylesheet
+ * @attribute stylesheet | -- | -- | inject css into the inner stylesheet
  * @attribute data-json-url | -- | -- | url of remote json data
  */
 
@@ -47,6 +50,9 @@ get c() { return HomeBillboard };
 /** @returns { { [key:string]: string } } */
 static get attributes() {
 	const values = {
+		"border-bottom-color": "var(--color-primary)",
+		"border-bottom-size": "1px",
+		"border-bottom-opacity": "10%",
 		"color-accent": "lightblue",
 		"color-background": "transparent",
 		"color-primary": "currentColor",
@@ -231,6 +237,9 @@ ${ComponentUtils.preflight}
 	*:empty { display:none; }
 	#container {
 		background-color: var(--color-background);
+		border-bottom: solid 1px lightgray;
+		border-bottom: solid var(--border-bottom-size) color-mix(in srgb, var(--border-bottom-color) var(--border-bottom-opacity), transparent);
+
 		color: var(--color-primary, darkblue);
 		overflow:visible;
 	}
