@@ -193,9 +193,6 @@ export const customJsProductionFilesStore = derived(
 			// scrub the styles inside the source text
 			const stylesScrubbed = scrubStyles(sourceText);
 
-			// get requires
-			//const requires = getRequires(stylesScrubbed);
-
 			// scrub the templates inside the source text
 			const templatesScrubbed = scrubTemplates(stylesScrubbed);
 
@@ -239,14 +236,6 @@ export const customJsProductionFilesStore = derived(
 			};
 			return acc;
 		}, {} as ComponentLibrary);
-
-		// layer in latest data point for each component
-		// for (const component in nestedFiles) {
-		// 	const versions = nestedFiles[component];
-		// 	const latestVersion = Object.keys(versions).sort().reverse()[0];
-		// 	const latest = versions[latestVersion];
-		// 	nestedFiles[component] = { ...nestedFiles[component], latest };
-		// }
 
 		return nestedFiles;
 	},
