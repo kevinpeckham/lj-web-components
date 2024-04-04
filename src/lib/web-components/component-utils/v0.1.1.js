@@ -26,7 +26,7 @@ export const ComponentUtils = {
 		"xxs": {min: "0", max: "419px"
 	}},
 	camelToKebab: /** @param {S} s */ (s) => s.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, "$1-$2").toLowerCase(),
-	nonCssAttKeywords: ["alt", "data", "label", "position", "show", "src", "stylesheet", "rel", "tags", "text", "title", "url", "value"],
+	nonCssAttKeywords: ["alt", "data", "position", "show", "src", "stylesheet", "rel", "tags", "text", "title", "url", "value"],
 	/** @param {*} atts, @param {S[]} [exc] */
 	cssAtts(atts, exc) {
 		const nonCssAtts = [...this.nonCssAttKeywords, ...(exc ?? [])];

@@ -28,13 +28,8 @@ Here's some documentation for this component.
 		+if('$page.data.slug !== "copy-button"')
 			script(
 				async="true",
-				src!="/e/wc/copy-button.min.js",
+				src!="/x/wc/copy-button.min.js",
 				type="module")
-		//- +each('$page.data.requires as req')
-		//- 	script(
-		//- 		async="true",
-		//- 		src!="/e/wc/{req}.min.js",
-		//- 		type="module")
 
 	slot
 	|</template>
