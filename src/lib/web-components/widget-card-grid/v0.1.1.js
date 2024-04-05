@@ -181,7 +181,6 @@ buildCardHTML(/** @type {Card} */ card) {
 	const headerLogoUrl = card?.cardHeaderLogoUrl ?? "";
 	const headerText = card?.cardHeaderText ?? "";
 	const outsideHeadingText = card?.cardOutsideHeadingText ?? "";
-	const stylesheet = this.attValue('card-stylesheet');
 
 	return `<div class="card-outer">
 	${html(outsideHeadingText, `<h3 class="card-outside-heading">${outsideHeadingText}</h3>`)}
@@ -495,6 +494,7 @@ static get styles() {
 		max-width:fit-content;
 	}
 	.card-inner .card-body-bullets .li .bullet {
+		font-family: 'Arial', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 		display:inline-block;
 		left:0;
 		margin-right:.25rem;
