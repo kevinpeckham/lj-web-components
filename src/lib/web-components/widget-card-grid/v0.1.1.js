@@ -77,8 +77,8 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute card-outside-heading-margin-bottom | .5rem | -- | margin of the outside heading
  * @attribute card-outside-heading-position | above | -- | position of the outside heading
  * @attribute card-width | 100% | -- | width of the card
- * @attribute cards-data-json | [] | [{"cardFeatureImageUrl":"https://petroskills.com/microsite/TCA/grid-images/ocean-turbines.webp","cardOutsideHeadingText":"New Skills","cardBodyText":"Energy companies are increasingly moving towards diversification beyond traditional hydrocarbons."},{"cardFeatureImageUrl":"https://petroskills.com/microsite/TCA/grid-images/solar-worker.webp","cardOutsideHeadingText":"New People","cardBodyText":"The transition to clean energy is expected to generate > 10M net new jobs by 2030."},{"cardFeatureImageUrl":"https://petroskills.com/microsite/TCA/grid-images/solar-farm.webp","cardOutsideHeadingText":"New Demands","cardBodyText":"In the office, field, or board room, energy workers will require up-skilling and digital dexterity to adapt."},{"cardFeatureImageUrl":"https://petroskills.com/microsite/TCA/grid-images/business-person.webp","cardOutsideHeadingText":"New Investments","cardBodyText":"Significant investment is required to deliver knowledge to the right person, at the right time, in the right format."}] | json data for the cards
- * _attribute cards-data-json | [] | [{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_petroskills.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-petroskills.svg","cardHeaderText":"PetroSkills","cardBodyBullets":["Upstream","Midstream","Downstream"],"cardFooterLinkUrl":"https://petroskills.com","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_netzeroskills.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-net-zero-skills.svg","cardHeaderText":"NetZeroSkills","cardBodyBullets":["Green House Gas Management","Carbon Capture, Utilization & Storage","Hydrogen"],"cardFooterLinkUrl":"https://netzeroskills.com","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_renewableskills.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-renewable-skills.svg","cardHeaderText":"RenewableSkills","cardBodyBullets":["Geothermal","Wind"],"cardFooterLinkUrl":"https://renewableskills.com","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_ability.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-ability.svg","cardHeaderText":"Ability","cardBodyBullets":["Competency Engine & LMS","Competency Consulting","Economics & PM","Organizational Effectiveness"],"cardFooterLinkUrl":"https://www.petroskills.com/ability","cardFooterLinkLabel":"Learn More"}] | json data for the cards
+ * _attribute cards-data-json | [] | [{"cardFeatureImageUrl":"https://petroskills.com/microsite/TCA/grid-images/ocean-turbines.webp","cardOutsideHeadingText":"New Skills","cardBodyText":"Energy companies are increasingly moving towards diversification beyond traditional hydrocarbons."},{"cardFeatureImageUrl":"https://petroskills.com/microsite/TCA/grid-images/solar-worker.webp","cardOutsideHeadingText":"New People","cardBodyText":"The transition to clean energy is expected to generate > 10M net new jobs by 2030."},{"cardFeatureImageUrl":"https://petroskills.com/microsite/TCA/grid-images/solar-farm.webp","cardOutsideHeadingText":"New Demands","cardBodyText":"In the office, field, or board room, energy workers will require up-skilling and digital dexterity to adapt."},{"cardFeatureImageUrl":"https://petroskills.com/microsite/TCA/grid-images/business-person.webp","cardOutsideHeadingText":"New Investments","cardBodyText":"Significant investment is required to deliver knowledge to the right person, at the right time, in the right format."}] | json data for the cards
+ * @attribute cards-data-json | [] | [{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_petroskills.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-petroskills.svg","cardHeaderText":"PetroSkills","cardBodyBullets":["Upstream","Midstream","Downstream"],"cardFooterLinkUrl":"https://petroskills.com","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_netzeroskills.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-net-zero-skills.svg","cardHeaderText":"NetZeroSkills","cardBodyBullets":["Green House Gas Management","Carbon Capture, Utilization & Storage","Hydrogen"],"cardFooterLinkUrl":"https://netzeroskills.com","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_renewableskills.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-renewable-skills.svg","cardHeaderText":"RenewableSkills","cardBodyBullets":["Geothermal","Wind"],"cardFooterLinkUrl":"https://renewableskills.com","cardFooterLinkLabel":"Learn More"},{"cardBackgroundImageUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-images/company_graphic_ability.png","cardHeaderLogoUrl":"https://thecompetencyalliance.com/microsite/TCA/grid-icons/mark-ability.svg","cardHeaderText":"Ability","cardBodyBullets":["Competency Engine & LMS","Competency Consulting","Economics & PM","Organizational Effectiveness"],"cardFooterLinkUrl":"https://www.petroskills.com/ability","cardFooterLinkLabel":"Learn More"}] | json data for the cards
  * @attribute color-background | #F8FAFC | -- | background color of the widget
  * @attribute color-primary | currentColor | #0A2E7E | color of the text
  * @attribute color-accent | lightblue | rgb(0 184 156 / 100%) | color of the text
@@ -218,7 +218,7 @@ buildGridHTML() {
 }
 
 buildBulletsHTML(/** @type {string[]} */ bullets) {
-	const result = bullets.map((bullet) => `<div class="li">${bullet}</div>`).join("");
+	const result = bullets.map((bullet) => `<div class="li"><span class="bullet">&#x2022;</span><span class="li-content">${bullet}</span></div>`).join("");
 	return `<div class="card-body-bullets">${result}</div>`;
 }
 
@@ -480,7 +480,6 @@ static get styles() {
 	.card-inner .card-body-bullets {
 		display: grid;
 		grid-template-columns: repeat(1, minmax(0, 1fr));
-		padding: var(--card-body-padding, 1rem);
 		place-items-start;
 		place-content:start;
 		row-gap:0.5rem;
@@ -490,20 +489,20 @@ static get styles() {
 		background-color:var(--card-background-color);
 		background-color:color-mix(in srgb, var(--card-background-color, transparent) 95%, transparent);
 		border-radius:.25rem;
+		display:flex;
 		font-size: .95em;
 		position:relative;
 		max-width:fit-content;
-		padding-left:.25rem;
-		padding-right:.5rem;
 	}
-	.card-inner .card-body-bullets .li:before {
+	.card-inner .card-body-bullets .li .bullet {
 		display:inline-block;
-		position:absolute;
-		scale:1.1;
-		transform-origin:50% 50%;
-		transform:translateX(-.5rem);
-		content:"•";
+		left:0;
+		margin-right:.25rem;
 	}
+	.card-inner .card-body-bullets .li .li-content {
+		display:inline-block;
+	}
+
 	.card-feature-image-container {
 		bottom:0;
 		right:0;
