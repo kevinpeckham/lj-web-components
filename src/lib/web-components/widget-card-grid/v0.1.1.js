@@ -118,8 +118,9 @@ return {
 	"card-footer-link-color": "currentColor",
 	"card-footer-link-font-size": ".85em",
 	"card-footer-link-font-weight": "400",
-	"card-footer-link-hover-color": "currentColor",
-	"card-footer-link-hover-background": "rgb(255 255 255 / 80%)",
+	"card-footer-link-hover-color": "var(--color-background)",
+	"card-footer-link-hover-background": "var(--color-primary)",
+	"card-footer-link-hover-border": "var(--color-primary)",
 	"card-footer-link-padding": ".25rem .25rem",
 	"card-footer-min-height": "2.5rem",
 	"card-footer-padding": ".5rem 1rem",
@@ -228,6 +229,7 @@ attValue(/** @type {string} att */ att) {
 // ELEMENTS
 get els() {
 	const containerVars = ComponentUtils.cssVars(this.c.attributes, this);
+	window.console.log(containerVars);
 	const html = ComponentUtils.stringIfValue;
 	const stylesheet = this.attValue('stylesheet');
 	const bodyText = this.attValue('body-text');
@@ -574,12 +576,12 @@ static get styles() {
 		text-decoration: none;
 		box-shadow: 0 0 0 0px currentColor;
 		transition-property: background, color, border;
-		transition-duration: .1s;
+		transition-duration: .25s;
 	}
 	.card-footer-link:hover {
-		background: var(--card-footer-link-hover-background, transparent);
-		border: 1px solid transparent;
-		color: var(--card-footer-link-hover-color, currentColor);
+		background: var(--card-footer-link-hover-background, blue);
+		border: 1px solid var(--card-footer-link-hover-border, currentColor);
+		color: var(--card-footer-link-hover-color, red);
 	}
 </style>`
 }
