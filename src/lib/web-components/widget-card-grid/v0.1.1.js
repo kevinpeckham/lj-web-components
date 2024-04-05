@@ -52,6 +52,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute card-footer-link-color | currentColor | -- | text color of the footer link (button style)
  * @attribute card-footer-link-font-size | .85em | -- | font size of the footer link (button style)
  * @attribute card-footer-link-font-weight | 400 | -- | font weight of the footer link (button style)
+ * @attribute card-footer-link-hover-border | var(--color-primary) | -- | border color of the footer link on hover (button style)
  * @attribute card-footer-link-hover-color | currentColor | -- | text color of the footer link on hover (button style)
  * @attribute card-footer-link-hover-background | rgb(255 255 255 / 80%) | -- | background color of the footer link on hover (button style)
  * @attribute card-footer-link-padding | .25rem .5rem; | -- | padding of the footer link (button style)
@@ -121,7 +122,7 @@ return {
 	"card-footer-link-hover-color": "var(--color-background)",
 	"card-footer-link-hover-background": "var(--color-primary)",
 	"card-footer-link-hover-border": "var(--color-primary)",
-	"card-footer-link-padding": ".25rem .25rem",
+	"card-footer-link-padding": ".25rem .5rem",
 	"card-footer-min-height": "2.5rem",
 	"card-footer-padding": ".5rem 1rem",
 	"card-header-border-bottom": "1px solid #e2e8f0",
@@ -572,7 +573,7 @@ static get styles() {
 		border-radius: .25rem;
 		color: var(--card-footer-color, inherit);
 		font-size: .85em;
-		padding: var(--card-footer-link-padding, .25rem .5rem);
+		padding: var(--card-footer-link-padding);
 		text-decoration: none;
 		box-shadow: 0 0 0 0px currentColor;
 		transition-property: background, color, border;
