@@ -239,7 +239,6 @@ ${ComponentUtils.preflight}
 		background-color: var(--color-background);
 		border-bottom: solid 1px lightgray;
 		border-bottom: solid var(--border-bottom-size) color-mix(in srgb, var(--border-bottom-color) var(--border-bottom-opacity), transparent);
-
 		color: var(--color-primary, darkblue);
 		overflow:visible;
 	}
@@ -252,12 +251,12 @@ ${ComponentUtils.preflight}
 	}
 	@media (min-width: 640px) {
 		#container-inner {
-			padding:0 128px 96px;
+			padding:0 16% 54px;
 		}
 	}
 	@media (min-width: 768px) {
 		#container-inner {
-			padding:0 224px 96px;
+			padding:0 24% 96px;
 		}
 	}
 	@media (min-width: 1024px) {
@@ -275,7 +274,7 @@ ${ComponentUtils.preflight}
 	}
 	@media (min-width: 1536px) {
 		#container-inner {
-			padding:160px 96px;
+			padding:calc(60px + 4vw) 96px;
 		}
 	}
 	#content-container {
@@ -297,9 +296,10 @@ ${ComponentUtils.preflight}
 		filter: drop-shadow(0 1px 1px rgba(0,0,0,.05));
 		font-family: var(--font-family, inherit);
 		font-weight:900;
-		font-size:1.25rem;
+		font-size:calc(1rem + 1vw);
 		line-height:1.25;
-		padding-bottom:2rem;
+		max-width:380px;
+		padding:0 10% 3rem;
 		text-align:center;
 		text-transform:capitalize;
 	}
@@ -322,7 +322,13 @@ ${ComponentUtils.preflight}
 	}
 	@media (min-width: 640px) {
 		#heading {
-			font-size:1.65rem;
+			font-size:1.5rem;
+			padding:2rem 0 1rem;
+		}
+	}
+	@media (min-width: 760px) {
+		#heading {
+			font-size:1.55rem;
 			padding:1rem 0;
 		}
 	}
@@ -330,6 +336,12 @@ ${ComponentUtils.preflight}
 		#heading {
 			text-align:start;
 			font-size:1.75rem;
+			max-width:100%;
+		}
+	}
+	@media (min-width: 1536px) {
+		#heading {
+			font-size:calc(1.5rem + .5vw);
 		}
 	}
 	#paragraph {
@@ -347,6 +359,11 @@ ${ComponentUtils.preflight}
 	@media (min-width: 1024px) {
 		#paragraph {
 			text-align:start;
+		}
+	}
+	@media (min-width: 1536px) {
+		#paragraph {
+			font-size: calc(.8rem + .3vw);
 		}
 	}
 	#link-container {
@@ -368,6 +385,11 @@ ${ComponentUtils.preflight}
 	@media (min-width: 1024px) {
 		#graphic-container {
 			order:0;
+	}
+}
+	@media (min-width: 1536px) {
+		#graphic-container {
+			width:calc(60% + 10vw);
 	}
 }
 #billboard-images {
@@ -493,8 +515,13 @@ ${ComponentUtils.preflight}
 	justify-content: center;
 	align-items: center;
 	vertical-align: middle;
+	opacity:0;
 	pointer-events: none;
+	transition: opacity 0.3s ease-in;
 	line-height: 1;
+}
+@media (min-width: 640px) {
+	#billboard-images	.flair::after { opacity:1; }
 }
 #billboard-images.animation-reset .flair {
 	scale: 0;
