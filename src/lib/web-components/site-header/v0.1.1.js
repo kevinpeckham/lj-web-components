@@ -143,7 +143,6 @@ get els() {
 	const atts = Object.keys(this.c.attributes).filter((att) => !att.includes('stylesheet') && !att.includes('text') && !att.includes('image') && !att.includes('data') && !att.includes('link'));
 // create css variables
 const cssVars = atts.map(att => `--${att}: ${this.attValue(att)};`).join('\n');
-window.console.log(cssVars);
 	return `
 ${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
 <header
