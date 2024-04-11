@@ -435,8 +435,6 @@ ${ComponentUtils.preflight}
 		transition-duration: 0.15s;
 		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 	}
-	#news .news-link a:before { content: '“' }
-	#news .news-link a:after { content: '”' }
 	#news .news-link a {
 		display: block;
 		opacity: 0.9;
