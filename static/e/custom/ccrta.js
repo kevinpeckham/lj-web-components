@@ -5,6 +5,7 @@
 		customStyling();
 	});
 
+	// customStyling function
 	function customStyling() {
 		// utils
 		/**
@@ -54,21 +55,21 @@
 		// get body classes
 		const bodyClasses = document.body.className.split(' ');
 
+		// get the key page class
 		const keyPageClass = approvedPageClasses.find((cls) => bodyClasses.includes(cls));
 
 		// return if current page does not a matching id
 		if (!keyPageClass) return;
 
+		// scrub body classes to just the key page class
+		document.body.className = keyPageClass;
+
 		// return if lj class is already present
 		const hasLJ = document.documentElement.classList.contains('lj');
 		if (hasLJ) return;
 
-		// add "lj" class to html element
-		const html = document.documentElement;
-		html.classList.add('lj');
-
 		// add csp
-		const csp = `<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://res.cloudinary.com; style-src 'self' 'https://lj.cdn.dev'; script-src 'self' 'https://lj.cdn.dev'; font-src 'self' 'https://fonts.googleapis.com'; connect-src 'self'; frame-src 'self'; child-src 'self'; object-src 'none'; form-action 'self'; base-uri 'self'; block-all-mixed-content; upgrade-insecure-requests;">`;
+		const csp = `<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://res.cloudinary.com; style-src 'https://lj.cdn.dev'; script-src 'https://lj.cdn.dev'; font-src 'self' 'https://fonts.googleapis.com'; connect-src 'self'; frame-src 'self'; child-src 'self'; object-src 'none'; form-action 'self'; base-uri 'self'; block-all-mixed-content; upgrade-insecure-requests;">`;
 		document.head.insertAdjacentHTML('afterbegin', csp);
 
 		// remove all script elements from head of the page
@@ -129,6 +130,13 @@
 
 			// insert new h1 into main inner
 			mainInner?.insertAdjacentHTML('afterbegin', `<h1>${h1Text}</h1>`);
+
+			// scrub inline classes and styles from all children of main inner
+			const mainInnerChildren = Array.from(mainInner?.children ?? []);
+			mainInnerChildren.forEach((child) => {
+				child.removeAttribute('class');
+				child.removeAttribute('style');
+			});
 
 			// remove nav
 			const nav = mainInner?.querySelector('.menu-dbe-menu-container');
@@ -303,6 +311,10 @@
 		const bodyContainer = document.getElementById('body-container');
 		/** @type { HTMLDivElement | null } */
 		replaceElement(bodyContainer, newBodyContents);
+
+		// add "lj" class to html element
+		const html = document.documentElement;
+		html.classList.add('lj');
 
 		// replace footer
 		function getNewHeaderHTML() {
