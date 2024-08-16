@@ -7,101 +7,80 @@
 
 	// customStyling function
 	function customStyling() {
-		// utils
-		/**
-		 * @param { HTMLElement | null | undefined } oldElement
-		 * @param { string } newElementString
-		 */
-		function replaceElement(oldElement, newElementString) {
-			if (!oldElement) {
-				return;
-			}
+		// look for the correct body class
+		const bodyClass = evaluateBodyClass();
+		if (!bodyClass) return;
 
-			const tempDiv = document.createElement('div');
-			tempDiv.innerHTML = newElementString.trim();
-			const newElement = tempDiv.firstChild;
-
-			if (!newElement) {
-				return;
-			}
-			const parent = oldElement.parentNode;
-			parent?.replaceChild(newElement, oldElement);
-			return newElement;
-		}
-
-		// function removeClassesFromChildren(parentElement) {
-		// 	// Check if parentElement is valid
-		// 	if (!parentElement || !(parentElement instanceof Element)) {
-		// 		return;
-		// 	}
-
-		// 	// Get all child elements
-		// 	const children = Array.from(parentElement.getElementsByTagName('*'));
-
-		// 	// Iterate through all child elements
-
-		// 	children.map((child) => {
-		// 		return child.removeAttribute('class');
-		// 	});
-		// 	//       const child = children[i];
-
-		// 	//       // Remove all classes from child
-		// 	//       child.className = "";
-		// }
-
-		// page ids for activation
-		const approvedPageClasses = ['page-template-page-dbe-home', 'page-template-page-dbe'];
-
-		// get body classes
-		const bodyClasses = document.body.className.split(' ');
-
-		// get the key page class
-		const keyPageClass = approvedPageClasses.find((cls) => bodyClasses.includes(cls));
-
-		// return if current page does not a matching id
-		if (!keyPageClass) return;
-
-		// scrub body classes to just the key page class
-		document.body.className = keyPageClass;
-
-		// return if lj class is already present
+		// prevent re-running function -- return if lj class is already present
 		const hasLJ = document.documentElement.classList.contains('lj');
 		if (hasLJ) return;
 
-		// add csp
-		const csp = `<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://res.cloudinary.com; style-src 'https://lj.cdn.dev'; script-src 'https://lj.cdn.dev'; font-src 'self' 'https://fonts.googleapis.com'; connect-src 'self'; frame-src 'self'; child-src 'self'; object-src 'none'; form-action 'self'; base-uri 'self'; block-all-mixed-content; upgrade-insecure-requests;">`;
-		document.head.insertAdjacentHTML('afterbegin', csp);
+		// add a content security policy
+		addCSP();
 
-		// remove all script elements from head of the page
-		const headScripts = document.head.querySelectorAll('script');
-		headScripts.forEach((script) => script.remove());
+		// scrub scripts
+		scrubScripts();
 
-		// remove all stylesheets links from the head of the page, except for the one with
-		// href="https://cdn.lj.dev/e/custom/ccrta.css"
-		/** @type { HTMLLinkElement[] } stylesheetLinks */
-		const headStyleLinks = Array.from(document.head.querySelectorAll('[rel=stylesheet]'));
-		headStyleLinks.forEach((link) => {
-			if (!link.href.includes('lj.cdn.dev')) return;
-			link.remove();
-		});
+		// scrub styles
+		scrubStyles();
 
-		// remove all style elements from the head of the page
-		const headStylesElements = Array.from(document.head.querySelectorAll('style'));
-		headStylesElements.forEach((style) => {
-			if (!style.hasAttribute('data-vite-dev-id')) {
-				style.remove();
-			}
-		});
+		// get new body content
+		const newBodyContent = createNewBodyContent();
 
-		// find bootstrap stylesheet
-		// const bs = stylesheetLinks.find((l) => l?.href.includes('bootstrap'));
-		// bs?.remove();
+		// replace body content
+		replaceBodyContent(newBodyContent);
 
-		// find legacy theme stylesheet
-		// const legacy = stylesheetLinks.find((l) => l.href.includes('themes/ccrta/style.css'));
-		// legacy?.remove();
+		// add "lj" class to html element
+		const html = document.documentElement;
+		html.classList.add('lj');
 
-		// alert bar
+		function evaluateBodyClass() {
+			// page ids for activation
+			const approvedPageClasses = ['page-template-page-dbe-home', 'page-template-page-dbe'];
+
+			// get body classes
+			const bodyClasses = document.body.className.split(' ');
+
+			// get the key page class
+			const bodyClass = approvedPageClasses.find((cls) => bodyClasses.includes(cls));
+
+			// return if current page does not a matching id
+			if (!bodyClass) return '';
+
+			// scrub body classes to just the key page class
+			document.body.className = bodyClass;
+
+			return bodyClass;
+		}
+		function addCSP() {
+			const csp = `<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://res.cloudinary.com; style-src https://lj.cdn.dev; script-src https://lj.cdn.dev; font-src 'self' https://fonts.googleapis.com; connect-src 'self'; frame-src 'self'; child-src 'self'; object-src 'none'; form-action 'self'; base-uri 'self'; block-all-mixed-content; upgrade-insecure-requests;">`;
+			document.head.insertAdjacentHTML('afterbegin', csp);
+		}
+		function scrubScripts() {
+			// remove all scripts page
+			const headScripts = document.head.querySelectorAll('script');
+			headScripts.forEach((script) => script.remove());
+		}
+		function scrubStyles() {
+			// remove all stylesheets links from the head of the page, except for the one with
+			// href="https://cdn.lj.dev/e/custom/ccrta.css"
+			/** @type { HTMLLinkElement[] } stylesheetLinks */
+			const headStyleLinks = Array.from(document.head.querySelectorAll('[rel=stylesheet]'));
+			headStyleLinks.forEach((link) => {
+				if (!link.href.includes('lj.cdn.dev')) {
+					link.remove();
+				}
+			});
+
+			// remove all style elements from the page
+			// except for the ones with data-vite-dev-id
+			const headStylesElements = Array.from(document.querySelectorAll('style'));
+			headStylesElements.forEach((style) => {
+				if (!style.hasAttribute('data-vite-dev-id')) {
+					style.remove();
+				}
+			});
+		}
 		function formatAlertBar() {
 			const alertText =
 				document.getElementById('head-topbar')?.innerText?.replace(/More/, '').trim() ?? '';
@@ -109,13 +88,10 @@
 			<div id="alert-bar" class="page-x-padding"><a href="/rider-alert" title="learn more"><span class="alert-content">${alertText}.</span> <span class="alert-cta">Learn More</span></a></div>`;
 			return newAlertBarHTML;
 		}
-		// header
 		function formatSiteHeader() {
 			const newHeaderHTML = getNewHeaderHTML();
 			return newHeaderHTML;
 		}
-
-		// main
 		function formatMain() {
 			// get default banner && h1 content
 			const defaultBanner = document.getElementById('default-banner');
@@ -139,14 +115,12 @@
 			});
 
 			// remove nav
-			const nav = mainInner?.querySelector('.menu-dbe-menu-container');
+			const nav = mainInner?.querySelector('.dbe-menu');
 			nav?.remove();
 
 			const mainInnerHTML = mainInner?.innerHTML;
 			return mainInnerHTML;
 		}
-
-		// sidebarNav
 		function formatSidebarNav() {
 			const sidebarNav = document.querySelector('nav.side-nav-container');
 			/** @type {HTMLElement[]} */
@@ -177,11 +151,9 @@
 
 			return sidebarNavHTML;
 		}
-
-		// landing page body nav
 		function formatLandingNav(/** @type { string } */ sidebarNavHTML) {
 			// if not the landing page
-			if (!bodyClasses.includes('page-template-page-dbe-home')) return '';
+			if (!bodyClass.includes('page-template-page-dbe-home')) return '';
 
 			// search and replace classes
 			const classesUpdated = sidebarNavHTML.replaceAll(/sidebar-nav/gi, 'landing-nav');
@@ -205,8 +177,6 @@
 
 			return landingNav?.outerHTML ?? '';
 		}
-
-		// footer
 		function formatFooter() {
 			const newFooterHTML = `
 		<footer id="footer">
@@ -256,12 +226,12 @@
 							<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 256 256" aria-label="facebook icon" width="256" height="256">
 								<path d="M170.901 220.151h-38.073v-92.905h-19.021V95.228h19.021V76.006c0-26.119 10.741-41.651 41.256-41.651h25.405v32.021h-15.88c-11.879 0-12.665 4.474-12.665 12.825l-.043 16.025h28.768l-3.366 32.017h-25.401v92.909z" />
 							</svg></a>
-						<a class="social social-x" href="https://x.com/ccrta" title="X" rel="nofollow" target="_self" style="padding:2px;">
+						<a class="social social-x" href="https://x.com/ccrta" title="X" rel="nofollow" target="_self">
 							<svg viewBox="0 0 24 24" aria-label="X icon" role="img" width="27" height="27">
 								<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
 							</svg></a>
-						<a class="social social-yt" href="https://www.youtube.com/user/rtacommunity" title="YouTube" rel="nofollow" target="_self" style="padding:1px;">
-							<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="youtube icon" viewBox="0 0 24 24" aria-hidden="true" style="display:inline-block; width: 100%; height: auto;">
+						<a class="social social-yt" href="https://www.youtube.com/user/rtacommunity" title="YouTube" rel="nofollow" target="_self">
+							<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="youtube icon" viewBox="0 0 24 24" aria-hidden="true">
 								<path d="M9.68 8.9v6.18l5.84-3.1"></path>
 							</svg>
 						</a>
@@ -283,40 +253,56 @@
 
 			return newFooterHTML;
 		}
+		function replaceElement(
+			/** @type { HTMLElement | null | undefined  } */ oldElement,
+			/** @type { string } */ newElementString
+		) {
+			if (!oldElement) {
+				return;
+			}
 
-		// run the functions
-		const alertBar = formatAlertBar();
-		const siteHeader = formatSiteHeader();
-		const mainHTML = formatMain();
-		const sidebarNavHTML = formatSidebarNav();
-		const landingNavHTML = formatLandingNav(sidebarNavHTML);
-		const footer = formatFooter();
+			const tempDiv = document.createElement('div');
+			tempDiv.innerHTML = newElementString.trim();
+			const newElement = tempDiv.firstChild;
 
-		// page
-		const newBodyContents = `
-		<div id="body-container">
-			${alertBar}
-			${siteHeader}
-				<page id="page">${sidebarNavHTML}
-					<main id="main" class="page-x-padding main-y-padding">${mainHTML}${landingNavHTML}</main>
-				</page>
-			${footer}
-			</div>`;
+			if (!newElement) {
+				return;
+			}
+			const parent = oldElement.parentNode;
+			parent?.replaceChild(newElement, oldElement);
+			return newElement;
+		}
+		function createNewBodyContent() {
+			const alertBar = formatAlertBar();
+			const siteHeader = formatSiteHeader();
+			const mainHTML = formatMain();
+			const sidebarNavHTML = formatSidebarNav();
+			const landingNavHTML = formatLandingNav(sidebarNavHTML);
+			const footer = formatFooter();
 
-		// empty body
-		document.body.innerHTML = '';
+			const newBodyContents = `
+			<div id="body-container">
+				${alertBar}
+				${siteHeader}
+					<page id="page">${sidebarNavHTML}
+						<main id="main" class="page-x-padding main-y-padding">${mainHTML}${landingNavHTML}</main>
+					</page>
+				${footer}
+				</div>`;
 
-		// add a container to body
-		document.body.insertAdjacentHTML('afterbegin', '<div id="body-container"></div>');
-		const bodyContainer = document.getElementById('body-container');
-		/** @type { HTMLDivElement | null } */
-		replaceElement(bodyContainer, newBodyContents);
+			return newBodyContents;
+		}
+		function replaceBodyContent(/**type {string} */ newBodyContent) {
+			// empty body
+			document.body.innerHTML = '';
 
-		// add "lj" class to html element
-		const html = document.documentElement;
-		html.classList.add('lj');
+			// add a container to body
+			document.body.insertAdjacentHTML('afterbegin', '<div id="body-container"></div>');
+			const bodyContainer = document.getElementById('body-container');
 
-		// replace footer
+			// replace body contents
+			replaceElement(bodyContainer, newBodyContent);
+		}
 		function getNewHeaderHTML() {
 			return `
 			<header id=site-header><div id=site-header-inner style=opacity:0><input id=hamburger-toggle style=opacity:0 type=checkbox> <label class=rounded-md for=hamburger-toggle id=hamburger-icon><span class=sr-only id=hamburger-sr-label>Toggle menu</span></label><nav class=page-x-padding id=main-nav><div class=menu id=main-nav-menu-0><button aria-expanded=false class=menu-heading-button type=button>Getting Started</button><div class=menu-outer-container><div class=menu-inner-container style=opacity:0><div class=menu-section><div class=menu-section-heading>How to Ride</div><div class="group/item menu-item"><a href=/gettingstarted/ class=menu-item-link>Getting Started</a></div><div class="group/item menu-item"><a href=/rider-info/how-to-ride-the-bus/ class=menu-item-link>How To Ride The Bus</a></div></div><div class=menu-section><div class=menu-section-divider></div><div class=menu-section-heading>Find Your Way</div><div class="group/item menu-item"><a href=/rider-info/routes-maps-schedules/ class=menu-item-link>Routes, Maps, Schedules</a></div></div><div class=menu-section><div class=menu-section-divider></div><div class=menu-section-heading>More Information</div><div class="group/item menu-item"><a href=/evacuation/ class=menu-item-link>Evacuation Guidelines</a></div><div class="group/item menu-item"><a href=/rider-info/programs/ class=menu-item-link>Programs</a></div><div class="group/item menu-item"><a href=/faq/ class=menu-item-link>FAQs</a></div></div><div class=menu-section><div class=menu-section-divider></div><div class=menu-section-heading>Additional Services</div><div class="group/item menu-item"><a href=/express/ class=menu-item-link>Express</a></div><div class="group/item menu-item"><a href=/flex/ class=menu-item-link>Flex</a></div><div class="group/item menu-item"><a href=/rural/ class=menu-item-link>Rural Transportation</a></div><div class="group/item menu-item"><a href=/accessibility-policy/ class=menu-item-link>Accessibility</a></div><div class="group/item menu-item"><a href=/rider-info/bike-ride/ class=menu-item-link>Bike & Ride</a></div></div></div></div></div><div class=menu id=main-nav-menu-1><button aria-expanded=false class=menu-heading-button type=button>News & Opportunities</button><div class=menu-outer-container><div class=menu-inner-container style=opacity:0><div class=menu-section><div class=menu-section-heading>News</div><div class="group/item menu-item"><a href=/news-opportunities/public-notice/ class=menu-item-link>Public Notices</a></div></div><div class=menu-section><div class=menu-section-divider></div><div class=menu-section-heading>Special Programs</div><div class="group/item menu-item"><a href=/news-opportunities/5310-program/ class=menu-item-link>5310 Program</a></div></div><div class=menu-section><div class=menu-section-divider></div><div class=menu-section-heading>For Vendors</div><div class="group/item menu-item"><a href=/news-opportunities/business-with-us/ class=menu-item-link>Business With Us</a></div><div class="group/item menu-item"><a href=/news-opportunities/dbe-program/ class=menu-item-link>DBE & SBE Programs</a></div><div class="group/item menu-item"><a href=https://www.ccrta.com/ class=menu-item-link>DBE Benefits</a></div></div><div class=menu-section><div class=menu-section-divider></div><div class=menu-section-heading>Meetings</div><div class="group/item menu-item"><a href=/news-opportunities/agendas/ class=menu-item-link>Agendas</a></div></div></div></div></div><div class=menu id=main-nav-menu-2><button aria-expanded=false class=menu-heading-button type=button>Get a Pass</button><div class=menu-outer-container><div class=menu-inner-container style=opacity:0><div class=menu-section><div class=menu-section-heading>Mobile App</div><div class="group/item menu-item"><a href=/gopass/ class=menu-item-link>Plan, Pay, Go!</a></div></div><div class=menu-section><div class=menu-section-divider></div><div class=menu-section-heading>Fares & Pricing</div><div class="group/item menu-item"><a href=/get-a-pass/fares/ class=menu-item-link>Fares</a></div></div><div class=menu-section><div class=menu-section-divider></div><div class=menu-section-heading>How to Buy</div><div class="group/item menu-item"><a href=/get-a-pass/places-to-purchase/ class=menu-item-link>Places To Purchase</a></div></div></div></div></div><div class=menu id=main-nav-menu-3><button aria-expanded=false class=menu-heading-button type=button>About</button><div class=menu-outer-container><div class=menu-inner-container style=opacity:0><div class=menu-section><div class=menu-section-heading>Our Team</div><div class="group/item menu-item"><a href=/staff/ class=menu-item-link>Staff</a></div><div class="group/item menu-item"><a href=/board-of-directors/ class=menu-item-link>CCRTA Board Of Directors</a></div></div><div class=menu-section><div class=menu-section-divider></div><div class=menu-section-heading>Knowledge & Compliance</div><div class="group/item menu-item"><a href=/rcat/ class=menu-item-link>RCAT</a></div><div class="group/item menu-item"><a href=/title-vi/ class=menu-item-link>Title VI</a></div><div class="group/item menu-item"><a href=/long-range-plans/ class=menu-item-link>Service Plans</a></div><div class="group/item menu-item"><a href=/open-records/ class=menu-item-link>Open Records</a></div><div class="group/item menu-item"><a href=https://gtfs.ccrta.cadavl.com/CCRTA/GTFS/GTFS_CCRTA.zip class=menu-item-link>GTFS Feed</a></div></div><div class=menu-section><div class=menu-section-divider></div><div class=menu-section-heading>Get In Touch</div><div class="group/item menu-item"><a href=/ads/ class=menu-item-link>Bus And Bench Advertising</a></div><div class="group/item menu-item"><a href=/contact-us/ class=menu-item-link>Contact Us</a></div></div></div></div></div><div class=menu id=main-nav-menu-4><a href=/financial-transparency/ class=menu-heading-button>Transparency</a></div><a href=/contact id=site-header-button title="go to contact page"label=Contact>Contact</a></nav><a href="/" id=site-header-brand title="go to home"><img id=site-header-brand-logo src="https://res.cloudinary.com/dn0pqjjbq/image/upload/v1723762116/ccrta-mark_ymcjh3.svg"></a></div></header>`;
