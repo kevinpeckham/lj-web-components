@@ -67,7 +67,8 @@
 			/** @type { HTMLLinkElement[] } stylesheetLinks */
 			const headStyleLinks = Array.from(document.head.querySelectorAll('[rel=stylesheet]'));
 			headStyleLinks.forEach((link) => {
-				if (!link.href.includes('lj.cdn.dev')) {
+				console.log(link.href);
+				if (!link?.href?.includes('cdn.lj.dev')) {
 					link.remove();
 				}
 			});
