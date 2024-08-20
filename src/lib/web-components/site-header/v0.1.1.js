@@ -677,13 +677,24 @@ constructor() {
 
 // CONNECTED CALLBACK
 connectedCallback() {
-		// append the template content to the shadow DOM
-		this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
+	// append the template content to the shadow DOM
+	this.shadowRoot?.appendChild(this.template.content.cloneNode(true))
 
-		// define refs elements
-		this.refs = ComponentUtils.getRefs(this.c, this);
+	// define refs elements
+	this.refs = ComponentUtils.getRefs(this.c, this);
 
-		if (this.dataJsonUrl) this.fetchData();
+	// the getRefs() method does not produce a direct reference to the menu-header links, so get them this way
+	this.menuHeadingLinks = this.shadowRoot?.querySelectorAll(".menu-heading-link");
+	
+	// add event listeners
+	this.menuHeadingLinks?.forEach((link) => {link.addEventListener("click", (e) => {this.refs["hamburger-toggle"].click()})});
+	
+	if (this.dataJsonUrl) this.fetchData();
+}
+
+// DISCONNECTED CALLBACK
+disconnectedCallback() {
+	this.menuHeadingLinks?.forEach((link) => {link.removeEventListener("click", (e) => {this.refs["hamburger-toggle"].click()})});
 }
 
 // ATTRIBUTE CHANGED CALLBACK
