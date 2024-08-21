@@ -14,7 +14,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
 /** @copyright Lightning Jar 2024 - "Site Header" web component */
 /** @author Kevin Peckham */
 /** @license MIT */
-/** @version 0.1.1 */
+/** @version 0.1.2 */
 /** {@link https://cdn.lj.dev/web-components/site-header} */
 
 /**
@@ -552,16 +552,17 @@ connectedCallback() {
 	this.shadowRoot?.appendChild(this.template.content.cloneNode(true));
 
 	// get reference to hamburger icon
-	const hamburger = this.shadowRoot?.getElementById("hamburger-icon");
+	this.hamburger = this.shadowRoot?.getElementById("hamburger-icon");
 
 	// reference links
-	this.menuLinks = this.menuHeadingLinks = this.shadowRoot?.querySelectorAll(".menu-heading-link");
+	this.menuLinks = this.menuHeadingLinks = this.shadowRoot?.querySelectorAll("#main-nav a");
+
 
 	// add event listeners
-	this.menuLinks?.forEach((link) => {link.addEventListener("click", (e) => {hamburger.click()})});
+	this.menuLinks?.forEach((link) => {link.addEventListener("click", (e) => {this.hamburger.click()})});
 }
 disconnectedCallback() {
-	this.menuLinks?.forEach((link) => {link.removeEventListener("click", (e) => {this.refs["hamburger-toggle"].click()})});
+	this.menuLinks?.forEach((link) => {link.removeEventListener("click", (e) => {this.hamburger.click()})});
 }}
 customElements.define("site-header", SiteHeader);
 export default SiteHeader;
