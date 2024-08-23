@@ -559,10 +559,10 @@ connectedCallback() {
 
 
 	// add event listeners
-	this.menuLinks?.forEach((link) => {link.addEventListener("click", (e) => {this.hamburger.click()})});
+	this.menuLinks?.forEach((link) => {link.addEventListener("click", (e) => {this.hamburger?.click()})});
 }
 disconnectedCallback() {
-	this.menuLinks?.forEach((link) => {link.removeEventListener("click", (e) => {this.hamburger.click()})});
+	this.menuLinks?.forEach((link) => {link.removeEventListener("click", (e) => {this.hamburger?.click()})});
 }}
 customElements.define("site-header", SiteHeader);
 export default SiteHeader;
