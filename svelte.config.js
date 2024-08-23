@@ -16,7 +16,7 @@ const config = {
 	kit: {
 		adapter: vercel({
 			// make explicit -- vercel does not yet support later node versions (yet)
-			runtime: "nodejs18.x",
+			runtime: "nodejs20.x",
 		}),
 		// these aliases allow referencing files in the src/lib folder without relative paths
 		// e.g. import { myComponent } from '$components'
