@@ -48,8 +48,8 @@
 		"test:unit": "vitest"
 	},
 	"engines": {
-		"node": "18.x",
-		"pnpm": "8.x"
+		"node": "20.x",
+		"pnpm": "^9.x"
 	},
 	"dependencies": {
 		"@types/dompurify": "^3.0.5",
