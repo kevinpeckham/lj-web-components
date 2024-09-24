@@ -78,7 +78,7 @@ static get styles() {
 return `
 ${ComponentUtils.preflight}
 <style id="base">
-host:, * { margin:0; box-sizing:border-box ; }
+:host, * { margin:0; box-sizing:border-box ; }
 #container {
   background: var(--color-background, transparent);
 	border: var(--container-border-width, 0) solid var(--color-border, transparent);
@@ -137,7 +137,10 @@ get template() {
 }
 
 // CONSTRUCTOR
-constructor() { super(); this.attachShadow({ mode: "open" }) }
+constructor() {
+super();
+
+this.attachShadow({ mode: "open" }) }
 
 // CONNECTED CALLBACK
 connectedCallback() { this.shadowRoot?.appendChild(this.template.content.cloneNode(true)) }

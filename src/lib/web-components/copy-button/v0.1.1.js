@@ -11,19 +11,18 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * Copy Button Web Component
  * @name CopyButton
  * @class
- * @unpublished
+ * @published
  * @requires ComponentUtils
  * @extends HTMLElement
- * @classdesc Defines web component that renders a button that copies text to the user's clipboard. The text to be copied is specified by the data-target-selector attribute.  All of the text content of the target element will be copied to the clipboard.
+ * @classdesc Defines web component that renders a button that copies text to the user's clipboard. The text to be copied is specified by the target-selector attribute.  All of the text content of the target element will be copied to the clipboard.
  * @attribute color-accent | blue | lightblue| color of the hover state of button
  * @attribute color-background | transparent | rgb(255 255 255 / .05) | background color of the button
  * @attribute color-primary | currentColor | -- | color of the button
- * @attribute message-textContent |  copied! | -- | success message
- * @attribute title-textContent |  copy | -- | text appears on hover
+ * @attribute message-text | copied! | -- | success message
+ * @attribute button-title | copy | -- | text appears on hover
  * @attribute target-selector | -- | p | selector for the target element
  * @attribute size-width | 28px | 28px | button outer size
- * @attribute size-height | 28px | 28px | button outer size
- * @attribute stylesheet-textContent | -- | -- | injects css into custom stylesheet
+ * @attribute stylesheet | -- | -- | injects css into custom stylesheet
 
  */
 class CopyButton extends HTMLElement {
@@ -37,39 +36,39 @@ class CopyButton extends HTMLElement {
 	 * @returns { { [key:string]: string } }
 	 */
 	static get attributes() {
-		const values = {
+		return {
 			"color-accent": "lightblue",
 			"color-background": "transparent",
 			"color-primary": "currentColor",
-			"message-textContent": "copied!",
-			"title-textContent": "copied!",
-			"target-selector": "",
+			"message-text": "copied!",
+			"title-text": "copy",
+			"target": "",
 			"button-title": "copy to clipboard",
 			"size-width": "28px",
-			"size-height": "28px",
-			"stylesheet-textContent": ""
+			"stylesheet": ""
 		};
-	return values;
 	}
 
-	// get observed attributes
-	static get observedAttributes() { return Object.keys(this.attributes) }
-
-	// get default value for an attribute
-	/** @param {string} attr */
-	static getDefault(attr) { return this.attributes[attr] ?? "" }
+	attValue(/** @type {string} att */ att) {
+		return this.getAttribute(att) ?? this.c.attributes[att] ?? "";
+	}
 
 // ELEMENTS
-static get els() {
+get els() {
+	const cssVars = ComponentUtils.cssVars(this.c.attributes, this);
+	const html = ComponentUtils.stringIfValue;
+	const stylesheet = this.attValue('stylesheet');
+	const messageText = this.attValue('message-text');
+	const buttonTitle = this.attValue('button-title');
 	return `
-<div id="container">
-	<div id="message">copied!</div>
-	<div id="title">copy to clipboard</div>
+	${html(stylesheet, `<style id="stylesheet">${stylesheet}</style>`)}
+<button id="container" title="${buttonTitle}" style="${cssVars}">
+	<div id="message">${messageText}</div>
 	<svg id="icon" xmlns='http://www.w3.org/2000/svg' height='20' width='20' viewBox='0 0 24 24'>
 		<path id="initial" d='M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2'/>
 		<path id="success" d='M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2m-6 9 2 2 4-4'/>
 	</svg>
-</div>`.trim();
+</button>`.trim();
 }
 
 	// STYLES
@@ -111,9 +110,6 @@ static get els() {
 			transition:opacity .15s;
 			white-space:nowrap;
 		}
-		#container #title {
-			transition: opacity .15s 1.5s;
-		}
 		svg {
 			fill:none;
 			height:auto;
@@ -127,67 +123,37 @@ static get els() {
 			stroke-linejoin:round;
 			transition:opacity .15s;
 		}
-		#container:hover #title { opacity:1 }
 		#success { opacity:0}
 		#container.success {opacity:1; color:var(--color-accent)}
 		#container.success #success { opacity:1 }
 		#container.success #message { opacity:1 }
 		#container.success #initial { opacity:0 }
-		#container.success #title { opacity:0; transition:opacity 0s 0s; }
-
-
-	</style><style id="stylesheet"></style>`.trim();
+		#container.success #title { opacity:0; transition:opacity 0s 0s; }</style>`;
 	}
 
 	// TEMPLATE
-	static get template() {
+	get template() {
 		const template = document.createElement("template");
-		template.innerHTML = `${this.styles}${this.els}`.trim();
+		template.innerHTML = `${this.c.styles}${this.els}`.trim();
 		return template;
-	}
-
-	// IDS
-	static get ids() {
-		return [...`${this.els + this.styles}`.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 	}
 
 	// constructor
 	constructor() {
 		super();
-
-		// programattically create getters and setters for each observed attribute
-    ComponentUtils.createOAGS(this.c, this);
-
-		// create a shadow root
 		this.attachShadow({ mode: "open" });
-
-		// append the template content to the shadow DOM
-    this.shadowRoot?.appendChild(this.c.template.content.cloneNode(true))
-
-		// define refs elements
-    this.refs = ComponentUtils.getRefs(this.c, this);
-
-		// update attributes
-    this.updateAttributes();
 	}
 
 	 // CONNECTED CALLBACK
 	connectedCallback() {
-		this.updateAttributes();
+		this.shadowRoot?.appendChild(this.template.content.cloneNode(true));
 
-		// get selector
-		// @ts-expect-error - yes, it's really there
-		const selector = /** @type {string} */ this?.targetSelector ?? "";
-
-		// container
-		const container = /** @type {HTMLButtonElement} */ this.refs.container;
-
-		// // get message element
-		const message = /** @type {HTMLDivElement} */ this.refs.message;
-
-		// get svg paths
-		const initial = /** @type {SVGPathElement} */ this.refs.initial;
-		const success = /** @type {SVGPathElement} */ this.refs.success;
+		// get elements
+		const selector = /** @type {string} */ this.attValue('target-selector') ?? "";
+		const container = /** @type {HTMLButtonElement} */ this.shadowRoot?.getElementById('container');
+		const message = /** @type {HTMLDivElement} */ this.shadowRoot?.getElementById('message');
+		const initial = /** @type {SVGPathElement} */ this.shadowRoot?.getElementById('initial');
+		const success = /** @type {SVGPathElement} */ this.shadowRoot?.getElementById('success');
 
 		// get target element
 		const target = /** @type {HTMLElement | null | undefined} */ (
@@ -204,23 +170,13 @@ static get els() {
 
 			// reveal copied icon
 			if (initial && success && message) {
-				container.classList.add("success");
-				// container.style.opacity = "1";
-				// container.style.color = "var(--accent-color)";
-				// initial.style.opacity = "0";
-				// success.style.opacity = "1";
-				// message.style.opacity = "1";
+				container?.classList.add("success");
 			}
 		};
 		function hideCopied() {
 			// reveal copied icon
 			if (initial && success && message) {
-				container.classList.remove("success");
-				// container.style.removeProperty("opacity");
-				// container.style.removeProperty("color");
-				// initial.style.opacity = "1";
-				// success.style.opacity = "0";
-				// message.style.opacity = "0";
+				container?.classList.remove("success");
 			}
 		}
 		/**
@@ -250,20 +206,6 @@ static get els() {
 			}
 		});
 	}
-
-	// ATTRIBUTE CHANGED CALLBACK
-	attributeChangedCallback() {
-		this.updateAttributes();
-	}
-
-	// METHODS
-	updateAttributes() {
-		ComponentUtils.updateManyElAttributes(this.c, this, this.c.ids);
-		ComponentUtils.updateColorAttributes(this.c, this);
-		ComponentUtils.updateSizeAttributes(this.c, this);
-	}
-
-
 }
 
 
