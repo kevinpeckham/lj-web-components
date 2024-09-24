@@ -22,6 +22,7 @@ import { ComponentUtils } from "/e/wc/component-utils@0.1.1.min.js";
  * @attribute button-title | copy | -- | text appears on hover
  * @attribute target-selector | -- | p | selector for the target element
  * @attribute size-width | 28px | 28px | button outer size
+ * @attribute copy-mode | text | text | set to "html" to copy html, "rendered" to copy rendered html
  * @attribute stylesheet | -- | -- | injects css into custom stylesheet
 
  */
@@ -40,6 +41,7 @@ class CopyButton extends HTMLElement {
 			"color-accent": "lightblue",
 			"color-background": "transparent",
 			"color-primary": "currentColor",
+			"copy-mode": "text",	// text or html
 			"message-text": "copied!",
 			"title-text": "copy",
 			"target": "",
@@ -148,8 +150,11 @@ get els() {
 	connectedCallback() {
 		this.shadowRoot?.appendChild(this.template.content.cloneNode(true));
 
-		// get elements
+		// get attributes
 		const selector = /** @type {string} */ this.attValue('target-selector') ?? "";
+		const copyMode = /** @type {string} */ this.attValue('copy-mode') ?? "text";
+
+		// get elements
 		const container = /** @type {HTMLButtonElement} */ this.shadowRoot?.getElementById('container');
 		const message = /** @type {HTMLDivElement} */ this.shadowRoot?.getElementById('message');
 		const initial = /** @type {SVGPathElement} */ this.shadowRoot?.getElementById('initial');
@@ -160,53 +165,119 @@ get els() {
 			selector ? document.querySelector(selector) : null
 		);
 
-		const targetContent = /** @type {string} */ (
-			// @ts-expect-error - target might be an input or a textarea
-			target?.value ?? target?.textContent ?? ""
-		);
+		/**
+		 * @type {string | number | NodeJS.Timeout | undefined}
+		 */
+		let timeout;
 
-		// helper function to reveal / hide the copied icon
-		const showCopied = () => {
+		// add event listener to container
+		container?.addEventListener("click", copyTarget);
 
+		// function to copy text to clipboard
+		function copyTextToClipboard() {
+			// Check if the target element exists and is an HTMLElement
+			if (!target || !(target instanceof HTMLElement)) return;
+
+			// Get the text to copy
+			const text = target.textContent;
+
+			// Check if the text exists
+			if (!text) return;
+
+			// Copy the text to the clipboard
+			navigator.clipboard.writeText(text)
+			.then(() => {
+				window.console.log('text content copied to clipboard');
+			})
+			.catch((err) => {
+				window.console.error('text to copy HTML content: ', err);
+			});
+		}
+		// function to copy HTML to clipboard
+		function copyHtmlToClipboard() {
+
+			// Check if the element exists and is an HTMLElement
+			if (!target || !(target instanceof HTMLElement)) return;
+
+			// Create a Blob containing the HTML
+			const html = target.outerHTML;
+			navigator.clipboard.writeText(html)
+			.then(() => {
+				window.console.log('HTML content copied to clipboard');
+			})
+			.catch((err) => {
+				window.console.error('Failed to copy HTML content: ', err);
+			});
+		}
+		// function to copy rendered HTML to clipboard
+		function copyRenderedHtmlToClipboard() {
+			// Get the element containing the rendered HTML
+			const element = target;
+
+			// Check if the element exists and is an HTMLElement
+			if (!element || !(element instanceof HTMLElement)) return;
+
+			// Create a Blob containing the HTML
+			const blob = new Blob([element.outerHTML], { type: 'text/html' });
+
+			// Create a new ClipboardItem
+			const data = new ClipboardItem({
+				'text/html': blob
+			});
+
+			// Use the Clipboard API to write the ClipboardItem
+			navigator.clipboard.write([data])
+			.then(() => {
+				window.console.log('rendered HTML content copied to clipboard');
+			})
+			.catch((err) => {
+				window.console.error('Failed to copy rendered HTML content: ', err);
+			});
+		}
+		// function to copy content based on copy mode
+		function copyContentToClipboard() {
+			const mode = copyMode ? copyMode.toLowerCase() : 'text';
+			if (copyMode === 'html') {
+				copyHtmlToClipboard();
+			} else if (copyMode === 'rendered') {
+				copyRenderedHtmlToClipboard();
+			} else {
+				copyTextToClipboard();
+			}
+		}
+		// helper functions to reveal / hide the copied icon
+		function showCopied() {
 			// reveal copied icon
 			if (initial && success && message) {
 				container?.classList.add("success");
 			}
-		};
+		}
 		function hideCopied() {
 			// reveal copied icon
 			if (initial && success && message) {
 				container?.classList.remove("success");
 			}
 		}
-		/**
-		 * @type {string | number | NodeJS.Timeout | undefined}
-		 */
-		let timeout;
-		container?.addEventListener("click", () => {
-			// copy text to clipboard
-			if (target && targetContent) {
-				// clear timeout if it exists
-				if (timeout) clearTimeout(timeout);
-				navigator.clipboard
-					.writeText(targetContent)
-					.then(() => {
-						// show copied icon
-						showCopied();
+		function copyTarget() {
+			// clear timeout if it exists
+			if (timeout) clearTimeout(timeout);
 
-						// hide copied icon after 2 seconds
-						timeout = setTimeout(() => {
-							hideCopied();
-							clearTimeout(timeout);
-						}, 1500);
-					})
-					.catch((err) => console.error("failed to copy text: ", err));
-			} else {
-				console.error("copy failed");
-			}
-		});
-	}
-}
+			// return if no target
+			if (!target) return;
+
+			// copy text to clipboard
+			copyContentToClipboard();
+
+			// show copied icon
+			showCopied();
+
+			// hide copied icon after x time
+			timeout = setTimeout(() => {
+				hideCopied();
+				clearTimeout(timeout);
+			}, 1500);
+		}
+}}
 
 
 customElements.define("copy-button", CopyButton);
